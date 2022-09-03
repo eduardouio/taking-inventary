@@ -40,7 +40,6 @@ def loggin(type_log, message, request=None):
     log_file = open( PATH_LOGS / LOGS_FILE_NAME,'a')
     log_file.write(
         '[{type_log}][{date_time}][{user_name}]    {message} \n'
-        '[{type_log}] {message} \n'  # para depurar
             .format(
                 type_log=types_message[type_log],
                 date_time=datetime.now(),
