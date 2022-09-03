@@ -1,0 +1,493 @@
+[
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 1,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 1,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "10 DE AGOSTO"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 2,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 3,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "MAL ESTADO"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 3,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 7,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "CONSIGNACIONES"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 4,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 11,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "CARCELEN"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 5,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 6,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "VITRINA"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 6,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 9,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "CONSIGNACIONES PLUSBRAND"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 7,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 10,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "CONSIGNACIONES SERVIMULTIMARC"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 8,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 13,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "BODEGA CONSIGNACIONES CLIENTES"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 9,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 15,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "CALIDAD IMPORTACIONES CARCELEN"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 10,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 14,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "CALIDAD IMPORTACIONES MATRIZ"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 11,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 1,
+      "enterprise_name": "VINOS Y ESPIRITUOSOS VINESA S.A.",
+      "ruc_enterprise": "1791770009011",
+      "name": "10 DE AGOSTO"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 12,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 2,
+      "enterprise_name": "VINOS Y ESPIRITUOSOS VINESA S.A.",
+      "ruc_enterprise": "1791770009011",
+      "name": "MAL ESTADO"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 13,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 4,
+      "enterprise_name": "VINOS Y ESPIRITUOSOS VINESA S.A.",
+      "ruc_enterprise": "1791770009011",
+      "name": "CONSIGANCION"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 14,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 6,
+      "enterprise_name": "VINOS Y ESPIRITUOSOS VINESA S.A.",
+      "ruc_enterprise": "1791770009011",
+      "name": "CARCELEN"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 15,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 3,
+      "enterprise_name": "VINOS Y ESPIRITUOSOS VINESA S.A.",
+      "ruc_enterprise": "1791770009011",
+      "name": "VITRINA"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 16,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 7,
+      "enterprise_name": "VINOS Y ESPIRITUOSOS VINESA S.A.",
+      "ruc_enterprise": "1791770009011",
+      "name": "CONSIGANCION 2"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 17,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 1,
+      "enterprise_name": "IMNAC IMPORTADORA NACIONAL CIA LTDA",
+      "ruc_enterprise": "1792324289001",
+      "name": "10 DE AGOSTO"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 18,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 2,
+      "enterprise_name": "IMNAC IMPORTADORA NACIONAL CIA LTDA",
+      "ruc_enterprise": "1792324289001",
+      "name": "CONSIGNACION"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 19,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 3,
+      "enterprise_name": "IMNAC IMPORTADORA NACIONAL CIA LTDA",
+      "ruc_enterprise": "1792324289001",
+      "name": "MAL ESTADO"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 20,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 4,
+      "enterprise_name": "IMNAC IMPORTADORA NACIONAL CIA LTDA",
+      "ruc_enterprise": "1792324289001",
+      "name": "CARCELEN"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 21,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 6,
+      "enterprise_name": "IMNAC IMPORTADORA NACIONAL CIA LTDA",
+      "ruc_enterprise": "1792324289001",
+      "name": "Control de Calidad Matriz"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 22,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 7,
+      "enterprise_name": "IMNAC IMPORTADORA NACIONAL CIA LTDA",
+      "ruc_enterprise": "1792324289001",
+      "name": "Control de Calidad Carcelen"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 23,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 1,
+      "enterprise_name": "VIDINTERNACIONAL",
+      "ruc_enterprise": "1791771907001",
+      "name": "10 DE AGOSTO"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 24,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 2,
+      "enterprise_name": "VIDINTERNACIONAL",
+      "ruc_enterprise": "1791771907001",
+      "name": "MAL ESTADO"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 25,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 3,
+      "enterprise_name": "VIDINTERNACIONAL",
+      "ruc_enterprise": "1791771907001",
+      "name": "CONSIGANCION"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 26,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 4,
+      "enterprise_name": "VIDINTERNACIONAL",
+      "ruc_enterprise": "1791771907001",
+      "name": "CARCELEN"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 27,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 5,
+      "enterprise_name": "VIDINTERNACIONAL",
+      "ruc_enterprise": "1791771907001",
+      "name": "Control de Calidad Matriz"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 28,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 6,
+      "enterprise_name": "VIDINTERNACIONAL",
+      "ruc_enterprise": "1791771907001",
+      "name": "Control de Calidad Carcelen"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 29,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 93,
+      "enterprise_name": "VIDINTERNACIONAL",
+      "ruc_enterprise": "1791771907001",
+      "name": "Almacén Almagro Fiscal"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 30,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 1,
+      "enterprise_name": "REV ECUADOR",
+      "ruc_enterprise": "1827492847200",
+      "name": "10 DE AGOSTO"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 31,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 2,
+      "enterprise_name": "REV ECUADOR",
+      "ruc_enterprise": "1827492847200",
+      "name": "CARCELEN"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 32,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 3,
+      "enterprise_name": "REV ECUADOR",
+      "ruc_enterprise": "1827492847200",
+      "name": "MAL ESTADO"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 33,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 7,
+      "enterprise_name": "REV ECUADOR",
+      "ruc_enterprise": "1827492847200",
+      "name": "CONSIGNACION"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 34,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 1,
+      "enterprise_name": "VINLITORAL",
+      "ruc_enterprise": "1729381719901",
+      "name": "GRAL"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 35,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 2,
+      "enterprise_name": "VINLITORAL",
+      "ruc_enterprise": "1729381719901",
+      "name": "MAL ESTADO"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 36,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 3,
+      "enterprise_name": "VINLITORAL",
+      "ruc_enterprise": "1729381719901",
+      "name": "CONSIGNACION"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 37,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 4,
+      "enterprise_name": "VINLITORAL",
+      "ruc_enterprise": "1729381719901",
+      "name": "CONSIGNACION4"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 38,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 5,
+      "enterprise_name": "VINLITORAL",
+      "ruc_enterprise": "1729381719901",
+      "name": "GRAL5"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 39,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 4,
+      "enterprise_name": "PLUSBLAND",
+      "ruc_enterprise": "1929192299111",
+      "name": "GRAL"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 40,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 7,
+      "enterprise_name": "PLUSBLAND",
+      "ruc_enterprise": "1929192299111",
+      "name": "CONSIGNACIO DE PROVEEDORES"
+    }
+  }
+]
