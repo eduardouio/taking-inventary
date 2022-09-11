@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'guardian',
     'rest_framework',
     'simple_history',
-    'warenhouses',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -150,3 +150,4 @@ MEDIA_URL = '/media/'
 PATH_LOGS = BASE_DIR / 'logs'
 IS_ENABLE_LOGGIN = True
 LOGS_FILE_NAME = 'logs.log'
+AUTH_USER_MODEL = 'accounts.CustomUserModel'
