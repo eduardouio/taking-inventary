@@ -40,12 +40,13 @@ class Warenhouse(AppBaseModel):
 
     def save(self, *args, **kwargs):
         user = get_current_user()
-        if user and not user.pk:
-            user = None
+        if user is None:
+            return super(Warenhouse, self).save(*args, **kwargs)
 
         if not self.pk:
-            self.id_user_created = user
-        self.id_user_updated = user
+            self.id_user_created = user.pk
+            
+        self.id_user_updated = user.pk
         super(Warenhouse, self).save(*args, **kwargs)
 
     def __str__(self):
