@@ -1,4 +1,7 @@
+from accounts.models import CustomUserModel
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from common.loggin import loggin
 
 
 class AppBaseModel(models.Model):
@@ -47,6 +50,28 @@ class AppBaseModel(models.Model):
         null=True,
         default=None
     )
+
+    def get_user(self, obj_model):
+        users = {
+            'create_by':None,
+            'update_by':None,
+        }
+        
+        try:
+            users['create_by'] = CustomUserModel.objects.get(
+                pk=obj_model.id_user_created
+            )
+        except ObjectDoesNotExist:
+            loggin('i', 'El registro no tiene usuario creado')
+        
+        try:
+            users['update_by'] = CustomUserModel.objects.get(
+                pk=obj_model.id_user_updated
+            )
+        except ObjectDoesNotExist:
+            loggin('i', 'El registro no tiene usuario de actualizar')
+
+        return users
 
     class Meta:
         abstract = True
