@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'simple_history',
     'accounts',
+    'products',
+    'warenhouses',
 ]
 
 MIDDLEWARE = [

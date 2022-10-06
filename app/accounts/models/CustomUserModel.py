@@ -1,3 +1,4 @@
+from pyexpat import model
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from accounts.managers import CustomUserManager
@@ -5,7 +6,7 @@ from accounts.managers import CustomUserManager
 POSITIONS = (
     ('gestor', 'Gestor Inventario'),
     ('consultor','Consultor Saldos'),
-    ('asistente','Asistente Incentario'),
+    ('asistente','Asistente Inventario'),
     ('ninguno', 'Sin Acceso'),
 )
 
@@ -15,6 +16,19 @@ class CustomUserModel(AbstractUser):
         max_length=40,
         choices=POSITIONS,
         default='ninguno'
+    )
+    notes = models.CharField(
+        'observaciones',
+        max_length=250,
+        null=True,
+        blank=True
+    )
+    contact = models.CharField(
+        'teléfono',
+        max_length=12,
+        default=None,
+        blank=True,
+        null=True
     )
     
     USERNAME_FIELD = 'username'

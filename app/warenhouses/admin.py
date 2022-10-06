@@ -21,12 +21,13 @@ class WarenhouseAdmin(SimpleHistoryAdmin):
         'is_active',
         'created',
         'modified',
-        'id_user'
+        'id_user_created',
     )
 
     search_fields = [
         'name',
-        'enterprise_name'
+        'enterprise_name',
+        'id_warenhouse_number',
     ]
 
 

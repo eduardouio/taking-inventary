@@ -8,6 +8,7 @@ class CustomUserAdmin(UserAdmin):
     add_form=CustomUserCreationForm
     form=CustomUserChangeForm
     model=CustomUserModel
+    
     list_display=[
         'username',
         'position',
@@ -23,10 +24,30 @@ class CustomUserAdmin(UserAdmin):
         'is_active',
     )
     
-    #fieldsets = (
-    #    (None, {'fields': ('email', 'password')}),
-    #    ('Permissions', {'fields': ('is_staff', 'is_active')}),
-    #)
+    fieldsets = (
+        ('Información Básica', {
+            'fields':(
+                'username',
+                'password',
+                'position',
+            )
+        }),
+        ('Información Adicional',{
+            'fields':(
+                'first_name',
+                'last_name',
+                'email',
+                'contact',
+                'notes',
+            )
+        }),
+       ('Permisos', {
+           'fields': (
+                'is_staff',
+                'is_active',
+                'is_superuser',
+        )},
+       ))
     
     add_fieldsets=(
         (None, {
@@ -36,6 +57,7 @@ class CustomUserAdmin(UserAdmin):
                 'password1',
                 'password2',
                 'position',
+                'notes',
                 'is_staff',
                 'is_active',
             )}

@@ -1,5 +1,6 @@
 from simple_history.models import HistoricalRecords
 from django.db import models
+from crum import get_current_user
 
 from common import AppBaseModel
 
@@ -7,12 +8,12 @@ from common import AppBaseModel
 class Warenhouse(AppBaseModel):
 
     id_warenhouse = models.AutoField(
-        'ID Bodega',
+        'id_bodega',
         primary_key=True
     )
 
     id_warenhouse_number = models.PositiveSmallIntegerField(
-        'identificador bodega SAP',
+        'identificador_sap',
     )
     enterprise_name = models.CharField(
         'empresa',
@@ -30,13 +31,22 @@ class Warenhouse(AppBaseModel):
         help_text='Nombre de la bodega'
     )
     notes = models.TextField(
-        'notas adicionales',
+        'notas_adicionales',
         null=True,
         blank=True,
         default=None
     )
-
     history = HistoricalRecords()
+
+    def save(self, *args, **kwargs):
+        user = get_current_user()
+        if user and not user.pk:
+            user = None
+
+        if not self.pk:
+            self.id_user_created = user
+        self.id_user_updated = user
+        super(Warenhouse, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{}-{}'.format(

@@ -24,12 +24,28 @@ class AppBaseModel(models.Model):
         )
     )
 
-    id_user = models.PositiveSmallIntegerField(
-        'Usuario',
+    id_user_created = models.PositiveSmallIntegerField(
+        'Creeado Por',
         default=1,
         null=True,
         blank=True,
         help_text="Nombre del usuario que realiza el registro"
+    )
+    
+    id_user_updated = models.PositiveSmallIntegerField(
+        'Actualizado Por',
+        default=1,
+        null=True,
+        blank=True,
+        help_text="Nombre del usuario que realiza el registro"
+    )
+
+    notes = models.CharField(
+        'observaciones',
+        max_length=400,
+        blank=True,
+        null=True,
+        default=None
     )
 
     class Meta:
