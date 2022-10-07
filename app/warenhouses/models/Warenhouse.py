@@ -47,7 +47,7 @@ class Warenhouse(AppBaseModel):
             self.id_user_created = user.pk
             
         self.id_user_updated = user.pk
-        super(Warenhouse, self).save(*args, **kwargs)
+        return super(Warenhouse, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{}-{}'.format(
