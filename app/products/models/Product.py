@@ -1,3 +1,4 @@
+from email.policy import default
 from simple_history.models import HistoricalRecords
 from django.db import models
 from common import AppBaseModel
@@ -36,25 +37,36 @@ class Product(AppBaseModel):
     )
     capacity=models.PositiveIntegerField(
         'capacidad',
+        null=True,
+        blank=True,
+        default=0,
     )
     unit_measurement=models.CharField(
         'unidad_medida',
         choices=UNITS,
         max_length=40,
+        null=True,
+        blank=True,
+        default='No Especidficado',
     )
     alcoholic_strength=models.PositiveSmallIntegerField(
         'grado alcoholico',
         default=None,
         blank=True,
-        null=True
+        null=True,
     )
     ean_13_code = models.CharField(
         'EAN 13',
-        max_length=25
+        max_length=25,
+        null=True,
+        blank=True,
     )
     ean_14_code=models.CharField(
         'EAN 14',
-        max_length=25
+        max_length=25,
+        null=True,
+        blank=True,
+        default=0,
     )
     health_register=models.CharField(
         'registro sanitario',
@@ -106,3 +118,6 @@ class Product(AppBaseModel):
         null=True
     )
     history = HistoricalRecords()
+    
+    def __str__(self):
+        return self.name
