@@ -1,5 +1,495 @@
 [
   {
+    "model": "warenhouses.warenhouse",
+    "pk": 1,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 1,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "10 DE AGOSTO"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 2,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 3,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "MAL ESTADO"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 3,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 7,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "CONSIGNACIONES"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 4,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 11,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "CARCELEN"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 5,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 6,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "VITRINA"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 6,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 9,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "CONSIGNACIONES PLUSBRAND"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 7,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 10,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "CONSIGNACIONES SERVIMULTIMARC"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 8,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 13,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "BODEGA CONSIGNACIONES CLIENTES"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 9,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 15,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "CALIDAD IMPORTACIONES CARCELEN"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 10,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 14,
+      "enterprise_name": "AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A",
+      "ruc_enterprise": "1790023516001",
+      "name": "CALIDAD IMPORTACIONES MATRIZ"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 11,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 1,
+      "enterprise_name": "VINOS Y ESPIRITUOSOS VINESA S.A.",
+      "ruc_enterprise": "1791770009011",
+      "name": "10 DE AGOSTO"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 12,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 2,
+      "enterprise_name": "VINOS Y ESPIRITUOSOS VINESA S.A.",
+      "ruc_enterprise": "1791770009011",
+      "name": "MAL ESTADO"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 13,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 4,
+      "enterprise_name": "VINOS Y ESPIRITUOSOS VINESA S.A.",
+      "ruc_enterprise": "1791770009011",
+      "name": "CONSIGANCION"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 14,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 6,
+      "enterprise_name": "VINOS Y ESPIRITUOSOS VINESA S.A.",
+      "ruc_enterprise": "1791770009011",
+      "name": "CARCELEN"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 15,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 3,
+      "enterprise_name": "VINOS Y ESPIRITUOSOS VINESA S.A.",
+      "ruc_enterprise": "1791770009011",
+      "name": "VITRINA"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 16,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 7,
+      "enterprise_name": "VINOS Y ESPIRITUOSOS VINESA S.A.",
+      "ruc_enterprise": "1791770009011",
+      "name": "CONSIGANCION 2"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 17,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 1,
+      "enterprise_name": "IMNAC IMPORTADORA NACIONAL CIA LTDA",
+      "ruc_enterprise": "1792324289001",
+      "name": "10 DE AGOSTO"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 18,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 2,
+      "enterprise_name": "IMNAC IMPORTADORA NACIONAL CIA LTDA",
+      "ruc_enterprise": "1792324289001",
+      "name": "CONSIGNACION"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 19,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 3,
+      "enterprise_name": "IMNAC IMPORTADORA NACIONAL CIA LTDA",
+      "ruc_enterprise": "1792324289001",
+      "name": "MAL ESTADO"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 20,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 4,
+      "enterprise_name": "IMNAC IMPORTADORA NACIONAL CIA LTDA",
+      "ruc_enterprise": "1792324289001",
+      "name": "CARCELEN"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 21,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 6,
+      "enterprise_name": "IMNAC IMPORTADORA NACIONAL CIA LTDA",
+      "ruc_enterprise": "1792324289001",
+      "name": "Control de Calidad Matriz"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 22,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 7,
+      "enterprise_name": "IMNAC IMPORTADORA NACIONAL CIA LTDA",
+      "ruc_enterprise": "1792324289001",
+      "name": "Control de Calidad Carcelen"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 23,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 1,
+      "enterprise_name": "VIDINTERNACIONAL",
+      "ruc_enterprise": "1791771907001",
+      "name": "10 DE AGOSTO"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 24,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 2,
+      "enterprise_name": "VIDINTERNACIONAL",
+      "ruc_enterprise": "1791771907001",
+      "name": "MAL ESTADO"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 25,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 3,
+      "enterprise_name": "VIDINTERNACIONAL",
+      "ruc_enterprise": "1791771907001",
+      "name": "CONSIGANCION"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 26,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 4,
+      "enterprise_name": "VIDINTERNACIONAL",
+      "ruc_enterprise": "1791771907001",
+      "name": "CARCELEN"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 27,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 5,
+      "enterprise_name": "VIDINTERNACIONAL",
+      "ruc_enterprise": "1791771907001",
+      "name": "Control de Calidad Matriz"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 28,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 6,
+      "enterprise_name": "VIDINTERNACIONAL",
+      "ruc_enterprise": "1791771907001",
+      "name": "Control de Calidad Carcelen"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 29,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 93,
+      "enterprise_name": "VIDINTERNACIONAL",
+      "ruc_enterprise": "1791771907001",
+      "name": "Almacén Almagro Fiscal"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 30,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 1,
+      "enterprise_name": "REV ECUADOR",
+      "ruc_enterprise": "1827492847200",
+      "name": "10 DE AGOSTO"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 31,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 2,
+      "enterprise_name": "REV ECUADOR",
+      "ruc_enterprise": "1827492847200",
+      "name": "CARCELEN"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 32,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 3,
+      "enterprise_name": "REV ECUADOR",
+      "ruc_enterprise": "1827492847200",
+      "name": "MAL ESTADO"
+    }
+  },
+
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 33,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 7,
+      "enterprise_name": "REV ECUADOR",
+      "ruc_enterprise": "1827492847200",
+      "name": "CONSIGNACION"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 34,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 1,
+      "enterprise_name": "VINLITORAL",
+      "ruc_enterprise": "1729381719901",
+      "name": "GRAL"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 35,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 2,
+      "enterprise_name": "VINLITORAL",
+      "ruc_enterprise": "1729381719901",
+      "name": "MAL ESTADO"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 36,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 3,
+      "enterprise_name": "VINLITORAL",
+      "ruc_enterprise": "1729381719901",
+      "name": "CONSIGNACION"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 37,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 4,
+      "enterprise_name": "VINLITORAL",
+      "ruc_enterprise": "1729381719901",
+      "name": "CONSIGNACION4"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 38,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 5,
+      "enterprise_name": "VINLITORAL",
+      "ruc_enterprise": "1729381719901",
+      "name": "GRAL5"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 39,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 4,
+      "enterprise_name": "PLUSBLAND",
+      "ruc_enterprise": "1929192299111",
+      "name": "GRAL"
+    }
+  },
+  {
+    "model": "warenhouses.warenhouse",
+    "pk": 40,
+    "fields": {
+      "created": "2022-09-03T03:11:56.327",
+      "modified": "2022-09-03T03:11:56.327",
+      "id_warenhouse_number": 7,
+      "enterprise_name": "PLUSBLAND",
+      "ruc_enterprise": "1929192299111",
+      "name": "CONSIGNACIO DE PROVEEDORES"
+    }
+  },
+  {
     "model": "products.product",
     "pk": 466,
     "fields": {
@@ -17520,6 +18010,1203 @@
       "image_front": "",
       "image_back": "",
       "ice_code": null
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "laura",
+      "first_name": "Laura",
+      "last_name": "Martinez",
+      "email": "glassjonathan@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.431",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "clayton",
+      "first_name": "Clayton",
+      "last_name": "Burgess",
+      "email": "reneedavis@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.435",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "michael",
+      "first_name": "Michael",
+      "last_name": "Taylor",
+      "email": "trevorcastillo@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.437",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 6,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "preston",
+      "first_name": "Preston",
+      "last_name": "Moyer",
+      "email": "antoniowebb@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.439",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 7,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "david",
+      "first_name": "David",
+      "last_name": "Davis",
+      "email": "pattersonelizabeth@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.441",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 8,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "monique",
+      "first_name": "Monique",
+      "last_name": "Smith",
+      "email": "stevensstephen@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.444",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 9,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "madison",
+      "first_name": "Madison",
+      "last_name": "Young",
+      "email": "michael44@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.446",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 10,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "donna",
+      "first_name": "Donna",
+      "last_name": "Frank",
+      "email": "davidwilson@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.449",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 11,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "april",
+      "first_name": "April",
+      "last_name": "Holland",
+      "email": "ghunter@example.org",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.452",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 12,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "julie",
+      "first_name": "Julie",
+      "last_name": "Rodriguez",
+      "email": "billy52@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.454",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 13,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "0jordan",
+      "first_name": "Jordan",
+      "last_name": "King",
+      "email": "parkslisa@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.457",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 14,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "1adam",
+      "first_name": "Adam",
+      "last_name": "Petty",
+      "email": "bradley49@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.461",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 15,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "2renee",
+      "first_name": "Renee",
+      "last_name": "Russell",
+      "email": "alvarezchristine@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.463",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 16,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "3richard",
+      "first_name": "Richard",
+      "last_name": "Smith",
+      "email": "hritter@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.466",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 17,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "4joseph",
+      "first_name": "Joseph",
+      "last_name": "Bond",
+      "email": "dspencer@example.org",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.468",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 18,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "5sabrina",
+      "first_name": "Sabrina",
+      "last_name": "Poole",
+      "email": "johnsonrodney@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.470",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 19,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "6melissa",
+      "first_name": "Melissa",
+      "last_name": "Mcgee",
+      "email": "millerkimberly@example.org",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.472",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 20,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "7michael",
+      "first_name": "Michael",
+      "last_name": "Stanton",
+      "email": "patriciahawkins@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.474",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 21,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "8julia",
+      "first_name": "Julia",
+      "last_name": "Adams",
+      "email": "fdaniels@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.476",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 22,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "9antonio",
+      "first_name": "Antonio",
+      "last_name": "Collins",
+      "email": "melissabautista@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.478",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 23,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "0julie",
+      "first_name": "Julie",
+      "last_name": "Tran",
+      "email": "psellers@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.480",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 24,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "1john",
+      "first_name": "John",
+      "last_name": "Bell",
+      "email": "morrisallen@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.482",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 25,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "2alexandra",
+      "first_name": "Alexandra",
+      "last_name": "Velazquez",
+      "email": "patricia13@example.org",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.484",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 26,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "3joshua",
+      "first_name": "Joshua",
+      "last_name": "Smith",
+      "email": "zboone@example.org",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.486",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 27,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "4lisa",
+      "first_name": "Lisa",
+      "last_name": "Reed",
+      "email": "medwards@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.487",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 28,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "5andrew",
+      "first_name": "Andrew",
+      "last_name": "Parrish",
+      "email": "mendezlucas@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.489",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 29,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "6michael",
+      "first_name": "Michael",
+      "last_name": "Lyons",
+      "email": "matadennis@example.org",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.491",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 30,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "7lisa",
+      "first_name": "Lisa",
+      "last_name": "Padilla",
+      "email": "fgarza@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.493",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 31,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "8michael",
+      "first_name": "Michael",
+      "last_name": "Eaton",
+      "email": "scottolsen@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.495",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 32,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "9michael",
+      "first_name": "Michael",
+      "last_name": "Shepard",
+      "email": "olopez@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.497",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 33,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "0henry",
+      "first_name": "Henry",
+      "last_name": "Martinez",
+      "email": "dsmith@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.499",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 34,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "1jody",
+      "first_name": "Jody",
+      "last_name": "Kaufman",
+      "email": "kathymaxwell@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.500",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 35,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "2melanie",
+      "first_name": "Melanie",
+      "last_name": "Bond",
+      "email": "oswanson@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.502",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 36,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "3joel",
+      "first_name": "Joel",
+      "last_name": "Yoder",
+      "email": "mpacheco@example.org",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.504",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 37,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "4gregory",
+      "first_name": "Gregory",
+      "last_name": "Davis",
+      "email": "belindahobbs@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.506",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 38,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "5sue",
+      "first_name": "Sue",
+      "last_name": "Harris",
+      "email": "pamelatate@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.508",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 39,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "6leslie",
+      "first_name": "Leslie",
+      "last_name": "Ryan",
+      "email": "sean17@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.510",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 40,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "7sean",
+      "first_name": "Sean",
+      "last_name": "Mcmillan",
+      "email": "williamalvarado@example.org",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.511",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 41,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "8amy",
+      "first_name": "Amy",
+      "last_name": "Hawkins",
+      "email": "cgraham@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.513",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 42,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "9nicholas",
+      "first_name": "Nicholas",
+      "last_name": "Ewing",
+      "email": "fowlerjustin@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.515",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 43,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "0angela",
+      "first_name": "Angela",
+      "last_name": "Bailey",
+      "email": "richardmahoney@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.517",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 44,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "1lisa",
+      "first_name": "Lisa",
+      "last_name": "Smith",
+      "email": "toddclark@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.520",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 45,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "2bryan",
+      "first_name": "Bryan",
+      "last_name": "Howard",
+      "email": "april21@example.org",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.522",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 46,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "3amanda",
+      "first_name": "Amanda",
+      "last_name": "Rivera",
+      "email": "turnerjohn@example.org",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.524",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 47,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "4kathleen",
+      "first_name": "Kathleen",
+      "last_name": "Paul",
+      "email": "beth40@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.526",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 48,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "5scott",
+      "first_name": "Scott",
+      "last_name": "Bernard",
+      "email": "richardsonkatie@example.org",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.528",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 49,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "6blake",
+      "first_name": "Blake",
+      "last_name": "Knox",
+      "email": "karen52@example.org",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.531",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 50,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "7cody",
+      "first_name": "Cody",
+      "last_name": "Espinoza",
+      "email": "woodssteven@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.533",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 51,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "8darryl",
+      "first_name": "Darryl",
+      "last_name": "Collins",
+      "email": "jennifer35@example.org",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.535",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 52,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "9john",
+      "first_name": "John",
+      "last_name": "Jordan",
+      "email": "colliermatthew@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.538",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 53,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "0lisa",
+      "first_name": "Lisa",
+      "last_name": "Owen",
+      "email": "danielle68@example.org",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.540",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 54,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "1michael",
+      "first_name": "Michael",
+      "last_name": "Campbell",
+      "email": "chadking@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.543",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 55,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "2angelica",
+      "first_name": "Angelica",
+      "last_name": "Baxter",
+      "email": "graymond@example.org",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.545",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 56,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "3nicholas",
+      "first_name": "Nicholas",
+      "last_name": "Adams",
+      "email": "jparker@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.547",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 57,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "4april",
+      "first_name": "April",
+      "last_name": "Frey",
+      "email": "debrabender@example.org",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.550",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 58,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "5jerry",
+      "first_name": "Jerry",
+      "last_name": "Harmon",
+      "email": "ruizteresa@example.net",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.552",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customusermodel",
+    "pk": 59,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$lcAPWPdCbjYHkYcAsFECKS$Ano5zxEgkNOucgvh/JQEHV6n6wlVeVTR80y8CRUoCfM=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "6julia",
+      "first_name": "Julia",
+      "last_name": "Bennett",
+      "email": "everettmichael@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-10-06T23:17:14.554",
+      "position": "ninguno",
+      "notes": null,
+      "contact": null,
+      "groups": [],
+      "user_permissions": []
     }
   }
 ]
