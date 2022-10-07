@@ -1,5 +1,6 @@
 from django.db import models
 from common import AppBaseModel
+from crum import get_current_user
 from accounts.models import CustomUserModel
 from .Taking import Taking
 
@@ -24,3 +25,20 @@ class Team(AppBaseModel):
         default=None
     )
     
+    def save(self, *args, **kwargs):
+        user = get_current_user()
+        
+        if user is None:
+            return super(Team, self).save(*args, **kwargs)
+        
+        if not self.pk:
+            self.id_user_created = user.pk
+        self.id_user_updated = user.pk
+        return super(Team, self).save(*args, **kwargs)
+    
+    def __str__(self):
+        return {'{}->{} / {}'.format(
+            self.pk,
+            self.user_manager_team,
+            self.warenhouse_team
+        )}    
