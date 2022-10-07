@@ -477,7 +477,6 @@
       "name": "GRAL"
     }
   },
-
   {
     "model": "warenhouses.warenhouse",
     "pk": 40,
