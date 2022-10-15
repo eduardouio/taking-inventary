@@ -1,8 +1,8 @@
 from accounts.models import CustomUserModel
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from common.loggin import loggin
-
+from simple_history.models import HistoricalRecords
+from crum import get_current_user
 
 class AppBaseModel(models.Model):
     """Base model for all app model"""
@@ -50,6 +50,18 @@ class AppBaseModel(models.Model):
         null=True,
         default=None
     )
+    history = HistoricalRecords()
+    
+    def save(self, ModelClass, *args, **kwargs):
+        user = get_current_user()
+        if user is None:
+            return super(ModelClass, self).save(*args, **kwargs)
+
+        if not self.pk:
+            self.id_user_created = user.pk
+
+        self.id_user_updated = user.pk
+        return super(ModelClass, self).save(*args, **kwargs)
 
     def get_user(self, obj_model):
         users = {
