@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+from .secrets_config import DATABASE, MY_SECRET_KEY
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$j)w-pda3f-&-a@9@8132^-k+^_@%$ouyiheny%68ftt7p#2l!'
+SECRET_KEY = MY_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -43,10 +44,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'simple_history',
     'accounts',
-    #'products',
-    #'warenhouses',
-    #'takings',
+    'products',
+    'warenhouses',
     'sap_migrations',
+    #'takings',
 ]
 
 MIDDLEWARE = [
@@ -86,12 +87,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+DATABASES = DATABASE
 
 
 # Password validation
@@ -157,3 +153,22 @@ PATH_LOGS = BASE_DIR / 'logs'
 IS_ENABLE_LOGGIN = True
 LOGS_FILE_NAME = 'logs.log'
 AUTH_USER_MODEL = 'accounts.CustomUserModel'
+
+DEALERS = (
+    ('AGENCIAS Y REPRESENTACIONES CORDOVEZ', '1790023516001'),
+    ('IMNAC IMPORTADORA NACIONAL', '1791771907001'),
+    ('VIDINTERNACIONAL', '1791771907001'),
+    ('PROVEEDOR EXTERNO', '9999999999999'),
+)
+
+ENTERPRISES_TAKING = (
+    ('AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A.'),
+    ('CORPORACIÓN PLUSBRAND DEL ECUADOR CIA. LTDA.'),
+    ('IMNAC IMPORTADORA NACIONAL CIA LTDA'),
+    ('PANIAGUA S.A.'),
+    ('REV ECUADOR S.A'),
+    ('SERVMULTIMARC CIA. LTDA.'),
+    ('VIDINTERNACIONAL S.A.'),
+    ('VINOS Y ESPIRITUOSOS DEL LITORAL VINLITORAL S.A.'),
+    ('VINOS Y ESPIRITUOSOS VINESA S.A'),
+)

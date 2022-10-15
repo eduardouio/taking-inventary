@@ -1,13 +1,7 @@
+from random import choices
 from django.db import models
 from common import AppBaseModel
-
-
-DEALERS = (
-    ('Agencias y Representaciones Cordovez', '1790023516001'),
-    ('Imnac Importadora Nacional', '1791771907001'),
-    ('Vidinternacional', '1791771907001'),
-    ('Proveedor Externo', '9999999999999'),
-)
+from django.conf import settings
 
 UNITS=(
     ('MM', 'Mililitros'),
@@ -83,6 +77,7 @@ class Product(AppBaseModel):
     manufacturer_name = models.CharField(
         'nombre fabricante',
         max_length=300,
+        choices=settings.DEALERS,
         null=True,
         blank=True,
         default=None

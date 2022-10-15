@@ -1,12 +1,13 @@
+from secrets import choice
 from django.db import models
 from common import AppBaseModel
+from django.conf import settings
 
 class Warenhouse(AppBaseModel):
     id_warenhouse = models.AutoField(
         'id_bodega',
         primary_key=True
     )
-
     id_warenhouse_number = models.PositiveSmallIntegerField(
         'identificador_sap',
     )
@@ -47,7 +48,7 @@ class Warenhouse(AppBaseModel):
     )
     owner_warenhouse = models.CharField(
         'empresa propietaria',
-        max_length=100,
+        max_length=255,
         blank=True,
         null=True,
         default=None

@@ -31,7 +31,7 @@ class CustomUserModel(AbstractUser):
     )
     picture = models.ImageField(
         'imagen perfil',
-        upload_to = 'media/app/images/profile_picture',
+        upload_to = 'media/src/images/profile_picture',
         blank=True,
         null=True,
         default=None
