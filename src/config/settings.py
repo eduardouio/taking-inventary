@@ -43,9 +43,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'simple_history',
     'accounts',
-    'products',
-    'warenhouses',
-    'takings',
+    #'products',
+    #'warenhouses',
+    #'takings',
     'sap_migrations',
 ]
 
@@ -62,7 +62,7 @@ MIDDLEWARE = [
     
 ]
 
-ROOT_URLCONF = 'app.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
@@ -80,7 +80,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'app.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
