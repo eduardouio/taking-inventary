@@ -1,7 +1,6 @@
 from django.db import models
 from products.models import Product
 from common import AppBaseModel
-from crum import get_current_user
 from .Taking import Taking
 
 
@@ -28,17 +27,6 @@ class InitialStock(AppBaseModel):
         'esta completo',
         default=False
     )
-    
-    def save(self, *args, **kwargs):
-        user = get_current_user()
-        if user is None:
-            return super(InitialStock, self).save(*args, **kwargs)
-
-        if not self.pk:
-            self.id_user_created = user.pk
-        self.id_user_updated = user.pk
-        
-        return super(InitialStock, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{}->{}'.format(

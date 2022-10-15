@@ -1,15 +1,12 @@
-from unittest.util import _MAX_LENGTH
-from simple_history.models import HistoricalRecords
 from django.db import models
 from common import AppBaseModel
-from crum import get_current_user
 
 
 DEALERS = (
     ('Agencias y Representaciones Cordovez', '1790023516001'),
     ('Imnac Importadora Nacional', '1791771907001'),
     ('Vidinternacional', '1791771907001'),
-    ('Otros', '9999999999999'),
+    ('Proveedor Externo', '9999999999999'),
 )
 
 UNITS=(
@@ -69,18 +66,6 @@ class Product(AppBaseModel):
         blank=True,
         default=0,
     )
-    manufactured_date = models.DateField(
-        'fecha de elaboracion',
-        blank=True,
-        null=True,
-        default=None
-    )
-    expiration_date = models.DateField(
-        'feccha vencimiento',
-        blank=True,
-        null=True,
-        default=None
-    )
     health_register=models.CharField(
         'registro sanitario',
         max_length=50,
@@ -101,14 +86,6 @@ class Product(AppBaseModel):
         null=True,
         blank=True,
         default=None
-    )
-    dealer_name = models.CharField(
-        'Nombre Importador',
-        max_length=100,
-        choices=DEALERS,
-        default=None,
-        blank=True,
-        null=True
     )
     image_front=models.ImageField(
         'imagen frontal',
@@ -142,19 +119,9 @@ class Product(AppBaseModel):
         'codigo ice',
         max_length=255,
         blank=True,
-        null=True
+        null=True,
+        default=None
     )
-    history = HistoricalRecords()
-    
-    def save(self, *args, **kwargs):
-        user = get_current_user()
-        if user is None:
-            return super(Product, self).save(*args, **kwargs)
-        
-        if not self.pk:
-            self.id_user_created = user.pk
-        self.id_user_updated = user.pk
-        return super(Product, self).save(*args, **kwargs)
     
     def __str__(self):
         return self.name

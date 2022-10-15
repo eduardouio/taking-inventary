@@ -2,7 +2,7 @@
 Funcion de loggin de datos del modulo de costos
 """
 from datetime import datetime
-from app.settings import PATH_LOGS, IS_ENABLE_LOGGIN, LOGS_FILE_NAME
+from config.settings import PATH_LOGS, IS_ENABLE_LOGGIN, LOGS_FILE_NAME
 
 
 def loggin(type_log, message, request=None):

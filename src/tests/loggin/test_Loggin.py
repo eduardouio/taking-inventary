@@ -1,6 +1,6 @@
 from django.test import TestCase
 from common import loggin
-from app.settings import PATH_LOGS, IS_ENABLE_LOGGIN, LOGS_FILE_NAME
+from config.settings import PATH_LOGS, IS_ENABLE_LOGGIN, LOGS_FILE_NAME
 import os
 
 

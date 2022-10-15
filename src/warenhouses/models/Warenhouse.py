@@ -1,12 +1,7 @@
-from simple_history.models import HistoricalRecords
 from django.db import models
-from crum import get_current_user
-
 from common import AppBaseModel
 
-
 class Warenhouse(AppBaseModel):
-
     id_warenhouse = models.AutoField(
         'id_bodega',
         primary_key=True
@@ -63,18 +58,6 @@ class Warenhouse(AppBaseModel):
         null=True,
         default=0
     )
-    history = HistoricalRecords()
-
-    def save(self, *args, **kwargs):
-        user = get_current_user()
-        if user is None:
-            return super(Warenhouse, self).save(*args, **kwargs)
-
-        if not self.pk:
-            self.id_user_created = user.pk
-            
-        self.id_user_updated = user.pk
-        return super(Warenhouse, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{}-{}'.format(
