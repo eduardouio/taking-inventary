@@ -1,6 +1,7 @@
-from secrets import choice
+from email.policy import default
 from django.db import models
 from common import AppBaseModel
+from accounts.models import CustomUserModel
 from django.conf import settings
 
 class Warenhouse(AppBaseModel):
@@ -11,44 +12,29 @@ class Warenhouse(AppBaseModel):
     id_warenhouse_number = models.PositiveSmallIntegerField(
         'identificador_sap',
     )
-    enterprise_name = models.CharField(
-        'empresa',
-        max_length=100,
-        help_text='Nombre de la empresa a la que pertense'
-    )
-    ruc_enterprise = models.CharField(
-        'ruc_empresa',
-        max_length=13,
-        help_text='Ruc de la empresa propietaria de la bodega'
-    )
     name = models.CharField(
         'nombre_bodega',
         max_length=100,
-        help_text='Nombre de la bodega'
     )
-    notes = models.TextField(
-        'notas_adicionales',
-        null=True,
-        blank=True,
-        default=None
+    owner = models.CharField(
+        'empresa',
+        max_length=100,
+        choices=settings.ENTERPRISES_TAKING
     )
-    location_warenhouse = models.CharField(
+    location = models.CharField(
         'ubicación_bodega',
         max_length=100,
         null=True,
         blank=True,
         default=None
     )
-    admin_warenhouse = models.CharField(
+    administrator = models.ForeignKey(
         'administrador_bodega',
-        max_length=100,
-        blank=True,
-        null=True,
-        default=None
+        CustomUserModel,
+        on_delete=models.PROTECT
     )
-    owner_warenhouse = models.CharField(
-        'empresa propietaria',
-        max_length=255,
+    area_m2 = models.PositiveSmallIntegerField(
+        'area_metros',
         blank=True,
         null=True,
         default=None
