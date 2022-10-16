@@ -5,7 +5,7 @@ from .models import Product
 class ProductAdmin(admin.ModelAdmin):
     search_fields= [
         'name',
-        'cod_contable',
+        'account_code',
         'ean_13_code',
         'ean_14_code'
     ]
@@ -13,7 +13,7 @@ class ProductAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Información Básica',{
             'fields':(
-                'cod_contable',
+                'account_code',
                 'name',
                 'capacity',
                 'unit_measurement',
@@ -27,8 +27,6 @@ class ProductAdmin(admin.ModelAdmin):
                 'alcoholic_strength',
                 'health_register',
                 'location',
-                'manufacturer_name',
-                'dealer_name',
                 'image_front',
                 'image_back',
                 'notes',

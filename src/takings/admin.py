@@ -1,17 +1,23 @@
 from django.contrib import admin
-from takings.models import Taking, Team, InitialStock
+from simple_history.admin import SimpleHistoryAdmin
+from takings.models import Taking, TakinDetail
 
 
-class TeamModelAdmin(admin.ModelAdmin):
+class TakinDetailInline(admin.TabularInline):
+    model=TakinDetail
+    #fields = ('property_value',)
+    #readonly_fields = ('property_value',)
+
+
+class TakingModelAdmin(SimpleHistoryAdmin):
+    inlines = [
+        TakinDetailInline
+    ]
+
+
+class TakinDetailAdmin(SimpleHistoryAdmin):
     pass
-
-class TakingModelAdmin(admin.ModelAdmin):
-    pass
-
-class InitialStockAdmin(admin.ModelAdmin):
-    pass
-
 
 admin.site.register(Taking, TakingModelAdmin)
-admin.site.register(Team, TeamModelAdmin)
-admin.site.register(InitialStock, InitialStockAdmin)
+admin.site.register(TakinDetail, TakinDetailAdmin)
+

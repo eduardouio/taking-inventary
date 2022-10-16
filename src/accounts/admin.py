@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from simple_history.admin import SimpleHistoryAdmin
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUserModel
+from .models import CustomUserModel, Team
 
 class CustomUserAdmin(UserAdmin):
     add_form=CustomUserCreationForm
@@ -11,14 +12,14 @@ class CustomUserAdmin(UserAdmin):
     
     list_display=[
         'username',
-        'position',
+        'role',
         'email',
         'is_staff',
         'is_active',
     ]
     list_filter = (
         'username',
-        'position',
+        'role',
         'email',
         'is_staff',
         'is_active',
@@ -29,7 +30,7 @@ class CustomUserAdmin(UserAdmin):
             'fields':(
                 'username',
                 'password',
-                'position',
+                'role',
             )
         }),
         ('Información Adicional',{
@@ -56,15 +57,19 @@ class CustomUserAdmin(UserAdmin):
                 'username',
                 'password1',
                 'password2',
-                'position',
+                'role',
                 'notes',
                 'is_staff',
                 'is_active',
             )}
         ),
     )
-    search_fields = ('username','position')
-    ordering = ('username', 'position')
+    search_fields = ('username','role')
+    ordering = ('username', 'role')
 
+
+class TeamAdmin(SimpleHistoryAdmin):
+    pass
 
 admin.site.register(CustomUserModel, CustomUserAdmin)
+admin.site.register(Team,TeamAdmin)

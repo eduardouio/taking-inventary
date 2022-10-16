@@ -8,8 +8,7 @@ class WarenhouseAdmin(SimpleHistoryAdmin):
     fields = (
         'id_warenhouse_number',
         'name',
-        'ruc_enterprise',
-        'enterprise_name',
+        'owner',
         'notes',
         'is_active'
     )
@@ -17,7 +16,7 @@ class WarenhouseAdmin(SimpleHistoryAdmin):
     list_display = (
         'id_warenhouse_number',
         'name',
-        'enterprise_name',
+        'owner',
         'is_active',
         'created',
         'modified',
@@ -26,7 +25,7 @@ class WarenhouseAdmin(SimpleHistoryAdmin):
 
     search_fields = [
         'name',
-        'enterprise_name',
+        'owner',
         'id_warenhouse_number',
     ]
 

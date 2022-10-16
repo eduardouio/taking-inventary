@@ -1,10 +1,10 @@
-from email.policy import default
 from django.db import models
 from common import AppBaseModel
 from accounts.models import CustomUserModel
 from django.conf import settings
 
 class Warenhouse(AppBaseModel):
+    """Warenhouse ERP"""
     id_warenhouse = models.AutoField(
         'id_bodega',
         primary_key=True
@@ -28,11 +28,6 @@ class Warenhouse(AppBaseModel):
         blank=True,
         default=None
     )
-    administrator = models.ForeignKey(
-        'administrador_bodega',
-        CustomUserModel,
-        on_delete=models.PROTECT
-    )
     area_m2 = models.PositiveSmallIntegerField(
         'area_metros',
         blank=True,
@@ -53,4 +48,4 @@ class Warenhouse(AppBaseModel):
         )
 
     class Meta:
-        unique_together = [['ruc_enterprise', 'name']]
+        unique_together = [['owner', 'name']]

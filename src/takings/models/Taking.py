@@ -1,8 +1,10 @@
 from django.db import models
+from django.conf import settings
 
 from common import AppBaseModel
-from warenhouses.models import Warenhouse
 from accounts.models import CustomUserModel
+from sap_migrations.models import SapMigration
+from warenhouses.models import Warenhouse
 
 
 class Taking(AppBaseModel):
@@ -10,8 +12,9 @@ class Taking(AppBaseModel):
         'nro toma',
         primary_key=True
     )
-    date = models.DateField(
-        'fecha toma',
+    id_sap_migration = models.ForeignKey(
+        SapMigration,
+        on_delete=models.PROTECT
     )
     hour_start = models.TimeField(
         'hora inicio',
@@ -19,23 +22,26 @@ class Taking(AppBaseModel):
         null=True,
         default=None
     )
-    id_user_manager = models.PositiveSmallIntegerField(
-        'id user manager',
-        default=None,
-        blank=True,
-        null=True
-    )
     hour_end = models.TimeField(
         'hora fin',
         blank=True,
         null=True,
         default=None
     )
+    user_manager = models.ForeignKey(
+        CustomUserModel,
+        on_delete=models.PROTECT    
+    )
     warenhouses = models.ManyToManyField(
         Warenhouse
     )
-    participans = models.ManyToManyField(
-        CustomUserModel
+    location = models.CharField(
+        'ubicacion_instalaciones',
+        max_length=255,
+        choices=settings.WARENHOUSES_LOCATIONS_NAME,
+        blank=True,
+        null=True,
+        default=None
     )
     
     def __str__(self):

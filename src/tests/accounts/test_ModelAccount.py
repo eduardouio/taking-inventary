@@ -1,6 +1,3 @@
-from cgi import test
-from hashlib import new
-from unicodedata import name
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 import string
@@ -66,7 +63,7 @@ class TestAccounts(TestCase):
                 'first_name': names[0],
                 'last_name': ' '.join(names[1:]),
                 'email': self.faker.email(),
-                'position': 'asistente',
+                'role': 'asistente',
             }
         }
         return new_user

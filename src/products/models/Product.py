@@ -1,11 +1,10 @@
-from random import choices
 from django.db import models
 from common import AppBaseModel
-from django.conf import settings
 
 UNITS=(
     ('MM', 'Mililitros'),
     ('GR', 'Gramos'),
+    ('Otro', 'Otro'),
 )
 
 
@@ -14,7 +13,7 @@ class Product(AppBaseModel):
         'id producto',
         primary_key=True
     )
-    cod_contable=models.CharField(
+    account_code=models.CharField(
         'codigo contable',
         max_length=20,
         unique=True
@@ -26,6 +25,9 @@ class Product(AppBaseModel):
     )
     quantity_per_box=models.PositiveSmallIntegerField(
         'cantidad por caja',
+        blank=True,
+        null=True,
+        default=1
     )
     capacity=models.PositiveIntegerField(
         'capacidad',
@@ -40,6 +42,13 @@ class Product(AppBaseModel):
         null=True,
         blank=True,
         default='No Especidficado',
+    )
+    sale_unit_measurement = models.CharField(
+        'unidad_medida_venta',
+        max_length=40,
+        null=True,
+        blank=True,
+        default='UNIDAD'
     )
     alcoholic_strength=models.PositiveSmallIntegerField(
         'grado alcoholico',
@@ -70,14 +79,6 @@ class Product(AppBaseModel):
     location=models.CharField(
         'ubicacion_producto',
         max_length=200,
-        null=True,
-        blank=True,
-        default=None
-    )
-    manufacturer_name = models.CharField(
-        'nombre fabricante',
-        max_length=300,
-        choices=settings.DEALERS,
         null=True,
         blank=True,
         default=None

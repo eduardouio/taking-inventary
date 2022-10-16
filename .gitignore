@@ -6,6 +6,6 @@ db.sqlite3
 .pyc
 migrations/
 */migrations/*
-*migrations
 logs.log
 logs/
+secrets_config.py
