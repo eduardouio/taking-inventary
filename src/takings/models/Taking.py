@@ -36,7 +36,7 @@ class Taking(AppBaseModel):
         Warenhouse
     )
     location = models.CharField(
-        'ubicacion_instalaciones',
+        'ubicacion instalaciones',
         max_length=255,
         choices=settings.WARENHOUSES_LOCATIONS_NAME,
         blank=True,
@@ -45,4 +45,8 @@ class Taking(AppBaseModel):
     )
     
     def __str__(self):
-        return '{}'.format(self.id_taking)
+        return '{}->{}->{}'.format(
+            self.id_taking, 
+            self.user_manager,
+            self.created
+           )

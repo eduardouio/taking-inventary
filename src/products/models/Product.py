@@ -35,6 +35,7 @@ class Product(AppBaseModel):
         unique=True
     )
     type_product = models.CharField(
+        'tipo',
         max_length=255,
         choices=TYPE_PRODUCT,
         blank=True,
@@ -54,15 +55,15 @@ class Product(AppBaseModel):
         default=0,
     )
     unit_measurement=models.CharField(
-        'unidad_medida',
+        'unidad medida',
         choices=UNITS,
         max_length=40,
         null=True,
         blank=True,
-        default='No Especidficado',
+        default='otro',
     )
     sale_unit_measurement = models.CharField(
-        'unidad_medida_venta',
+        'unidad medida venta',
         max_length=40,
         null=True,
         blank=True,
@@ -94,13 +95,6 @@ class Product(AppBaseModel):
         blank=True,
         default=None
     )
-    location=models.CharField(
-        'ubicacion_producto',
-        max_length=200,
-        null=True,
-        blank=True,
-        default=None
-    )
     image_front=models.ImageField(
         'imagen frontal',
         upload_to='media/app/images/products',
@@ -111,6 +105,18 @@ class Product(AppBaseModel):
     image_back=models.ImageField(
         'imagen posterior',
         upload_to='media/app/images/products',
+        blank=True,
+        null=True,
+        default=None
+    )
+    max_stock = models.SmallIntegerField(
+        'stock máximo',
+        blank=True,
+        null=True,
+        default=None
+    )
+    min_stock = models.SmallIntegerField(
+        'stock mínimo',
         blank=True,
         null=True,
         default=None

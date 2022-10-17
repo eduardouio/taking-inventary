@@ -10,9 +10,37 @@ class SapMigrationsAdmin(SimpleHistoryAdmin):
     inlines = [
         SapMigrationDetalInline,
     ]
+    
+    search_fields = [
+        'created',
+        'modified',
+    ]
 
+    list_display = [
+        'is_active',
+        'id_sap_migration',
+        'id_user_created',
+        'created',
+        'modified',
+        'id_user_updated',
+    ]
+    
+    
 class SapMigrationDetailAdmin(SimpleHistoryAdmin):
-    pass
+    search_fields = [
+        'name',
+        'warenhouse_name',
+        'company_name',
+    ]
+
+    list_display = [
+        'id_sap_migration',
+        'name',
+        'warenhouse_name',
+        'company_name',
+        
+    ]
+
 
 admin.site.register(SapMigration, SapMigrationsAdmin)
 admin.site.register(SapMigrationDetail, SapMigrationDetailAdmin)

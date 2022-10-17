@@ -23,26 +23,26 @@ class TakinDetail(AppBaseModel):
         on_delete=models.PROTECT
     )
     quantity = models.PositiveSmallIntegerField(
-        'cantidad_unidades',
+        'cantidad unidades',
         blank=True,
         null=True,
         default=0
     )
     location = models.CharField(
-        'ubicacion_en_bodega',
+        'ubicacion en bodega',
         max_length=255,
         blank=True,
         null=True,
         default=None
     )
     date_make = models.DateField(
-        'fecha_elaboracion',
+        'fecha elaboracion',
         blank=True,
         null=True,
         default=None,
     )
     date_expiry = models.DateField(
-        'fecha_vencimiento',
+        'fecha vencimiento',
         blank=True,
         null=True,
         default=None,
@@ -54,12 +54,12 @@ class TakinDetail(AppBaseModel):
         default=None
     )
     is_complete = models.BooleanField(
-        'esta completo',
+        'esta completo?',
         default=False
     )
 
     def __str__(self):
         return '{}->{}'.format(
-            self.id_product.name,
-            self.id_product.quantity,
+            self.account_code,
+            self.quantity,
         )

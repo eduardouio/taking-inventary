@@ -7,7 +7,8 @@ class ProductAdmin(admin.ModelAdmin):
         'name',
         'account_code',
         'ean_13_code',
-        'ean_14_code'
+        'ean_14_code',
+        'health_register',
     ]
     
     list_display= [
@@ -19,10 +20,7 @@ class ProductAdmin(admin.ModelAdmin):
         'unit_measurement',
         'sale_unit_measurement',
         'health_register',
-        'location',
     ]
-    
-    
 
     fieldsets = (
         ('Información Básica',{
@@ -41,8 +39,9 @@ class ProductAdmin(admin.ModelAdmin):
             'fields':(
                 'alcoholic_strength',
                 'sale_unit_measurement',
+                'min_stock',
+                'max_stock',
                 'health_register',
-                'location',
                 'image_front',
                 'image_back',
                 'box_dimensions',

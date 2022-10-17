@@ -5,7 +5,7 @@ from .SapMigration import SapMigration
 
 class SapMigrationDetail(AppBaseModel):
     id_sap_migration_detail = models.AutoField(
-        'id_migracion_detalle',
+        'id detalle',
         primary_key=True
     )
     id_sap_migration = models.ForeignKey(
@@ -20,27 +20,27 @@ class SapMigrationDetail(AppBaseModel):
         default=None
     )
     account_code = models.CharField(
-        'codigo_contable',
+        'codigo contable',
         max_length=100,
         blank=True,
         null=True,
         default=None
     )
     name = models.CharField(
-        'nombre_producto',
+        'nombre producto',
         max_length=255,
         null=True,
         blank=True,
         default=None
     )
     warenhouse_code = models.PositiveSmallIntegerField(
-        'id_bodega',
+        'id bodega',
         null=True,
         blank=True,
         default=None,
     )
     warenhouse_name = models.CharField(
-        'nombre_bodega',
+        'nombre bodega',
         max_length=255,
         blank=True,
         null=True,
@@ -70,3 +70,6 @@ class SapMigrationDetail(AppBaseModel):
         null=True,
         blank=True
     )
+    
+    def __str__(self):
+        return '{}->{}'.format(self.name, self.on_hand)

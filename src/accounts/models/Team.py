@@ -5,11 +5,11 @@ from common import AppBaseModel
 
 class Team(AppBaseModel):
     id_team = models.AutoField(
-        'id_equipo',
+        'id equipo',
         primary_key=True
     )
     group_number = models.PositiveSmallIntegerField(
-        'numero_grupo',
+        'numero grupo',
         blank=True,
         null=True,
         default='S/N'
@@ -19,7 +19,7 @@ class Team(AppBaseModel):
         on_delete=models.PROTECT
     )
     warenhouse_assistant = models.CharField(
-        'asistete_bodega',
+        'asistete bodega',
         max_length = 255,
         blank=True,
         null=True,
