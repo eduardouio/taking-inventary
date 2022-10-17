@@ -14,7 +14,7 @@ class TakinDetail(AppBaseModel):
         Taking,
         on_delete=models.RESTRICT
     )
-    id_product = models.ForeignKey(
+    account_code = models.ForeignKey(
         Product, 
         on_delete=models.RESTRICT
     )

@@ -7,6 +7,17 @@ UNITS=(
     ('Otro', 'Otro'),
 )
 
+TYPE_PRODUCT = (
+    ('alimento','Alimento'),
+    ('vino','Vino'),
+    ('espirituoso','Bebida Espirituoso'),
+    ('mueble','Bien Mueble'),
+    ('no_peresible','No Peresible'),
+    ('accesorio','Accesorio'),
+    ('mueble','Bien Mueble'),
+    ('otro','Otro Bien'),
+)
+
 
 class Product(AppBaseModel):
     id_product=models.AutoField(
@@ -22,6 +33,13 @@ class Product(AppBaseModel):
         'nombre producto',
         max_length=300,
         unique=True
+    )
+    type_product = models.CharField(
+        max_length=255,
+        choices=TYPE_PRODUCT,
+        blank=True,
+        null=True,
+        default='otro'
     )
     quantity_per_box=models.PositiveSmallIntegerField(
         'cantidad por caja',

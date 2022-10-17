@@ -44,7 +44,7 @@ class Warenhouse(AppBaseModel):
     def __str__(self):
         return '{}-{}'.format(
             self.id_warenhouse_number,
-            self.enterprise_name
+            self.owner
         )
 
     class Meta:

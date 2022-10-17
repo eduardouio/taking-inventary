@@ -45,4 +45,4 @@ class Taking(AppBaseModel):
     )
     
     def __str__(self):
-        return '{}->{}'.format(self.id_taking, self.date)
+        return '{}'.format(self.id_taking)

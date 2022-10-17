@@ -18,10 +18,7 @@ class CustomUserAdmin(UserAdmin):
         'is_active',
     ]
     list_filter = (
-        'username',
         'role',
-        'email',
-        'is_staff',
         'is_active',
     )
     
@@ -37,6 +34,8 @@ class CustomUserAdmin(UserAdmin):
             'fields':(
                 'first_name',
                 'last_name',
+                'dni_number',
+                'picture',
                 'email',
                 'contact',
                 'notes',
@@ -64,12 +63,31 @@ class CustomUserAdmin(UserAdmin):
             )}
         ),
     )
-    search_fields = ('username','role')
+    search_fields = [
+        'username'
+        'role',
+        'dni_number',
+        'first_name',
+        'last_name',
+    ]
     ordering = ('username', 'role')
 
 
 class TeamAdmin(SimpleHistoryAdmin):
-    pass
+    list_display = [
+        'id_team',
+        'group_number',
+        'manager',
+        'warenhouse_assistant'
+    ]
+    
+    search_fields = [
+        'group_number',
+        'manager__first_name',
+        'manager__last_name',
+        'manager__role',
+        'warenhouse_assistant',
+    ]
 
 admin.site.register(CustomUserModel, CustomUserAdmin)
 admin.site.register(Team,TeamAdmin)

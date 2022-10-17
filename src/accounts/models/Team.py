@@ -27,7 +27,7 @@ class Team(AppBaseModel):
     )
 
     def __str__(self):
-        return 'grupo #{}->{}'.format(
+        return 'grupo #{}->Manager {}'.format(
             self.group_number,
             self.manager
         )

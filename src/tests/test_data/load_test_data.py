@@ -11,6 +11,7 @@ from sap_migrations.models import SapMigration, SapMigrationDetail
 from takings.models import Taking, TakinDetail
 
 class LoadTestData():
+    """./manage.py shell < tests/test_data/load_test_data.py"""
     
     def __init__(self) -> None:
         self.faker = Faker()
@@ -61,6 +62,48 @@ class LoadTestData():
         file = open('tests/test_data/products.csv', 'r')
         csvreader = csv.reader(file, delimiter=',')
         for line in csvreader:
+            type_product = 'otro'
+            if 'vino' in line[1].lower():
+                type_product = 'vino'
+            if 'sauv' in line[1].lower():
+                type_product = 'vino'
+            if 'tinto' in line[1].lower():
+                type_product = 'vino'
+            if 'merlot' in line[1].lower():
+                type_product = 'vino'
+            if 'malbec' in line[1].lower():
+                type_product = 'vino'
+            if 'espum' in line[1].lower():
+                type_product = 'vino'
+            if 'carm' in line[1].lower():
+                type_product = 'vino'
+            if 'chard' in line[1].lower():
+                type_product = 'vino'
+            if 'blanco' in line[1].lower():
+                type_product = 'vino'
+            if 'whysky' in line[1].lower():
+                type_product = 'espirituoso'
+            if 'gin' in line[1].lower():
+                type_product = 'espirituoso'
+            if 'chinchon' in line[1].lower():
+                type_product = 'espirituoso'
+            if 'cogñac' in line[1].lower():
+                type_product = 'espirituoso'
+            if 'pisco' in line[1].lower():
+                type_product = 'espirituoso'
+            if 'licor' in line[1].lower():
+                type_product = 'espirituoso'
+            if 'mezcal' in line[1].lower():
+                type_product = 'espirituoso'
+            if 'tequila' in line[1].lower():
+                type_product = 'espirituoso'
+            if 'vodka' in line[1].lower():
+                type_product = 'espirituoso'
+            if 'food' in line[1].lower():
+                type_product = 'alimento'
+            if 'aceite' in line[1].lower():
+                type_product = 'alimento'
+
             my_product = {
                 'account_code':line[0],
                 'name':line[1],
@@ -68,6 +111,7 @@ class LoadTestData():
                 'capacity': line[2] if line[2] else None,
                 'ean_13_code': line[4],
                 'ean_14_code': line[5],
+                'type_product': type_product,
             }
             try:
                 Product.objects.create(**my_product)
@@ -91,8 +135,7 @@ class LoadTestData():
         print('[OK] Bodegas Cargadas...')
     
     def load_sap_migrations(self):
-
-        for item in range(5):
+        for item in range(47):
             migration = SapMigration()
             migration.save()      
 
@@ -145,6 +188,46 @@ class LoadTestData():
                     except IntegrityError as e:
                         pass
         print('[OK] Detalle Migraciones realizadas...')
+        
+    def load_takings(self):
+        all_sap_migrations = SapMigration.objects.all()[:38]
+        all_products = Product.objects.all()
+        managers = CustomUserModel.objects.filter(role='gestor')
+        all_warenhouses = Warenhouse.objects.all()
+        total_warenhouses = len(all_warenhouses)
+        
+        for sap_migration in all_sap_migrations:
+            user_manager = managers[random.choice(range(len(managers)))]
+            total_wanrenhouses_taking = random.choice(range(total_warenhouses))
+            my_taking = {
+                'id_sap_migration': sap_migration,
+                'hour_start': '07:00:00',
+                'hour_end': random.choice(['14:30:00','13:00:00','11:00:00']),
+                'user_manager': user_manager,
+                'location': 'VINESA PLAZA NORTE',   
+            }
+            TakinObj = Taking(**my_taking)
+            TakinObj.save()
+            for item in range(total_wanrenhouses_taking):
+                wanrenhouse_taking = random.choice(range(total_warenhouses))
+                TakinObj.warenhouses.add(all_warenhouses[wanrenhouse_taking])
+            TakinObj.save()
+        print('[OK] Tomas de invetarion registradas...')
+        all_teams = Team.objects.all()
+        all_takings = Taking.objects.all()
+        my_team = random.choice(range(len(all_teams)))
+        
+        for taking in all_takings:
+            for product in all_products:
+                taking_dt = {
+                    'id_taking': taking,
+                    'account_code':  product,
+                    'quantity': random.randint(-1, 300000),
+                    'id_team': all_teams[my_team],
+                    }
+            taking_detail = TakinDetail(**taking_dt)
+            taking_detail.save()
+        print('[OK] detalles de tomas creadas')
 
 print('---> START LOAD DATA <---')
 loadData = LoadTestData()
@@ -154,4 +237,5 @@ loadData.load_teams()
 loadData.load_products()
 loadData.load_warenhouses()
 loadData.load_sap_migrations()
+loadData.load_takings()
 print('---> END TASK <---')
