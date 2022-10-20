@@ -68,13 +68,16 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': ['templates/'],
+        'APP_DIRS': False,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -139,7 +142,7 @@ STATICFILES_DIRS = [
     os.sep.join(os.path.abspath(__file__).split(os.sep)[:-2]+['static']),
 ]
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 
 MEDIA_ROOT = os.sep.join(os.path.abspath(
