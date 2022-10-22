@@ -16,10 +16,7 @@ class TestLoggin(TestCase):
             loggin('i', 'Test de Escritura de datos')
             self.assertEqual(True, os.path.exists(self.file))
 
-        self.assertEqual(1, 1)
-
     def test_not_loggin(self):
         if not IS_ENABLE_LOGGIN:
             loggin('e', 'No se escribe esto en el archivo')
             self.assertEqual(False, os.path.exists(self.file))
-        self.assertEqual(1, 1)

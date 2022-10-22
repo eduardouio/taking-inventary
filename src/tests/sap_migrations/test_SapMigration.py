@@ -1,13 +1,8 @@
 from sap_migrations.models import SapMigration
-from django.test import TestCase
-from faker import Faker
+from tests import TestCaseBase
 
 
-class Test_SapMigration(TestCase):
-
-    def setUp(self):
-        for item in range(10):
-            sap_migration = SapMigration.objects.create()
+class Test_SapMigration(TestCaseBase):
     
     def test_get(self):
         sap_migration = SapMigration.get(1)

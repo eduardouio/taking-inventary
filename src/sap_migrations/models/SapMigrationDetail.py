@@ -71,5 +71,13 @@ class SapMigrationDetail(AppBaseModel):
         blank=True
     )
     
+    @classmethod
+    def get_by_migration(cls, migration):
+        detail = cls.objects.filter(id_sap_migration=migration)
+        if len(detail):
+            return list(detail)
+        
+        return None
+    
     def __str__(self):
         return '{}->{}'.format(self.name, self.on_hand)

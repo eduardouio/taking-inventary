@@ -10,6 +10,14 @@ from warenhouses.models import Warenhouse
 from sap_migrations.models import SapMigration, SapMigrationDetail
 from takings.models import Taking, TakinDetail
 
+QUANTITY_OPTIONS = {
+    'users': 100,
+    'teams': 80,
+    'sap_migrations': 5,
+    'takings': 4,    
+}
+
+
 class LoadTestData():
     """./manage.py shell < tests/test_data/load_test_data.py"""
     
@@ -24,7 +32,7 @@ class LoadTestData():
         print('[OK] creado superuser...')
     
     def load_users(self):
-        for item in range(100):
+        for item in range(QUANTITY_OPTIONS['users']):
             user_role = 'asistente'
             if item < 3:
                 user_role = 'gestor'
@@ -46,7 +54,7 @@ class LoadTestData():
             print('[Warning] Equipos existentes en la base')
             return None
         
-        for item in range(50):
+        for item in range(QUANTITY_OPTIONS['teams']):
             users_assintants = CustomUserModel.objects.filter(
                 role='asistente'
             )
@@ -135,7 +143,7 @@ class LoadTestData():
         print('[OK] Bodegas Cargadas...')
     
     def load_sap_migrations(self):
-        for item in range(47):
+        for item in range(QUANTITY_OPTIONS['sap_migrations']):
             migration = SapMigration()
             migration.save()      
 
@@ -190,7 +198,9 @@ class LoadTestData():
         print('[OK] Detalle Migraciones realizadas...')
         
     def load_takings(self):
-        all_sap_migrations = SapMigration.objects.all()[:38]
+        all_sap_migrations = SapMigration.objects.all()[
+            :QUANTITY_OPTIONS['takings']
+        ]
         all_products = Product.objects.all()
         managers = CustomUserModel.objects.filter(role='gestor')
         all_warenhouses = Warenhouse.objects.all()

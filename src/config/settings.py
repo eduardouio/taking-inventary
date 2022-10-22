@@ -69,15 +69,15 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': ['templates/'],
-        'APP_DIRS': False,
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                "django.template.context_processors.i18n",
-                "django.template.context_processors.media",
-                "django.template.context_processors.static",
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -144,12 +144,10 @@ STATICFILES_DIRS = [
 
 STATIC_URL = 'static/'
 
-
 MEDIA_ROOT = os.sep.join(os.path.abspath(
     __file__).split(os.sep)[:-2]+['media'])
-MEDIA_URL = '/media/'
 
-# LOGIN_URL = '/login/'
+MEDIA_URL = '/media/'
 
 #loggin config
 PATH_LOGS = BASE_DIR / 'logs'
