@@ -1,0 +1,87 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block css_files %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row bg-secondary">
+        <div class="col-10 text-center">
+            LISTADO DE MIGRACIONES DE SAP
+        </div>
+        <div class="col-2">{{ all_migrations | length }} Sotcks Importados</div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered table-hover table-striped" id="table">
+                <thead>
+                    <tr class="text-center">
+                        <th>#</th>
+                        <th>Fecha</th>
+                        <th>Usuario</th>
+                        <th>Bodegas</th>
+                        <th>productos</th>
+                        <th>Items</th>
+                        <th>Grupos</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for migration in all_migrations %}
+                    <tr>
+                        <td class="text-center">
+                            <a href="/admin/sap_migrations/sapmigration/{{migration.migration.pk}}/change/"
+                                target="_blank">
+                                &nbsp;{{ forloop.counter }}&nbsp;
+                            </a>
+                        </td>
+                        <td>
+                            {% if migration.migration.is_active %}
+                            <i class="fas fa-lock-open text-success"></i>
+                            {% else %}
+                            <i class="fas fa-lock"></i>
+                            {% endif%}
+                            ->
+                            {{ migration.migration.created }}
+                        </td>
+                        <td class="text-center">{{ migration.user.create_by }}</td>
+                        <td class="text-center">{{ migration.migration.total_warenhouses }}</td>
+                        <td class="text-center">{{ migration.migration.total_products }}</td>
+                        <td class="text-center">{{ migration.migration.total_items }}</td>
+                        <td class="text-center">{{ migration.migration.total_groups }}</td>
+                        <td class="text-center">
+                            {% if migration.migration.is_active %}
+                            <span class="text-primary">
+                                <small>Toma</small>
+                                <i class="fas fa-shopping-basket"></i>
+                            </span>
+                            /
+                            {% endif %}
+                            <a href="/sap/detail/{{migration.migration.pk}}">
+                                    <small class="text-secondary">Reporte</small>
+                                    <i class="fas fa-table text-secondary"></i>
+                            </a>
+                            /
+                            <span class="text-danger">
+                                <small>Eliminar</small>
+                                <i class="fas fa-trash"></i>
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scritp_code %}
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable();
+    });
+</script>
+{% endblock %}

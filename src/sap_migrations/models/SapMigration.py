@@ -52,7 +52,7 @@ class SapMigration(AppBaseModel):
             return None
     
     def __str__(self) -> str:
-        return '{}->{}'.format(
+        return '{} -> {}'.format(
             self.id_sap_migration,
             self.created
         )

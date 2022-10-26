@@ -1,0 +1,64 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block css_files %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row bg-secondary border rounded">
+        <div class="col text-center">
+            DETALLE DE MIGRACION STOCK SAP <strong class="text-info">{{ migration.migration }}</strong>
+        </div>
+    </div>
+    <div class="row border rounded">
+        <div class="col bg-secondary text-right">Usuario</div>
+        <div class="col">{{ migration.user.create_by }}</div>
+        <div class="col bg-secondary text-right">Grupos</div>
+        <div class="col"></div>
+        <div class="col bg-secondary text-right">Bodegas</div>
+        <div class="col">{{ migration.total_warenhouses }}</div>
+        <div class="col bg-secondary text-right">Productos</div>
+        <div class="col">{{ migration.total_products }}</div>
+        <div class="col bg-secondary text-right">Unidades</div>
+        <div class="col">{{ migration.total_items }}</div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered table-striped table-hover" id="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Bodega</th>
+                        <th>Empresa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in migration.detail %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.on_hand }}</td>
+                        <td>{{ item.warenhouse_name }}</td>
+                        <td>{{ item.company_name }}</td>
+                    </tr>
+                    {%endfor%}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block scritp_code %}
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable();
+    });
+</script>
+{% endblock %}

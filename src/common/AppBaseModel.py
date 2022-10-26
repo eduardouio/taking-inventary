@@ -67,7 +67,7 @@ class AppBaseModel(models.Model):
         self.id_user_updated = user.pk
         return super().save(*args, **kwargs)
 
-    def get_user(self, obj_model):
+    def get_user(self):
         users = {
             'create_by':None,
             'update_by':None,
@@ -75,14 +75,14 @@ class AppBaseModel(models.Model):
         
         try:
             users['create_by'] = CustomUserModel.objects.get(
-                pk=obj_model.id_user_created
+                pk=self.id_user_created
             )
         except ObjectDoesNotExist:
             loggin('i', 'El registro no tiene usuario creado')
         
         try:
             users['update_by'] = CustomUserModel.objects.get(
-                pk=obj_model.id_user_updated
+                pk=self.id_user_updated
             )
         except ObjectDoesNotExist:
             loggin('i', 'El registro no tiene usuario de actualizar')

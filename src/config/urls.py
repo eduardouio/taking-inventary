@@ -19,7 +19,7 @@ from django.contrib.staticfiles.urls import static
 from django.urls import path, include
 
 admin.autodiscover()
-admin.site.enable_nav_sidebar = True
+admin.site.enable_nav_sidebar = False
 admin.site.site_title = 'Sistema Toma de Inventario'
 admin.site.site_description = 'Sistema Toma de Inventario'
 admin.site.site_header = 'Admin Sistema Toma de Inventario'
