@@ -1,8 +1,9 @@
+from accounts.models import Team
+from common import AppBaseModel, loggin
 from django.db import models
 from products.models import Product
-from common import AppBaseModel
+
 from .Taking import Taking
-from accounts.models import Team
 
 
 class TakinDetail(AppBaseModel):
@@ -57,6 +58,14 @@ class TakinDetail(AppBaseModel):
         'esta completo?',
         default=False
     )
+    
+    @classmethod
+    def get_by_taking(cls, id_taking):
+        detail = cls.objects.filter(id_taking=id_taking)
+        if len(detail):
+            return list(detail)
+        loggin('w')
+        return []
 
     def __str__(self):
         return '{}->{}'.format(

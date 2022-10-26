@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 
 from common import AppBaseModel
 from accounts.models import CustomUserModel
@@ -43,7 +44,44 @@ class Taking(AppBaseModel):
         null=True,
         default=None
     )
-    
+    total_warenhouses = models.PositiveIntegerField(
+        'Total Bodegas',
+        default=0,
+        null=True,
+        blank=True
+    )
+    total_items = models.PositiveIntegerField(
+        'Total Items',
+        default=0,
+        null=True,
+        blank=True
+    )
+    total_groups = models.PositiveIntegerField(
+        'Total Grupos',
+        default=0,
+        null=True,
+        blank=True
+    )
+    total_products = models.PositiveIntegerField(
+        'total Productos',
+        default=0,
+        null=True,
+        blank=True
+    )
+    have_report = models.BooleanField(
+        'Tiene Reporte?',
+        default=False,
+        blank=True,
+        null=True
+    )
+
+    @classmethod
+    def get(cls, id_taking):
+        try:
+            return cls.objects.get(pk=id_taking)
+        except ObjectDoesNotExist as e:
+            return None
+
     def __str__(self):
         return '{}->{}->{}'.format(
             self.id_taking, 

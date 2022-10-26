@@ -1,5 +1,6 @@
 from django.db import models
-from common import AppBaseModel
+from django.core.exceptions import ObjectDoesNotExist
+from common import AppBaseModel, loggin
 from .SapMigration import SapMigration
 
 
@@ -72,12 +73,21 @@ class SapMigrationDetail(AppBaseModel):
     )
     
     @classmethod
-    def get_by_migration(cls, migration):
-        detail = cls.objects.filter(id_sap_migration=migration)
+    def get_by_migration(cls, id_migration):
+        detail = cls.objects.filter(id_sap_migration=id_migration)
         if len(detail):
             return list(detail)
         
-        return None
+        loggin('w', 'Sapmigration {} no tiene detalles'.format(id_migration))
+        return []
     
+    @classmethod
+    def get(cls, id_sap_migration_detail):
+        try:
+            return cls.objects.get(pk=id_sap_migration_detail)
+        except ObjectDoesNotExist as e:
+            loggin('e', e.__str__())
+            return None
+            
     def __str__(self):
         return '{}->{}'.format(self.name, self.on_hand)

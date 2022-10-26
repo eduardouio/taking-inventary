@@ -9,6 +9,36 @@ class SapMigration(AppBaseModel):
         'id_migracion',
         primary_key=True
     )
+    total_warenhouses = models.PositiveIntegerField(
+        'Total Bodegas',
+        default=0,
+        null=True,
+        blank=True
+    )
+    total_items = models.PositiveIntegerField(
+        'Total Items',
+        default=0,
+        null=True,
+        blank=True
+    )
+    total_groups = models.PositiveIntegerField(
+        'Total Grupos',
+        default=0,
+        null=True,
+        blank=True
+    )
+    total_products = models.PositiveIntegerField(
+        'total Productos',
+        default=0,
+        null=True,
+        blank=True
+    )
+    have_report = models.BooleanField(
+        'Tiene Reporte?',
+        default=False,
+        blank=True,
+        null=True
+    )
     
     def save(self, *args, **kwargs):
         return super(self.__class__, self).save(*args, **kwargs)
