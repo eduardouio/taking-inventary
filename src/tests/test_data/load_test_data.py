@@ -13,8 +13,8 @@ from takings.models import Taking, TakinDetail
 QUANTITY_OPTIONS = {
     'users': 100,
     'teams': 80,
-    'sap_migrations': 5,
-    'takings': 4,    
+    'sap_migrations': 25,
+    'takings': 20,
 }
 
 
@@ -123,8 +123,12 @@ class LoadTestData():
             }
             try:
                 Product.objects.create(**my_product)
+                print('--> {}'.format(my_product['name']))
             except IntegrityError as e:
-                pass
+                print('ERROR => {} {}'.format(
+                    my_product['name'],
+                    e.__str__()
+                    ))
         print('[OK] lista de productos completa...')
 
     def load_warenhouses(self):
@@ -132,7 +136,7 @@ class LoadTestData():
         csvreader = csv.reader(file, delimiter=',')
         for line in csvreader:
             new_warenhouse = {
-                'id_warenhouse_number': line[0],
+                'id_warenhouse_sap_code': line[0],
                 'name': line[1],
                 'owner': line[2],
             }
@@ -145,57 +149,41 @@ class LoadTestData():
     def load_sap_migrations(self):
         for item in range(QUANTITY_OPTIONS['sap_migrations']):
             migration = SapMigration()
-            migration.save()      
+            migration.save()
 
         print('[OK] Migraciones SAP cargadas...')
         all_sap_migrations = SapMigration.objects.all()
-        all_products = Product.objects.all()
-        companies = [
-            'AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A.',
-            'CORPORACIÓN PLUSBRAND DEL ECUADOR CIA LTDA',
-            'IMNAC IMPORTADORA NACIONAL CIA LTDA',
-            'PANIAGUA S.A.',
-            'REV ECUADOR S.A',
-            'SERVMULTIMARC CIA LTDA',
-            'VIDINTERNACIONAL S.A.',
-            'VINOS Y ESPIRITUOSOS DEL LITORAL VINLITORAL S.A.',
-            'VINOS Y ESPIRITUOSOS VINESA S.A.'
-        ]
-        id_warenhouse = [1, 10, 11, 13, 14, 15, 2, 3, 4, 5, 6, 7, 9, 93]
-        warenhouse_name = [
-            '10 DE AGOSTO',
-            'MAL ESTADO',
-            'CARCELEN',
-            'CONSIGNACION',
-            'CONSIGNACION4',
-            'GENERAL',
-            'CONTROL DE CALIDAD',
-        ]
-
+        position = True
         for migration in all_sap_migrations:
-            for product in all_products:
-                on_hand = random.randint(-1,300000)
-                on_order = random.randint(-1, 2800)
-                is_commited = random.randint(-1, 1500)
+            print('[INICIANDO] detalle para migracion {}'.format(migration))
+            file = open('tests/test_data/detail_migration.csv', 'r')
+            csvreader = csv.reader(file, delimiter=',')
+            for line in csvreader:
+                on_hand = random.randint(-1, 500)
+                on_order = random.randint(-1, 500)
+                is_commited = random.randint(-1, 50)
+                avaliable = (on_hand + on_order - is_commited)
 
                 migration_detail = {
                     'id_sap_migration': migration,
-                    'account_code':product.account_code,
-                    'company_name': random.choice(companies),
-                    'name': product.name,
-                    'warenhouse_code': random.choice(id_warenhouse),
-                    'warenhouse_name': random.choice(warenhouse_name),
-                    'on_hand': on_hand,
-                    'on_order': on_order,
-                    'is_commited': is_commited,
-                    'avaliable': (on_hand + on_order - is_commited)
+                    'account_code':line[2],
+                    'company_name': line[1],
+                    'name': line[3],
+                    'id_warenhouse_sap_code': line[5],
+                    'warenhouse_name': line[6],
+                    'on_hand': int(line[7]) if position else on_hand,
+                    'on_order': int(line[8]) if position  else on_order,
+                    'is_commited': int(line[9]) if position else is_commited,
+                    'avaliable': (int(line[7]) + int(line[8]) - int(line[9])) if position else avaliable,
                 }
-                if random.choice([False,False,False,True,False,False,False]):
-                    try:
-                        SapMigrationDetail.objects.create(**migration_detail)
-                    except IntegrityError as e:
-                        pass
-        print('[OK] Detalle Migraciones realizadas...')
+                try:
+                    SapMigrationDetail.objects.create(**migration_detail)
+                except IntegrityError as e:
+                    print('Error => {}'.format(e.__str__()))
+                    print(migration_detail)
+                position = False
+            print('[OK] detalles cargados para migracion {}'.format(migration))
+        print('[OK] Detalle de migracion Cargada...')
         
     def load_takings(self):
         all_sap_migrations = SapMigration.objects.all()[
@@ -223,6 +211,7 @@ class LoadTestData():
                 TakinObj.warenhouses.add(all_warenhouses[wanrenhouse_taking])
             TakinObj.save()
         print('[OK] Tomas de invetarion registradas...')
+        
         all_teams = Team.objects.all()
         all_takings = Taking.objects.all()
         my_team = random.choice(range(len(all_teams)))
@@ -232,11 +221,15 @@ class LoadTestData():
                 taking_dt = {
                     'id_taking': taking,
                     'account_code':  product,
-                    'quantity': random.randint(-1, 300000),
+                    'quantity': random.randint(1, 3000),
                     'id_team': all_teams[my_team],
                     }
-            taking_detail = TakinDetail(**taking_dt)
-            taking_detail.save()
+                try:
+                    taking_detail = TakinDetail(**taking_dt)
+                    taking_detail.save()
+                except IntegrityError as e:
+                    print(taking_dt)
+                    print('error => {}'.format(e.__str__()))
         print('[OK] detalles de tomas creadas')
 
 print('---> START LOAD DATA <---')
@@ -247,5 +240,5 @@ loadData.load_teams()
 loadData.load_products()
 loadData.load_warenhouses()
 loadData.load_sap_migrations()
-loadData.load_takings()
+#loadData.load_takings()
 print('---> END TASK <---')

@@ -1,0 +1,1 @@
+from .ConsolidateMigration import ConsolidateMigration

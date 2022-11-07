@@ -1,5 +1,6 @@
 from django.views.generic import TemplateView
-from sap_migrations.models import SapMigrationDetail, SapMigration
+from sap_migrations.models import SapMigration
+from sap_migrations.lib import ConsolidateMigration
 from common import loggin
 
 
@@ -10,15 +11,19 @@ class DetailMigrationsTV(TemplateView):
     def get(self, request, pk, *args, **kwargs):
         loggin('i', 'llamado a detalle de migracion {}'.format(pk))
         context = self.get_context_data(*args, **kwargs)
+        migrations_details = self.get_migration_details(pk)
         page_data = {
             'title_page': 'Detalle De Migracion',
-            'migration': self.get_migration_details(pk)
+            'migration': migrations_details,
+            'module_name': 'Migraciones SAP',
+            'total_records': migrations_details['migration']
         }
         context = { **context, **page_data }
         return self.render_to_response(context)
     
     def get_migration_details(self, pk):
         pk = int(pk)
+        consolitade_migration = ConsolidateMigration(pk)
         migration_data = {
             'migration': None,
             'detail': [],
@@ -39,20 +44,5 @@ class DetailMigrationsTV(TemplateView):
             loggin('e', 'La migracion {} no existe'.format(pk))
             return migration_data
         
-        loggin('i', 'recuperando migracion')
-        migration_data['detail'] = SapMigrationDetail.get_by_migration(pk)
-        for detail in migration_data['detail']:
-            migration_data['warenhouses'].add(detail.warenhouse_name)
-            migration_data['products'].add(detail.account_code)
-            migration_data['total_items'] += detail.on_hand
-        
-        migration_data['total_warenhouses'] = len(
-            migration_data['warenhouses']
-        )
-        migration_data['total_products'] = len(
-            migration_data['products']
-        )
+        migration_data['detail'] = consolitade_migration.get_by_product()
         return migration_data
-        
-        
-        

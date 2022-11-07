@@ -6,7 +6,7 @@ from simple_history.admin import SimpleHistoryAdmin
 class WarenhouseAdmin(SimpleHistoryAdmin):
 
     fields = (
-        'id_warenhouse_number',
+        'id_warenhouse_sap_code',
         'name',
         'owner',
         'notes',
@@ -14,7 +14,7 @@ class WarenhouseAdmin(SimpleHistoryAdmin):
     )
 
     list_display = (
-        'id_warenhouse_number',
+        'id_warenhouse_sap_code',
         'name',
         'owner',
         'is_active',
@@ -26,7 +26,7 @@ class WarenhouseAdmin(SimpleHistoryAdmin):
     search_fields = [
         'name',
         'owner',
-        'id_warenhouse_number',
+        'id_warenhouse_sap_code',
     ]
 
 

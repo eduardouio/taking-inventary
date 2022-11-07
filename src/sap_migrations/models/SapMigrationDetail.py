@@ -34,11 +34,12 @@ class SapMigrationDetail(AppBaseModel):
         blank=True,
         default=None
     )
-    warenhouse_code = models.PositiveSmallIntegerField(
-        'id bodega',
-        null=True,
+    id_warenhouse_sap_code = models.CharField(
+        'identificador_sap',
+        max_length=10,
         blank=True,
-        default=None,
+        null=True,
+        default=None
     )
     warenhouse_name = models.CharField(
         'nombre bodega',
@@ -47,25 +48,25 @@ class SapMigrationDetail(AppBaseModel):
         null=True,
         default=None
     )
-    on_hand = models.PositiveIntegerField(
+    on_hand = models.IntegerField(
         'stock',
         default=0,
         null=True,
         blank=True
     )
-    on_order = models.PositiveIntegerField(
+    on_order = models.IntegerField(
         'solicitado',
         default=0,
         null=True,
         blank=True
     )
-    is_commited = models.PositiveIntegerField(
+    is_commited = models.IntegerField(
         'comprometido',
         default=0,
         null=True,
         blank=True
     )
-    avaliable = models.PositiveIntegerField(
+    avaliable = models.IntegerField(
         'saldo',
         default=0,
         null=True,

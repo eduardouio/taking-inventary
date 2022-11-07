@@ -50,7 +50,7 @@ class Taking(AppBaseModel):
         null=True,
         blank=True
     )
-    total_items = models.PositiveIntegerField(
+    total_products_unities = models.PositiveIntegerField(
         'Total Items',
         default=0,
         null=True,

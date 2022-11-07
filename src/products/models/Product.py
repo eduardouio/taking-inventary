@@ -1,5 +1,7 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from common import AppBaseModel
+from common import AppBaseModel, loggin
+
 
 UNITS=(
     ('MM', 'Mililitros'),
@@ -32,7 +34,6 @@ class Product(AppBaseModel):
     name=models.CharField(
         'nombre producto',
         max_length=300,
-        unique=True
     )
     type_product = models.CharField(
         'tipo',
@@ -142,6 +143,14 @@ class Product(AppBaseModel):
         null=True,
         default=None
     )
+    
+    @classmethod
+    def get(cls, account_code):
+        try:
+            return cls.objects.get(account_code=account_code)
+        except ObjectDoesNotExist as e:
+            loggin('e', e.__str__())
+            return None
     
     def __str__(self):
         return self.name

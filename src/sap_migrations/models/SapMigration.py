@@ -15,7 +15,7 @@ class SapMigration(AppBaseModel):
         null=True,
         blank=True
     )
-    total_items = models.PositiveIntegerField(
+    total_products_unities = models.PositiveIntegerField(
         'Total Items',
         default=0,
         null=True,
@@ -35,6 +35,12 @@ class SapMigration(AppBaseModel):
     )
     have_report = models.BooleanField(
         'Tiene Reporte?',
+        default=False,
+        blank=True,
+        null=True
+    )
+    have_taking = models.BooleanField(
+        'Tiene Toma?',
         default=False,
         blank=True,
         null=True

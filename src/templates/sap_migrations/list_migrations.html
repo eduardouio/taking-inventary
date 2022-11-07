@@ -6,13 +6,16 @@
 {% endblock %}
 {% block content %}
 <div class="container-fluid">
-    <div class="row bg-secondary">
-        <div class="col-10 text-center">
-            LISTADO DE MIGRACIONES DE SAP
+    <div class="row row-vertical-space border rounded">
+        <div class="col text-right">
+            <a href="#" class="">
+                <button class="btn btn-outline-dark btn-xs">
+                    <i class="fas fa-share text-info"></i>
+                    Importar Saldos SAP
+                </button>
+            </a>
         </div>
-        <div class="col-2">{{ all_migrations | length }} Sotcks Importados</div>
     </div>
-    <br>
     <div class="row">
         <div class="col">
             <table class="table table-bordered table-hover table-striped" id="table">
@@ -24,7 +27,6 @@
                         <th>Bodegas</th>
                         <th>productos</th>
                         <th>Items</th>
-                        <th>Grupos</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -50,7 +52,6 @@
                         <td class="text-center">{{ migration.migration.total_warenhouses }}</td>
                         <td class="text-center">{{ migration.migration.total_products }}</td>
                         <td class="text-center">{{ migration.migration.total_items }}</td>
-                        <td class="text-center">{{ migration.migration.total_groups }}</td>
                         <td class="text-center">
                             {% if migration.migration.is_active %}
                             <span class="text-primary">
@@ -60,7 +61,7 @@
                             /
                             {% endif %}
                             <a href="/sap/detail/{{migration.migration.pk}}">
-                                    <small class="text-secondary">Reporte</small>
+                                    <small class="text-secondary">Detalle</small>
                                     <i class="fas fa-table text-secondary"></i>
                             </a>
                             /

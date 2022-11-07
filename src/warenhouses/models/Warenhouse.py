@@ -2,6 +2,7 @@ from django.db import models
 from common import AppBaseModel
 from accounts.models import CustomUserModel
 from django.conf import settings
+from common import loggin
 
 class Warenhouse(AppBaseModel):
     """Warenhouse ERP"""
@@ -9,8 +10,12 @@ class Warenhouse(AppBaseModel):
         'id_bodega',
         primary_key=True
     )
-    id_warenhouse_number = models.PositiveSmallIntegerField(
+    id_warenhouse_sap_code = models.CharField(
         'identificador_sap',
+        max_length=10,
+        blank=True,
+        null=True,
+        default=None
     )
     name = models.CharField(
         'nombre_bodega',
@@ -40,6 +45,12 @@ class Warenhouse(AppBaseModel):
         null=True,
         default=0
     )
+    
+    @classmethod
+    def get_by_name(cls, my_name):
+        loggin('i', 'recuperando bidega {}'.format(my_name))
+        warenhouses = cls.objects.filter(name=my_name)
+        return warenhouses if len(warenhouses) else None
 
     def __str__(self):
         return '{}-{}'.format(
