@@ -5,6 +5,6 @@ app_name='sap.migrations'
 
 urlpatterns = [
     path('', MigrationTV.as_view(), name='list-migrations'),
-    path('detail/<pk>', DetailMigrationsTV.as_view(), name='detail-migration'),
+    path('detail/<int:pk>', DetailMigrationsTV.as_view(), name='detail-migration'),
 ]   
 

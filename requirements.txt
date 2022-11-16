@@ -1,5 +1,4 @@
 Django == 4.0
-django-grappelli == 3.0.2
 django-simple_history == 3.0 
 django-guardian == 2.4.0
 markdown == 3.3.6

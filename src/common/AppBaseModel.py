@@ -5,7 +5,6 @@ from simple_history.models import HistoricalRecords
 from crum import get_current_user
 
 from accounts.models import CustomUserModel
-from common import loggin
 
 
 class AppBaseModel(models.Model):
@@ -78,14 +77,17 @@ class AppBaseModel(models.Model):
                 pk=self.id_user_created
             )
         except ObjectDoesNotExist:
-            loggin('i', 'El registro no tiene usuario creado')
+            pass
         
         try:
-            users['update_by'] = CustomUserModel.objects.get(
-                pk=self.id_user_updated
-            )
+            if self.id_user_updated is None:
+                users['update_by'] = None
+            else:
+                users['update_by'] = CustomUserModel.objects.get(
+                    pk=self.id_user_updated
+                )
         except ObjectDoesNotExist:
-            loggin('i', 'El registro no tiene usuario de actualizar')
+            pass
 
         return users
 
