@@ -17,7 +17,17 @@ class ConsolidateMigration(object):
         })
 
         for product in report['products']:
-            item_found = {
+            report['table_by_warenhouses'].append(
+                self.__reduce(report ,product, 'by_warenhouses')
+            )
+            report['table_by_owners'].append(
+                self.__reduce(report, product, 'by_owners')
+            )
+
+        return report
+    
+    def __reduce(self, report, product, condition):
+        item_found = {
                 'account_code': product,
                 'name': '',
                 'on_hand': 0,
@@ -25,32 +35,31 @@ class ConsolidateMigration(object):
                 'is_commited': 0,
                 'avaliable': 0,
                 'columns':  [],
-            }
-            for warenhouse in report['by_warenhouses']:
-                detail_warenhouse = {
-                    'name':  warenhouse['name'],
+        }
+        
+        for column in report[condition]:
+                detail = {
+                    'name':  column['name'],
                     'on_hand': 0,
                     'on_order': 0,
                     'is_commited': 0,
                     'avaliable': 0,
                 }
-                for itm in warenhouse['values']:
+                for itm in column['values']:
                     if itm.account_code  == product:
                         item_found['name'] = itm.name
-                        detail_warenhouse['on_hand'] += itm.on_hand
-                        detail_warenhouse['on_order'] += itm.on_order
-                        detail_warenhouse['is_commited'] += itm.is_commited
-                        detail_warenhouse['avaliable'] += itm.avaliable
+                        detail['on_hand'] += itm.on_hand
+                        detail['on_order'] += itm.on_order
+                        detail['is_commited'] += itm.is_commited
+                        detail['avaliable'] += itm.avaliable
 
-                item_found['columns'].append(detail_warenhouse)
-                item_found['on_hand'] += detail_warenhouse['on_hand']
-                item_found['on_order'] += detail_warenhouse['on_order']
-                item_found['is_commited'] += detail_warenhouse['is_commited']
-                item_found['avaliable'] += detail_warenhouse['avaliable']
+                item_found['columns'].append(detail)
+                item_found['on_hand'] += detail['on_hand']
+                item_found['on_order'] += detail['on_order']
+                item_found['is_commited'] += detail['is_commited']
+                item_found['avaliable'] += detail['avaliable']
 
-            report['table_by_warenhouses'].append(item_found)
-
-        return report
+        return item_found
 
     def __resume(self, keyword, report):
         loggin('i', 'filtrando migracion por {}'.format(keyword))

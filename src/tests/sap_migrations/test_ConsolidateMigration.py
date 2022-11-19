@@ -113,3 +113,198 @@ class Test_ConsolidateMigrations(TestCase):
 
         sap_migration = SapMigration.get(1)
         self.assertTrue(sap_migration.have_report)
+
+    def  test_by_warenhouse(self):
+        sample_spected_data = {
+            'account_code':'01022020080101010200',
+            'name':'CHAMPAGNE HENKELL PICCOLO DRY',
+            'columns': [{
+                	'name': 'ALMACEN 10 DE AGOSTO',
+                	'on_hand': 418,
+                	'on_order': 455,
+                	'is_commited':18,
+                	'avaliable': 855
+                },{
+                	'name': 'ALMACÉN GENERAL UIO',
+                	'on_hand': 421,
+                	'on_order': 104,
+                	'is_commited':11,
+                	'avaliable': 514
+                },{
+                	'name': 'Almacén General UIO.',
+                	'on_hand': 406,
+                	'on_order': 45,
+                	'is_commited':15,
+                	'avaliable': 436
+                },{
+                	'name': 'BODEGA CARCELEN',
+                	'on_hand': 1,
+                	'on_order': 231,
+                	'is_commited':14,
+                	'avaliable': 218,
+                },{
+                	'name': 'BODEGA CONSIGNACIONES CLIENTES',
+                	'on_hand': 85,
+                	'on_order': 707,
+                	'is_commited':45,
+                	'avaliable': 747
+                },{
+                	'name': 'BODEGA CUENCA',
+                	'on_hand': 120,
+                	'on_order': 221,
+                	'is_commited':11,
+                	'avaliable': 330
+                },{
+                	'name': 'Bodega General G8',
+                	'on_hand': 316,
+                	'on_order': 322,
+                	'is_commited':46,
+                	'avaliable': 592
+                },{
+                	'name': 'General GYE',
+                	'on_hand': 183,
+                	'on_order': 250,
+                	'is_commited':21,
+                	'avaliable': 412
+                },{
+                	'name': 'LAGUARDA',
+                	'on_hand': 99,
+                	'on_order': 237,
+                	'is_commited':43,
+                	'avaliable': 293
+                },{
+                	'name': 'LAGUARDA CUMBAYA',
+                	'on_hand': 16,
+                	'on_order': 102,
+                	'is_commited':-1,
+                	'avaliable': 119
+                },{
+                	'name': 'LAGUARDA MANTA',
+                	'on_hand': 6,
+                	'on_order': 214,
+                	'is_commited':13,
+                	'avaliable': 207
+                },{
+                	'name': 'LAGUARDA PORTUGAL',
+                	'on_hand': 149,
+                	'on_order': 5,
+                	'is_commited':27,
+                	'avaliable': 127
+                },{
+                	'name': 'LAGUARDA SAMBORONDON',
+                	'on_hand': 333,
+                	'on_order': 325,
+                	'is_commited':35,
+                	'avaliable': 623
+                },{
+                	'name': 'LAGUARDA VIA LA COSTA',
+                	'on_hand': 407,
+                	'on_order': 388,
+                	'is_commited':-1,
+                	'avaliable': 796
+                },{
+                	'name': 'MATRIZ PLUSBRAND',
+                	'on_hand': 258,
+                	'on_order': 368,
+                	'is_commited':0,
+                	'avaliable': 626
+                },{
+                	'name': 'MATRIZ PLUSBRAND CUENCA',
+                	'on_hand': 476,
+                	'on_order': 303,
+                	'is_commited':37,
+                	'avaliable': 742
+                },{
+                	'name': 'MATRIZ PLUSBRAND GYE',
+                	'on_hand': 373,
+                	'on_order': 275,
+                	'is_commited':1,
+                	'avaliable': 647
+                },
+                {
+                	'name': 'MATRIZ PLUSBRAND MANTA',
+                	'on_hand': 178,
+                	'on_order': 281,
+                	'is_commited':27,
+                	'avaliable': 432
+                },{
+                	'name': 'Vitrina',
+                	'on_hand': 271,
+                	'on_order': 45,
+                	'is_commited':15,
+                	'avaliable': 301
+                }]}
+        report = self.consolidateMigration.get(1)
+        for warenhouse in report['table_by_warenhouses']:
+            if warenhouse['account_code'] == sample_spected_data['account_code']:
+                for spected_whrs in sample_spected_data['columns']:
+                    for whrs in warenhouse['columns']:
+                        if whrs['name'] == spected_whrs['name']:
+                            self.assertEqual(
+                                whrs['on_hand'],spected_whrs['on_hand']
+                            )
+                            self.assertEqual(
+                                whrs['is_commited'],spected_whrs['is_commited']
+                            )
+                            self.assertEqual(
+                                whrs['on_order'],spected_whrs['on_order']
+                            )
+                            self.assertEqual(
+                                whrs['avaliable'],spected_whrs['avaliable']
+                            )
+
+    def  test_by_warenhouse(self):
+        sample_spected_data = {
+            'account_code':'01011010010206010750',
+            'name':'VINO TINTO RESERVADO MALBEC',
+            'columns': [{
+                    'name':'AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A.',
+                    'on_hand': 923,
+                    'on_order': 604,
+                    'is_commited': 82,
+                    'avaliable': 1445,
+                },{
+                    'name':'CORPORACIÓN PLUSBRAND DEL ECUADOR CIA. LTDA.',
+                    'on_hand': 2137,
+                    'on_order': 1757,
+                    'is_commited': 218,
+                    'avaliable': 3676,
+                },{
+                    'name':'SERVMULTIMARC CIA. LTDA.',
+                    'on_hand': 1181,
+                    'on_order': 1490,
+                    'is_commited': 86,
+                    'avaliable': 2585,
+                },{
+                    'name':'VINOS Y ESPIRITUOSOS DEL LITORAL VINLITORAL S.A.',
+                    'on_hand': 187,
+                    'on_order': 229,
+                    'is_commited': 12,
+                    'avaliable': 404,
+                },{
+                    'name':'VINOS Y ESPIRITUOSOS VINESA S.A',
+                    'on_hand': 1192,
+                    'on_order': 858,
+                    'is_commited': 77,
+                    'avaliable': 1973,
+                }
+            ], }
+
+        report = self.consolidateMigration.get(1)
+        for owner in report['table_by_owners']:
+            if owner['account_code'] == sample_spected_data['account_code']:
+                for spected_whrs in sample_spected_data['columns']:
+                    for ownr in owner['columns']:
+                        if ownr['name'] == spected_whrs['name']:
+                            self.assertEqual(
+                                ownr['on_hand'],spected_whrs['on_hand']
+                            )
+                            self.assertEqual(
+                                ownr['is_commited'],spected_whrs['is_commited']
+                            )
+                            self.assertEqual(
+                                ownr['on_order'],spected_whrs['on_order']
+                            )
+                            self.assertEqual(
+                                ownr['avaliable'],spected_whrs['avaliable']
+                            )
