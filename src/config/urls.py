@@ -27,4 +27,5 @@ admin.site.site_header = 'Admin Sistema Toma de Inventario'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('sap/', include('sap_migrations.urls')),
+    path('taking/', include('takings.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

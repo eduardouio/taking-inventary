@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block css_files %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/jquery.dataTables.min.css' %}">
+<script src="{% static '/js/jquery-3.6.1.min.js' %}"></script>
+{% endblock %}
+{% block content %}
+<div class="container-fuild" id="app">
+    ${message}
+</div>
+{% endblock %}
+{% block scritp_code %}
+<script type="text/javascript" charset="utf8" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script>
+    var data = JSON.parse(`{{ warenhouses_json | safe }}`);
+    $(document).ready(function () {
+        $('#table').DataTable();
+    });
+</script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="{% static 'js/apps/app_select_taking.js' %}"></script>
+{% endblock %}
