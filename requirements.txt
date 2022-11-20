@@ -7,7 +7,6 @@ djangorestframework == 3.13.1
 django_extensions == 3.1.5
 pytest == 7.0.1
 django-crum == 0.7.9
-numpy-financial
 ipdb
 django-utils-six
 pdfkit

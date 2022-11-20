@@ -22,7 +22,6 @@
                     <div class="col-8">
                             <div class="form-group">
                                 <select class="form-control" name="criteria">
-                                    <option value="by_products" {%if condition_report == 'by_products'%} selected {%endif%} >Mostrar Resumen por Porducto</option>
                                     <option value="by_warenhouses" {%if condition_report == 'by_warenhouses'%} selected {%endif%} >Mostrar Resumen Por Bodega</option>
                                     <option value="by_owners" {%if condition_report == 'by_owners'%} selected {%endif%} >Mostrar Resumen por Empresa</option>
                                 </select>
@@ -45,7 +44,7 @@
                         Reporte Toma
                     </button>
                 </a>
-                <a href="#" class="">
+                <a href="/taking/select/{{ pk }}" class="">
                     <button class="btn bg-gradient-dark btn-sm">
                         <i class="fas fa-file"></i>
                         Realizar Toma
@@ -62,21 +61,25 @@
                     <tr class="bg-gradient-dark text-center">
                         <th>#</th>
                         <th>Producto</th>
-                        {% for warenhouse in report.warenhouses %}
-                            <th>{{ warenhouse }}</th>
+                        {% for column in report.columns %}
+                            <th class="text-center" title="{{ column }}"><small>{{ column }}</small></th>
                         {% endfor %}
                         <td>Totales</td>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in report.table_by_warenhouses %}
+                    {% for item in report.table %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td>{{ item.name }}</td>
+                            <td nowrap="">{{ item.name }}</td>
                             {% for det in item.columns %}
-                                <td>{{ det.on_hand }}</td>
+                                <td class="text-right">{{ det.on_hand }}</td>
                             {% endfor %}
-                            <td>{{ item.on_hand }}</td>
+                            <td class="text-right bg-light">
+                                <strong>
+                                    {{ item.on_hand }}
+                                </strong>
+                            </td>
                         </tr>    
                         {% endfor %}
                     </tbody>

@@ -11,18 +11,27 @@ class DetailMigrationsTV(TemplateView):
     def get(self, request, pk, *args, **kwargs):
         loggin('i', 'llamado a detalle de migracion {}'.format(pk))
         context = self.get_context_data(*args, **kwargs)
-        report_migrarion = ConsolidateMigration().get(pk)
+        report_migration = ConsolidateMigration().get(pk)
         conditon_report = 'by_products'
 
-        if request.GET:
-            conditon_report = request.GET.get('criteria')
+        report = {
+            'columns': report_migration['warenhouses'],
+            'table': report_migration['table_by_warenhouses']
+        }
+
+        if request.GET.get('criteria') == 'by_owners':
+            report = {
+                'columns': report_migration['owners'],
+                'table': report_migration['table_by_owners'] 
+            }
 
         page_data = {
             'title_page': 'Detalle De Migracion',
-            'report': report_migrarion,
+            'report': report,
             'condition_report': conditon_report,
             'module_name': 'Migraciones SAP',
-            'total_records': report_migrarion['totals']['on_hand']
+            'total_records': report_migration['totals']['on_hand'],
+            'pk': pk,
         }
         context = { **context, **page_data }
         return self.render_to_response(context)
