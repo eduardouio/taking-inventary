@@ -48,13 +48,32 @@ class Warenhouse(AppBaseModel):
     
     @classmethod
     def get_by_name(cls, my_name):
-        loggin('i', 'recuperando bidega {}'.format(my_name))
+        loggin('i', 'recuperando bodega {}'.format(my_name))
         warenhouses = cls.objects.filter(name=my_name)
-        return warenhouses if len(warenhouses) else None
+        if len(warenhouses):
+            return warenhouses.first()
+
+        return None
+
+    @classmethod
+    def get_by_owner(cls, owner_name):
+        loggin('i', 'listando bodegas de {}'.format(owner_name))
+        warenhouses = cls.objects.filter(owner=owner_name)
+        return warenhouses if len(warenhouses) else []
+    
+    @classmethod
+    def get_owners(cls, warenhouse_name):
+        loggin('i', 'Listando Propietarios de las bodegas')
+        warenhouses = cls.objects.filter(name=warenhouse_name)
+        owners = []
+        for item in warenhouses:
+            owners.append(item.owner)
+        
+        return owners
 
     def __str__(self):
         return '{}-{}'.format(
-            self.id_warenhouse_number,
+            self.id_warenhouse_sap_code,
             self.owner
         )
 
