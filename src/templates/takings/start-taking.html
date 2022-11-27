@@ -4,19 +4,308 @@
 <link rel="stylesheet" type="text/css" href="{% static '/css/jquery.dataTables.min.css' %}">
 <script src="{% static '/js/jquery-3.6.1.min.js' %}"></script>
 {% endblock %}
+{% block title_bar %}
+    <div class="row border bg-gardient-secondary rounded" style="padding: 15px;">
+        <div class="col-8">
+            <i class="fa fa-list"></i>
+            {{ title_page }} <strong> {{ total_records }} Registros Encontrados </strong>
+        </div>
+        <div class="col-4 text-right"><small>[Sistema Toma Inventarios] | <strong>Módulo {{ module_name }}
+                </strong></small></div>
+    </div>
+ {% endblock %}
 {% block content %}
-<div class="container-fuild" id="app">
-    ${message}
+<div class="container" id="app">
+    <div class="row">
+        <div class="col text-center">
+            <h4 v-if="show_tab_warenhouse">
+                SELECCIONE LAS BODEGAS PARA LA TOMA
+                <strong class="text-secondary">(1/2)</strong>
+            </h4>
+            <h4 v-else="">
+                SELECCIONE LOS USUARIOS QUE PARTICIPAN
+                <strong class="text-secondary">(2/2)</strong>
+            </h4>
+            <h6 class="text-info">{{ report_migration.sap_migration.created }}</h6>
+        </div>
+        <hr/>
+    </div>
+<!-- seccion Bodegas -->
+    <div class="row" v-if="show_tab_warenhouse">
+    <div class="col-8">
+        <div class="row bg-gradient-secondary">
+            <div class="col text-center">
+                <h6>Selecciones Bodegas Disponibles</h6>
+            </div>
+            <div class="col text-right" @click="selectAllWarenhouses()">
+                <button
+                    class="btn btn-sm" :class="allSelected">
+                    <span v-if="!all_selected">
+                        <i class="fas fa-check-square"></i>
+                        Seleccionar Todo
+                    </span>
+                    <span v-else="">
+                        <i class="fas fa-square"></i>
+                        Quitar Todo
+                    </span>
+                </button>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Existencias</th>
+                    <th>Sap Code</th>
+                    <th>Seleccionar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(warenhouse, index) in warenhouses" @click="selectWarenhouse(warenhouse)">
+                    <td class="text-center">${ index + 1}</td>
+                    <td data-toggle="modal" data-target="#warenhouseModal">${ warenhouse.name }</td>
+                    <td class="text-right">${ warenhouse.on_hand }</td>
+                    <td class="text-right">${ warenhouse.detail.fields.id_warenhouse_sap_code }</td>
+                    <td class="text-center"><input type="checkbox" v-model="warenhouse.is_selected"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col" >
+        <div class="row bg-gradient-info">
+            <div class="col">
+                <h6>ITEMS PARA TOMA</h6>
+            </div>
+            <div class="col text-right">
+                <h6>${ totalOnHand }</h6>
+            </div>
+        </div>
+        <div v-if="current_warenhouse">
+        <div class="row">
+            <div class="col text-center">
+                <h5>
+                    ${ current_warenhouse.name }
+                </h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="bg-gradient-secondary text-right">PK:</th>
+                            <td class="text-right">${current_warenhouse.detail.pk }</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-gradient-secondary text-right">Sap Code:</th>
+                            <td class="text-right">${ current_warenhouse.detail.fields.id_warenhouse_sap_code }</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-gradient-secondary text-right">Area M2:</th>
+                            <td class="text-right">${ current_warenhouse.detail.fields.area_m2 }</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-gradient-secondary text-right">Capacidad:</th>
+                            <td class="text-right">${ current_warenhouse.detail.fields.capacity } <small class="text-secondary">(cajas x 12)</small></td>
+                        </tr>
+                        <tr>
+                            <th class="bg-gradient-secondary text-right">Existencias Unidades</th>
+                            <td class="text-right">${ current_warenhouse.on_hand }</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-gradient-secondary align-middle text-right">Propietarios:</th>
+                            <td>
+                                <p v-for="owner in current_warenhouse.owners">
+                                     <span>${ owner }</span>
+                                </p>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        </div>
+        <hr>
+        <div class="row" v-if="totalOnHand !='0'">
+            <br/><br/><br/><br/>
+            <div class="col">
+                <button class="btn btn-secondary btn-block" @click="swithTabForm()">
+                    CONTINUAR <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
+<div class="row" v-else>
+      <div class="col-8">
+         <div class="row bg-gradient-secondary">
+            <div class="col text-center">
+                <h6>Seleccione los usuarios</h6>
+            </div>
+            <div class="col text-right" @click="selectAllUsers()">
+                <button
+                    class="btn btn-sm" :class="allUsersSelected">
+                    <span v-if="!all_users_selected">
+                        <i class="fas fa-check-square"></i>
+                        Seleccionar Todo
+                    </span>
+                    <span v-else="">
+                        <i class="fas fa-square"></i>
+                        Quitar Todo
+                    </span>
+                </button>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Apellido</th>
+                    <th>Nombre</th>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                    <th>Seleccionar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(user, index) in users" @click="selectUser(user)">
+                    <td class="text-center">${ index + 1}</td>
+                    <td>${ user.first_name }</td>
+                    <td>${ user.last_name }</td>
+                    <td>${ user.username }</td>
+                    <td>${ user.role }</td>
+                    <td class="text-center"><input type="checkbox" v-model="user.is_selected"></td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+      <div class="col boroder rounded">
+         <div class="row bg-gradient-info">
+            <div class="col text-center">
+                <h6>USUARIOS PARA TOMA ${totalUsers}</h6>
+            </div>
+        </div>
+          <ul v-for="(user, index) in users">
+              <li v-if="user.is_selected">
+                   ${  index + 1 } ${ user.first_name } ${ user.last_name }
+                    <span class="text-secondary">${ user.username }</span>
+              </li>
+          </ul>
+      <hr>
+        <div class="row" v-if="totalUsers > 0">
+            <br/><br/><br/><br/>
+            <div class="col">
+                <button class="btn btn-secondary btn-block" data-toggle="modal" data-target="#staticBackdrop">
+                    CONFIRMAR <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-info btn-block" @click="swithTabForm()">
+                    REGRESAR <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+        </div>
+      </div>
+</div>
+<!-- /seccion ususarios -->
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">CONFIMAR INFORMAICIÓN PARA TOMA</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div class="row">
+                <div class="col text-center">
+                    BODEGAS
+                </div>
+                <div class="col text-center">
+                    USUARIOS
+                </div>
+            </div>      
+            <div class="row">
+                <div class="col">
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Bodega</th>
+                                <th>Sap Code</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(warenhouse, index) in warenhouses">
+                                <td v-if="warenhouse.is_selected" class="text-center">${index + 1}</td>
+                                <td v-if="warenhouse.is_selected"> ${warenhouse.name} </td>
+                                <td v-if="warenhouse.is_selected" class="text-center"> ${warenhouse.detail.fields.id_warenhouse_sap_code } </td>
+                                <td v-if="warenhouse.is_selected" class="text-right"> ${warenhouse.on_hand} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col">
+                    <table class="table table-bordered table-condensed">
+                        <tehead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Tipo</th>
+                            </tr>
+                        </tehead>
+                        <tbody>
+                            <tr v-for="(user, index) in users">
+                                <td v-if="user.is_selected" class="text-center">${ index + 1 }</td>
+                                <td v-if="user.is_selected">${user.first_name}</td>
+                                <td v-if="user.is_selected">${user.last_name}</td>
+                                <td v-if="user.is_selected">${user.role}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                <hr/>
+                          <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Empresas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for = "(item, index) in enterprisesList">
+                            <td class="text-center">${ index + 1 }</td>
+                            <td>${ item }</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-arrow-left"></i>Vover</button>
+        <button type="button" class="btn btn-primary"> <i class="fas fa-arrow-right"></i> Iniciar Toma</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Modal -->
+</div>
+
 {% endblock %}
 {% block scritp_code %}
 <script type="text/javascript" charset="utf8" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
 <script>
-    var data = JSON.parse(`{{ warenhouses_json | safe }}`);
-    $(document).ready(function () {
-        $('#table').DataTable();
-    });
+    var all_warenhouses = JSON.parse(`{{ all_warenhouses | safe }}`);
+    var all_users = JSON.parse(`{{ all_users | safe }}`);
 </script>
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-<script src="{% static 'js/apps/app_select_taking.js' %}"></script>
+<script src="{% static 'js/apps/taking_selector/lib.js' %}"></script>
+<script src="{% static 'js/apps/taking_selector/app_select_taking.js' %}"></script>
 {% endblock %}
