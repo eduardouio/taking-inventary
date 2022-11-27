@@ -95,15 +95,10 @@
         </nav>
         <!-- /.navbar -->
         <div class="" style="padding: 8px;">
-            <div class="row border bg-gardient-secondary rounded" style="padding: 15px;">
-                <div class="col-8">
-                    <i class="fa fa-list"></i>
-                    {{ title_page }} <strong> {{ total_records }} Registros Encontrados </strong>
-                </div>
-                <div class="col-4 text-right"><small>[Sistema Toma Inventarios] | <strong>Módulo {{ module_name }} </strong></small></div>
-            </div>
-                {% block content %}
-                {% endblock %}
+            {% block title_bar %}
+            {% endblock %}
+            {% block content %}
+            {% endblock %}    
         </div>
         <!-- /.content-wrapper -->
         <footer class="footer">
