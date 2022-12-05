@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.contrib.staticfiles.urls import static
 from django.urls import path, include
+from accounts.views import HomeTV
 
 admin.autodiscover()
 admin.site.enable_nav_sidebar = False
@@ -25,6 +26,7 @@ admin.site.site_description = 'Sistema Toma de Inventario'
 admin.site.site_header = 'Admin Sistema Toma de Inventario'
 
 urlpatterns = [
+    path('', HomeTV.as_view(), name='home'),
     path('admin/', admin.site.urls),
     path('sap/', include('sap_migrations.urls')),
     path('taking/', include('takings.urls')),

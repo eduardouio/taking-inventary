@@ -12,8 +12,8 @@ from takings.models import Taking, TakinDetail
 
 QUANTITY_OPTIONS = {
     'users': 100,
-    'teams': 80,
-    'sap_migrations': 25,
+    'teams': 2000,
+    'sap_migrations': 50,
     'takings': 20,
 }
 
@@ -37,13 +37,15 @@ class LoadTestData():
             if item < 3:
                 user_role = 'gestor'
             person_name = self.faker.name()
+            pswd = ''.join(random.choices(string.ascii_letters, k=18))
             new_user = {
                 'username': person_name.lower().replace(' ',''),
-                'password': ''.join(random.choices(string.ascii_letters, k=18)),
+                'password': pswd,
                 'first_name': person_name.split(' ')[0],
                 'last_name': person_name.split(' ')[1],
                 'email': self.faker.email(),
                 'role': user_role,
+                'notes': pswd,
             }
             CustomUserModel.objects.create(**new_user)
         print('[OK] Usuarios Insertados...')
@@ -239,6 +241,6 @@ loadData = LoadTestData()
 #loadData.load_teams()
 #loadData.load_products()
 #loadData.load_warenhouses()
-#loadData.load_sap_migrations()
+loadData.load_sap_migrations()
 #loadData.load_takings()
 print('---> END TASK <---')
