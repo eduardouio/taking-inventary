@@ -3,7 +3,7 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 
 from common import AppBaseModel
-from accounts.models import CustomUserModel
+from accounts.models import CustomUserModel, Team
 from sap_migrations.models import SapMigration
 from warenhouses.models import Warenhouse
 
@@ -35,6 +35,9 @@ class Taking(AppBaseModel):
     )
     warenhouses = models.ManyToManyField(
         Warenhouse
+    )
+    teams = models.ManyToManyField(
+        Team
     )
     location = models.CharField(
         'ubicacion instalaciones',

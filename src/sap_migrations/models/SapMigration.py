@@ -1,6 +1,7 @@
 from django.db import models
 from common import AppBaseModel
 from django.core.exceptions import ObjectDoesNotExist
+from warenhouses.models import Warenhouse
 from common.loggin import loggin
 
 
@@ -44,6 +45,12 @@ class SapMigration(AppBaseModel):
         default=False,
         blank=True,
         null=True
+    )
+    report = models.TextField(
+        'Reporte JSON',
+        blank=True,
+        null=True,
+        default=None
     )
     
     def save(self, *args, **kwargs):

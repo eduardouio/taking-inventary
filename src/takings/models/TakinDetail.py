@@ -1,7 +1,7 @@
-from accounts.models import Team
 from common import AppBaseModel, loggin
 from django.db import models
 from products.models import Product
+from accounts.models import Team
 
 from .Taking import Taking
 
@@ -21,7 +21,7 @@ class TakinDetail(AppBaseModel):
     )
     id_team = models.ForeignKey(
         Team,
-        on_delete=models.PROTECT
+        on_delete=models.RESTRICT
     )
     quantity = models.PositiveSmallIntegerField(
         'cantidad unidades',

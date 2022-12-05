@@ -1,5 +1,8 @@
+from django.core.serializers import serialize
 from sap_migrations.models import SapMigration, SapMigrationDetail
 from common import loggin
+import json
+
 
 class ConsolidateMigration(object):
 
@@ -23,7 +26,6 @@ class ConsolidateMigration(object):
             report['table_by_owners'].append(
                 self.__reduce(report, product, 'by_owners')
             )
-
         return report
     
     def __reduce(self, report, product, condition):
@@ -108,7 +110,6 @@ class ConsolidateMigration(object):
                 'avaliable': 0,
             }
         }
-
         sap_migration = SapMigration.get(id_sap_migration)
         sap_migration_detail = SapMigrationDetail.get_by_migration(
             id_sap_migration
@@ -117,6 +118,9 @@ class ConsolidateMigration(object):
         if not sap_migration_detail:
             loggin('e', 'La migracion no tiene datos')
             return report
+        
+        report['sap_migration'] = sap_migration
+        report['sap_migration_detail'] = sap_migration_detail
 
         for item in sap_migration_detail:
             report['totals']['on_hand'] += item.on_hand
@@ -134,8 +138,6 @@ class ConsolidateMigration(object):
                 item.company_name: item.company_name
             })
 
-        report['sap_migration'] = sap_migration
-        report['sap_migration_detail'] = sap_migration_detail
         report['products'] = list(report['products'].keys())
         report['owners'] = list(report['owners'].keys())
         report['warenhouses'] = list(report['warenhouses'].keys())
@@ -147,6 +149,16 @@ class ConsolidateMigration(object):
             sap_migration.total_products = len(report['products'])
             sap_migration.total_products_unities = report['totals']['on_hand']
             sap_migration.have_report = True
+            sap_migration.report = self.__compress_report(report)
             sap_migration.save()
 
         return report
+    
+    def __compress_report(self, report):
+        report_json = report.copy()
+        del(report_json['sap_migration'])
+        del(report_json['sap_migration_detail'])
+        return json.dumps(report_json)
+
+
+
