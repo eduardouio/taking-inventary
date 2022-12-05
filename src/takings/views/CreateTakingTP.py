@@ -1,14 +1,20 @@
-from django.views.generic import TemplateView
-from sap_migrations.lib import ConsolidateMigration
-from warenhouses.models import Warenhouse
-from accounts.models import CustomUserModel
-from django.core.serializers import serialize
 import json
+from datetime import datetime
+from django.core.serializers import serialize
+from django.views.generic import TemplateView
+
+from sap_migrations.lib import ConsolidateMigration
+from sap_migrations.models import SapMigration
+from warenhouses.models import Warenhouse
+from accounts.models import Team
+from takings.models import Taking
+from accounts.models import CustomUserModel
+from django.http import HttpResponse
 
 
 # /taking/select/<int:id_sap_migration>/ 
 class CreateTakingTP(TemplateView):
-    template_name = 'takings/start-taking.html'
+    template_name = 'takings/create-taking.html'
 
     def get(self, request, id_sap_migration, *args, **kwargs):
         context = self.get_context_data(**kwargs)
@@ -33,8 +39,37 @@ class CreateTakingTP(TemplateView):
         }
         return self.render_to_response({**context, **page_data})
     
-    def post(self, request, *args, **kwargs):
-        import ipdb;ipdb.set_trace()
+    def post(self, request, id_sap_migration, *args, **kwargs):
+        all_takings = Taking.objects.filter(is_active=True)
+        for my_taking in all_takings:
+            my_taking.is_active = False
+            my_taking.save()
+
+        taking = Taking.objects.create(
+            id_sap_migration=SapMigration.get(id_sap_migration),
+            user_manager=request.user,
+            hour_start=datetime.now(),
+        )
+        for (idx, username) in enumerate(request.POST.get('users').split(',')):
+            my_manager = CustomUserModel.get(username)
+            if my_manager is None:
+                raise Exception('Manager de Equipo no registrado')
+            my_team = Team.objects.create(
+                manager=my_manager,
+                group_number=idx+1,
+            )
+            taking.teams.add(my_team)
+
+        for (idx, warenhouse) in enumerate(request.POST.get('warenhouses').split(',')):
+            my_warenhouse = Warenhouse.get_by_name(warenhouse)
+            if my_warenhouse is None:
+                raise Exception('La Bodega no existe')
+            taking.warenhouses.add(my_warenhouse)
+
+        taking.save()
+        return HttpResponse(json.dumps({
+                'id_taking': taking.pk})
+        , status=201)
 
     def __get_warenhouses_detail(self, report_migration):
         warenhouses = []
