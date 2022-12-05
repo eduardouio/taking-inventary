@@ -36,7 +36,22 @@ const app = createApp({
         user.is_selected = !user.is_selected;
         this.current_user = user;
         this.show_report = true;
-      },
+      },sendData(){
+        console.log('Enviamos informacion del Formulario');
+        let csrftoken = decodeURI(document.cookie).split(';')[0].split('=')[1];
+        const formData = new FormData();
+        formData.append('warenhouses', this.warenhouses.filter((el)=>el.is_selected == true).map((whrs)=>whrs.name));
+        formData.append('users', this.users.filter((el)=>el.is_selected == true).map((user)=>user.username));
+        console.dir(formData);
+        fetch('',{
+          method: 'POST',
+          headers: {'X-CSRFToken': csrftoken},
+          body: formData
+        })
+        .then(reponse =>reponse.json())
+        .catch(error=> console.error('Error', error))
+        .then(response => console.log('Success', response))
+      }
     },mounted: function(){
       console.log('estamos iniciando la aplicacion');
     },computed: {
