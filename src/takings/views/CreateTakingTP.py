@@ -40,11 +40,6 @@ class CreateTakingTP(TemplateView):
         return self.render_to_response({**context, **page_data})
     
     def post(self, request, id_sap_migration, *args, **kwargs):
-        all_takings = Taking.objects.filter(is_active=True)
-        for my_taking in all_takings:
-            my_taking.is_active = False
-            my_taking.save()
-
         taking = Taking.objects.create(
             id_sap_migration=SapMigration.get(id_sap_migration),
             user_manager=request.user,
@@ -69,7 +64,7 @@ class CreateTakingTP(TemplateView):
         taking.save()
         return HttpResponse(json.dumps({
                 'id_taking': taking.pk})
-        , status=201)
+        , status=200)
 
     def __get_warenhouses_detail(self, report_migration):
         warenhouses = []
