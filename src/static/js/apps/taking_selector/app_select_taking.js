@@ -26,6 +26,9 @@ const app = createApp({
         this.all_selected = !this.all_selected
       },swithTabForm(){
         this.show_tab_warenhouse = !this.show_tab_warenhouse;
+        $(document).ready(function () {
+            $('#table_users').DataTable();
+        });
       },selectAllUsers(){
         let all_selected = !this.all_users_selected;  
         this.users.map(function(user){
@@ -48,9 +51,13 @@ const app = createApp({
           headers: {'X-CSRFToken': csrftoken},
           body: formData
         })
-        .then(reponse =>reponse.json())
-        .catch(error=> console.error('Error', error))
-        .then(response => console.log('Success', response))
+        .then((response)=>{
+          console.dir(response.body)
+          alert('genial!');
+        })
+        .catch((error)=>{
+          alert('Error en la petición intenete nuevamente');
+        })
       }
     },mounted: function(){
       console.log('estamos iniciando la aplicacion');
