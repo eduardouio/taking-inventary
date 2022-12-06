@@ -51,7 +51,9 @@ class Warenhouse(AppBaseModel):
         loggin('i', 'recuperando bodega {}'.format(my_name))
         warenhouses = cls.objects.filter(name=my_name)
         if len(warenhouses):
-            return warenhouses.first()
+            for warenhouse in warenhouses:
+                if warenhouse.name == my_name:
+                    return warenhouse
 
         return None
 
@@ -72,9 +74,9 @@ class Warenhouse(AppBaseModel):
         return owners
 
     def __str__(self):
-        return '{}-{}'.format(
+        return '{}->{}'.format(
             self.id_warenhouse_sap_code,
-            self.owner
+            self.name
         )
 
     class Meta:
