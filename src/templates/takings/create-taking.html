@@ -51,7 +51,7 @@
                 </button>
             </div>
         </div>
-        <table class="table table-bordered table-hover table-condensed">
+        <table class="table table-bordered table-hover table-condensed" id="table_warenhouses">
             <thead>
                 <tr>
                     <th>#</th>
@@ -157,7 +157,7 @@
                 </button>
             </div>
         </div>
-        <table class="table table-bordered table-hover table-condensed">
+        <table class="table table-bordered table-hover table-condensed" id="table_users">
             <thead>
                 <tr>
                     <th>#</th>
@@ -253,14 +253,14 @@
                 </div>
                 <div class="col">
                     <table class="table table-bordered table-condensed">
-                        <tehead>
+                        <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Nombre</th>
                                 <th>Apellido</th>
                                 <th>Tipo</th>
                             </tr>
-                        </tehead>
+                        </thead>
                         <tbody>
                             <tr v-for="(user, index) in users">
                                 <td v-if="user.is_selected" class="text-center">${ index + 1 }</td>
@@ -308,4 +308,9 @@
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="{% static 'js/apps/taking_selector/lib.js' %}"></script>
 <script src="{% static 'js/apps/taking_selector/app_select_taking.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $('#table_warenhouses').DataTable();
+    });
+</script>
 {% endblock %}
