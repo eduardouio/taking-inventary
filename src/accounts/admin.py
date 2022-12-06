@@ -3,7 +3,8 @@ from django.contrib.auth.admin import UserAdmin
 from simple_history.admin import SimpleHistoryAdmin
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUserModel, Team
+from .models.CustomUserModel import CustomUserModel
+from .models.Team import Team
 
 class CustomUserAdmin(UserAdmin):
     add_form=CustomUserCreationForm

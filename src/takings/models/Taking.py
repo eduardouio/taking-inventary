@@ -3,7 +3,8 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 
 from common import AppBaseModel
-from accounts.models import CustomUserModel, Team
+from accounts.models.CustomUserModel import CustomUserModel
+from accounts.models.Team import Team
 from sap_migrations.models import SapMigration
 from warenhouses.models import Warenhouse
 

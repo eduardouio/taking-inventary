@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from simple_history.models import HistoricalRecords
 from crum import get_current_user
 
-from accounts.models import CustomUserModel
+from accounts.models.CustomUserModel import CustomUserModel
 
 
 class AppBaseModel(models.Model):
@@ -71,7 +71,7 @@ class AppBaseModel(models.Model):
             'create_by':None,
             'update_by':None,
         }
-        
+
         try:
             users['create_by'] = CustomUserModel.objects.get(
                 pk=self.id_user_created

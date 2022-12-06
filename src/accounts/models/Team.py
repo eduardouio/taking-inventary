@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import CustomUserModel
+from accounts.models.CustomUserModel import CustomUserModel
 from common import AppBaseModel
 
 

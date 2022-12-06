@@ -1,7 +1,7 @@
 from common import AppBaseModel, loggin
 from django.db import models
 from products.models import Product
-from accounts.models import Team
+from accounts.models.Team import Team
 
 from .Taking import Taking
 
