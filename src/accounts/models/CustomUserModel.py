@@ -1,5 +1,7 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ObjectDoesNotExist
+from common import loggin
 from accounts.managers import CustomUserManager
 
 ROLES = (
@@ -49,6 +51,16 @@ class CustomUserModel(AbstractUser):
     REQUIRED_FIELDS = []
     
     objects = CustomUserManager()
+
+    @classmethod
+    def get(cls,username):
+        try:
+            return cls.objects.get(username=username)
+        except ObjectDoesNotExist as o:
+            loggin('i', 'Error al obtener el usuario {} '.format(
+                username
+            ))
+            return None
 
     def __str__(self) -> str:
         return self.username
