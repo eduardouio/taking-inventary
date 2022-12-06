@@ -9,7 +9,14 @@ class ConsolidateMigration(object):
     def get(self, id_sap_migration):
         report = self.__get_init_report(id_sap_migration)
         if report['status'] is False:
-            return report
+            none_data = {
+                'by_products':[],
+                'by_owners':[],
+                'by_warenhouses':[],
+                'table_by_owners':[],
+                'table_by_warenhouses':[],
+            }
+            return {**report, **none_data}
 
         report.update({
             'by_products': self.__resume('products', report),
