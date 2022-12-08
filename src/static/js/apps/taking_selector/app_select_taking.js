@@ -12,6 +12,7 @@ const app = createApp({
         all_users_selected: false,
         show_tab_warenhouse: true,
         show_report: false,
+        id_taking:null,
       }
     },
     methods:{
@@ -39,25 +40,24 @@ const app = createApp({
         user.is_selected = !user.is_selected;
         this.current_user = user;
         this.show_report = true;
-      },sendData(){
+      },async sendData(){
         console.log('Enviamos informacion del Formulario');
         let csrftoken = decodeURI(document.cookie).split(';')[0].split('=')[1];
         const formData = new FormData();
         formData.append('warenhouses', this.warenhouses.filter((el)=>el.is_selected == true).map((whrs)=>whrs.name));
         formData.append('users', this.users.filter((el)=>el.is_selected == true).map((user)=>user.username));
         console.dir(formData);
-        fetch('',{
+        let response = await fetch('',{
           method: 'POST',
           headers: {'X-CSRFToken': csrftoken},
           body: formData
         })
-        .then((response)=>{
-          console.dir(response.body)
-          alert('genial!');
-        })
-        .catch((error)=>{
-          alert('Error en la petición intenete nuevamente');
-        })
+        .then(resp=>resp.text());
+        setTimeout(() => {
+          console.dir(response);
+          let taking = JSON.parse(response);
+          window.location.replace('/taking/master-detail/' + taking.id_taking);
+        }, 600);
       }
     },mounted: function(){
       console.log('estamos iniciando la aplicacion');
