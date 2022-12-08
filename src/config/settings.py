@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    'guardian',
     'rest_framework',
     'simple_history',
     'accounts',
@@ -48,6 +47,7 @@ INSTALLED_APPS = [
     'warenhouses',
     'sap_migrations',
     'takings',
+    'guardian',
 ]
 
 MIDDLEWARE = [

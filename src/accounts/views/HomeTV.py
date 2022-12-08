@@ -2,7 +2,7 @@ from django.views.generic import TemplateView
 from products.models import Product
 from takings.models import Taking
 from sap_migrations.models import SapMigration
-from accounts.models import CustomUserModel
+from accounts.models.CustomUserModel import CustomUserModel
 
 # /
 class HomeTV(TemplateView):
