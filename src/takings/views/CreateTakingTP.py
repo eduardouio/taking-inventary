@@ -1,15 +1,16 @@
 import json
 from datetime import datetime
+
 from django.core.serializers import serialize
+from django.http import HttpResponse
 from django.views.generic import TemplateView
 
+from accounts.models.CustomUserModel import CustomUserModel
+from accounts.models.Team import Team
 from sap_migrations.lib import ConsolidateMigration
 from sap_migrations.models import SapMigration
-from warenhouses.models import Warenhouse
-from accounts.models import Team
 from takings.models import Taking
-from accounts.models import CustomUserModel
-from django.http import HttpResponse
+from warenhouses.models import Warenhouse
 
 
 # /taking/select/<int:id_sap_migration>/ 
