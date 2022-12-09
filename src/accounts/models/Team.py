@@ -1,6 +1,6 @@
 from django.db import models
 from accounts.models.CustomUserModel import CustomUserModel
-from common import AppBaseModel
+from common import AppBaseModel, loggin
 
 
 class Team(AppBaseModel):
@@ -25,6 +25,15 @@ class Team(AppBaseModel):
         null=True,
         default=None
     )
+    id_taking = models.PositiveIntegerField(
+        'id toma',
+    )
+
+    @classmethod
+    def get_by_taking(cls, id_taking):
+        loggin('i', 'Listando grupos de toma {}'.format(id_taking))
+        return cls.objects.filter(id_taking=id_taking)
+        
 
     def __str__(self):
         return 'grupo #{}->Manager {}'.format(
