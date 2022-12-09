@@ -23,6 +23,18 @@ class TakinDetail(AppBaseModel):
         Team,
         on_delete=models.RESTRICT
     )
+    taking_total_boxes = models.PositiveSmallIntegerField(
+        'conteo cajas',
+        blank=True,
+        null=True,
+        default=0
+    )
+    taking_total_bottles = models.PositiveSmallIntegerField(
+        'conteo botellas',
+        blank=True,
+        null=True,
+        default=0
+    )
     quantity = models.PositiveSmallIntegerField(
         'cantidad unidades',
         blank=True,
