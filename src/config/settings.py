@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'sap_migrations',
     'takings',
     'guardian',
+    'mobile',
 ]
 
 MIDDLEWARE = [
