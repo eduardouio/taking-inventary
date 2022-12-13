@@ -48,13 +48,6 @@ class TakinDetail(AppBaseModel):
         null=True,
         default=None
     )
-    id_warenhouse_sap_code = models.CharField(
-        'identificador_sap',
-        max_length=10,
-        blank=True,
-        null=True,
-        default=None
-    )
     date_make = models.DateField(
         'fecha elaboracion',
         blank=True,
