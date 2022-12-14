@@ -4,6 +4,7 @@ from datetime import datetime
 from django.core.serializers import serialize
 from django.http import HttpResponse
 from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from accounts.models.CustomUserModel import CustomUserModel
 from accounts.models.Team import Team
@@ -13,8 +14,9 @@ from takings.models import Taking
 from warenhouses.models import Warenhouse
 
 
-# /taking/select/<int:id_sap_migration>/ 
-class CreateTakingTP(TemplateView):
+# /taking/create/<int:id_sap_migration>/ 
+class CreateTakingTP(LoginRequiredMixin, TemplateView):
+    login_url = '/admin/'
     template_name = 'takings/create-taking.html'
 
     def get(self, request, id_sap_migration, *args, **kwargs):
@@ -39,7 +41,7 @@ class CreateTakingTP(TemplateView):
             'all_warenhouses': json.dumps(all_warenhouses),
         }
         return self.render_to_response({**context, **page_data})
-    
+
     def post(self, request, id_sap_migration, *args, **kwargs):
         taking = Taking.objects.create(
             id_sap_migration=SapMigration.get(id_sap_migration),
@@ -53,6 +55,7 @@ class CreateTakingTP(TemplateView):
             my_team = Team.objects.create(
                 manager=my_manager,
                 group_number=idx+1,
+                id_taking = taking.pk
             )
             taking.teams.add(my_team)
 
