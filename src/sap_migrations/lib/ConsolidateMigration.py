@@ -1,6 +1,5 @@
 from django.core.serializers import serialize
 from sap_migrations.models import SapMigration, SapMigrationDetail
-from common import loggin
 import json
 
 
@@ -71,7 +70,6 @@ class ConsolidateMigration(object):
         return item_found
 
     def __resume(self, keyword, report):
-        loggin('i', 'filtrando migracion por {}'.format(keyword))
         filtered = []
         fields_keywords = {
             'products': 'account_code',
@@ -123,7 +121,6 @@ class ConsolidateMigration(object):
         )
 
         if not sap_migration_detail:
-            loggin('e', 'La migracion no tiene datos')
             return report
         
         report['sap_migration'] = sap_migration
@@ -151,7 +148,6 @@ class ConsolidateMigration(object):
         report['status'] = True
 
         if sap_migration.have_report is False:
-            loggin('i', 'Guardando datos de reporte en Registro')
             sap_migration.total_warenhouses = len(report['warenhouses'])
             sap_migration.total_products = len(report['products'])
             sap_migration.total_products_unities = report['totals']['on_hand']
@@ -166,6 +162,3 @@ class ConsolidateMigration(object):
         del(report_json['sap_migration'])
         del(report_json['sap_migration_detail'])
         return json.dumps(report_json)
-
-
-

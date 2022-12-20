@@ -4,10 +4,10 @@ from datetime import datetime
 from django.core.serializers import serialize
 from django.http import HttpResponse
 from django.views.generic import TemplateView
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 from accounts.models.CustomUserModel import CustomUserModel
 from accounts.models.Team import Team
+from accounts.mixins import ValidateManagerMixin
 from sap_migrations.lib import ConsolidateMigration
 from sap_migrations.models import SapMigration
 from takings.models import Taking
@@ -15,8 +15,7 @@ from warenhouses.models import Warenhouse
 
 
 # /taking/create/<int:id_sap_migration>/ 
-class CreateTakingTP(LoginRequiredMixin, TemplateView):
-    login_url = '/admin/'
+class CreateTakingTP(ValidateManagerMixin, TemplateView):
     template_name = 'takings/create-taking.html'
 
     def get(self, request, id_sap_migration, *args, **kwargs):

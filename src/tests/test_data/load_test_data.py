@@ -4,7 +4,8 @@ import string
 from faker import Faker
 from django.db import IntegrityError
 
-from accounts.models import CustomUserModel, Team
+from accounts.models.CustomUserModel import CustomUserModel
+from accounts.models.Team import Team
 from products.models import Product
 from warenhouses.models import Warenhouse
 from sap_migrations.models import SapMigration, SapMigrationDetail
@@ -234,6 +235,17 @@ class LoadTestData():
                     print('error => {}'.format(e.__str__()))
         print('[OK] detalles de tomas creadas')
 
+    def unifyPassworwds(self):
+        print('actualizamos los password de todos los usuarios')
+        all_users = CustomUserModel.objects.all()
+        for user in all_users:
+            if user.username != 'eduardo' and user.username != 'AnonymousUser':
+                user.set_password('1234.abc')
+                user.save()
+                print('Actializado {}'.format(user.username))
+
+
+
 print('---> START LOAD DATA <---')
 loadData = LoadTestData()
 #loadData.create_super_user()
@@ -241,6 +253,7 @@ loadData = LoadTestData()
 #loadData.load_teams()
 #loadData.load_products()
 #loadData.load_warenhouses()
-loadData.load_sap_migrations()
+#loadData.load_sap_migrations()
 #loadData.load_takings()
+loadData.unifyPassworwds()
 print('---> END TASK <---')

@@ -1,11 +1,11 @@
 from django.views.generic import TemplateView
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 from takings.models import Taking, TakinDetail
+from django.accounts.mixins import ValidateManagerMixin
 
 
 # /taking/detail/<int:pk>/
-class TakingMasterDetailTV(LoginRequiredMixin, TemplateView):
+class TakingMasterDetailTV(ValidateManagerMixin, TemplateView):
     template_name='takings/taking-detail.html'
 
     def get(self, request, pk, *args, **kwargs):
