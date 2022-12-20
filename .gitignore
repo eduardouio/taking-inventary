@@ -8,4 +8,6 @@ migrations/
 */migrations/*
 logs.log
 logs/
+/media/
+*/media/
 secrets_config.py
