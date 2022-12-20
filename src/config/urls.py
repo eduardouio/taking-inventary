@@ -30,4 +30,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('sap/', include('sap_migrations.urls')),
     path('taking/', include('takings.urls')),
+    path('mobile/', include('mobile.urls')),
+    path('accounts/', include('accounts.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
