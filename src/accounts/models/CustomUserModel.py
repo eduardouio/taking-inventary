@@ -61,6 +61,29 @@ class CustomUserModel(AbstractUser):
                 username
             ))
             return None
+    @classmethod
+    def get_user_public_data(cls, username):
+        user = cls.get(username)
+        if user is None:
+            raise Exception('Usuario no registrado, no procede toma')
+        public_data = {
+            'id': user.id,
+            'last_login': user.last_login.isoformat(),
+            'is_superuser': user.is_superuser,
+            'username': user.username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'is_staff': user.is_staff,
+            'is_active': user.is_active,
+            'date_joined': user.date_joined.isoformat(),
+            'role': user.role,
+            'notes': user.notes,
+            'contact': user.contact,
+            'dni_number': user.dni_number,
+            'picture': user.picture,
+        }
+        return public_data
 
     def __str__(self) -> str:
         return self.username

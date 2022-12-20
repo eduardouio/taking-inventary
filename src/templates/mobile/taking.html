@@ -5,20 +5,76 @@
 <script src="{% static '/js/jquery-3.6.1.min.js' %}"></script>
 {% endblock %}
 {% block content %}
-<div class="container" id="app">
-	<div class="row">
-		<div class="col-10">
-			<strong>Fecha de Toma:</strong> {{ sap_migration.created }}
+
+<div class="container" id="app" style="font-size: 14px;">
+	<div class="card card-outline card-primary">
+		<div class="card-header bg-gradient-light">
+			<div class="row">
+				<div class="col">
+					<strong>Fecha:</strong> {{ taking.created }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-10">
+					<strong>Grupo: [#${ team.fields.group_number }]</strong> &nbsp;
+					<span>{{ request.user.first_name }} {{ request.user.last_name }}</span>
+					|
+					<span> ${ team.fields.warenhouse_assistant } </span>
+				</div>
+				<div class="col-2">
+					<button class="btn btn-block btn-secondary bordered" v-if="!show_search" @click="switchView()"><i
+						class="fas fa-search"></i></button>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="col-2">
-			<button class="btn" v-if="!show_search" @click="switchView()"><i class="fas fa-search text-info"></i></button>
+		<div class="row bordered rounded">
+			<div class="col bg-success" v-if="show_message">
+				<small class="">
+					Agregado Correctamente 
+					<i class="fas fa-check-square"></i>
+				</small>
+			</div>
+			<div class="col text-right">
+				<small>
+					Pendiente Envío: <span class="text-primary"> ${ report.length }</span>
+				</small>
+			</div>
+		</div>
+				<br />
+	<div class="bordered rounded" v-if="!have_team" style="padding: 10px;">
+		<div class="row ">
+			<div class="col text-center">
+				<h1 class="fas fa-users"></h1>
+				<br/>
+				Antes de continuar debes confirmar tu grupo
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				Manager:
+				<input type="text" class="form-control" value="{{ request.user }}" readonly>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				Asistente:
+				<input type="text" class="form-control" v-model="team.fields.warenhouse_assistant">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				Notas:
+				<textarea cols="30" rows="10" class="form-control" v-model="team.fields.notes"></textarea>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<button class="btn btn-outline-secondary btn-block text-info" @click="registerTeam"> <i class="fas fa-users">	</i> Confirmar Grupo</button>
+			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col">
-			<strong>Grupo 2: </strong> [Eduardo Villota | Jorgito Villota]
-		</div>
-	</div>
+	<div class="toma" v-else="">
 	<div id="header" v-if="show_search">
 	<div class="row">
 		<div class="col text-center">
@@ -27,7 +83,7 @@
 	</div>
 	<div class="row">
 		<div class="col">
-			<input type="text" class="form-control" style="font-size: 18px;" v-model="query_search" @keyup="searchProduct()">
+			<input type="text" class="form-control" v-model="query_search" @keyup="searchProduct()">
 		</div>
 	</div>
 	<div class="row">
@@ -46,9 +102,9 @@
 		<div class="col">
 			<ul class="list-group" v-for="(product, index) in filtered_products">
 				<li class="list-group-item bg-gradient-light" @click="showTaking(product)">
-					<span style="font-size: 16px;">
+					<small class="text-secondary">
 						${product.fields.name}
-					</span>
+					</small>
 				</li>
 			</ul>
 		</div>
@@ -58,13 +114,14 @@
 	<div class="row">
 		<div class="col text-center">
 			<div class="col">
-				<img v-bind:src="current_item.fields.image_front" class="img-fluid img-thumbnail">
+				<img v-bind:src="current_item.fields.image_front" class="img-fluid img-thumbnail" v-if="current_item.fields.image_front">
+				<span v-else="" class="text-secondary">[Sin Imagen]</span>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col">
-			<table class="table table bordered table condensed" style="font-size: 16px;">
+			<table class="table table bordered table condensed">
 				<tr>
 					<th colspan="2" class="text-center bg-gradient-light">
 						DETALLE DE PRODUCTO
@@ -139,49 +196,146 @@
 				<h6 class="text-success">EXISTENCIAS TOMA</h6>
 			</div>
 		</div>
-		<div class="row" style="font-size: 16px;">
+		<div class="row">
 			<div class="col">
 				<div class="row">
 					<div class="col-4 text-right align-middle">Cajas:</div>
 					<div class="col">
-						<input type="number" class="form-control" style="font-size: 24px;" v-model="report.taking_total_boxes">
+						<input 
+						ref="taking_total_boxes"
+						type="number"
+						class="form-control taking-number"
+						v-model="current_taking.taking_total_boxes"
+						>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-4 text-right align-middle">Botellas:</div>
 					<div class="col">
-						<input type="number" class="form-control" style="font-size: 25px;" v-model="report.taking_total_bottles">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-4 text-right align-middle">Bodega:</div>
-					<div class="col">
-						<select v-model="report.id_warenhouse" class="form-control">
-							<option v-for="whrs in warenhouses" :value="whrs.pk">${ whrs.name }</option>
-						</select>
+						<input type="number" class="form-control taking-number" v-model="current_taking.taking_total_bottles">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-4 text-right align-middle">Observaciones:</div>
 					<div class="col">
-						<textarea class="form-control" v-model="report.notes"></textarea>
+						<textarea class="form-control taking-text" v-model="current_taking.notes"></textarea>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col">
-						<button class="btn btn-block btn-primary"> <i class="fas fa-save"></i> Guardar</button>
+						<button class="btn btn-block btn-outline-secondary text-success" @click="addTakingReport()"> <i class="fas fa-plus"></i> Agregar Toma</button>
 					</div>
 				</div>
 			</div>
 		</div>
 		</div>
+		<br/>
+		<br/>
+		<div class="bordered rounded" v-if="show_search">
+		<div class="row">
+			<div class="col text-center">
+				<strong class="text-secondary">
+					Reporte Toma
+				</strong>
+			</div>
+		</div>
+		<hr/>
+		<div class="row">
+			<div class="col">
+				<table class="table table-condensed table-bordered">
+					<thead>
+						<tr>
+
+							<th>Producto</th>
+							<th>C</th>
+							<th>U</th>
+							<th><i class="fas fa-cog"></i></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="item in report">
+							<td v-text="item.account_code.fields.name" class="text-right align-middle"></td>
+							<td v-text="item.taking_total_boxes" class="text-right align-middle"></td>
+							<td v-text="item.taking_total_bottles" class="text-right align-middle"></td>
+							<td>
+								<button class="btn btn-outline-secondary btn-block text-info" data-toggle="modal" data-target="#exampleModal" @click="setCurrentTaking(item)">
+									<i class="fas fa-info-circle"></i>
+								</button>
+							</td>
+						</tr>
+						<tr class="bg-secondary">
+							<td class="text-right">TOTALES</td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col">
+				<button class="btn btn-block btn-outline-secondary text-success">
+					<i class="fas fa-sync"></i> Sincronizar Datos
+					<small>
+						[${ report.length } items]
+					</small>
+				</button>
+			</div>
+		</div>
+		<br/>
+		</div>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" v-if="currrent_report_item">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">${ currrent_report_item.account_code.fields.name }</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row bordered h3">
+						<div class="col">
+							Cajas:
+						</div>
+						<div class="col">
+							<span v-text="currrent_report_item.taking_total_boxes"></span>
+						</div>
+					</div>
+						<div class="row bordered h3">
+							<div class="col">
+								Unds:
+							</div>
+							<div class="col">
+								<span v-text="currrent_report_item.taking_total_bottles"></span>
+							</div>
+						</div>
+						<div class="row bordered">
+							<div class="col h3">Notas:</div>
+							<div class="col">
+								<span v-text="currrent_report_item.notes"></span>
+							</div>
+						</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary text-danger"> <i class="fas fa-times"></i> Eliminar</button>
+					<button type="button" class="btn btn-outline-secondary text-primary" data-dismiss="modal"><i class="fas fa-check-square"></i> Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock %}
 {% block scritp_code %}
 <script>
 	var products = {{ products | safe }};
-	var warenhouses = {{ warenhouses | safe }};
-	var id_taking = {{id_taking}};
+	var id_taking = {{taking.pk}};
+	var username = '{{ request.user }}';
+	var team = {{ team | safe }};
 </script>
 <script type="text/javascript" charset="utf8" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>

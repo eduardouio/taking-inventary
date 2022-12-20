@@ -85,6 +85,13 @@ class Taking(AppBaseModel):
             return cls.objects.get(pk=id_taking)
         except ObjectDoesNotExist as e:
             return None
+    
+    @classmethod
+    def get_by_team(cls, id_team):
+        takings = cls.objects.filter(teams__id_team=id_team)
+        if takings:
+            return takings.first()
+        return None
 
     def __str__(self):
         return '{}->{}->{}'.format(

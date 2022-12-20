@@ -3,9 +3,11 @@ from products.models import Product
 from takings.models import Taking
 from sap_migrations.models import SapMigration
 from accounts.models.CustomUserModel import CustomUserModel
+from accounts.mixins import ValidateManagerMixin
+
 
 # /
-class HomeTV(TemplateView):
+class HomeTV(ValidateManagerMixin, TemplateView):
     template_name = 'accounts/home.html'
     
     def get(self, request, *args, **kwargs):

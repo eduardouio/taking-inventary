@@ -1,4 +1,4 @@
-from common import AppBaseModel, loggin
+from common import AppBaseModel
 from django.db import models
 from products.models import Product
 from accounts.models.Team import Team
@@ -76,7 +76,6 @@ class TakinDetail(AppBaseModel):
         detail = cls.objects.filter(id_taking=id_taking)
         if len(detail):
             return list(detail)
-        loggin('w')
         return []
 
     def __str__(self):

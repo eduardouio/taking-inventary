@@ -77,9 +77,11 @@ class CustomUserAdmin(UserAdmin):
 class TeamAdmin(SimpleHistoryAdmin):
     list_display = [
         'id_team',
+        'id_taking',
         'group_number',
         'manager',
-        'warenhouse_assistant'
+        'warenhouse_assistant',
+        'created',
     ]
     
     search_fields = [
