@@ -10,4 +10,3 @@ class Test_SapMigration(TestCaseBase):
         self.assertIsInstance(sap_migration, SapMigration)
         self.assertIsNone(no_sap_migration)
     
-  
