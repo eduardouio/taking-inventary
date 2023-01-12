@@ -4,19 +4,28 @@ from common import AppBaseModel, loggin
 
 
 UNITS=(
-    ('MM', 'Mililitros'),
-    ('GR', 'Gramos'),
+    ('litros', 'Litros'),
+    ('militros', 'Mililitros'),
+    ('gramos', 'Gramos'),
+    ('miligramos', 'Miligramos'),
     ('Otro', 'Otro'),
 )
 
 TYPE_PRODUCT = (
-    ('alimento','Alimento'),
-    ('vino','Vino'),
-    ('espirituoso','Bebida Espirituoso'),
-    ('mueble','Bien Mueble'),
-    ('no_peresible','No Peresible'),
     ('accesorio','Accesorio'),
-    ('mueble','Bien Mueble'),
+    ('agua tonica','Agua Tónica'),
+    ('alimento','Alimento'),
+    ('bajativo','Bajativo'),
+    ('bebidas azucaradas','Bebidas Azucaradas'),
+    ('champagne','Champagne'),
+    ('mueble','Mueble'),
+    ('pisco','Pisco'),
+    ('ron','Ron'),
+    ('sangria','Sangria'),
+    ('vino blanco','Vino Blanco'),
+    ('vino espumoso','Vino Espumoso'),
+    ('vino tinto','Vino Tinto'),
+    ('whisky','Whisky'),
     ('otro','Otro Bien'),
 )
 
@@ -98,14 +107,14 @@ class Product(AppBaseModel):
     )
     image_front=models.ImageField(
         'imagen frontal',
-        upload_to='media/app/images/products',
+        upload_to='app/images/products',
         blank=True,
         null=True,
         default=None
     )
     image_back=models.ImageField(
         'imagen posterior',
-        upload_to='media/app/images/products',
+        upload_to='app/images/products',
         blank=True,
         null=True,
         default=None
