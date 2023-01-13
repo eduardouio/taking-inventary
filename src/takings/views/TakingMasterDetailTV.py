@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView
 
 from takings.models import Taking, TakinDetail
-from django.accounts.mixins import ValidateManagerMixin
+from accounts.mixins import ValidateManagerMixin
 
 
 # /taking/detail/<int:pk>/

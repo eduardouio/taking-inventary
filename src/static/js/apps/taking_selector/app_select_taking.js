@@ -41,12 +41,10 @@ const app = createApp({
         this.current_user = user;
         this.show_report = true;
       },async sendData(){
-        console.log('Enviamos informacion del Formulario');
         let csrftoken = decodeURI(document.cookie).split(';')[0].split('=')[1];
         const formData = new FormData();
         formData.append('warenhouses', this.warenhouses.filter((el)=>el.is_selected == true).map((whrs)=>whrs.name));
         formData.append('users', this.users.filter((el)=>el.is_selected == true).map((user)=>user.username));
-        console.dir(formData);
         let response = await fetch('',{
           method: 'POST',
           headers: {'X-CSRFToken': csrftoken},
