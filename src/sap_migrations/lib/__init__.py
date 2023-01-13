@@ -1,1 +1,2 @@
 from .ConsolidateMigration import ConsolidateMigration
+from .LoadMigration import LoadMigration

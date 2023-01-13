@@ -4,29 +4,29 @@ from common import AppBaseModel, loggin
 
 
 UNITS=(
-    ('litros', 'Litros'),
-    ('militros', 'Mililitros'),
-    ('gramos', 'Gramos'),
-    ('miligramos', 'Miligramos'),
-    ('Otro', 'Otro'),
+    ('LITROS', 'LITROS'),
+    ('MILITROS', 'MILILITROS'),
+    ('GRAMOS', 'GRAMOS'),
+    ('MILIGRAMOS', 'MILIGRAMOS'),
+    ('OTRO', 'OTRO'),
 )
 
 TYPE_PRODUCT = (
-    ('accesorio','Accesorio'),
-    ('agua tonica','Agua Tónica'),
-    ('alimento','Alimento'),
-    ('bajativo','Bajativo'),
-    ('bebidas azucaradas','Bebidas Azucaradas'),
-    ('champagne','Champagne'),
-    ('mueble','Mueble'),
-    ('pisco','Pisco'),
-    ('ron','Ron'),
-    ('sangria','Sangria'),
-    ('vino blanco','Vino Blanco'),
-    ('vino espumoso','Vino Espumoso'),
-    ('vino tinto','Vino Tinto'),
-    ('whisky','Whisky'),
-    ('otro','Otro Bien'),
+    ('ACCESORIO','ACCESORIO'),
+    ('AGUA TONICA','AGUA TÓNICA'),
+    ('ALIMENTO','ALIMENTO'),
+    ('BAJATIVO','BAJATIVO'),
+    ('BEBIDAS AZUCARADAS','BEBIDAS AZUCARADAS'),
+    ('CHAMPAGNE','CHAMPAGNE'),
+    ('MUEBLE','MUEBLE'),
+    ('PISCO','PISCO'),
+    ('RON','RON'),
+    ('SANGRIA','SANGRIA'),
+    ('VINO BLANCO','VINO BLANCO'),
+    ('VINO ESPUMOSO','VINO ESPUMOSO'),
+    ('VINO TINTO','VINO TINTO'),
+    ('WHISKY','WHISKY'),
+    ('OTRO','OTRO BIEN'),
 )
 
 

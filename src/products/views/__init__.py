@@ -1,0 +1,1 @@
+from .productUpdateView import updateProduct
