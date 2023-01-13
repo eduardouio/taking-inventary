@@ -33,9 +33,9 @@ tr:hover {
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    margin-right: -5px;
-    margin-left: -5px;
-    margin-top: 8px;
+    margin-right: -1px;
+    margin-left: -1px;
+    margin-top: 2px;
 }
 .bg_sap {
     background-color: #ffff99;
@@ -45,4 +45,20 @@ tr:hover {
 }
 .taking-text{
     font-size: 16px;
+}
+.card {
+    margin-bottom: 0.25rem;
+}
+
+.form-control {
+    border-radius: 0.05rem;
+}
+
+label:not(.form-check-label):not(.custom-file-label) {
+    font-weight: 400;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 0.1rem;
 }
