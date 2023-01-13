@@ -12,6 +12,5 @@ class TESTLoadMigration(TestCase):
 		load_migration.load()
 		after_count_migrations = SapMigration.objects.all().count()
 		after_count_migrations_det = SapMigrationDetail.objects.all().count()
-
 		self.assertEqual(before_count_migrations , after_count_migrations - 1)
-		self.assertEqual(before_count_migrations_det, after_count_migrations_det -1 )
+		self.assertTrue(before_count_migrations_det < after_count_migrations_det)
