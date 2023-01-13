@@ -1,48 +1,73 @@
-const { createApp } = Vue
+const { createApp } = Vue;
 
 const app = createApp({
-    delimiters: ['${','}'],
     data(){
         return{
-            products: products,
-            warenhouses:warenhouses,
-            filtered_products: [],
+            team: team,
+            products: my_products,
+            user:user,
+            taking: taking,
+            server_status:{
+                response:false,
+                type:'',
+                img_ok: '/static/img/ok.jpg',
+                img_error: '/static/img/error.jpg',
+                img_loader: '/static/img/loader.gif',
+                class: 'text-success',
+                have_warning_message: false,
+                have_error_message: false,
+                message:'',
+            },
             current_item:null,
-            show_search: true,
-            query_search: '',
+            report: [],
+            current_taking: {
+                pk:null,
+                taking: taking.pk,
+                account_code: null,
+                taking_total_boxes:0,
+                taking_total_bottles:0,
+                notes:null
+            },
+            csrf_token: csrf_token,
+            have_team:false,
+            report_update: false,
+            show_view: {
+                loader: true,
+                search_form: false,
+                product_form: false,
+                group_form: false,
+                taking_form: false,
+                report: false,
+                product_description: false,
+                status_message: false,
+            },
         }
-    },methods:{
-        searchProduct(){
-            let result = []
-            this.query_search = this.query_search.toUpperCase();
-
-            let params = this.query_search.split(' ');
-
-            for(let i=0; i < this.products.length;i++){
-                let search_condition = true;
-                for (let j =0 ; j < params.length; j++){
-                    if (this.products[i].fields.name.search(params[j]) < 0){
-                        search_condition = false;
-                }
-            }
-                if (search_condition){
-                    result.push(this.products[i]);
-                }
-            }
-            this.filtered_products = result;    
-    },showTaking(item){
-        this.show_search = false;
-        this.current_item = item;
-    },switchView(){
-        this.show_search=true;
     },
+    methods: {
+        switchView(template_name){
+            for (let key in this.show_view){
+                if(key === template_name){
+                    this.show_view[key] = true;
+                }else{
+                    this.show_view[key] = false;
+                }
+            }
+        },
+        selectItem(product){
+            console.log('Producto Seleccionado');
+            this.current_item = product;
+            this.switchView('product_description');
+        }
     },
     mounted(){
-        console.log('aplicacion iniciada')
-    },computed:{
-        
+        setTimeout(() => { 
+            this.server_status.sended_request = false;
+            this.switchView('search_form');
+        }, 1000);
+
+       // window.addEventListener("beforeunload", (e) => {
+       //     e.preventDefault();
+       //     return e.returnValue = 'Esta seguro de salir?, la información se perderá';
+       // });
     }
 });
-
-
-app.mount('#app');
