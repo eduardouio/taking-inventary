@@ -4,7 +4,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-# /mobile/logout/
+# /accounts/logout/
 class LogoutRV(RedirectView):
     url = '/'
     def get(self, request, *args, **kwargs):

@@ -6,7 +6,7 @@ class ValidateManagerMixin(LoginRequiredMixin):
     
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return redirect('/accounts/login')
+            return redirect('/accounts/login/')
 
         if not request.user.is_anonymous:
             if request.user.role == 'asistente':

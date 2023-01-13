@@ -5,8 +5,8 @@ import json
 
 class ConsolidateMigration(object):
 
-    def get(self, id_sap_migration):
-        report = self.__get_init_report(id_sap_migration)
+    def get(self, migration_id):
+        report = self.__get_init_report(migration_id)
         if report['status'] is False:
             none_data = {
                 'by_products':[],

@@ -31,5 +31,6 @@ urlpatterns = [
     path('sap/', include('sap_migrations.urls')),
     path('taking/', include('takings.urls')),
     path('mobile/', include('mobile.urls')),
+    path('product/', include('products.urls')),
     path('accounts/', include('accounts.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    'rest_framework',
     'simple_history',
     'accounts',
     'products',
@@ -137,6 +136,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_URL = '/accounts/login/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
@@ -182,3 +182,4 @@ WARENHOUSES_LOCATIONS_NAME = (
     ('SERVMULTIMARC', 'SERVMULTIMARC'),
     ('ALMAGRO QUITO', 'ALMAGRO QUITO'),
 )
+

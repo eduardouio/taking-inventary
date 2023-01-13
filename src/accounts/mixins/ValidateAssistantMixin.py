@@ -6,7 +6,7 @@ class ValidateAssistantMixin(LoginRequiredMixin):
     
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return redirect('/accounts/login')
+            return redirect('/accounts/login/')
 
         if request.user.role != 'asistente':
             return redirect('/accounts/logout/')
