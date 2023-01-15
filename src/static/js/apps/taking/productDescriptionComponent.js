@@ -84,16 +84,15 @@ app.component('product-description', {
                                     <td v-text="current_item.fields.health_register"></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2" class="text-center bg-gradient-light" @click="changeView">
-                                        
-                                        <button class="btn btn-success btn-block">
+                                    <td colspan="2" class="text-center bg-gradient-light">
+                                        <button class="btn btn-success btn-block" @click="changeView('taking_form')">
                                             <i class="fas fa-clipboard-check"></i>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             Ingresar Toma
                                         </button>
                                         <br>
                                         <hr>
-                                        <button class="btn btn-primary btn-block">
+                                        <button class="btn btn-primary btn-block" @click="changeView('product_form')">
                                             <i class="fas fa-box"></i>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             Actualiza Ficha
@@ -128,8 +127,8 @@ app.component('product-description', {
                     this.default_picture = '/static/img/generic_product.png';
                 }
             },
-            changeView(){
-                this.$emit('changeview', 'product_form')
+            changeView(view_name){
+                this.$emit('changeview', view_name)
             },
         },mounted(){
             if( this.current_item.fields.image_front){
