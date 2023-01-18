@@ -20,14 +20,6 @@ const app = createApp({
             },
             current_item:null,
             report: [],
-            current_taking: {
-                pk:null,
-                taking: taking.pk,
-                account_code: null,
-                taking_total_boxes:0,
-                taking_total_bottles:0,
-                notes:null
-            },
             csrf_token: csrf_token,
             have_team:false,
             report_update: false,
@@ -37,7 +29,7 @@ const app = createApp({
                 product_form: false,
                 group_form: false,
                 taking_form: false,
-                report: false,
+                report_info: false,
                 product_description: false,
                 status_message: false,
             },
@@ -54,10 +46,15 @@ const app = createApp({
             }
         },
         selectItem(product){
-            console.log('Producto Seleccionado');
             this.current_item = product;
             this.switchView('product_description');
-        }
+        },
+        deteleItemReport(selected_taking){
+            this.report = this.report.filter((el)=>{
+                return el!==selected_taking;
+            });
+            this.switchView('report_info')
+        },
     },
     mounted(){
         setTimeout(() => { 

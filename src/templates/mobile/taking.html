@@ -10,6 +10,8 @@
         :taking="taking"
         :team="team"
         :user="user"
+        :report="report"
+        :server_status="server_status   "
         @changeView="switchView($event)">
     </status-message>
         <loader 
@@ -35,11 +37,28 @@
         @changeView="switchView($event)"
      >
      </product-form>
-        <!--<form-taking></form-taking>
-            <form-group></form-group>
-            <product></product>
-            <report></report>
-        -->
+    <form-taking
+        v-if="show_view.taking_form"
+        @changeView="switchView($event)"
+        :current_item="current_item"
+        :report="report"
+    >
+    </form-taking>
+    <form-group
+        v-if="show_view.group_form"
+        @changeView="switchView($event)"
+        :team="team"
+        :user="user"
+    >
+    </form-group>
+    <report-taking
+        v-if="show_view.report_info"
+        :team="team"
+        :user="user"
+        :report="report"
+        @removeItem="deteleItemReport($event)"
+    >
+    </report-taking>
     </div>
     {% endblock %}
     {% block scritp_code %}

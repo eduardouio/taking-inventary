@@ -8,6 +8,16 @@ app.component('product-description', {
                         <br>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col">
+                    <button class="btn btn-success btn-block" @click="changeView('taking_form')">
+                            <i class="fas fa-clipboard-check"></i>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Ingresar Toma
+                </button>
+                <br/>
+                    </div>
+                </div>
                 <div id="detail">
                     <div class="row">
                         <div class="col text-center">
@@ -85,13 +95,6 @@ app.component('product-description', {
                                 </tr>
                                 <tr>
                                     <td colspan="2" class="text-center bg-gradient-light">
-                                        <button class="btn btn-success btn-block" @click="changeView('taking_form')">
-                                            <i class="fas fa-clipboard-check"></i>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            Ingresar Toma
-                                        </button>
-                                        <br>
-                                        <hr>
                                         <button class="btn btn-primary btn-block" @click="changeView('product_form')">
                                             <i class="fas fa-box"></i>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

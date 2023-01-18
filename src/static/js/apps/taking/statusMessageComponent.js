@@ -11,7 +11,7 @@ app.component('status-message', {
                     </span>
                 </div>
                 </div>
-            <div class="row" v-if="$parent.server_status.have_error_message">
+            <div class="row" v-if="server_status.have_error_message">
                 <div class="col text-center">
                     <div class="alert alert-danger" role="alert">
                         <i class="fas fa-exclamation-triangle"></i>
@@ -20,7 +20,7 @@ app.component('status-message', {
                 </div>
             </div>
             
-            <div class="row" v-if="$parent.server_status.have_warning_message">
+            <div class="row" v-if="report.length">
                 <div class="col text-center">
                     <div class="alert alert-warning" role="alert">
                         <i class="fas fa-exclamation-circle"></i>
@@ -40,13 +40,14 @@ app.component('status-message', {
                 <div class="col text-right">
                     <button
                         class="btn bordered btn"
-                        @click="changeView('search_form')">
+                        @click="changeView('search_form')"
+                    >
                         <i class="fas fa-home text-info"></i>
                     </button>
                     &nbsp;
                     <button
                         class="btn bordered btn"
-                        @click="changeView('report')">
+                        @click="changeView('report_info')">
                         <i class="fas fa-table text-info"></i>
                         <span class="badge badge-danger navbar-badge">{{ report.length }}</span>
                     </button>
@@ -61,7 +62,7 @@ app.component('status-message', {
         </div>
     </div>
     `,
-    props:['taking', 'team', 'user','report'],
+    props:['taking', 'team', 'user','report', 'server_status'],
     emits: ['changeview',],
     data() { 
         return{};

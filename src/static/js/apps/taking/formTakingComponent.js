@@ -4,7 +4,9 @@ app.component('form-taking', {
             <div class="card-header">
                 <div class="row align-middle text-center">
                     <div class="col h5 text-success">
-                        {{ current_item.fields.name }}
+                        {{ current_item.fields.name }} 
+                        <br/>
+                        <small class="badge badge-secondary">[{{current_item.fields.quantity_per_box}} x Caja]</small>
                     </div>
                 </div>
                  <div class="row">
@@ -62,12 +64,13 @@ app.component('form-taking', {
                 </div>
             </div>
         </div>`,
-        props:['current_item','csfr_token','server_status','report'],
+        props:['current_item','report'],
         emits:['changeview'],
         data() {
             return{
                 current_taking: {
                     pk:null,
+                    product:null,
                     taking: taking.pk,
                     account_code: null,
                     taking_total_boxes:0,
@@ -95,6 +98,7 @@ app.component('form-taking', {
                     this.default_picture = '/static/img/generic_product.png';
                 }
             },addReport(){
+                this.current_taking.product = this.current_item;
                 this.report.push(this.current_taking);
                 this.changeView();
             }

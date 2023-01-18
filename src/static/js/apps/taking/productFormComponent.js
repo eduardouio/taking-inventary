@@ -52,28 +52,26 @@ app.component('product-form', {
                             </div>
                             <div class="form-group">
                                 <label for="">EAN 13</label>
-                                <input type="text" class="form-control" v-model="current_item.fields.ean_13_code" readonly>
+                                <input type="text" class="form-control" v-model="current_item.fields.ean_13_code" :disabled="!current_item.fields.ean_13_code == ''">
                             </div>
                             <div class="form-group">
-                                <label for="">
-                                    EAN 14
-                                </label>
-                                <input type="text" class="form-control" v-model="current_item.fields.ean_14_code" readonly>
+                                <label for="">EAN 14</label>
+                                <input type="text" class="form-control" v-model="current_item.fields.ean_14_code" :disabled="!current_item.fields.ean_14_code == ''">
                             </div>
                             <div class="form-group">
                                 <label>Capacidad</label>
-                                <input type="number" class="form-control" v-model="current_item.fields.capacity" readonly>
+                                <input type="number" class="form-control" v-model="current_item.fields.capacity" :disabled="current_item.fields.capacity != 0">
                             </div>
                             <div class="form-group">
                                 <label>Unidad Medida</label>
-                                <input  type="text" class="form-control" v-model="current_item.fields.unit_measurement" readonly>
+                                <input  type="text" class="form-control" v-model="current_item.fields.unit_measurement" disabled>
                             </div>
                             <div class="form-group">
-                                <label>Dimensiones Producto MM</label>
+                                <label>Dimensiones Producto CM</label>
                                 <input type="text" class="form-control" v-model="current_item.fields.product_dimensions" placeholder="largo X alto X ancho">
                             </div>
                             <div class="form-group">
-                                <label>Dimensiones Caja Madre MM</label>
+                                <label>Dimensiones Caja Madre CM</label>
                                 <input type="text" class="form-control" v-model="current_item.fields.box_dimensions" placeholder="largo X alto X ancho">
                             </div>
                             <div class="form-group">
