@@ -1,2 +1,2 @@
-from .productUpdateView import updateProduct
+from .UpdateProductCV import UpdateProductCV
 from .ProductDetailTP import ProductDetailTP

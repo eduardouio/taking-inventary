@@ -42,10 +42,11 @@ app.component('report-taking', {
                     </div>
                     <div class="row">
                         <div class="col">
-                            <button class="btn btn-block btn-primary" @click=sendDataReprot()>
-                                <i class="fas fa-sync"></i> Sincronizar Datos
+                            <button class="btn btn-block" :class="class_sync_btn" @click=sendReport()>
+                            <i class="fas fa-sync"></i>
+                                {{ message_button }}
                                 <small>
-                                    [<span text="report.length"></span> items]
+                                    [<span v-text="report.length"></span> items]
                                 </small>
                             </button>
                         </div>
@@ -106,17 +107,18 @@ app.component('report-taking', {
             </div>
         </div>`,
         props:['user', 'report', 'server_status', 'csrf_token'],
-        emits:['removeitem'],
+        emits:['removeitem', 'sendreport', 'changeview'],
         data() {
             return {
                 selected_taking: null,
                 show_taking: false,
                 show_report:true,
+                confirm_report_send:false,
+                class_sync_btn: 'btn-primary',
+                message_button: 'Sincronizar Datos',
             };
         },methods:{
-            changeView(){
-
-            },showTaking(item){
+            showTaking(item){
                 this.selected_taking = item;
                 this.show_report=false;
                 this.show_taking=true;
@@ -126,7 +128,14 @@ app.component('report-taking', {
             },removeItem(){
                 this.$emit('removeitem', this.selected_taking);
                 this.showReport();
-            },
+            },sendReport(){
+                if (this.confirm_report_send){
+                    return this.$emit('sendreport');
+                }
+                this.confirm_report_send = true;
+                this.class_sync_btn = 'btn-success';
+                this.message_button = 'Confirmar Reporte';
+            }
         },computed:{
             total_boxes(){
                 const initialValue = 0;

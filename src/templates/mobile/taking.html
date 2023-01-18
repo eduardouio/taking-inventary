@@ -57,6 +57,7 @@
         :user="user"
         :report="report"
         @removeItem="deteleItemReport($event)"
+        @sendReport="saveReport($event)"
     >
     </report-taking>
     </div>
@@ -70,8 +71,7 @@
         var csrf_token = '{{ csrf_token }}';
     </script>
     <script type="text/javascript" charset="utf8" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="https://unpkg.com/vuex@4.0.0/dist/vuex.global.js"></script>
+    <script src="{% static 'js/vue.global.js' %}"></script>
     <script src="{% static 'js/apps/taking/app_taking.js' %}"></script>
     <script src="{% static 'js/apps/taking/formGroupComponent.js' %}"></script>
     <script src="{% static 'js/apps/taking/loaderComponent.js' %}"></script>
