@@ -62,3 +62,20 @@ label {
     display: inline-block;
     margin-bottom: 0.1rem;
 }
+
+.card-header {
+    padding: 0.15rem 0.15rem;
+    padding-left: 0.15rem;
+    margin-bottom: 0;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-bottom: 0 solid rgba(0, 0, 0, 0.125);
+}
+.container {
+    padding-right: 3.5px;
+    padding-left: 3.5px;
+}
+
+table.mi_table td{
+    border: 0.20px solid;
+}
+
