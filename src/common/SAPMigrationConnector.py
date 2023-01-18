@@ -6,7 +6,6 @@ from config.secrets_config import SAP_CONNECTION, MIGRATION_QUERY
 class SAPMigrationConnector(object):
 
 	def __init__(self):
-		import ipdb;ipdb.set_trace()
 		try:
 			self.conn = connect(**SAP_CONNECTION, login_timeout=5)
 		except:
@@ -23,7 +22,7 @@ class SAPMigrationConnector(object):
 			for k,v in zip(item.keys(),item.values()):
 				if isinstance(v, Decimal):
 					item[k] = int(v)
-		
+			
 		cursor.close()
 		self.conn.close()
 		return report
