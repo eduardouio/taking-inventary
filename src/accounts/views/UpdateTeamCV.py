@@ -14,6 +14,9 @@ class UpdateTeamCV(LoginRequiredMixin, CreateView):
         team = Team.get(team_data['pk'])
         team.warenhouse_assistant = team_data['fields']['warenhouse_assistant']
         team.notes = team_data['fields']['notes']
-        team.save()
-        return HttpResponse()
+        try:
+            team.save()
+            return HttpResponse('updated success', status='201')
+        except e:
+            return HttpResponse('Error', status='500')
     
