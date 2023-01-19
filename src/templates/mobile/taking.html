@@ -6,12 +6,12 @@
 {% endblock %}
 {% block content %}
 <div class="container" id="app">
-    <status-message 
+    <status-message v-if="show_status_message"
         :taking="taking"
         :team="team"
         :user="user"
         :report="report"
-        :server_status="server_status   "
+        :server_status="server_status"
         @changeView="switchView($event)">
     </status-message>
         <loader 

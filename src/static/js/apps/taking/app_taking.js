@@ -23,6 +23,7 @@ const app = createApp({
             csrf_token: csrf_token,
             have_team:false,
             report_update: false,
+            show_status_message: true,
             show_view: {
                 loader: true,
                 search_form: false,
@@ -55,6 +56,8 @@ const app = createApp({
             });
             this.switchView('report_info')
         },saveReport(){
+            this.switchView('loader');
+            this.show_status_message = false;
             this.sendPostRequest(
                 this.report,
                 'report',
@@ -65,7 +68,6 @@ const app = createApp({
                 'team',
                 '/accounts/team/update/'
             );
-
         },sendPostRequest(data, name, url){
             const formData = new FormData()
             formData.append(name, JSON.stringify(data));
@@ -75,19 +77,22 @@ const app = createApp({
             xhr.open('POST',url);
             xhr.setRequestHeader('X-CSRFToken', this.csrf_token);
             xhr.onreadystatechange = function() {
-                console.log(xhr);
+                console.dir(xhr);
             }
             xhr.onerror = function(e){
+                this.server_status.type = 'error';
+                this.server_status.have_error_message = true;
+                console.dir(e);
                 alert("No es posible comunicarse con el servidor, confirme su conección a la red" + e);
             }
             xhr.send(formData); 
             xhr.onload = ()=>{
-            if(xhr.status == 200){
-                this.have_team = true;
-                return xhr.responseText;
+            if(xhr.status === 201){
+                this.server_status.type = 'success';
+                this.server_status.message = name + 'Ingresado Correctamente';
             }
             console.dir(xhr.responseText);
-            return xhr.responseText;
+            this.server_status.message = xhr.responseText;
         }
         },
     },

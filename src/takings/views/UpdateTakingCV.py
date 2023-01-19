@@ -38,6 +38,7 @@ class UpdateTakingCV(LoginRequiredMixin, CreateView):
                     id_team=team,
                     taking_total_boxes=item['taking_total_boxes'],
                     taking_total_bottles=item['taking_total_bottles'],
+                    quantity = (item['taking_total_boxes'] * product.quantity_per_box) + item['taking_total_bottles'],
                     notes=item['notes']
                 )
                 report.append(my_taking)
@@ -52,5 +53,5 @@ class UpdateTakingCV(LoginRequiredMixin, CreateView):
             return HttpResponse('Taking not found', status=404)
         except Product.DoesNotExist:
             return HttpResponse('Product not found', status=404)
-        #except Exception as e:
-        #    return HttpResponse(str(e), status=500)
+        except Exception as e:
+            return HttpResponse(str(e), status=500)
