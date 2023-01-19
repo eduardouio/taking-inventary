@@ -24,8 +24,6 @@ class ConsolidateMigration(object):
             'table_by_owners':[],
             'table_by_warenhouses':[],
         })
-
-        import ipdb;ipdb.set_trace()
         for product in report['products']:
             report['table_by_warenhouses'].append(
                 self.__reduce(report ,product, 'by_warenhouses')
@@ -132,6 +130,7 @@ class ConsolidateMigration(object):
             report['totals']['on_order'] += item.on_order
             report['totals']['is_commited'] += item.is_commited
             report['totals']['avaliable'] += item.avaliable
+
             try:
                 report['products']['item.account_code']
             except KeyError as e:

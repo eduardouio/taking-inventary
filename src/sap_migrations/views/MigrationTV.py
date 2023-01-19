@@ -2,6 +2,7 @@ from django.views.generic import TemplateView
 from sap_migrations.models import SapMigration
 from sap_migrations.lib import LoadMigration
 
+
 # /sap/
 class MigrationTV(TemplateView):
 	template_name = 'sap_migrations/list_migrations.html'

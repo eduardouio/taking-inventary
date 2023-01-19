@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView
 from sap_migrations.models import SapMigration
 from sap_migrations.lib import ConsolidateMigration
-from common import loggin
+from time import time
 
 
 # /sap/detail/<pk>/
@@ -9,10 +9,13 @@ class DetailMigrationsTV(TemplateView):
     template_name = 'sap_migrations/detail_migration.html'
     
     def get(self, request, pk, *args, **kwargs):
-        loggin('i', 'llamado a detalle de migracion {}'.format(pk))
+        initial = time()
         context = self.get_context_data(*args, **kwargs)
         report_migration = ConsolidateMigration().get(pk)
         conditon_report = 'by_products'
+        print('-----------------')
+        print('Terminamos en {} de {} total {}'.format(initial, time(), time()-initial))
+        print('-----------------')
 
         report = {
             'columns': report_migration['warenhouses'],

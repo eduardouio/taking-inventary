@@ -75,7 +75,7 @@ class SapMigrationDetail(AppBaseModel):
     
     @classmethod
     def get_by_migration(cls, id_migration):
-        detail = cls.objects.filter(id_sap_migration=id_migration)
+        detail = cls.objects.filter(id_sap_migration=id_migration,avaliable__gt = 0)
         if len(detail):
             return list(detail)
         
