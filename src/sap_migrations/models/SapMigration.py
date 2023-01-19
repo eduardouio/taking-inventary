@@ -52,7 +52,26 @@ class SapMigration(AppBaseModel):
         null=True,
         default=None
     )
-    
+    products = models.TextField(
+        'Productos JSON',
+        blank=True,
+        null=True,
+        default=None
+    )
+    warenhouses = models.TextField(
+        'Productos JSON',
+        blank=True,
+        null=True,
+        default=None
+    )
+    owners = models.TextField(
+        'Empresas JSON',
+        'Productos JSON',
+        blank=True,
+        null=True,
+        default=None
+    )
+
     def save(self, *args, **kwargs):
         return super(self.__class__, self).save(*args, **kwargs)
 
