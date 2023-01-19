@@ -3,14 +3,7 @@ from simple_history.admin import SimpleHistoryAdmin
 from takings.models import Taking, TakinDetail
 
 
-class TakinDetailInline(admin.TabularInline):
-    model=TakinDetail
-
-
 class TakingModelAdmin(SimpleHistoryAdmin):
-    inlines = [
-        TakinDetailInline
-    ]
     search_fields = [
         'user_manager__username',
         'user_manager__first_name',
