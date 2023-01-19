@@ -37,7 +37,7 @@ class Product(AppBaseModel):
     )
     account_code=models.CharField(
         'codigo contable',
-        max_length=20,
+        max_length=50,
         unique=True
     )
     name=models.CharField(
