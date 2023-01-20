@@ -79,7 +79,6 @@ class SapMigrationDetail(AppBaseModel):
         if len(detail):
             return list(detail)
         
-        loggin('w', 'Sapmigration {} no tiene detalles'.format(id_migration))
         return []
     
     @classmethod
@@ -89,6 +88,19 @@ class SapMigrationDetail(AppBaseModel):
         except ObjectDoesNotExist as e:
             loggin('e', e.__str__())
             return None
-            
+
+    @classmethod
+    def get_by_warenhouse_name(cls, id_sap_migration , warenhouse_name):
+        detail = cls.objects.filter(
+            id_sap_migration=id_sap_migration,
+            warenhouse_name= warenhouse_name,
+            avaliable__gt = 0
+            )
+        if len(detail):
+            return list(detail)
+        
+        return []
+
     def __str__(self):
         return '{}->{}'.format(self.name, self.on_hand)
+    

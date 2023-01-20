@@ -23,19 +23,19 @@ class TakinDetail(AppBaseModel):
         Team,
         on_delete=models.RESTRICT
     )
-    taking_total_boxes = models.PositiveSmallIntegerField(
+    taking_total_boxes = models.PositiveIntegerField(
         'conteo cajas',
         blank=True,
         null=True,
         default=0
     )
-    taking_total_bottles = models.PositiveSmallIntegerField(
+    taking_total_bottles = models.PositiveIntegerField(
         'conteo botellas',
         blank=True,
         null=True,
         default=0
     )
-    quantity = models.PositiveSmallIntegerField(
+    quantity = models.PositiveIntegerField(
         'cantidad unidades',
         blank=True,
         null=True,
@@ -60,7 +60,7 @@ class TakinDetail(AppBaseModel):
         null=True,
         default=None,
     )
-    year = models.SmallIntegerField(
+    year = models.PositiveIntegerField(
         'añana del vino',
         blank=True,
         null=True,
