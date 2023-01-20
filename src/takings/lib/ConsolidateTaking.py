@@ -1,30 +1,90 @@
-from django.core.serializers import serialize
+from django.db import connection
+
+from products.models import Product
 from takings.models import TakinDetail, Taking
+from sap_migrations.models import SapMigrationDetail
 
 
 class ConsolidateTaking(object):
 
     def get(self, id_taking):
-        report = self.__get_init_report(id_taking)
+        taking = Taking.get(id_taking)
+        if taking is None:
+            return None
+        
+        start_stock, warenhouses = self.get_start_stock(taking) 
+        taking_resume = self.get_resume_taking(id_taking)
+        report = []
+        for sku_stock in start_stock:
+            for tkn_stock in taking_resume:
+                if sku_stock['account_code'].account_code == tkn_stock['account_code']:
+                    sku_stock['product'] = Product.get(tkn_stock['account_code'])
+                    sku_stock['sku_code'] = tkn_stock['account_code']
+                    if sku_stock['product'] is None:
+                        raise Exception('Dont exist {} in db'.format(tkn_stock['account_code']))
 
-    def __reduce(self, report, product, condition):
-        pass
-
-    def __resume(self, keyword, report):
-        pass
-
-    def __get_init_report(self, id_taking):
-        report = {
-            'taking': None,
-            'taking_detail': None,
-            'status': False,
-            'products': {},
-            'warenhouses': {},
-            'owners': {},
-            'totals':{
-                'on_hand': 0
-            }
+                    sku_stock['is_complete'] = False
+                    if sku_stock['sap_stock'] == int(tkn_stock['quantity']):
+                        sku_stock['is_complete'] = True
+                    sku_stock['tk_bottles'] = int(tkn_stock['taking_total_bottles'])
+                    sku_stock['tk_boxes'] = int(tkn_stock['taking_total_boxes'])
+                    sku_stock['tk_quantity'] = int(tkn_stock['quantity'])
+                    report.append(sku_stock)
+                    break
+        return {
+            'report': report,
+            'taking': taking,
+            'warenhouses': warenhouses,
         }
 
-    def __compress_report(self):
-        pass
+    def get_resume_taking(self, id_taking):
+        cursor = connection.cursor()
+        cursor.execute('''
+                SELECT 
+                    pp.account_code,
+                    SUM(tt.taking_total_bottles) taking_total_bottles,
+                    SUM(tt.taking_total_boxes) taking_total_boxes,
+                    SUM(tt.quantity) quantity 
+                FROM takings_takindetail tt 
+                LEFT JOIN products_product pp ON (
+                        pp.id_product = tt.account_code_id
+                )
+                WHERE tt.id_taking_id = {}
+                GROUP BY pp.account_code ;
+        '''.format(id_taking))
+        columns = [col[0] for col in cursor.description]
+        return [
+            dict(zip(columns, row))
+             for row in cursor.fetchall()
+         ]
+         
+    
+    def get_start_stock(self, taking):
+        warenhouses = taking.warenhouses.all()
+        details = SapMigrationDetail.get_by_migration(
+            taking.id_sap_migration_id
+        )
+        report = []
+        for warenhouse in warenhouses:
+            detail = SapMigrationDetail.get_by_warenhouse_name(
+                taking.id_sap_migration_id, warenhouse.name
+            )
+            if detail:
+                report.extend(detail)
+        
+        products = list(set([i.account_code for i in report]))
+        resume = []
+        for product in products:
+            resume_item = {
+                'account_code': None,
+                'sap_stock': 0,
+            }
+
+            for item in report:
+                if item.account_code == product:
+                    resume_item['account_code'] = item
+                    resume_item['sap_stock'] += item.on_hand 
+            
+            resume.append(resume_item)
+
+        return resume, warenhouses

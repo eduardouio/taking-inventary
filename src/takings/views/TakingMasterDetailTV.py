@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView
+from django.db import connection
 
-from takings.models import Taking, TakinDetail
+from takings.lib import ConsolidateTaking
 from accounts.mixins import ValidateManagerMixin
 
 
@@ -10,12 +11,14 @@ class TakingMasterDetailTV(ValidateManagerMixin, TemplateView):
 
     def get(self, request, pk, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        taking = Taking.get(pk)
-        taking_detail = TakinDetail.get_by_taking(pk)
+        report = ConsolidateTaking().get(pk)
+
         page_data = {
-            'title_page': 'Detalle Toma {}'.format(pk) ,
-            'taking': taking,
-            'taking_detail': taking_detail,
-            'module_name': 'Toma',
+            'title_page': 'Detalle Toma {}'.format(pk),
+            'module_name': 'Reporte de Toma',
+            'taking': report['taking'],
+            'report': report['report'],
+            'warenhouses': report['warenhouses'],
         }
+
         return self.render_to_response(context={**context, **page_data})
