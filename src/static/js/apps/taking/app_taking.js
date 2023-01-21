@@ -57,6 +57,7 @@ const app = createApp({
             this.switchView('report_info')
         },saveReport(){
             this.switchView('loader');
+            this.show_view.report = true;
             this.show_status_message = false;
             this.sendPostRequest(
                 this.report,
