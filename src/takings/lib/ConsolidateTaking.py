@@ -14,11 +14,12 @@ class ConsolidateTaking(object):
         
         start_stock, warenhouses = self.get_start_stock(taking) 
         taking_resume = self.get_resume_taking(id_taking)
-        report = []
         for sku_stock in start_stock:
+            sku_stock['product'] = Product.get(
+                sku_stock['account_code'].account_code
+            )
             for tkn_stock in taking_resume:
                 if sku_stock['account_code'].account_code == tkn_stock['account_code']:
-                    sku_stock['product'] = Product.get(tkn_stock['account_code'])
                     sku_stock['sku_code'] = tkn_stock['account_code']
                     if sku_stock['product'] is None:
                         raise Exception('Dont exist {} in db'.format(tkn_stock['account_code']))
@@ -29,10 +30,9 @@ class ConsolidateTaking(object):
                     sku_stock['tk_bottles'] = int(tkn_stock['taking_total_bottles'])
                     sku_stock['tk_boxes'] = int(tkn_stock['taking_total_boxes'])
                     sku_stock['tk_quantity'] = int(tkn_stock['quantity'])
-                    report.append(sku_stock)
                     break
         return {
-            'report': report,
+            'report': start_stock,
             'taking': taking,
             'warenhouses': warenhouses,
         }
@@ -60,6 +60,7 @@ class ConsolidateTaking(object):
          
     
     def get_start_stock(self, taking):
+        # To Do REvisar 
         warenhouses = taking.warenhouses.all()
         details = SapMigrationDetail.get_by_migration(
             taking.id_sap_migration_id

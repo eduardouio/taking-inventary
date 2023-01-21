@@ -22,10 +22,6 @@ class TakingTV(ValidateAssistantMixin, TemplateView):
         user = CustomUserModel.get(request.user)
         taking = Taking.get(id_taking)
         products = serialize('json', self.get_products(taking))
-        warenhouses = Warenhouse.objects.all()
-        warenhouses = [ {'name': whrs.name, 'pk': whrs.pk} 
-            for whrs in warenhouses 
-        ]
         my_team = None
         for team in taking.teams.all():
             if team.manager == user:

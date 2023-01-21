@@ -27,6 +27,20 @@ class SapMigrationDetail(AppBaseModel):
         null=True,
         default=None
     )
+    ean_13_code = models.CharField(
+        'codigo de barras',
+        max_length=250,
+        blank=True,
+        null=True,
+        default=None
+    )
+    health_register = models.CharField(
+        'nombre producto',
+        max_length=255,
+        null=True,
+        blank=True,
+        default=None
+    )
     name = models.CharField(
         'nombre producto',
         max_length=255,
@@ -47,6 +61,12 @@ class SapMigrationDetail(AppBaseModel):
         blank=True,
         null=True,
         default=None
+    )
+    quantity_per_box = models.IntegerField(
+        'cantidad caja',
+        default=0,
+        null=True,
+        blank=True
     )
     on_hand = models.IntegerField(
         'stock',
@@ -75,7 +95,7 @@ class SapMigrationDetail(AppBaseModel):
     
     @classmethod
     def get_by_migration(cls, id_migration):
-        detail = cls.objects.filter(id_sap_migration=id_migration,avaliable__gt = 0)
+        detail = cls.objects.filter(id_sap_migration=id_migration)
         if len(detail):
             return list(detail)
         

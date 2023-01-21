@@ -33,6 +33,5 @@ class TestConsolidate(TestCase):
                 self.assertEqual(spected_report['sku_code'], item['sku_code'])
                 self.assertIsInstance(item['product'], Product)
 
-        warenhouses = ''
     def test_does_not_exist(self):
         self.assertIsNone(self.consolidate.get(169))
