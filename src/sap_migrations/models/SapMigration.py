@@ -1,7 +1,6 @@
 from django.db import models
 from common import AppBaseModel
 from django.core.exceptions import ObjectDoesNotExist
-from warenhouses.models import Warenhouse
 from common.loggin import loggin
 
 
