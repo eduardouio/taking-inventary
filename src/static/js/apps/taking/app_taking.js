@@ -57,7 +57,6 @@ const app = createApp({
             this.switchView('report_info')
         },saveReport(){
             this.switchView('loader');
-            this.show_view.report = true;
             this.show_status_message = false;
             this.sendPostRequest(
                 this.report,
@@ -69,6 +68,10 @@ const app = createApp({
                 'team',
                 '/accounts/team/update/'
             );
+            this.show_view.report_info = true;
+            setTimeout(() => {
+                this.show_view.loader = false;
+            }, 3000);
         },sendPostRequest(data, name, url){
             const formData = new FormData()
             formData.append(name, JSON.stringify(data));

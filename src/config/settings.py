@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'simple_history',
     'accounts',
     'products',
+    'warenhouses',
     'sap_migrations',
     'takings',
     'guardian',

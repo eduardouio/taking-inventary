@@ -14,17 +14,22 @@ class ConsolidateTaking(object):
         
         start_stock, warenhouses = self.get_start_stock(taking) 
         taking_resume = self.get_resume_taking(id_taking)
+        
         for sku_stock in start_stock:
             sku_stock['product'] = Product.get(
                 sku_stock['account_code'].account_code
             )
+            sku_stock['diff'] = sku_stock['sap_stock']
             for tkn_stock in taking_resume:
                 if sku_stock['account_code'].account_code == tkn_stock['account_code']:
                     sku_stock['sku_code'] = tkn_stock['account_code']
+                    sku_stock['diff'] = sku_stock['sap_stock'] - int(tkn_stock['quantity'])
+                    
                     if sku_stock['product'] is None:
                         raise Exception('Dont exist {} in db'.format(tkn_stock['account_code']))
 
                     sku_stock['is_complete'] = False
+                    
                     if sku_stock['sap_stock'] == int(tkn_stock['quantity']):
                         sku_stock['is_complete'] = True
                     sku_stock['tk_bottles'] = int(tkn_stock['taking_total_bottles'])

@@ -39,6 +39,7 @@
             <tr class="text-center bg-gradient-dark">
                 <th>#</th>
                 <th>Producto SKU</th>
+                <th>Account C</th>
                 <th>SKU Code</th>
                 <th>Cap</th>
                 <th>UN</th>
@@ -52,15 +53,16 @@
         <tbody>
             {% for item in report %}
             <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{item.product}} {{item.product.account_code}}</td>
+                <td>{{forloop.counter}}</td>
+                <td>{{item.product}}</td>
+                <td>{{item.product.account_code}}</td>
                 <td>{{item.product.ean_13_code}}</td>
                 <td>{{item.product.capacity}}</td>
                 <td class="text-right">{{item.product.unit_measurement}}</td>
                 <td class="text-right">{{item.product.quantity_per_box}}</td>
                 <td class="text-right">{{ item.sap_stock }}</td>
                 <td class="text-right">{{ item.tk_quantity}}</td>
-                <td class="text-right">{{ item.sale }} </td>
+                <td class="text-right">{{ item.diff }} </td>
                 <td class="text-center">
                     {% if item.is_complete %}
                         <i class="fas fa-check-square text-success"></i>

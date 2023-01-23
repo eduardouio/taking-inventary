@@ -23,7 +23,7 @@ class LoadTestData():
     """./manage.py shell < tests/test_data/load_test_data.py"""
     
     def __init__(self) -> None:
-        self.faker = Faker()
+        self.faker = Faker('es_CO')
 
     def create_super_user(self):
         CustomUserModel.objects.create_superuser(
@@ -51,6 +51,27 @@ class LoadTestData():
             CustomUserModel.objects.create(**new_user)
         print('[OK] Usuarios Insertados...')
     
+    def load_my_users(self):
+        users = [
+            {'username': 'dayana', 'first_name': 'DAYANA', 'last_name':'GARCIA','password':'1234.abc','email':'dayana@vinesa.com.ec','role':'asistente'},
+            {'username': 'karley', 'first_name': 'KARLEY', 'last_name':'ZUBIETA','password':'1234.abc','email':'karley@vinesa.com.ec','role':'asistente'},
+            {'username': 'johanna', 'first_name': 'JOHANNA', 'last_name':'PLACES','password':'1234.abc','email':'johanna@vinesa.com.ec','role':'asistente'},
+            {'username': 'david', 'first_name': 'DAVID', 'last_name':'GONZALEZ','password':'1234.abc','email':'david@vinesa.com.ec','role':'asistente'},
+            {'username': 'gerardo', 'first_name': 'GERARDO', 'last_name':'LITA','password':'1234.abc','email':'gerardo@vinesa.com.ec','role':'asistente'},
+            {'username': 'mercy', 'first_name': 'MERCY', 'last_name':'HERNANDEZ','password':'1234.abc','email':'mercy@vinesa.com.ec','role':'asistente'},
+            {'username': 'jordan', 'first_name': 'JORDAN', 'last_name':'DUEÑAS','password':'1234.abc','email':'jordan@vinesa.com.ec','role':'asistente'},
+            {'username': 'diego', 'first_name': 'DIEGO', 'last_name':'GARCIA','password':'1234.abc','email':'diego@vinesa.com.ec','role':'asistente'},
+            {'username': 'joel', 'first_name': 'JOEL', 'last_name':'TITOAÑA','password':'1234.abc','email':'joel@vinesa.com.ec','role':'asistente'},
+            {'username': 'isaac', 'first_name': 'ISAAC', 'last_name':'MALAN','password':'1234.abc','email':'isaac@vinesa.com.ec','role':'asistente'},
+            {'username': 'mayra', 'first_name': 'MAYRA', 'last_name':'AYALA','password':'1234.abc','email':'mayra@vinesa.com.ec','role':'asistente'},
+            {'username': 'gaby', 'first_name': 'GABY', 'last_name':'TOAPANTA','password':'1234.abc','email':'gaby@vinesa.com.ec','role':'asistente'},
+            {'username': 'lorena', 'first_name': 'LORENA', 'last_name':'RODRIGUEZ','password':'1234.abc','email':'lorena@vinesa.com.ec','role':'gestor'},
+            {'username': 'alex', 'first_name': 'ALEX', 'last_name':'LEON','password':'1234.abc','email':'alex@vinesa.com.ec','role':'gestor'},
+        ]
+        for new_user in users:
+            CustomUserModel.objects.create(**new_user)
+        print('[OK] Usuarios Insertados...')
+
     def load_teams(self):
         all_teams = Team.objects.all()
         if len(all_teams):
@@ -256,4 +277,5 @@ loadData = LoadTestData()
 #loadData.load_sap_migrations()
 #loadData.load_takings()
 loadData.unifyPassworwds()
+#loadData.load_my_users()
 print('---> END TASK <---')

@@ -49,14 +49,14 @@ class SapMigrationDetail(AppBaseModel):
         default=None
     )
     id_warenhouse_sap_code = models.CharField(
-        'identificador_sap',
+        'ID Bodega Sap',
         max_length=10,
         blank=True,
         null=True,
         default=None
     )
     warenhouse_name = models.CharField(
-        'nombre bodega',
+        'Nombre bodega',
         max_length=255,
         blank=True,
         null=True,

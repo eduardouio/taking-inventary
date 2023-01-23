@@ -33,7 +33,7 @@ class ProductAdmin(admin.ModelAdmin):
                 'quantity_per_box',
                 'ean_13_code',
                 'ean_14_code',
-            )
+            )   
         }),
         ('Datos Adicionales',{
             'fields':(

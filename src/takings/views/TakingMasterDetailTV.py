@@ -20,5 +20,4 @@ class TakingMasterDetailTV(ValidateManagerMixin, TemplateView):
             'report': report['report'],
             'warenhouses': report['warenhouses'],
         }
-
         return self.render_to_response(context={**context, **page_data})
