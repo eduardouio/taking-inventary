@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'takings',
     'guardian',
     'mobile',
+    'django.contrib.humanize'
 ]
 
 MIDDLEWARE = [
@@ -120,7 +121,7 @@ AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'es-ec'
+LANGUAGE_CODE = 'es-EC'
 
 USE_I18N = True
 USE_TZ = False
