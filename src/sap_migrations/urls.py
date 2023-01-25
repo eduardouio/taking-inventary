@@ -1,5 +1,5 @@
 from django.urls import  path
-from sap_migrations.views import MigrationTV, DetailMigrationsTV
+from sap_migrations.views import MigrationListTV, DetailMigrationsTV
 
 app_name='sap.migrations'
 

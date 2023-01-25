@@ -4,7 +4,7 @@ from sap_migrations.lib import LoadMigration
 
 
 # /sap/
-class MigrationTV(TemplateView):
+class MigrationListTV(TemplateView):
 	template_name = 'sap_migrations/list_migrations.html'
 
 	def get(self, request, *args, **kwargs):

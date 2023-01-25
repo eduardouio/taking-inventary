@@ -1,2 +1,2 @@
-from sap_migrations.views.MigrationTV import MigrationTV
+from .MigrationListTV import MigrationListTV
 from sap_migrations.views.DetailMigrationsTV import DetailMigrationsTV
