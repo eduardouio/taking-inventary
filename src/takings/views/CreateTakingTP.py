@@ -11,7 +11,6 @@ from accounts.mixins import ValidateManagerMixin
 from sap_migrations.lib import ConsolidateMigration
 from sap_migrations.models import SapMigration
 from takings.models import Taking
-from warenhouses.models import Warenhouse
 
 
 # /taking/create/<int:id_sap_migration>/ 
@@ -21,7 +20,7 @@ class CreateTakingTP(ValidateManagerMixin, TemplateView):
     def get(self, request, id_sap_migration, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         report_migration = ConsolidateMigration().get(id_sap_migration) 
-        all_warenhouses = self.__get_warenhouses_detail(report_migration)
+        all_warenhouses = []
         all_users = CustomUserModel.objects.all()
         all_users = [{
                 'username':i.username,

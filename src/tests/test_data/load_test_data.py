@@ -7,7 +7,6 @@ from django.db import IntegrityError
 from accounts.models.CustomUserModel import CustomUserModel
 from accounts.models.Team import Team
 from products.models import Product
-from warenhouses.models import Warenhouse
 from sap_migrations.models import SapMigration, SapMigrationDetail
 from takings.models import Taking, TakinDetail
 
@@ -154,21 +153,6 @@ class LoadTestData():
                     e.__str__()
                     ))
         print('[OK] lista de productos completa...')
-
-    def load_warenhouses(self):
-        file = open('tests/test_data/warenhouses.csv', 'r')
-        csvreader = csv.reader(file, delimiter=',')
-        for line in csvreader:
-            new_warenhouse = {
-                'id_warenhouse_sap_code': line[0],
-                'name': line[1],
-                'owner': line[2],
-            }
-            try:
-                Warenhouse.objects.create(**new_warenhouse)
-            except IntegrityError as e:
-                pass
-        print('[OK] Bodegas Cargadas...')
     
     def load_sap_migrations(self):
         for item in range(QUANTITY_OPTIONS['sap_migrations']):
@@ -208,54 +192,6 @@ class LoadTestData():
                 position = False
             print('[OK] detalles cargados para migracion {}'.format(migration))
         print('[OK] Detalle de migracion Cargada...')
-        
-    def load_takings(self):
-        all_sap_migrations = SapMigration.objects.all()[
-            :QUANTITY_OPTIONS['takings']
-        ]
-        all_products = Product.objects.all()
-        managers = CustomUserModel.objects.filter(role='gestor')
-        all_warenhouses = Warenhouse.objects.all()
-        total_warenhouses = len(all_warenhouses)
-        
-        for sap_migration in all_sap_migrations:
-            user_manager = managers[random.choice(range(len(managers)))]
-            total_wanrenhouses_taking = random.choice(range(total_warenhouses))
-            my_taking = {
-                'id_sap_migration': sap_migration,
-                'hour_start': '07:00:00',
-                'hour_end': random.choice(['14:30:00','13:00:00','11:00:00']),
-                'user_manager': user_manager,
-                'location': 'VINESA PLAZA NORTE',   
-            }
-            TakinObj = Taking(**my_taking)
-            TakinObj.save()
-            for item in range(total_wanrenhouses_taking):
-                wanrenhouse_taking = random.choice(range(total_warenhouses))
-                TakinObj.warenhouses.add(all_warenhouses[wanrenhouse_taking])
-            TakinObj.save()
-        print('[OK] Tomas de invetarion registradas...')
-        
-        all_teams = Team.objects.all()
-        all_takings = Taking.objects.all()
-        my_team = random.choice(range(len(all_teams)))
-        
-        for taking in all_takings:
-            for product in all_products:
-                taking_dt = {
-                    'id_taking': taking,
-                    'account_code':  product,
-                    'quantity': random.randint(1, 3000),
-                    'id_team': all_teams[my_team],
-                    }
-                try:
-                    taking_detail = TakinDetail(**taking_dt)
-                    taking_detail.save()
-                except IntegrityError as e:
-                    print(taking_dt)
-                    print('error => {}'.format(e.__str__()))
-        print('[OK] detalles de tomas creadas')
-
     def unifyPassworwds(self):
         print('actualizamos los password de todos los usuarios')
         all_users = CustomUserModel.objects.all()
@@ -269,13 +205,13 @@ class LoadTestData():
 
 print('---> START LOAD DATA <---')
 loadData = LoadTestData()
-#loadData.create_super_user()
+loadData.create_super_user()
 #loadData.load_users()
 #loadData.load_teams()
 #loadData.load_products()
 #loadData.load_warenhouses()
 #loadData.load_sap_migrations()
 #loadData.load_takings()
+loadData.load_my_users()
 loadData.unifyPassworwds()
-#loadData.load_my_users()
 print('---> END TASK <---')

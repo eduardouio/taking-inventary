@@ -6,7 +6,6 @@ from common import AppBaseModel
 from accounts.models.CustomUserModel import CustomUserModel
 from accounts.models.Team import Team
 from sap_migrations.models import SapMigration
-from warenhouses.models import Warenhouse
 
 
 class Taking(AppBaseModel):
@@ -34,8 +33,10 @@ class Taking(AppBaseModel):
         CustomUserModel,
         on_delete=models.PROTECT    
     )
-    warenhouses = models.ManyToManyField(
-        Warenhouse
+    warenhouses = models.JSONField(
+        blank=True,
+        null=True,
+        default=None
     )
     teams = models.ManyToManyField(
         Team
@@ -92,6 +93,13 @@ class Taking(AppBaseModel):
         if takings:
             return takings.first()
         return None
+    
+    @classmethod
+    def get_by_sap_migrations(cls, id_sap_migration):
+        takings = cls.objects.filter(id_sap_migration=id_sap_migration)
+        if takings:
+            return takings
+        return []
 
     def __str__(self):
         return '{}->{}->{}'.format(

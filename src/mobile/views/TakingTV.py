@@ -10,7 +10,6 @@ from accounts.models.Team import Team
 from accounts.models.CustomUserModel import CustomUserModel
 from accounts.mixins import ValidateAssistantMixin
 from takings.models import TakinDetail, Taking
-from warenhouses.models import Warenhouse
 
 
 # /takings/<int:id_sap_migration>
