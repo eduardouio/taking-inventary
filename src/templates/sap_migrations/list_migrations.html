@@ -1,66 +1,82 @@
 {% extends 'base/base.html' %}
 {% load static %}
+{% load humanize %}
 {% block css_files %}
 {% endblock %}
 {% block title_bar %}
-<div class="row border bg-gardient-secondary rounded" style="padding: 15px;">
+<div class="row border bg-gardient-secondary rounded" style="padding: 10px;">
     <div class="col-8">
         <i class="fa fa-list"></i>
-        {{ title_page }} <strong> {{ total_records }} Registros Encontrados </strong>
+        {{ title_page }} <strong> {{ total_records }}</strong>
     </div>
-    <div class="col-4 text-right"><small>[Sistema Toma Inventarios] | <strong>Módulo {{ module_name }}
-            </strong></small></div>
+    <div class="col-4 text-right">
+        [Sistema Toma Inventarios] | Módulo {{ module_name }} 
+        <span class="text-primary">
+            [{{ total_time | floatformat:2 }} segs]
+        </span>
+    </div>
 </div>
 {% endblock %}
 {% block content %}
-<div class="container-fluid">
-    <table class="table table-bordered table-condensed">
-        <tbody>
-            <tr>
-                <th class="text-right bg-light">
-                    Total Importaciones
-                </th>
-                <td class="text-right">
-                    25 migraciones
-                </td>
-                <th class="text-right bg-light">
-                    Ultima Importación
-                </th>
-                <td class="text-right">
-                    $ 0.00
-                </td>
-                <td class="text-right">
-                    <a href="/sap/?migrate=true" class="btn btn-outline-dark btn-xs">
-                        <i class="fas fa-share text-info"></i>
-                        Importar Saldos SAP
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div class="container">
+    <div class="row">
+        <div class="col" style="padding: 10px;">
+            <table class="table table-bordered table-condensed">
+                <tbody>
+                    <tr>
+                        <th class="text-right bg-light">
+                            Total Importaciones
+                        </th>
+                        <td class="text-right">
+                            <strong>{{ total_records }}</strong> migraciones
+                        </td>
+                        <th class="text-right bg-light">
+                            Última:
+                        </th>
+                        <td class="text-right">
+                            <a href="/sap/detail/{{last_migration.migration.pk}}">
+                                <strong>
+                                    [{{last_migration.migration.pk}}]
+                                </strong>
+                                |
+                                {{ last_migration.user.create_by }}
+                                |
+                                {{ last_migration.migration.created | naturalday }}
+                            </a>
+                        </td>
+                        <td class="text-right">
+                            <a href="/sap/?migrate=true" class="btn btn-outline-dark btn-xs">
+                                <i class="fas fa-share text-info"></i>
+                                Importar Saldos SAP
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+  
     <div class="row">
         <div class="col">
-            <table class="table table-bordered table-hover table-striped" id="table">
+            <table class="table table-bordered table-hover" id="table">
                 <thead>
-                    <tr>
+                    <tr class="bg-gradient-secondary">
                         <th class="text-center">#</th>
-                        <th class="text-center">Fecha</th>
-                        <th class="text-center">Usuario</th>
-                        <th class="text-center">Bodegas</th>
-                        <th class="text-center">productos</th>
-                        <th class="text-center">Items</th>
-                        <th class="text-center">Toma?</th>
-                        <th class="text-center">Acciones</th>
+                        <th class="text-center">FECHA</th>
+                        <th class="text-center">USUARIO</th>
+                        <th class="text-center">BODEGAS</th>
+                        <th class="text-center">PRODUCTOS</th>
+                        <th class="text-center">UNIDADES</th>
+                        <th class="text-center">TOMAS</th>
+                        <th class="text-center">ESTADO</th>
+                        <th class="text-center">ACCIONES</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for migration in all_migrations %}
-                    <tr>
-                        <td class="text-center">
-                            <a href="/admin/sap_migrations/sapmigration/{{migration.migration.pk}}/change/"
-                                target="_blank">
+                    <tr {% if forloop.first %} class="bg-gradient-light-selector" {% endif %}>
+                        <td class="text-center" data-toggle="modal" data-target="#detailModal">
                                 &nbsp;{{ forloop.counter }}&nbsp;
-                            </a>
                         </td>
                         <td>
                             {% if migration.migration.is_active %}
@@ -74,26 +90,38 @@
                             </a>
                         </td>
                         <td class="text-center">{{ migration.user.create_by }}</td>
-                        <td class="text-center">{{ migration.migration.total_warenhouses }}</td>
-                        <td class="text-center">{{ migration.migration.total_products }}</td>
-                        <td class="text-center">{{ migration.migration.total_products_unities }}</td>
+                        <td class="text-center">{{ migration.migration.total_warenhouses | intcomma }}</td>
+                        <td class="text-center">{{ migration.migration.total_products | intcomma }}</td>
+                        <td class="text-center">{{ migration.migration.total_products_unities | intcomma }}</td>
                         <td class="text-center">
-                            {% if migration.migration.have_taking %}
-                                <i class="fas fa-clipboard-check text-success"></i>
+                            {% if not migration.takings %}
+                            <span class="text-secondary">SIN TOMAS</span>
+                            {% endif %}
+                            {% for taking in migration.takings%}
+                                {% if forloop.first %}
+                                    <span class="text-seconday"> | </span>
+                                {% endif %}
+                                <a href="/taking/detail/{{taking.pk}}">{{ taking.pk }}</a>
+                                    |
+                                {% endfor %}
+                        </td>
+                        <td class="text-center">
+                            {% if migration.migration.is_active %}
+                                <span class="text-success">Abierto</span>
                             {% else %}
-                            <a href="/taking/create/{{ migration.migration.pk }}">
-                                <i class="fas fa-clipboard text-info"></i>
-                            </a>
+                                <span class="text-secondary">Cerrado</span>
                             {% endif %}
                         </td>
                         <td class="text-center">
-                            <a href="/sap/detail/{{migration.migration.pk}}">
-                                <i class="fas fa-chart-area"></i>
+                            <a href="/taking/create/{{ migration.migration.pk }}">
+                                <i class="fas fa-clipboard text-info"></i>
                             </a>
-                            &nbsp; &nbsp;
-                            <span class="text-danger">
-                                <i class="fas fa-trash"></i>
-                            </span>
+                            {% if not migration.takings %}
+                            &nbsp; <span class="text-secondary">|</span> &nbsp;
+                            <a href="/taking/delete/{{ migration.migration.pk }}/">
+                                <i class="fas fa-trash text-danger"></i>
+                            </a>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -104,9 +132,5 @@
 </div>
 {% endblock %}
 {% block scritp_code %}
-<script>
-    $(document).ready(function () {
-        $('#table').DataTable();
-    });
-</script>
+<script src="{% static 'js/vue.global.js' %}"></script>
 {% endblock %}
