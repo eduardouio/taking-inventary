@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load static %}
+{% load humanize %}
 {% block css_files %}
 <link rel="stylesheet" type="text/css" href="{% static '/css/jquery.dataTables.min.css' %}">
 <script src="{% static '/js/jquery-3.6.1.min.js' %}"></script>
@@ -8,34 +9,95 @@
 <div class="row border bg-gardient-secondary rounded" style="padding: 15px;">
   <div class="col-8">
     <i class="fa fa-list"></i>
-    {{ title_page }} <strong> {{ object_list | length }} Registros Encontrados </strong>
+    {{ title_page }} <strong> {{ total_records }} Registros Encontrados </strong>
   </div>
-  <div class="col-4 text-right"><small>[Sistema Toma Inventarios] | <strong>Módulo {{ module_name }}
-      </strong></small></div>
+  <div class="col-4 text-right">[Sistema Toma Inventarios] | <strong>Módulo {{ module_name }}
+    <span class="text-primary">
+      [{{ total_time | floatformat:2 }} segs]
+    </span>
+      </strong></div>
 </div>
 {% endblock %}
 {% block content %}
-<div class="container-fluid">
-  <div class="row">
-    <div class="col"></div>
-  </div>
+<div class="container">
+    <div class="row">
+      <div class="col" style="padding: 10px;">
+        <table class="table table-bordered table-condensed">
+          <tbody>
+            <tr>
+              <th class="text-right bg-light">
+                Total
+              </th>
+              <td class="text-right">
+                <strong>{{ total_records }}</strong> Tomas
+              </td>
+              <th class="text-right bg-light">
+                Última:
+              </th>
+              <td class="text-right">
+                <a href="/taking/detail/{{last_taking.pk}}">
+                  <strong>
+                    [{{last_taking.pk}}]
+                  </strong>
+                  |
+                  {{ last_taking.user_manager }}
+                  |
+                  {{ last_taking.created | naturalday }}
+                </a>
+              </td>
+              <td class="text-right">
+                <a href="/sap/?migrate=true" class="btn btn-outline-dark btn-xs">
+                  <i class="fas fa-share text-info"></i>
+                  Importar Saldos SAP
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>#</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th>ID</th>
+        <th>Manager</th>
+        <th>SAP Migración</th>
+        <th>H Inicio</th>
+        <th>H Fin</th>
+        <th>T Bodegas</th>
+        <th>T Grupos</th>
+        <th>T Productos</th>
+        <th>Reporte</th>
     </tr>
   </thead>
     <tbody>
+      {% for item in object_list %}
       <tr>
-  
-    </tr>
+        <td class="text-center">{{ forloop.counter }}</td>
+        <td class="text-center">
+          <a href="/taking/detail/{{item.pk}}">
+            [{{ item.pk }}]
+            {{ item.created | naturalday }}
+          </a>
+        </td>
+        <td>{{ item.user_manager }}</td>
+        <td class="text-center">
+            <a href="/sap/detail/{{item.id_sap_migration_id}}">
+              [{{ item.id_sap_migration_id }}]
+              {{ item.id_sap_migration.created | naturalday }}
+            </a>
+        </td>
+        <td>{{ item.hour_start | naturaltime }}</td>
+        <td>{{ item.hour_end | naturaltime }}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>{{ item.have_report }}</td>
+      </tr>
+      {% endfor %}
   </tbody>
   </table>
-  {{ object_list }}
 </div>
 {% endblock %}
 {% block scritp_code %}
