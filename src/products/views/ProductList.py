@@ -16,8 +16,10 @@ class ProductList(ListView):
 
         extra_fields = {
             'title_page': 'Listado Productos',
+            'module_name': 'Productos',
             'total_records': len(self.object_list),
             'total_time': time() - start_time,
+            'last_product': self.object_list.first(),
         }
 
         return self.render_to_response({**context, **extra_fields})

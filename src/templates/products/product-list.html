@@ -1,0 +1,102 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block css_files %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/jquery.dataTables.min.css' %}">
+<script src="{% static '/js/jquery-3.6.1.min.js' %}"></script>
+{% endblock %}
+{% block title_bar %}
+<div class="row border bg-gardient-secondary rounded" style="padding: 10px;">
+    <div class="col-4">
+        <i class="fa fa-list"></i>
+        {{ title_page }} <strong> [{{ total_records }} registros]</strong>
+    </div>
+    <div class="col-4 text-center h5">Fichas de Productos</div>
+    <div class="col-4 text-right">
+        [Sistema Toma Inventarios] | Módulo {{ module_name }}
+        <span class="text-primary">
+            [{{ total_time | floatformat:2 }} segs]
+        </span>
+    </div>
+</div>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col" style="padding: 10px;">
+            <table class="table table-bordered table-condensed">
+                <tbody>
+                    <tr>
+                        <th class="text-right bg-light">
+                            Total
+                        </th>
+                        <td class="text-right">
+                            <strong>{{ total_records }}</strong> Productos  
+                        </td>
+                        <th class="text-right bg-light">
+                            Última:
+                        </th>
+                        <td class="text-right">
+                            <a href="/sap/detail/{{last_migration.migration.pk}}">
+                                <strong>
+                                    [{{last_product}}]
+                                </strong>
+                                |
+                                {{ last_product.created | naturalday }}
+                            </a>
+                        </td>
+                        <td class="text-right">
+                            <a href="/sap/?migrate=true" class="btn btn-outline-dark btn-xs">
+                                <i class="fas fa-boxes text-info"></i>
+                                Nuevo Producto
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+<div class="container-fluid">
+    <table class="table table-bordered table-condensed table-hover" id="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Cod Contable</th>
+                <th>Tipo</th>
+                <th>Capacidad</th>
+                <th>EAN 13</th>
+                <th>EAN 14</th>
+                <th>Factor Emp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object_list %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td>
+                        <a href="/products/detail/{{item.pk}}/">
+                            {{ item.name }}
+                        </a>
+                    </td>
+                    <td class="text-center">{{ item.account_code }}</td>
+                    <td class="text-center">{{ item.type_product }}</td>
+                    <td class="text-right">{{ item.capacity }} {{ item.unit_measurement }}</td>
+                    <td class="">{{ item.ean_13_code }}</td>
+                    <td class="">{{ item.ean_14_code }}</td>
+                    <td class="text-right">{{ item.quantity_per_box }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    {% endblock %}
+    {% block scritp_code %}
+    <script type="text/javascript" charset="utf8" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#table').DataTable();
+        });
+    </script>
+    {% endblock %}
