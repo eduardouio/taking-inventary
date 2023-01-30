@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'sslserver',
+    'django.contrib.humanize',
     'simple_history',
     'accounts',
     'products',
@@ -47,7 +49,6 @@ INSTALLED_APPS = [
     'takings',
     'guardian',
     'mobile',
-    'django.contrib.humanize'
 ]
 
 MIDDLEWARE = [

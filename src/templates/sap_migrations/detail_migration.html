@@ -44,20 +44,16 @@
             </form>
             </div>
             <div class="col text-right">
-                <button type="button" class="btn bg-gradient-dark btn-sm" 
-                    data-toggle="modal" data-target=".bd-example-modal-xl">
-                    <i class="fas fa-search"></i> Totalizado
-                </button>
                 <a href="#" class="">
                     <button class="btn bg-gradient-dark btn-sm">
                         <i class="fas fa-file"></i>
-                        Reporte Toma
+                        Tomas Realizadas
                     </button>
                 </a>
                 <a href="/taking/create/{{ pk }}" class="">
                     <button class="btn bg-gradient-dark btn-sm">
                         <i class="fas fa-file"></i>
-                        Realizar Toma
+                        Realizar Nueva Toma
                     </button>
                 </a>
             </div>
@@ -81,7 +77,7 @@
                     {% for item in report.table %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td nowrap="">{{ item.name }}</td>
+                            <td nowrap="" data-toggle="modal" data-target="#exampleModal"> <i class="fas fa-arrows-alt text-info"></i> {{ item.name }}</td>
                             {% for det in item.columns %}
                                 <td class="text-right">{{ det.on_hand }}</td>
                             {% endfor %}
@@ -99,83 +95,117 @@
     </div>
 </div>
 <!-- Extra large modal -->
-<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h6 class="modal-title">Detalle de la migracción Bodegas:{{ report.warenhouses | length }} | Empresas: {{ report.owners | length }} | Productos: {{ report.products | length }}</h6>
+            <h4 class="modal-title text-info w-100 text-center">Producto Selecciondo Total de Existencias</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-                        aria-selected="true">Resumen</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
-                        aria-selected="false">Detalle de Bodegas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
-                        aria-selected="false">Detalle de Empresas</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <table class="table table-bordered table-hover" id="table_resume">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nombre Bodega</th>
-                            <th>Items</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                                           </tbody>
-                    </table>
+            <div class="container-fluid">
+                <div class="row border rounded">
+                    <div class="col border">
+                       <span class="text-secondary">Cod Barras: </span>
+                       <span>9876545678</span>
+                    </div>
+                    <div class="col border">
+                        <span class="text-secondary">Und Empaque: </span>
+                        <span>6</span>
+                    </div>
+                    <div class="col border">
+                        <span class="text-secondary">Cod: </span>
+                        <span>011245411200750</span>
+                    </div>
+                    <div class="col border">
+                        <span class="text-secondary">Bodegas: </span>
+                        <span>4</span>
+                    </div>
+                    <div class="col border">
+                        <span class="text-secondary">   Empresas: </span>
+                        <span>3</span>
+                    </div>  
                 </div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <table class="table table-bordered table-hover" id="table_warenhouses">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Nombre Bodega</th>
-                                <th>Items</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for warenhouse in report.by_warenhouses %}
-                                <tr>
-                                    <td>{{ forloop.counter }}</td>
-                                    <td>{{ warenhouse.totals.name }}</td>
-                                    <td class="text-right">{{ warenhouse.totals.on_hand }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                  <div class="row">
+                    <div class="col border rounded">
+                        <div class="row">
+                            <div class="col h4 text-center">BODEGAS</div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <table class="table table-bordered table-condensed">
+                                    <thead>
+                                        <tr class="text-center bg-gradient-dark">
+                                            <th>#</th>
+                                            <th>Bodega</th>
+                                            <th>Codigo SAP</th>
+                                            <th>Cantidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border rounded">
+                        <div class="row">
+                            <div class="col h4 text-center text-info">EMPRESAS</div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <table class="table table-bordered table-condensed">
+                                    <thead>
+                                        <tr class="text-center bg-gradient-info">
+                                            <th>#</th>
+                                            <th>Empresa</th>
+                                            <th>Cantidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                    <table class="table table-bordered table-hover" id="table_owners">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Nombre Bodega</th>
-                                <th>Items</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for owner in report.by_owners %}
-                            <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td>{{ owner.totals.name }}</td>
-                                <td class="text-right">{{ owner.totals.on_hand }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <div class="row border rounded">
+                        <div class="col text-center text-secondary h5">Detalle [descripcion seleccion]</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <table class="table table-bordered table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nombre</th>
+                                        <th>SAP CODE</th>
+                                        <th>Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>2</td>
+                                        <td>2</td>
+                                        <td>2</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                 </div>
             </div>
         </div>
@@ -184,6 +214,7 @@
         </div>
     </div>
 </div>
+
 </div>
 {% endblock content %}
 {% block scritp_code %}

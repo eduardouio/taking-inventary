@@ -9,13 +9,10 @@ class DetailMigrationsTV(TemplateView):
     template_name = 'sap_migrations/detail_migration.html'
     
     def get(self, request, pk, *args, **kwargs):
-        initial = time()
+        start_time = time()
         context = self.get_context_data(*args, **kwargs)
         report_migration = ConsolidateMigration().get(pk)
         conditon_report = 'by_products'
-        print('-----------------')
-        print('Terminamos en {} de {} total {}'.format(initial, time(), time()-initial))
-        print('-----------------')
 
         report = {
             'columns': report_migration['warenhouses'],
@@ -35,6 +32,7 @@ class DetailMigrationsTV(TemplateView):
             'module_name': 'Migraciones SAP',
             'total_records': report_migration['totals']['on_hand'],
             'pk': pk,
+           'total_time': time() - start_time,
         }
         context = { **context, **page_data }
         return self.render_to_response(context)

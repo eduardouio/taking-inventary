@@ -45,27 +45,26 @@ class SapMigration(AppBaseModel):
         blank=True,
         null=True
     )
-    report = models.TextField(
+    report = models.JSONField(
         'Reporte JSON',
         blank=True,
         null=True,
         default=None
     )
-    products = models.TextField(
+    products = models.JSONField(
         'Productos JSON',
         blank=True,
         null=True,
         default=None
     )
-    warenhouses = models.TextField(
-        'Productos JSON',
+    warenhouses = models.JSONField(
+        'Bodegas JSON',
         blank=True,
         null=True,
         default=None
     )
-    owners = models.TextField(
+    owners = models.JSONField(
         'Empresas JSON',
-        'Productos JSON',
         blank=True,
         null=True,
         default=None
