@@ -11,7 +11,7 @@ from sap_migrations.models import SapMigrationDetail
 class APIProductDetail(View):
 
     def get(self, request, id_product, id_migration):
-        my_product = Product.get_by_pk(pk=id_product)
+        my_product = Product.get(account_code=id_product)
         query = SapMigrationDetail.objects.filter(
             account_code=my_product.account_code,
             id_sap_migration_id=id_migration
