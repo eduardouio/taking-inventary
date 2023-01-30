@@ -1,6 +1,7 @@
+import json
+
 from django.core.serializers import serialize
 from sap_migrations.models import SapMigration, SapMigrationDetail
-import json
 
 
 class ConsolidateMigration(object):
