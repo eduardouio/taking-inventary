@@ -76,11 +76,11 @@ class SapMigration(AppBaseModel):
     @classmethod
     def get(cls, id_sap_migration):
         try:
-           return cls.objects.get(pk=id_sap_migration)
+            return cls.objects.get(pk=id_sap_migration)
         except ObjectDoesNotExist as e:
             loggin('e', e.__str__())
             return None
-    
+
     def __str__(self) -> str:
         return '{} -> {}'.format(
             self.id_sap_migration,

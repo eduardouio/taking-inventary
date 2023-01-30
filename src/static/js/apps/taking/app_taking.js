@@ -104,7 +104,7 @@ const app = createApp({
         setTimeout(() => { 
             this.server_status.sended_request = false;
             this.switchView('search_form');
-        }, 1000);
+        }, 500);
         window.addEventListener("beforeunload", (e) => {
             e.preventDefault();
             return e.returnValue = 'Esta seguro de salir?, la información se perderá';

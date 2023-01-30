@@ -3,7 +3,7 @@ from django.db import models
 from common import AppBaseModel, loggin
 
 
-UNITS=(
+UNITS = (
     ('LITROS', 'LITROS'),
     ('MILITROS', 'MILILITROS'),
     ('GRAMOS', 'GRAMOS'),
@@ -12,35 +12,35 @@ UNITS=(
 )
 
 TYPE_PRODUCT = (
-    ('ACCESORIO','ACCESORIO'),
-    ('AGUA TONICA','AGUA TÓNICA'),
-    ('ALIMENTO','ALIMENTO'),
-    ('BAJATIVO','BAJATIVO'),
-    ('BEBIDAS AZUCARADAS','BEBIDAS AZUCARADAS'),
-    ('CHAMPAGNE','CHAMPAGNE'),
-    ('MUEBLE','MUEBLE'),
-    ('PISCO','PISCO'),
-    ('RON','RON'),
-    ('SANGRIA','SANGRIA'),
-    ('VINO BLANCO','VINO BLANCO'),
-    ('VINO ESPUMOSO','VINO ESPUMOSO'),
-    ('VINO TINTO','VINO TINTO'),
-    ('WHISKY','WHISKY'),
-    ('OTRO','OTRO BIEN'),
+    ('ACCESORIO', 'ACCESORIO'),
+    ('AGUA TONICA', 'AGUA TÓNICA'),
+    ('ALIMENTO', 'ALIMENTO'),
+    ('BAJATIVO', 'BAJATIVO'),
+    ('BEBIDAS AZUCARADAS', 'BEBIDAS AZUCARADAS'),
+    ('CHAMPAGNE', 'CHAMPAGNE'),
+    ('MUEBLE', 'MUEBLE'),
+    ('PISCO', 'PISCO'),
+    ('RON', 'RON'),
+    ('SANGRIA', 'SANGRIA'),
+    ('VINO BLANCO', 'VINO BLANCO'),
+    ('VINO ESPUMOSO', 'VINO ESPUMOSO'),
+    ('VINO TINTO', 'VINO TINTO'),
+    ('WHISKY', 'WHISKY'),
+    ('OTRO', 'OTRO BIEN'),
 )
 
 
 class Product(AppBaseModel):
-    id_product=models.AutoField(
+    id_product = models.AutoField(
         'id producto',
         primary_key=True
     )
-    account_code=models.CharField(
+    account_code = models.CharField(
         'codigo contable',
         max_length=50,
         unique=True
     )
-    name=models.CharField(
+    name = models.CharField(
         'nombre producto',
         max_length=300,
     )
@@ -52,19 +52,19 @@ class Product(AppBaseModel):
         null=True,
         default='otro'
     )
-    quantity_per_box=models.PositiveSmallIntegerField(
+    quantity_per_box = models.PositiveSmallIntegerField(
         'cantidad por caja',
         blank=True,
         null=True,
         default=1
     )
-    capacity=models.PositiveIntegerField(
+    capacity = models.PositiveIntegerField(
         'capacidad',
         null=True,
         blank=True,
         default=0,
     )
-    unit_measurement=models.CharField(
+    unit_measurement = models.CharField(
         'unidad medida',
         choices=UNITS,
         max_length=40,
@@ -79,7 +79,7 @@ class Product(AppBaseModel):
         blank=True,
         default='UNIDAD'
     )
-    alcoholic_strength=models.PositiveSmallIntegerField(
+    alcoholic_strength = models.PositiveSmallIntegerField(
         'grado alcoholico',
         default=None,
         blank=True,
@@ -91,28 +91,28 @@ class Product(AppBaseModel):
         null=True,
         blank=True,
     )
-    ean_14_code=models.CharField(
+    ean_14_code = models.CharField(
         'EAN 14',
         max_length=25,
         null=True,
         blank=True,
         default=0,
     )
-    health_register=models.CharField(
+    health_register = models.CharField(
         'registro sanitario',
         max_length=50,
         null=True,
         blank=True,
         default=None
     )
-    image_front=models.ImageField(
+    image_front = models.ImageField(
         'imagen frontal',
         upload_to='app/images/products',
         blank=True,
         null=True,
         default=None
     )
-    image_back=models.ImageField(
+    image_back = models.ImageField(
         'imagen posterior',
         upload_to='app/images/products',
         blank=True,
@@ -152,14 +152,20 @@ class Product(AppBaseModel):
         null=True,
         default=None
     )
-    
+
     @classmethod
     def get(cls, account_code):
         try:
             return cls.objects.get(account_code=account_code)
         except ObjectDoesNotExist as e:
-            loggin('e', e.__str__())
             return None
-    
+
+    @classmethod
+    def get_by_pk(cls, pk):
+        try:
+            return cls.objects.get(pk=pk)
+        except ObjectDoesNotExist as e:
+            return None
+
     def __str__(self):
         return self.name
