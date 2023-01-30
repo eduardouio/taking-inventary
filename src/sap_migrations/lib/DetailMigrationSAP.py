@@ -13,7 +13,7 @@ class DetailMigrationSAP():
         sap_migration = SapMigration.get(id_sap_migration)
         if not sap_migration:
             return report
-       
+
         report['user'] = sap_migration.get_user()
         report['takings'] = Taking.get_by_sap_migrations(id_sap_migration)
         return report
