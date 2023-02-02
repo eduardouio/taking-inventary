@@ -1,8 +1,9 @@
 {% extends 'base/base.html' %}
 {% load static %}
+{% load humanize %}
 {% block css_files %}
-<link rel="stylesheet" type="text/css" href="{% static '/css/jquery.dataTables.min.css' %}">
 <script src="{% static '/js/jquery-3.6.1.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/css/jquery.dataTables.min.css' %}">
 {% endblock %}
 {% block title_bar %}
 <div class="row border bg-gardient-secondary rounded" style="padding: 15px;">
@@ -11,10 +12,15 @@
         {{ title_page }} <strong> {{ total_records }} Registros Encontrados </strong>
     </div>
     <div class="col-4 text-right"><small>[Sistema Toma Inventarios] | <strong>Módulo {{ module_name }}
-            </strong></small></div>
+            </strong></small>
+            <span class="text-primary">
+                [{{ total_time | floatformat:2 }} segs]
+            </span>
+        </div>
 </div>
 {% endblock %}
 {% block content %}
+<div>
 <div class="container-fluid">
         <div class="row row-vertical-space">
             <br/>
@@ -77,7 +83,7 @@
                     {% for item in report.table %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td nowrap="" data-toggle="modal" data-target="#exampleModal"> <i class="fas fa-arrows-alt text-info"></i> {{ item.name }}</td>
+                            <td nowrap="" data-toggle="modal" data-target="#exampleModal" onclick="getProduct('{{ item.account_code }}')"> <i class="fas fa-arrows-alt text-info"></i> {{ item.name }} <small class="text-secondary">{{ item.account_code}}</small></td>
                             {% for det in item.columns %}
                                 <td class="text-right">{{ det.on_hand }}</td>
                             {% endfor %}
@@ -99,58 +105,51 @@
 <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h4 class="modal-title text-info w-100 text-center">Producto Selecciondo Total de Existencias</h4>
+            <h4 class="modal-title text-info w-100 text-center" id="app-product-desc"></h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
             <div class="container-fluid">
+                <div class="row">
+                    <div class="col text-center" id="image_product"></div>
+                </div>
                 <div class="row border rounded">
                     <div class="col border">
                        <span class="text-secondary">Cod Barras: </span>
-                       <span>9876545678</span>
+                       <span id="ean_13_code">9876545678</span>
                     </div>
                     <div class="col border">
                         <span class="text-secondary">Und Empaque: </span>
-                        <span>6</span>
+                        <span id="quantity_per_box">6</span>
                     </div>
                     <div class="col border">
-                        <span class="text-secondary">Cod: </span>
-                        <span>011245411200750</span>
+                        <span class="text-secondary">Cod:</span>
+                        <span id="account_code"></span>
                     </div>
                     <div class="col border">
-                        <span class="text-secondary">Bodegas: </span>
-                        <span>4</span>
+                        <span class="text-secondary">Registro: </span>
+                        <span id="health_register"></span>
                     </div>
-                    <div class="col border">
-                        <span class="text-secondary">   Empresas: </span>
-                        <span>3</span>
-                    </div>  
                 </div>
+                <br/>
                   <div class="row">
                     <div class="col border rounded">
                         <div class="row">
-                            <div class="col h4 text-center">BODEGAS</div>
+                            <div class="col h6 text-center text-secondary">BODEGAS</div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <table class="table table-bordered table-condensed">
                                     <thead>
-                                        <tr class="text-center bg-gradient-dark">
+                                        <tr class="text-center bg-gradient-light">
                                             <th>#</th>
                                             <th>Bodega</th>
-                                            <th>Codigo SAP</th>
                                             <th>Cantidad</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
+                                    <tbody id="warenhouse_name">
                                     </tbody>
                                 </table>
                             </div>
@@ -158,54 +157,47 @@
                     </div>
                     <div class="col border rounded">
                         <div class="row">
-                            <div class="col h4 text-center text-info">EMPRESAS</div>
+                            <div class="col h6 text-center text-info">EMPRESAS</div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <table class="table table-bordered table-condensed">
                                     <thead>
-                                        <tr class="text-center bg-gradient-info">
+                                        <tr class="text-center bg-gradient-light">
                                             <th>#</th>
                                             <th>Empresa</th>
                                             <th>Cantidad</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
+                                    <tbody id="company_name">
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row border rounded">
-                        <div class="col text-center text-secondary h5">Detalle [descripcion seleccion]</div>
+                <br/>
+                <div class="border rounded">
+                <div class="row">
+                        <div class="col text-center text-secondary h6"> Reporte Detallado</div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <table class="table table-bordered table-condensed">
                                 <thead>
-                                    <tr>
+                                    <tr class="text-center bg-gradient-light">
                                         <th>#</th>
                                         <th>Nombre</th>
-                                        <th>SAP CODE</th>
+                                        <th>Empresa</th>
+                                        <th>Bodega</th>
                                         <th>Cantidad</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>2</td>
-                                        <td>2</td>
-                                        <td>2</td>
-                                    </tr>
+                                <tbody id="query_detail">
                                 </tbody>
                             </table>
                         </div>
+                </div>
                 </div>
             </div>
         </div>
@@ -214,17 +206,21 @@
         </div>
     </div>
 </div>
-
+</div>
 </div>
 {% endblock content %}
 {% block scritp_code %}
+<script>
+// Variables de entorno
+    var csrf_token = '{{ csrf_token }}';
+    var id_migration = parseInt('{{ pk }}');
+    var base_url = '/products/api/detail/product/'
+</script>
 <script type="text/javascript" charset="utf8" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/apps/products/app_products.js' %}"></script>
 <script>
     $(document).ready(function () {
         $('#table').DataTable();
-        $('#table_owners').DataTable();
-        $('#table_resume').DataTable();
-        $('#table_warenhouses').DataTable();
     });
 </script>
 {% endblock %}
