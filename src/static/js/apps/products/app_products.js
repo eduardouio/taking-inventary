@@ -86,8 +86,6 @@ function totalizerValues(query, field) {
 function insertList(query, report_by){
     let html  = '';
     const report = totalizerValues(query, report_by);
-    console.dir(report);
-    console.log(report.total);
 
     report.report.forEach((value,index)=>{
         html += `
@@ -110,23 +108,33 @@ function insertList(query, report_by){
 
 function insertDetails(report_by, value){
     let detail_report = ''
+    const detail = report.query.filter((item)=>{
+        if (item.fields[report_by] === value){
+            return true;
+        }
+    });
 
-    report.query.forEach((item, key) => {
+    console.log(detail);
+    detail.forEach((item, key) => {
         detail_report += `
             <tr>
-                <td>${key + 1}</td>
-                <td>${item.name}</td>
-                <td>${item.company_name}</td>
-                <td>${item.warenhouse_name} [${item.id_warenhouse_sap_code}] </td>
-                <td class="text-right">${item.on_hand}</td>
+                <td class="text-center">${key + 1}</td>
+                <td>${item.fields.name}</td>
+                <td>${item.fields.company_name}</td>
+                <td>${item.fields.warenhouse_name} [${item.fields.id_warenhouse_sap_code}] </td>
+                <td class="text-right">${item.fields.on_hand.toLocaleString('es-EC') }</td>
             </tr>
         `
     });
 
+    total = detail.reduce((accum, current)=>{
+        return accum + current.fields.on_hand;
+    },0);
+
     detail_report += `
-        <tr class="text-right bg-gradient-light">
+        <tr class="text-right bg-gradient-secondary">
             <td colspan="4">SUMAS</td>
-            <td> <strong>0</strong></td>
+            <td> <strong>${total.toLocaleString('es-EC')}</strong></td>
         </tr>
     `;
     document.getElementById('query_detail').innerHTML = detail_report;
