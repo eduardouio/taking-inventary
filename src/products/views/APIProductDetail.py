@@ -1,4 +1,5 @@
 import json
+
 from django.http import JsonResponse
 from django.views import View
 from django.core.serializers import serialize
@@ -19,7 +20,7 @@ class APIProductDetail(View):
         response_data = {
             'id_product': id_product,
             'id_migration': id_migration,
-            'product': json.loads(serialize('json', [my_product])),
+            'product': json.loads(serialize('json', [my_product]))[0],
             'query': json.loads(serialize('json', query)),
         }
         return JsonResponse(response_data)
