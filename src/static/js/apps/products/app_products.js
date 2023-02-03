@@ -114,7 +114,6 @@ function insertDetails(report_by, value){
         }
     });
 
-    console.log(detail);
     detail.forEach((item, key) => {
         detail_report += `
             <tr>
