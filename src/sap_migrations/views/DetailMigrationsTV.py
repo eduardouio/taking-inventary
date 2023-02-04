@@ -7,7 +7,7 @@ from time import time
 # /sap/detail/<pk>/
 class DetailMigrationsTV(TemplateView):
     template_name = 'sap_migrations/detail_migration.html'
-    
+
     def get(self, request, pk, *args, **kwargs):
         start_time = time()
         context = self.get_context_data(*args, **kwargs)
@@ -15,14 +15,14 @@ class DetailMigrationsTV(TemplateView):
         conditon_report = 'by_products'
 
         report = {
-            'columns': report_migration['warenhouses'],
-            'table': report_migration['table_by_warenhouses']
+            'columns': report_migration['owners'],
+            'table': report_migration['table_by_owners']
         }
-
+        # TODO Hacer que se muestre por bodega de forma opcional
         if request.GET.get('criteria') == 'by_owners':
             report = {
-                'columns': report_migration['owners'],
-                'table': report_migration['table_by_owners'] 
+                'columns': report_migration['warenhouses'],
+                'table': report_migration['table_by_warenhouses']
             }
 
         page_data = {
@@ -32,7 +32,7 @@ class DetailMigrationsTV(TemplateView):
             'module_name': 'Migraciones SAP',
             'total_records': report_migration['totals']['on_hand'],
             'pk': pk,
-           'total_time': time() - start_time,
+            'total_time': time() - start_time,
         }
-        context = { **context, **page_data }
+        context = {**context, **page_data}
         return self.render_to_response(context)
