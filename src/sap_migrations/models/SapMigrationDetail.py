@@ -92,15 +92,15 @@ class SapMigrationDetail(AppBaseModel):
         null=True,
         blank=True
     )
-    
+
     @classmethod
     def get_by_migration(cls, id_migration):
         detail = cls.objects.filter(id_sap_migration=id_migration)
         if len(detail):
             return list(detail)
-        
+
         return []
-    
+
     @classmethod
     def get(cls, id_sap_migration_detail):
         try:
@@ -110,17 +110,16 @@ class SapMigrationDetail(AppBaseModel):
             return None
 
     @classmethod
-    def get_by_warenhouse_name(cls, id_sap_migration , warenhouse_name):
+    def get_by_warenhouse_name(cls, id_sap_migration, warenhouse_name):
         detail = cls.objects.filter(
             id_sap_migration=id_sap_migration,
-            warenhouse_name= warenhouse_name,
-            avaliable__gt = 0
-            )
+            warenhouse_name=warenhouse_name,
+            avaliable__gt=0
+        )
         if len(detail):
             return list(detail)
-        
+
         return []
 
     def __str__(self):
         return '{}->{}'.format(self.name, self.on_hand)
-    
