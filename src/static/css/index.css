@@ -85,6 +85,11 @@ table.mi_table td{
     color: #1f2d3d;
 }
 
+.bg-gradient-light-dark {
+    background: #b9b9b9 linear-gradient(180deg, #fffdfd, #c5c5c5) repeat-x !important;
+    color: #1f2d3d;
+}
+
 .border {
     padding: 3px;
 }
