@@ -84,3 +84,11 @@ table.mi_table td{
     background: #eafcff linear-gradient(180deg, #fffdfd, #cde6ff) repeat-x !important;
     color: #1f2d3d;
 }
+
+.border {
+    padding: 3px;
+}
+
+.list-group-item {
+    padding: 0.25rem 0.50rem;
+}

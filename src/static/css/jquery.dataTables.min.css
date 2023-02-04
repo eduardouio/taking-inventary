@@ -301,22 +301,7 @@ table.dataTable tbody td.dt-body-nowrap {
     white-space: nowrap;
 }
 
-/*
- * Table styles
- */
-table.dataTable {
-    width: 100%;
-    margin: 0 auto;
-    clear: both;
-    border-collapse: separate;
-    border-spacing: 0;
-    /*
-   * Header and footer styles
-   */
-    /*
-   * Body styles
-   */
-}
+
 
 table.dataTable thead th,
 table.dataTable tfoot th {
@@ -325,7 +310,7 @@ table.dataTable tfoot th {
 
 table.dataTable thead th,
 table.dataTable thead td {
-    padding: 10px;
+    padding: 5px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
@@ -349,10 +334,7 @@ table.dataTable tbody tr.selected>* {
     color: white;
 }
 
-table.dataTable tbody th,
-table.dataTable tbody td {
-    padding: 4px 5px;
-}
+
 
 table.dataTable.row-border tbody th,
 table.dataTable.row-border tbody td,
@@ -524,16 +506,6 @@ table.dataTable.compact thead td {
 table.dataTable.compact tfoot th,
 table.dataTable.compact tfoot td {
     padding: 4px;
-}
-
-table.dataTable.compact tbody th,
-table.dataTable.compact tbody td {
-    padding: 4px;
-}
-
-table.dataTable th,
-table.dataTable td {
-    box-sizing: content-box;
 }
 
 /*
