@@ -1,35 +1,40 @@
 import json
 from datetime import datetime
+from time import time
 
 from django.core.serializers import serialize
 from django.http import HttpResponse
 from django.views.generic import TemplateView
+from django.db import connection
 
 from accounts.models.CustomUserModel import CustomUserModel
 from accounts.models.Team import Team
 from accounts.mixins import ValidateManagerMixin
 from sap_migrations.lib import ConsolidateMigration
-from sap_migrations.models import SapMigration
+from sap_migrations.models import SapMigration, SapMigrationDetail
 from takings.models import Taking
 
 
-# /taking/create/<int:id_sap_migration>/ 
+# /taking/create/<int:id_sap_migration>/
 class CreateTakingTP(ValidateManagerMixin, TemplateView):
     template_name = 'takings/create-taking.html'
 
     def get(self, request, id_sap_migration, *args, **kwargs):
+        start_time = time()
         context = self.get_context_data(**kwargs)
-        report_migration = ConsolidateMigration().get(id_sap_migration) 
-        all_warenhouses = []
+        report_migration = ConsolidateMigration().get(id_sap_migration)
+        all_warenhouses = self.get_warenhouses(id_sap_migration)
         all_users = CustomUserModel.objects.all()
+
         all_users = [{
-                'username':i.username,
-                'first_name': i.first_name,
-                'last_name': i.last_name,
-                'role': i.role,
-                'is_selected': False} 
+            'username': i.username,
+            'first_name': i.first_name,
+            'last_name': i.last_name,
+            'role': i.role,
+            'is_selected': False
+        }
             for i in all_users if i.role == 'asistente'
-         ]
+        ]
         page_data = {
             'title_page': 'Custom Taking',
             'module_name': 'Tomas Inventario',
@@ -37,6 +42,7 @@ class CreateTakingTP(ValidateManagerMixin, TemplateView):
             'report_migration': report_migration,
             'all_users': json.dumps(all_users),
             'all_warenhouses': json.dumps(all_warenhouses),
+            'total_time': time()-start_time
         }
         return self.render_to_response({**context, **page_data})
 
@@ -53,7 +59,7 @@ class CreateTakingTP(ValidateManagerMixin, TemplateView):
             my_team = Team.objects.create(
                 manager=my_manager,
                 group_number=idx+1,
-                id_taking = taking.pk
+                id_taking=taking.pk
             )
             taking.teams.add(my_team)
 
@@ -65,22 +71,26 @@ class CreateTakingTP(ValidateManagerMixin, TemplateView):
 
         taking.save()
         return HttpResponse(json.dumps({
-                'id_taking': taking.pk})
-        , status=200)
+            'id_taking': taking.pk}), status=200)
 
-    def __get_warenhouses_detail(self, report_migration):
-        warenhouses = []
-        for wrhs in report_migration['by_warenhouses']:
-            my_warenhouse = {
-                'detail': json.loads(serialize(
-                    'json', 
-                    [Warenhouse.get_by_name(wrhs['name'])])
-                )[0],
-                'owners': Warenhouse.get_owners(wrhs['name']),
-                'is_selected': False,
-            }
-            warenhouses.append({ ** my_warenhouse, ** wrhs['totals']})
+    def get_warenhouses(self, id_sap_migration):
+        cursor = connection.cursor()
+        cursor.execute("""
+            SELECT 
+                DISTINCT(sms.warenhouse_name),
+                sms.company_name,
+                sms.id_warenhouse_sap_code
+            FROM sap_migrations_sapmigrationdetail sms 
+            WHERE 
+            sms.id_sap_migration_id = {};
+        """.format(id_sap_migration))
+        columns = [col[0] for col in cursor.description]
+        warenhouses = [
+            dict(zip(columns, row))
+            for row in cursor.fetchall()
+        ]
+
+        for w in warenhouses:
+            w['is_selected'] = False
 
         return warenhouses
-
-

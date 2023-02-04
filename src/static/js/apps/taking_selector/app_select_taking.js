@@ -5,12 +5,12 @@ const app = createApp({
     data() {
       return {
         warenhouses: all_warenhouses,
+        unique_warenhouses: [],
         users: all_users,
         current_warenhouse: null,
         current_user: null,
         all_selected: false,
         all_users_selected: false,
-        show_tab_warenhouse: true,
         show_report: false,
         id_taking:null,
       }
@@ -19,17 +19,21 @@ const app = createApp({
       selectWarenhouse(warenhouse){
         warenhouse.is_selected = !warenhouse.is_selected;
         this.current_warenhouse = warenhouse;
+        this.warenhouses.map((curr)=>{
+          if (curr.warenhouse_name === warenhouse.warenhouse_name){
+            curr.is_selected = warenhouse.is_selected;
+          }
+        });
       },selectAllWarenhouses(){
         let all_selected = !this.all_selected
-        this.warenhouses.map(function(warenhouse){
+        this.unique_warenhouses.map((warenhouse)=>{
           warenhouse.is_selected = all_selected;
         });
-        this.all_selected = !this.all_selected
-      },swithTabForm(){
-        this.show_tab_warenhouse = !this.show_tab_warenhouse;
-        $(document).ready(function () {
-            $('#table_users').DataTable();
+        this.warenhouses.map((warenhouse) => {
+          warenhouse.is_selected = all_selected;
         });
+        
+        this.all_selected = !this.all_selected
       },selectAllUsers(){
         let all_selected = !this.all_users_selected;  
         this.users.map(function(user){
@@ -58,47 +62,49 @@ const app = createApp({
         }, 600);
       }
     },mounted: function(){
-      console.log('estamos iniciando la aplicacion');
+      const unique_warenhouses = this.warenhouses.map(
+        (curren)=>curren.warenhouse_name
+        ).filter((curren, index, _array)=>_array.indexOf(curren) === index
+      );
+      this.unique_warenhouses = unique_warenhouses.map((curren, index)=>{
+        return {
+          'warenhouse_name': curren,
+          'is_selected': false,
+        }
+      });
+      
     },computed: {
-      totalOnHand(){
-        total = 0
-        this.warenhouses.forEach(function(element) {
-            if (element.is_selected){
-              total += element.on_hand;
-            }
-        });
-        return new Intl.NumberFormat().format(total);
-      },allSelected(){
+    allSelected(){
       return {
-        'btn-success': !this.all_selected,
-        'btn-danger': this.all_selected
+        'text-success': !this.all_selected,
+        'text-danger': this.all_selected
       }
     },allUsersSelected(){
       return{
-       'btn-success': !this.all_users_selected,
-        'btn-danger': this.all_users_selected,
+       'text-success': !this.all_users_selected,
+       'text-danger': this.all_users_selected,
       }
-    },totalUsers(){
+    },totalUsersSelected(){
       total = 0;
-      this.users.forEach(function(element){
-        if (element.is_selected){
+      this.users.forEach((element) => {
+        if (element.is_selected) {
           total += 1;
         }
       });
       return total;
-    },enterprisesList(){
-      let enterprises_list = [];
-      this.warenhouses.forEach(function (item){
-        if (item.is_selected){
-          enterprises_list = enterprises_list.concat(item.owners);
-        }
-      });
-      enterprises_list = enterprises_list.filter(
-        function(elem, idx, list){
-          return list.indexOf(elem) === idx;
-        }
-        );
-      return enterprises_list.sort();
+      },totalWarenhousesSelected() {
+        total = 0;
+        this.unique_warenhouses.forEach((element) => {
+          if (element.is_selected) {
+            total += 1;
+          }
+        });
+        return total;
+      }, enterprisesList(){
+        return this.warenhouses
+        .filter((curren)=>curren.is_selected)
+        .map((curr) => curr.company_name)
+        .filter((elem, idx, list)=>list.indexOf(elem) === idx).sort();
     },
     }
   });
