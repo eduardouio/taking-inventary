@@ -1,9 +1,29 @@
-var report = null;
+let show_details = true;
 let show_product = true;
+var base_url = '/sap/api'
+var report = null;
+// Muestra | Oculra lista bodegas y empresas
+function showDetails() {
+    button = document.getElementById('btn-show-details');
+    document.getElementById('warenhouses-list').hidden = show_details;
+    document.getElementById('enterprises-list').hidden = show_details;
+    show_details = !show_details;
+
+    if (show_details) {
+        button.className = 'fas fa-eye btn btn-outline-secondary btn-sm';
+    } else {
+        button.className = 'fas fa-eye btn btn-outline-dark btn-sm';
+    }
+}
 
 function showProductImg() {
     document.getElementById('image_product').hidden = show_product;
     show_product = !show_product
+}
+
+// Acepta | Detiene la inserción de las tomas
+function changeStatus(id_taking) {
+    alert('desa cancelar el conteo' + id_taking);
 }
 
 function getProduct(account_code) {
@@ -12,7 +32,7 @@ function getProduct(account_code) {
     xhr.responseType = "json";
     xhr.open(
         'GET',
-        base_url + account_code + '/migration/' + id_migration
+        `${base_url}/migration/${id_migration}/taking/${id_taking}/product/${account_code}`
     )
     data = xhr.send();
     xhr.onload = (response) => {
@@ -26,7 +46,7 @@ function getProduct(account_code) {
             alert('Error al comunicarse con el Servidor');
         }
     }
-    xhr.onerror = (response) =>{
+    xhr.onerror = (response) => {
         alert('Error al obtener el reporte')
     }
 }
@@ -46,12 +66,12 @@ function updateHeaderProduct(product) {
         <small>${product.ean_13_code}</small>
     `;
     document.getElementById('image_product').innerHTML = `
-        <img src="${ product_image }" 
-            alt="${ product.name }"
+        <img src="${product_image}" 
+            alt="${product.name}"
             style="width:200px;height:auto"
         >
     `;
-    fields.forEach((val)=>{
+    fields.forEach((val) => {
         document.getElementById(val).innerText = product[val];
     });
 }
@@ -63,7 +83,7 @@ function totalizerValues(query, field) {
         'total': 0,
     };
 
-    const uniques =  query.map((value) => {
+    const uniques = query.map((value) => {
         return value.fields[field];
     }).filter((value, index, my_array) => {
         return my_array.indexOf(value) === index;
@@ -82,24 +102,24 @@ function totalizerValues(query, field) {
         });
     });
 
-    report.total = report.report.reduce((curr, item)=>{
+    report.total = report.report.reduce((curr, item) => {
         return curr + item.total;
-    },0);
+    }, 0);
 
     return report;
 }
 
 
-function insertList(query, report_by){
-    let html  = '';
+function insertList(query, report_by) {
+    let html = '';
     const report = totalizerValues(query, report_by);
 
-    report.report.forEach((value,index)=>{
+    report.report.forEach((value, index) => {
         html += `
         <tr onclick="insertDetails('${report_by}', '${value.column}')">
             <td class="text-center">${index + 1}</td>
             <td>${value.column}</td>
-            <td class="text-right">${value.total.toLocaleString('es-EC') }</td>
+            <td class="text-right">${value.total.toLocaleString('es-EC')}</td>
         </tr>
         `;
     });
@@ -109,14 +129,14 @@ function insertList(query, report_by){
             <td colspan="2" class="text-right"><strong>TOTAL:<strong></td>
             <td class="text-right"><strong> ${report.total.toLocaleString('es-EC')} </strong></td>
         </tr>
-    `;    
+    `;
     document.getElementById(report_by).innerHTML = html;
 }
 
-function insertDetails(report_by, value){
+function insertDetails(report_by, value) {
     let detail_report = ''
-    const detail = report.query.filter((item)=>{
-        if (item.fields[report_by] === value){
+    const detail = report.query.filter((item) => {
+        if (item.fields[report_by] === value) {
             return true;
         }
     });
@@ -128,14 +148,14 @@ function insertDetails(report_by, value){
                 <td>${item.fields.name}</td>
                 <td>${item.fields.company_name}</td>
                 <td>${item.fields.warenhouse_name} [${item.fields.id_warenhouse_sap_code}] </td>
-                <td class="text-right">${item.fields.on_hand.toLocaleString('es-EC') }</td>
+                <td class="text-right">${item.fields.on_hand.toLocaleString('es-EC')}</td>
             </tr>
         `
     });
 
-    total = detail.reduce((accum, current)=>{
+    total = detail.reduce((accum, current) => {
         return accum + current.fields.on_hand;
-    },0);
+    }, 0);
 
     detail_report += `
         <tr class="text-right bg-gradient-secondary">
@@ -146,5 +166,4 @@ function insertDetails(report_by, value){
     document.getElementById('query_detail').innerHTML = detail_report;
 }
 
-
-
+showDetails();

@@ -83,7 +83,7 @@
                     {% for item in report.table %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td nowrap="" data-toggle="modal" data-target="#exampleModal" onclick="getProduct('{{ item.account_code }}')"> <i class="fas fa-arrows-alt text-info"></i> {{ item.name }} <small class="text-secondary">{{ item.account_code}}</small></td>
+                            <td nowrap="" data-toggle="modal" data-target="#exampleModal" onclick="getProduct('{{ item.account_code }}')"><i class="fas fa-arrows-alt text-info"></i> {{ item.name }} <small class="text-secondary">{{ item.account_code}}</small></td>
                             {% for det in item.columns %}
                                 <td class="text-right">{{ det.on_hand }}</td>
                             {% endfor %}
@@ -106,11 +106,12 @@
     <div class="modal-content">
         <div class="modal-header">
             <h4 class="modal-title text-info w-100 text-center" id="app-product-desc"></h4>
+            <i class="fas fa-eye" onclick="showProductImg()"></i>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" id="my_report_pdf">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col text-center" id="image_product"></div>
@@ -118,11 +119,11 @@
                 <div class="row border rounded">
                     <div class="col border">
                        <span class="text-secondary">Cod Barras: </span>
-                       <span id="ean_13_code">9876545678</span>
+                       <span id="ean_13_code"></span>
                     </div>
                     <div class="col border">
                         <span class="text-secondary">Und Empaque: </span>
-                        <span id="quantity_per_box">6</span>
+                        <span id="quantity_per_box"></span>
                     </div>
                     <div class="col border">
                         <span class="text-secondary">Cod:</span>
@@ -216,11 +217,25 @@
     var id_migration = parseInt('{{ pk }}');
     var base_url = '/products/api/detail/product/'
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script type="text/javascript" charset="utf8" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'js/apps/products/app_products.js' %}"></script>
 <script>
     $(document).ready(function () {
         $('#table').DataTable();
     });
+</script>
+<script>
+    function Convert_HTML_To_PDF(){
+        var pdf = new jsPDF({
+            orientation: 'landscape',
+        });
+        var section = document.getElementById('exampleModal');
+        pdf.fromHTML(section, 1, 1, {
+            'width': 200,
+        });
+        pdf.save('report.pdf');
+    }
 </script>
 {% endblock %}

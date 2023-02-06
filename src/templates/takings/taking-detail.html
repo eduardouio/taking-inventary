@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load static %}
+{% load humanize %}
 {% block css_files %}
 <link rel="stylesheet" type="text/css" href="{% static '/css/jquery.dataTables.min.css' %}">
 <script src="{% static '/js/jquery-3.6.1.min.js' %}"></script>
@@ -9,28 +10,70 @@
     <div class="row border bg-gardient-secondary rounded" style="padding: 15px;">
         <div class="col-8">
             <i class="fa fa-list"></i>
-            {{ title_page }}
+            Toma De Inventario <strong>{{ title_page }}</strong> 
         </div>
         <div class="col-4 text-right">
             <small>[Sistema Toma Inventarios] | <strong>Módulo {{ module_name }}</strong></small>
+            <span class="text-primary">
+                [{{ total_time | floatformat:2 }} segs]
+            </span>
         </div>
     </div>
     <hr/>
-    <div class="row">
-        <div class="col">Fecha de Toma</div>
-        <div class="col text-primary">{{ taking.created }}</div>
-        <div class="col">Administrador</div>
-        <div class="col">
-            {{ taking.user_manager.first_name }}
-            {{ taking.user_manager.last_name }}
+    <div class="row border">
+        <div class="col-3 border">
+            <strong>Fecha de Toma:</strong>
+            {{ taking.created | naturalday }}</div>
+        <div class="col-2 border">
+                <strong>Manager:</strong>
+                {{ taking.user_manager }}
         </div>
-        <div class="col"><button class="btn btn-info">Reconteo</button></div>
-        <div class="col"><button class="btn btn-info">Detener Conteo</button></div>
-        <label for="">Mostrar Diferencias</label>
-        <input type="checkbox" name="" id="" class="formo-control">
+        <div class="col-1 border">
+            <strong>Grupos:</strong>
+            {{ taking.total_groups }}
+        </div>
+        <div class="col-2 border">
+            <strong>Bodegas:</strong>
+            {{ taking.total_warenhouses }}
+            <div id="warenhouses-list">
+            {% for warenhouse in warenhouses  %}
+            <small>
+            <ul>
+               <li>{{ warenhouse }}</li>
+            </ul>
+            </small>
+            {% endfor %}
+            </div>
+        </div>
+        <div class="col-2 border">
+            <strong>Empresas:</strong>
+             {{ enterprises | length }}
+             <div id="enterprises-list">
+                {% for enterprise in enterprises %}
+                <small>
+                    <ul>
+                        <li>{{ enterprise }}</li>
+                    </ul>
+                </small>
+                {% endfor %}
+                </div>
+        </div>
+        <div class="col-2 border">
+            <div class="row">
+                <div class="col-2">
+                    <i class="fas fa-eye btn btn-outline-dark btn-sm" onclick="showDetails()" id="btn-show-details"></i>
+                </div>
+                <div class="col-10 text-right">
+                        <button class="btn btn-sm btn-danger" onclick="changeStatus({{ taking.pk }})">
+                            <i class="fas fa-stop"></i>
+                            Detener Conteo
+                        </button>
+                </div>
+            </div>
+        </div>
     </div>
-     <hr />
 </div>
+<br>
 {% endblock %}
 {% block content %}
 <div class="container-fluid">
@@ -39,7 +82,6 @@
             <tr class="text-center bg-gradient-dark">
                 <th>#</th>
                 <th>Producto SKU</th>
-                <th>Account C</th>
                 <th>SKU Code</th>
                 <th>Cap</th>
                 <th>CxC</th>
@@ -60,14 +102,13 @@
                     {% endif %}
                     {{forloop.counter}}
                 </td>
-                <td>{{item.product}}</td>
-                <td>{{item.product.account_code}}</td>
+                <td nowrap="" data-toggle="modal" data-target="#exampleModal" onclick="getProduct('{{ item.product.account_code }}')"><i class="fas fa-arrows-alt text-info"></i>{{item.product}} <small class="text-secondary">{{item.product.account_code}}</small></td>
                 <td>{{item.product.ean_13_code}}</td>
                 <td>{{item.product.capacity}}</td>
                 <td class="text-right">{{item.product.quantity_per_box}}</td>
-                <td class="text-right">{{ item.sap_stock }}</td>
-                <td class="text-right">{{ item.tk_quantity}}</td>
-                <td class="text-right">{{ item.diff }} </td>
+                <td class="text-right">{{ item.sap_stock | intcomma}}</td>
+                <td class="text-right">{{ item.tk_quantity | intcomma}}</td>
+                <td class="text-right">{{ item.diff | intcomma }} </td>
                 <td class="text-center">
                     {% if item.is_complete %}
                         <span class="text-success">
@@ -83,11 +124,116 @@
             {% endfor %}
         </tbody>
     </table>
-    {% for x in warenhouses %}
-    {{x}}
-    <br/>
-    {% endfor%}
 </div>
+
+<!-- Extra large modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-info w-100 text-center" id="app-product-desc"></h4>
+                <i class="fas fa-eye" onclick="showProductImg()"></i>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="my_report_pdf">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col text-center" id="image_product"></div>
+                    </div>
+                    <div class="row border rounded">
+                        <div class="col border">
+                            <span class="text-secondary">Cod Barras: </span>
+                            <span id="ean_13_code"></span>
+                        </div>
+                        <div class="col border">
+                            <span class="text-secondary">Und Empaque: </span>
+                            <span id="quantity_per_box"></span>
+                        </div>
+                        <div class="col border">
+                            <span class="text-secondary">Cod:</span>
+                            <span id="account_code"></span>
+                        </div>
+                        <div class="col border">
+                            <span class="text-secondary">Registro: </span>
+                            <span id="health_register"></span>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col border rounded">
+                            <div class="row">
+                                <div class="col h6 text-center text-secondary">BODEGAS</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-bordered table-condensed">
+                                        <thead>
+                                            <tr class="text-center bg-gradient-light">
+                                                <th>#</th>
+                                                <th>Bodega</th>
+                                                <th>Cantidad</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="warenhouse_name">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col border rounded">
+                            <div class="row">
+                                <div class="col h6 text-center text-info">EMPRESAS</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-bordered table-condensed">
+                                        <thead>
+                                            <tr class="text-center bg-gradient-light">
+                                                <th>#</th>
+                                                <th>Empresa</th>
+                                                <th>Cantidad</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="company_name">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="border rounded">
+                        <div class="row">
+                            <div class="col text-center text-secondary h6"> REPORTE DETALLADO</div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <table class="table table-bordered table-condensed">
+                                    <thead>
+                                        <tr class="text-center bg-gradient-light">
+                                            <th>#</th>
+                                            <th>Nombre</th>
+                                            <th>Empresa</th>
+                                            <th>Bodega</th>
+                                            <th>Cantidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="query_detail">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        </div>
+        </div>
 {% endblock %}
 {% block scritp_code %}
 <script type="text/javascript" charset="utf8" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
@@ -98,5 +244,10 @@
         $('#table_resume').DataTable();
         $('#table_warenhouses').DataTable();
     });
+</script>
+<script src="{% static  'js/apps/taking_taking/taking_detail.js' %}"> </script>
+<script>
+    var id_migration = {{ taking.id_sap_migration.pk }};
+    var id_taking = {{ taking.pk }};
 </script>
 {% endblock %}
