@@ -31,7 +31,7 @@ class TakingTV(ValidateAssistantMixin, TemplateView):
         taking = serialize('json', [taking])
         user = serialize('json', [request.user])
         user = json.loads(user)[0]
-        del(user['fields']['password'])
+        del (user['fields']['password'])
 
         page_data = {
             'title_page': 'Toma Inventario',
@@ -49,13 +49,16 @@ class TakingTV(ValidateAssistantMixin, TemplateView):
         for account_code in products:
             obj_product = Product.get(account_code)
             if obj_product is None:
-                new_product = SapMigrationDetail.objects.filter(account_code=account_code).first()
+                new_product = SapMigrationDetail.objects.filter(
+                    account_code=account_code).first()
                 my_product = Product.objects.create(
                     account_code=account_code,
-                    name=new_product.name
+                    name=new_product.name,
+                    quantity_per_box=new_product.quantity_per_box,
+                    ean_13_code=new_product.ean_13_code,
+                    ean_14_code=new_product.ean_14_code,
+                    health_register=new_product.health_register,
                 )
-                raise Exception('El prodycto {} no existe en la base'.format(account_code))
             found_poducts.append(obj_product)
 
         return found_poducts
-

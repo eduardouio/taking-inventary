@@ -63,7 +63,7 @@ class CreateTakingTP(ValidateManagerMixin, TemplateView):
                 id_taking=taking.pk
             )
             taking.teams.add(my_team)
-        warenhouses = request.POST.get('warenhouses').split(',')
+        warenhouses = list(set(request.POST.get('warenhouses').split(',')))
 
         taking.total_warenhouses = len(warenhouses)
         taking.total_groups = len(request.POST.get('users').split(','))

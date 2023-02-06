@@ -113,8 +113,7 @@ class SapMigrationDetail(AppBaseModel):
     def get_by_warenhouse_name(cls, id_sap_migration, warenhouse_name):
         detail = cls.objects.filter(
             id_sap_migration=id_sap_migration,
-            warenhouse_name=warenhouse_name,
-            avaliable__gt=0
+            warenhouse_name=warenhouse_name
         )
         if len(detail):
             return list(detail)
