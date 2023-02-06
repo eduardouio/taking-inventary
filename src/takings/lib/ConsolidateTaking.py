@@ -41,10 +41,12 @@ class ConsolidateTaking(object):
                         tkn_stock['taking_total_boxes'])
                     sku_stock['tk_quantity'] = int(tkn_stock['quantity'])
                     break
+        enterprises = self.get_owners(taking.id_sap_migration_id, warenhouses)
         return {
             'report': start_stock,
             'taking': taking,
             'warenhouses': warenhouses,
+            'enterprises': enterprises,
         }
 
     def get_resume_taking(self, id_taking):
@@ -96,3 +98,27 @@ class ConsolidateTaking(object):
             resume.append(resume_item)
 
         return resume, warenhouses
+
+    def get_owners(self, id_sap_migration, warenhouses):
+        enterprises = []
+        cursor = connection.cursor()
+
+        for warenhouse in warenhouses:
+            cursor.execute('''
+                SELECT 
+                    DISTINCT(sms.company_name)
+                FROM 
+                    sap_migrations_sapmigrationdetail sms 
+                WHERE 
+                    sms.id_sap_migration_id  = 14 and sms.warenhouse_name  = '{}';
+            '''.format(warenhouse))
+
+            columns = [col[0] for col in cursor.description]
+            enterprises.extend([
+                dict(zip(columns, row))
+                for row in cursor.fetchall()
+            ])
+
+        enterprises = list(set([x['company_name'] for x in enterprises]))
+
+        return enterprises
