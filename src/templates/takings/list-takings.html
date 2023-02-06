@@ -35,7 +35,7 @@
                 Última:
               </th>
               <td class="text-right">
-                <a href="/taking/detail/{{last_taking.pk}}">
+                <a href="/takings/detail/{{last_taking.pk}}">
                   <strong>
                     [{{last_taking.pk}}]
                   </strong>
@@ -76,7 +76,7 @@
       <tr {% if forloop.first %} class="bg-gradient-light-selector" {% endif %}>
         <td class="text-center">{{ forloop.counter }}</td>
         <td>
-          <a href="/taking/detail/{{item.pk}}">
+          <a href="/takings/detail/{{item.pk}}">
             {% if item.is_active %}
               <i class="fas fa-lock-open text-success"></i>
             {% else %}
