@@ -62,13 +62,11 @@ class CreateTakingTP(ValidateManagerMixin, TemplateView):
                 id_taking=taking.pk
             )
             taking.teams.add(my_team)
+        warenhouses = request.POST.get('warenhouses').split(',')
 
-        for (idx, warenhouse) in enumerate(request.POST.get('warenhouses').split(',')):
-            my_warenhouse = Warenhouse.get_by_name(warenhouse)
-            if my_warenhouse is None:
-                raise Exception('La Bodega no existe')
-            taking.warenhouses.add(my_warenhouse)
-
+        taking.total_warenhouses = len(warenhouses)
+        taking.total_groups = len(request.POST.get('users').split(','))
+        taking.warenhouses = json.dumps(warenhouses)
         taking.save()
         return HttpResponse(json.dumps({
             'id_taking': taking.pk}), status=200)
