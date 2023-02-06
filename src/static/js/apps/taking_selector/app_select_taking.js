@@ -18,6 +18,7 @@ const app = createApp({
       show_report: false,
       id_taking: null,
       btn_send_disable: false,
+      notes:null,
     }
   },
   methods: {
@@ -55,6 +56,7 @@ const app = createApp({
     }, sendData() {
       this.btn_send_disable = true;
       formData = new FormData();
+      formData.append('notes', this.notes);
       formData.append('warenhouses', this.warenhouses.filter((el) => el.is_selected).map(el => el.warenhouse_name));
       formData.append('users', this.users.filter((el) => el.is_selected).map(el => el.username).filter((curr, index, my_array) => {
         return my_array.indexOf(curr) === index

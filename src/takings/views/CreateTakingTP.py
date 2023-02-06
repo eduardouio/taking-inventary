@@ -49,6 +49,7 @@ class CreateTakingTP(ValidateManagerMixin, TemplateView):
     def post(self, request, id_sap_migration, *args, **kwargs):
         taking = Taking.objects.create(
             id_sap_migration=SapMigration.get(id_sap_migration),
+            notes=request.POST.get('notes'),
             user_manager=request.user,
             hour_start=datetime.now(),
         )
