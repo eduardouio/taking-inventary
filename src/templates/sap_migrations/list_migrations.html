@@ -61,16 +61,16 @@
         <div class="col">
             <table class="table table-bordered table-hover" id="table">
                 <thead>
-                    <tr class="bg-gradient-secondary">
-                        <th class="text-center">#</th>
-                        <th class="text-center">FECHA</th>
-                        <th class="text-center">USUARIO</th>
-                        <th class="text-center">BODEGAS</th>
-                        <th class="text-center">PRODUCTOS</th>
-                        <th class="text-center">UNIDADES</th>
-                        <th class="text-center">TOMAS</th>
-                        <th class="text-center">ESTADO</th>
-                        <th class="text-center">ACCIONES</th>
+                    <tr class="text-center bg-gradient-secondary">
+                        <th>#</th>
+                        <th>Fecha</th>
+                        <th>Usuario</th>
+                        <th>Bodegas</th>
+                        <th>Productos</th>
+                        <th>Unidades</th>
+                        <th>Tomas</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,12 +81,12 @@
                         </td>
                         <td>
                             {% if migration.migration.is_active %}
-                            <i class="fas fa-lock-open text-success"></i>
+                                <i class="fas fa-lock-open text-success"></i>
                             {% else %}
-                            <i class="fas fa-lock"></i>
+                                <i class="fas fa-lock"></i>
                             {% endif%}
-                            ->
                             <a href="/sap/detail/{{migration.migration.pk}}">
+                                <span class="text-secondary">#{{migration.migration.pk}}</span>
                                 {{ migration.migration.created }}
                             </a>
                         </td>
@@ -114,12 +114,12 @@
                             {% endif %}
                         </td>
                         <td class="text-center">
-                            <a href="/taking/create/{{ migration.migration.pk }}">
+                            <a href="/takings/create/{{ migration.migration.pk }}">
                                 <i class="fas fa-clipboard text-info"></i>
                             </a>
                             {% if not migration.takings %}
                             &nbsp; <span class="text-secondary">|</span> &nbsp;
-                            <a href="/taking/delete/{{ migration.migration.pk }}/">
+                            <a href="/takings/delete/{{ migration.migration.pk }}/">
                                 <i class="fas fa-trash text-danger"></i>
                             </a>
                             {% endif %}

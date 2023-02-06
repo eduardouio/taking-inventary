@@ -9,7 +9,7 @@
 <div class="row border bg-gardient-secondary rounded" style="padding: 15px;">
   <div class="col-8">
     <i class="fa fa-list"></i>
-    {{ title_page }} <strong> {{ total_records }} Registros Encontrados </strong>
+    {{ title_page }} <strong> [{{ total_records }} Registros] </strong>
   </div>
   <div class="col-4 text-right">[Sistema Toma Inventarios] | <strong>Módulo {{ module_name }}
     <span class="text-primary">
@@ -56,9 +56,9 @@
         </table>
       </div>
     </div>
-  <table class="table table-bordered table-condensed">
+  <table class="table table-bordered table-hover">
     <thead>
-      <tr>
+      <tr class="text-center bg-gradient-secondary">
         <th>#</th>
         <th>ID</th>
         <th>Manager</th>
@@ -73,11 +73,16 @@
   </thead>
     <tbody>
       {% for item in object_list %}
-      <tr>
+      <tr {% if forloop.first %} class="bg-gradient-light-selector" {% endif %}>
         <td class="text-center">{{ forloop.counter }}</td>
-        <td class="text-center">
+        <td>
           <a href="/taking/detail/{{item.pk}}">
-            [{{ item.pk }}]
+            {% if item.is_active %}
+              <i class="fas fa-lock-open text-success"></i>
+            {% else %}
+              <i class="fas fa-lock"></i>
+            {% endif%}
+            <span class="text-secondary">#{{ item.pk }}</span>
             {{ item.created | naturalday }}
           </a>
         </td>
@@ -88,12 +93,18 @@
               {{ item.id_sap_migration.created | naturalday }}
             </a>
         </td>
-        <td>{{ item.hour_start | naturaltime }}</td>
-        <td>{{ item.hour_end | naturaltime }}</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>{{ item.have_report }}</td>
+        <td class="text-right">{{ item.hour_start | naturaltime }}</td>
+        <td class="text-right">{{ item.hour_end | naturaltime }}</td>
+        <td class="text-right">{{ item.total_warenhouses | intcomma}}</td>
+        <td class="text-right">{{ item.total_groups | intcomma }}</td>
+        <td class="text-right">{{ item.total_products | intcomma }}</td>
+        <td class="text-center">
+          {% if item.have_report %}
+            <i class="fas fa-check-square text-success"></i>
+          {% else %}
+            --
+          {% endif %}
+        </td>
       </tr>
       {% endfor %}
   </tbody>
