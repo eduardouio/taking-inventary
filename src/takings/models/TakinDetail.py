@@ -16,7 +16,7 @@ class TakinDetail(AppBaseModel):
         on_delete=models.RESTRICT
     )
     account_code = models.ForeignKey(
-        Product, 
+        Product,
         on_delete=models.RESTRICT
     )
     id_team = models.ForeignKey(
@@ -70,7 +70,7 @@ class TakinDetail(AppBaseModel):
         'esta completo?',
         default=False
     )
-    
+
     @classmethod
     def get_by_taking(cls, id_taking):
         detail = cls.objects.filter(id_taking=id_taking)
