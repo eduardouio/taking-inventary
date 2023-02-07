@@ -94,12 +94,7 @@
         <tbody>
             {% for item in report %}
             <tr>
-                <td>
-                    {% if item.is_complete %}
-                        <i class="fas fa-check-square text-success"></i>
-                    {% else %}
-                        <i class="fas fa-ban text-danger"></i>
-                    {% endif %}
+                <td class="text-center">
                     {{forloop.counter}}
                 </td>
                 <td nowrap="" data-toggle="modal" data-target="#exampleModal" onclick="getProduct('{{ item.product.account_code }}')"><i class="fas fa-arrows-alt text-info"></i>{{item.product}} <small class="text-secondary">{{item.product.account_code}}</small></td>

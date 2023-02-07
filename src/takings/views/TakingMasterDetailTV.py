@@ -1,7 +1,6 @@
 from time import time
 
 from django.views.generic import TemplateView
-from django.db import connection
 
 from takings.lib import ConsolidateTaking
 from accounts.mixins import ValidateManagerMixin
