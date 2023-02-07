@@ -2,7 +2,9 @@ let show_details = true;
 let show_product = true;
 var base_url = '/sap/api'
 var report = null;
-// Muestra | Oculra lista bodegas y empresas
+
+
+// Muestra | Oculta lista bodegas y empresas
 function showDetails() {
     button = document.getElementById('btn-show-details');
     document.getElementById('warenhouses-list').hidden = show_details;
@@ -16,6 +18,7 @@ function showDetails() {
     }
 }
 
+// Muestra oculta la imagen del producto
 function showProductImg() {
     document.getElementById('image_product').hidden = show_product;
     show_product = !show_product
@@ -26,6 +29,7 @@ function changeStatus(id_taking) {
     alert('desa cancelar el conteo' + id_taking);
 }
 
+// Obtiene los datos del productos y los datos inciales 
 function getProduct(account_code) {
     showProductImg();
     let xhr = new XMLHttpRequest();
@@ -41,6 +45,9 @@ function getProduct(account_code) {
             updateHeaderProduct(report.product.fields);
             insertList(report.query, 'warenhouse_name');
             insertList(report.query, 'company_name');
+            insertStocksDetails(report.query, 'warenhouse_name');
+            getTakings(id_taking, account_code);
+
             return report;
         } else {
             alert('Error al comunicarse con el Servidor');
@@ -51,6 +58,13 @@ function getProduct(account_code) {
     }
 }
 
+
+//Obtiene los detalles de la toma
+function getTakings(id_taking, account_code){
+    fetch()
+}
+
+// Actualiza la cabecera de la ficha
 function updateHeaderProduct(product) {
     const fields = [
         'ean_13_code',
@@ -76,6 +90,7 @@ function updateHeaderProduct(product) {
     });
 }
 
+// Totaliza los datos del reporte por item
 function totalizerValues(query, field) {
     const my_query = query;
     const report = {
@@ -110,6 +125,7 @@ function totalizerValues(query, field) {
 }
 
 
+// insertar items en la lista de pdoductos
 function insertList(query, report_by) {
     let html = '';
     const report = totalizerValues(query, report_by);
@@ -133,7 +149,9 @@ function insertList(query, report_by) {
     document.getElementById(report_by).innerHTML = html;
 }
 
-function insertDetails(report_by, value) {
+
+// Inserta detalle de saldos SAP en la tabla inferior
+function insertDetails(report_by , value) {
     let detail_report = ''
     const detail = report.query.filter((item) => {
         if (item.fields[report_by] === value) {
@@ -166,4 +184,32 @@ function insertDetails(report_by, value) {
     document.getElementById('query_detail').innerHTML = detail_report;
 }
 
+
+// Inserta los detalles de stock en el tab de cuadre
+function insertStocksDetails(query, report_by ) {
+    let html = '';
+    const report = totalizerValues(query, report_by);
+
+    report.report.forEach((value, index) => {
+        html += `
+        <tr>
+            <td class="text-center">${index + 1}</td>
+            <td>${value.column}</td>
+            <td class="text-right">${value.total.toLocaleString('es-EC')}</td>
+        </tr>
+        `;
+    });
+
+    html += `
+        <tr class="bg-gradient-success">
+            <td colspan="2" class="text-right"><strong>TOTAL:<strong></td>
+            <td class="text-right"><strong> ${report.total.toLocaleString('es-EC')} </strong></td>
+        </tr>
+    `;
+    document.getElementById('current-sale').innerHTML = html;
+}
+
+
+
 showDetails();
+insertStocksDetails();
