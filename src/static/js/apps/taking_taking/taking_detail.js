@@ -31,9 +31,11 @@ function changeStatus(id_taking) {
 
 // Obtiene los datos del productos y los datos inciales 
 function getProduct(account_code) {
+    //ocultamos la imagen de prodyucto
     showProductImg();
+
     let xhr = new XMLHttpRequest();
-    xhr.responseType = "json";
+    xhr.responseType = 'json';
     xhr.open(
         'GET',
         `${base_url}/migration/${id_migration}/taking/${id_taking}/product/${account_code}`
@@ -46,6 +48,7 @@ function getProduct(account_code) {
             insertList(report.query, 'warenhouse_name');
             insertList(report.query, 'company_name');
             insertStocksDetails(report.query, 'warenhouse_name');
+            // cargamos los datos de la toma
             getTakings(id_taking, account_code);
 
             return report;
@@ -56,12 +59,6 @@ function getProduct(account_code) {
     xhr.onerror = (response) => {
         alert('Error al obtener el reporte')
     }
-}
-
-
-//Obtiene los detalles de la toma
-function getTakings(id_taking, account_code){
-    fetch()
 }
 
 // Actualiza la cabecera de la ficha
@@ -209,7 +206,42 @@ function insertStocksDetails(query, report_by ) {
     document.getElementById('current-sale').innerHTML = html;
 }
 
+//Obtiene los detalles de la toma
+function getTakings(id_taking, account_code) {
+    let base_url = `/takings/api/taking-detail/taking/${id_taking}/product/${account_code}`;
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+    xhr.open('GET',base_url);
+    xhr.send();
+    xhr.onload = (response) => {
+        if (xhr.status == 200) {
+            insertTakingsDetails(xhr.response.query)
+        }
+    };
+    xhr.onerror = (response) => {
+        alert('Error al obtener el reporte')
+    }
 
+}
+
+// Inserta el detalle de las tomas en las tablas
+function insertTakingsDetails(query){    
+    let total_taking = 0;
+    let html = '';
+
+    query.forEach((value, index)=>{
+        htm += `
+            
+        `;
+    });
+   
+
+    
+
+
+
+    console.log('llamada  a la funcio  de carga de detalles de toma');
+    console.dir(query);
+}   
 
 showDetails();
-insertStocksDetails();
