@@ -49,7 +49,7 @@ function getProduct(account_code) {
             insertList(report.query, 'company_name');
             insertStocksDetails(report.query, 'warenhouse_name');
             // cargamos los datos de la toma
-            getTakings(id_taking, account_code);
+            getTakings(id_taking, account_code, report.query);
 
             return report;
         } else {
@@ -207,7 +207,7 @@ function insertStocksDetails(query, report_by ) {
 }
 
 //Obtiene los detalles de la toma
-function getTakings(id_taking, account_code) {
+function getTakings(id_taking, account_code, sap_report) {
     let base_url = `/takings/api/taking-detail/taking/${id_taking}/product/${account_code}`;
     let xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -215,7 +215,7 @@ function getTakings(id_taking, account_code) {
     xhr.send();
     xhr.onload = (response) => {
         if (xhr.status == 200) {
-            insertTakingsDetails(xhr.response.query)
+            insertTakingsDetails(xhr.response.query, sap_report)
         }
     };
     xhr.onerror = (response) => {
@@ -225,23 +225,91 @@ function getTakings(id_taking, account_code) {
 }
 
 // Inserta el detalle de las tomas en las tablas
-function insertTakingsDetails(query){    
+function insertTakingsDetails(query, sap_report){    
     let total_taking = 0;
     let html = '';
-
     query.forEach((value, index)=>{
-        htm += `
-            
+        html += `
+            <tr>
+                <td class="text-center">${index + 1}</td>
+                <td>${value.team.manager}</td>
+                <td class="text-right">${value.detail.fields.taking_total_boxes.toLocaleString('es-EC')}</td>
+                <td class="text-right">${value.detail.fields.taking_total_bottles.toLocaleString('es-EC') }</td>
+                <td class="text-right">${value.detail.fields.quantity.toLocaleString('es-EC') }</td>
+            </tr>
         `;
     });
-   
 
-    
+    let = taking_total_boxes = query.reduce((accum, current)=>{
+        return accum += current.detail.fields.taking_total_boxes;
+    },0);
 
+    let = taking_total_bottles = query.reduce((accum, current) => {
+        return accum += current.detail.fields.taking_total_bottles;
+    }, 0);
 
+    let = quantity = query.reduce((accum, current) => {
+        return accum += current.detail.fields.quantity;
+    }, 0);
 
-    console.log('llamada  a la funcio  de carga de detalles de toma');
-    console.dir(query);
+    let sap_stock = sap_report.reduce((accum, current) => {
+        return accum += current.fields.on_hand;
+    }, 0);
+
+    html += `
+        <tr class="bg-success text-right">
+            <td colspan="2"><strong>SUMAS</strong></td>
+            <td class="text-right"><strong>${taking_total_boxes.toLocaleString('es-EC')}</strong></td>
+            <td class="text-right"><strong>${taking_total_bottles.toLocaleString('es-EC')}</strong></td>
+            <td class="text-right"><strong>${quantity.toLocaleString('es-EC')}</strong></td>
+        </tr>
+            `
+
+    // actualizamos las pantallas
+    document.getElementById('taking-detail').innerHTML = html;
+    document.getElementById('total-taking').innerText = quantity;
+    document.getElementById('total-sap').innerText = sap_stock;
+
+    // Actualizamos banderas
+    let diff = sap_stock - quantity;
+    if (diff === 0){
+        document.getElementById('message-status').innerHTML = '<span class="text-success">CUADRADO</span>'
+        document.getElementById('status-img').innerHTML = '<h2 class="fas fa-check-square text-success"></h2>'
+    }else{
+        document.getElementById('message-status').innerHTML = '<span class="text-danger">DIFERENCIA</span>'
+        document.getElementById('status-img').innerHTML = `<h2>${diff}</h2> <i class="fas fa-exclamation-triangle text-danger"></i>`
+    }
+
+    //Actualizamos reporte con novedades
+    report_notes = query.filter((curren)=>{
+        return curren.detail.fields.notes;
+    });
+
+    let html2 = '';
+    report_notes.forEach((value, index)=>{
+        html2 += `
+            <tr>
+                <td class="text-center">${index + 1}</td>
+                <td>${value.team.manager} - ${value.team.assistant}</td>
+                <td>${ value.detail.fields.notes }</td>
+                <td class="text-right">${ value.detail.fields.quantity }</td>
+            </tr>
+        `;
+    });
+
+    let = quantity_2 = report_notes.reduce((accum, current) => {
+        return accum += current.detail.fields.quantity;
+    }, 0);
+
+    html2 += `
+        <tr class="bg-success">
+            <td colspan="3"><strong>SUMAS</strong></td>
+            <td class="text-right"><strong>${quantity_2.toLocaleString('es-EC')}</strong></td>
+        </tr>
+            `
+
+    document.getElementById('notes-detail').innerHTML = html2;
+
 }   
 
 showDetails();

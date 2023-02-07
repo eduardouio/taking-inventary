@@ -20,17 +20,25 @@ class APITakingDetail(View):
 
         report = []
 
+
         for item in details:
             report.append({
-                'detail': serialize('json', [item]),
-                'team': serialize('json', [item.id_team]),
+                'detail': json.loads(serialize('json', [item]))[0],
+                'team':  {
+                    'manager': '{} {}'.format(
+                                        item.id_team.manager.first_name,
+                                        item.id_team.manager.last_name),
+                    'assistant': item.id_team.warenhouse_assistant,
+                    'username': item.id_team.manager.username,
+                },
             })
 
+        #import ipdb;ipdb.set_trace()
         response_data = {
             'id_product': id_product,
             'id_taking': id_taking,
             'product': json.loads(serialize('json', [my_product]))[0],
-            'query': json.loads(report),
+            'query': report,
         }
 
         return JsonResponse(response_data)

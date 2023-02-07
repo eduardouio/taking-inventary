@@ -174,8 +174,8 @@
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <div class="row">
-                                <div class="col-6 border">
-                                    <div class="row">
+                                <div class="col-5 border rounded">
+                                    <div class="row bg-gradient-light">
                                         <div class="col text-center text-secondary">EXISTENCIAS</div>
                                     </div>
                                     <div class="row">
@@ -195,19 +195,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6 border">
-                                    <div class="row">
+                                <div class="col-7 border">
+                                    <div class="row bg-gradient-light">
                                         <div class="col text-center text-secondary">TOMA</div>
                                     </div>
                                     <div class="row text-center">
                                         <div class="col text-center">
-                                            <span class="h2 text-secondary">2</span>
+                                            <span class="h2 text-secondary" id="total-sap"></span>
                                         </div>
                                         <div class="col text-center">
-                                            <span class="h2 text-primary">2</span>
+                                            <span class="h2 text-primary" id="total-taking"></span>
                                         </div>
-                                        <div class="col text-center">
-                                            <h2 class="fas fa-exclamation-triangle text-danger"></h2>
+                                        <div class="col text-center" id="status-img">
+                                            
+                                            
                                         </div>
                                         </div>
                                         <div class="row text-center">
@@ -217,7 +218,7 @@
                                         <div class="col text-center">
                                             <span class="text-primary">TOMA</span>
                                         </div>
-                                        <div class="col text-center">
+                                        <div class="col text-center" id="message-status">
                                             <span class="text-success">DIFERENCIA</span>
                                         </div>
                                     </div>
@@ -228,9 +229,13 @@
                                                     <tr class="text-center bg-gradient-light">
                                                         <th>#</th>
                                                         <th>Grupo</th>
-                                                        <th>Cantidad</th>
+                                                        <th>Cajas</th>
+                                                        <th>Unds</th>
+                                                        <th>Total</th>
                                                     </tr>
                                                 </thead>
+                                                <tbody id="taking-detail">
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>
@@ -238,7 +243,25 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
-                            Genial
+                            <div class="row bg-gradient-light">
+                                <div class="col text-center text-secondary">NOVEDADES ENCONTRADAS</div>
+                            </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <table class="table table-condensed table-bordered table-hover">
+                                            <thead>
+                                                <tr class="text-center bg-gradient-light">
+                                                    <th>#</th>
+                                                    <th>Grupo</th>
+                                                    <th>Observaciones</th>
+                                                    <th>Unds</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="notes-detail">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                         </div>
                         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                             <div class="row">
