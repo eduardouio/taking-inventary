@@ -155,76 +155,178 @@
                             <span id="health_register"></span>
                         </div>
                     </div>
-                    <br />
-                    <div class="row">
-                        <div class="col border rounded">
+                    <br/>
+                    <!-- tabs-->
+                    <ul class="nav nav-tabs nav-pills" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab"
+                                aria-controls="home" aria-selected="true" style="width: 300px;"> <i class="fas fa-clipboard-list"></i> &nbsp;Estado Toma</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="notes-tab" data-toggle="tab" data-target="#notes" type="button" role="tab"
+                                aria-controls="notes" aria-selected="true" style="width: 300px;"><i class="fas fa-sticky-note"></i> &nbsp;Novedades Toma</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab"
+                                aria-controls="profile" aria-selected="false" style="width: 300px;"> <i class="fas fa-boxes"></i> &nbsp; Existencias SAP</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <div class="row">
-                                <div class="col h6 text-center text-secondary">BODEGAS</div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <table class="table table-bordered table-condensed">
-                                        <thead>
-                                            <tr class="text-center bg-gradient-light">
-                                                <th>#</th>
-                                                <th>Bodega</th>
-                                                <th>Cantidad</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="warenhouse_name">
-                                        </tbody>
-                                    </table>
+                                <div class="col-6 border">
+                                    <div class="row">
+                                        <div class="col text-center text-secondary">EXISTENCIAS</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <table class="table table-bordered table-hover">
+                                                <thead>
+                                                    <tr class="text-center bg-gradient-light">
+                                                        <th>#</th>
+                                                        <th>Bodega</th>
+                                                        <th>Cantidad</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="current-sale">
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 border">
+                                    <div class="row">
+                                        <div class="col text-center text-secondary">TOMA</div>
+                                    </div>
+                                    <div class="row text-center">
+                                        <div class="col text-center">
+                                            <span class="h2 text-secondary">2</span>
+                                        </div>
+                                        <div class="col text-center">
+                                            <span class="h2 text-primary">2</span>
+                                        </div>
+                                        <div class="col text-center">
+                                            <h2 class="fas fa-exclamation-triangle text-danger"></h2>
+                                        </div>
+                                        </div>
+                                        <div class="row text-center">
+                                        <div class="col">
+                                            <span class="text-secondary">SAP</span>
+                                        </div>
+                                        <div class="col text-center">
+                                            <span class="text-primary">TOMA</span>
+                                        </div>
+                                        <div class="col text-center">
+                                            <span class="text-success">DIFERENCIA</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <table class="table table-condensed table-bordered table-hover">
+                                                <thead>
+                                                    <tr class="text-center bg-gradient-light">
+                                                        <th>#</th>
+                                                        <th>Grupo</th>
+                                                        <th>Cantidad</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col border rounded">
+                        <div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
+                            Genial
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                             <div class="row">
-                                <div class="col h6 text-center text-info">EMPRESAS</div>
+                                <div class="col border rounded">
+                                    <div class="row">
+                                        <div class="col h6 text-center text-secondary">BODEGAS</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <table class="table table-bordered table-condensed">
+                                                <thead>
+                                                    <tr class="text-center bg-gradient-light">
+                                                        <th>#</th>
+                                                        <th>Bodega</th>
+                                                        <th>Cantidad</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="warenhouse_name">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col border rounded">
+                                    <div class="row">
+                                        <div class="col h6 text-center text-info">EMPRESAS</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <table class="table table-bordered table-condensed table-hover">
+                                                <thead>
+                                                    <tr class="text-center bg-gradient-light">
+                                                        <th>#</th>
+                                                        <th>Empresa</th>
+                                                        <th>Cantidad</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="company_name">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row">
-                                <div class="col">
-                                    <table class="table table-bordered table-condensed">
-                                        <thead>
-                                            <tr class="text-center bg-gradient-light">
-                                                <th>#</th>
-                                                <th>Empresa</th>
-                                                <th>Cantidad</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="company_name">
-                                        </tbody>
-                                    </table>
+                            <br />
+                            <div class="border rounded">
+                                <div class="row">
+                                    <div class="col text-center text-secondary h6"> REPORTE DETALLADO</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <table class="table table-bordered table-condensed">
+                                            <thead>
+                                                <tr class="text-center bg-gradient-light">
+                                                    <th>#</th>
+                                                    <th>Nombre</th>
+                                                    <th>Empresa</th>
+                                                    <th>Bodega</th>
+                                                    <th>Cantidad</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="query_detail">
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <br />
-                    <div class="border rounded">
-                        <div class="row">
-                            <div class="col text-center text-secondary h6"> REPORTE DETALLADO</div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <table class="table table-bordered table-condensed">
-                                    <thead>
-                                        <tr class="text-center bg-gradient-light">
-                                            <th>#</th>
-                                            <th>Nombre</th>
-                                            <th>Empresa</th>
-                                            <th>Bodega</th>
-                                            <th>Cantidad</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="query_detail">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- /tabs-->
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-warning btn-sm">
+                                <i class="fas fa-share"></i> Reconteo
+                            </button>
+                        </div>
+                        <div class="col text-right">
+                            <button class="btn btn-dark btn-sm" data-dismiss="modal">
+                                <i class="fas fa-window-close"></i>
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         </div>
