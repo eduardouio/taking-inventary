@@ -42,7 +42,7 @@ app.component('status-message', {
                         class="btn bordered btn"
                         @click="changeView('search_form')"
                     >
-                        <i class="fas fa-home text-info"></i>
+                        <i class="fas fa-search text-info"></i>
                     </button>
                     &nbsp;
                     <button
