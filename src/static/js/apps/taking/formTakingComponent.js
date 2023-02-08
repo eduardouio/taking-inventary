@@ -3,20 +3,24 @@ app.component('form-taking', {
     <div class="card card-outline card-success">
             <div class="card-header">
                 <div class="row align-middle text-center">
-                    <div class="col h5 text-success">
+                    <div class="col text-secondary h6">
                         {{ current_item.fields.name }} 
                         <br/>
-                        <small class="badge badge-secondary">[{{current_item.fields.quantity_per_box}} x Caja]</small>
+                        <small class="text-primary">[{{current_item.fields.quantity_per_box}} x Caja] 
+                        &nbsp;|&nbsp; 
+                        <span class="text-primary">{{ current_item.fields.ean_13_code }}</span></small> 
+                        &nbsp;|&nbsp;
+                        <i class="fas fa-eye btn btn-sm btn-outline-info" @click="show_product = !show_product"></i>
                     </div>
                 </div>
-                 <div class="row">
+                 <div class="row" v-if="show_product">
                         <div class="col text-center">
                             <div class="col">
                                 <img :src="default_picture" class="img-fluid img-thumbnail">
                             </div>
                         </div>
                     </div>
-                   <div class="row h5">
+                   <div class="row h5" v-if="show_product">
                         <div class="col text-center">
                             <span class="badge" :class="class_bagded_front" @click="switchImage('front')">
                                 Fontal
@@ -77,6 +81,7 @@ app.component('form-taking', {
                     taking_total_bottles:0,
                     notes:null,
                 },
+                show_product: false,
                 default_picture: '/static/img/generic_product.png',
                 class_bagded_front: 'badge-primary',
                 class_bagded_back: 'badge-light',
@@ -103,6 +108,11 @@ app.component('form-taking', {
                 }
                 if (typeof(this.current_taking.taking_total_bottles) != 'number'){
                     this.current_taking.taking_total_bottles = 0;
+                }
+                let sum = this.current_taking.taking_total_boxes + this.current_taking.taking_total_bottles
+                if(!sum){
+                    alert('Valores en cero');
+                    return false;
                 }
                 this.current_taking.product = this.current_item;
                 this.report.push(this.current_taking);
