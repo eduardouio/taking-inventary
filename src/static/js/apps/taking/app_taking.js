@@ -34,6 +34,7 @@ const app = createApp({
                 product_description: false,
                 status_message: false,
             },
+            disable_button_send:false,
         }
     },
     methods: {
@@ -56,6 +57,7 @@ const app = createApp({
             });
             this.switchView('report_info')
         },saveReport(){
+            // Sealizar una sola llama da  al API
             this.switchView('loader');
             this.show_status_message = false;
             this.sendPostRequest(
@@ -73,6 +75,7 @@ const app = createApp({
                 this.show_view.loader = false;
             }, 3000);
         },sendPostRequest(data, name, url){
+            this.disable_button_send = true;
             const formData = new FormData()
             formData.append(name, JSON.stringify(data));
             formData.append('taking', JSON.stringify(taking.pk));
@@ -80,22 +83,19 @@ const app = createApp({
             let xhr = new XMLHttpRequest
             xhr.open('POST',url);
             xhr.setRequestHeader('X-CSRFToken', this.csrf_token);
-            xhr.onreadystatechange = function() {
-                console.dir(xhr);
-            }
-            xhr.onerror = function(e){
-                this.server_status.type = 'error';
-                this.server_status.have_error_message = true;
-                console.dir(e);
-                alert("No es posible comunicarse con el servidor, confirme su conección a la red" + e);
-            }
             xhr.send(formData); 
             xhr.onload = ()=>{
             if(xhr.status === 201){
                 this.server_status.type = 'success';
                 this.server_status.message = name + 'Ingresado Correctamente';
             }
-            console.dir(xhr.responseText);
+            xhr.onerror = function (e) {
+                        this.server_status.type = 'error';
+                        this.server_status.have_error_message = true;
+                        this.disable_button_send = false;
+                        console.dir(e);
+                        alert("No es posible comunicarse con el servidor, confirme su conección a la red" + e);
+                }
             this.server_status.message = xhr.responseText;
         }
         },

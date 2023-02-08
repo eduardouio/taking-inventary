@@ -42,7 +42,7 @@ app.component('report-taking', {
                     </div>
                     <div class="row">
                         <div class="col">
-                            <button class="btn btn-block" :class="class_sync_btn" @click=sendReport()>
+                            <button class="btn btn-block" :class="class_sync_btn" @click=sendReport() :disabled="disable_button_send">
                             <i class="fas fa-sync"></i>
                                 {{ message_button }}
                                 <small>
@@ -130,6 +130,7 @@ app.component('report-taking', {
                 this.showReport();
             },sendReport(){
                 if (this.confirm_report_send){
+                    this.disable_button_send = true;
                     return this.$emit('sendreport');
                 }
                 this.confirm_report_send = true;
