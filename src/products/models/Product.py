@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from common import AppBaseModel, loggin
 
+from common import AppBaseModel
 
 UNITS = (
     ('LITROS', 'LITROS'),

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'takings',
     'guardian',
     'mobile',
+    'recounts',
 ]
 
 MIDDLEWARE = [
