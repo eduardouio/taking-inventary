@@ -98,6 +98,12 @@ app.component('form-taking', {
                     this.default_picture = '/static/img/generic_product.png';
                 }
             },addReport(){
+                if (typeof(this.current_taking.taking_total_boxes) != 'number'){
+                    this.current_taking.taking_total_boxes = 0;
+                }
+                if (typeof(this.current_taking.taking_total_bottles) != 'number'){
+                    this.current_taking.taking_total_bottles = 0;
+                }
                 this.current_taking.product = this.current_item;
                 this.report.push(this.current_taking);
                 this.changeView();
