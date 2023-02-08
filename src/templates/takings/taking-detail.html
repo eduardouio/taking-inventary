@@ -106,7 +106,7 @@
                 <td>{{item.product.capacity}}</td>
                 <td class="text-right">{{item.product.quantity_per_box}}</td>
                 <td class="text-right">{{ item.sap_stock | intcomma}}</td>
-                <td class="text-right">{{ item.tk_quantity | intcomma}}</td>
+                <td class="text-right">{%if item.tk_quantity%}{{ item.tk_quantity | intcomma}}{% else %}0{% endif %}</td>
                 <td class="text-right">{{ item.diff | intcomma }} </td>
                 <td class="text-center">
                     {% if item.is_complete %}
