@@ -64,6 +64,10 @@
                     <i class="fas fa-eye btn btn-outline-dark btn-sm" onclick="showDetails()" id="btn-show-details"></i>
                 </div>
                 <div class="col-10 text-right">
+                    <button class="btn btn-sm btn-warning" onclick="changeStatus({{ taking.pk }})">
+                        <i class="fas fa-share"></i>
+                        Reconteo
+                    </button>
                         <button class="btn btn-sm btn-danger" onclick="changeStatus({{ taking.pk }})">
                             <i class="fas fa-stop"></i>
                             Detener Conteo
