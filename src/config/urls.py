@@ -29,8 +29,9 @@ urlpatterns = [
     path('', HomeTV.as_view(), name='home'),
     path('admin/', admin.site.urls),
     path('sap/', include('sap_migrations.urls')),
-    path('takings/', include('takings.urls')),
     path('mobile/', include('mobile.urls')),
+    path('takings/', include('takings.urls')),
     path('products/', include('products.urls')),
     path('accounts/', include('accounts.urls')),
+    path('recounts/', include('recounts.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

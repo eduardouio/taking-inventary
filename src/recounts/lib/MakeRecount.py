@@ -30,6 +30,8 @@ class MakeRecount():
             for item in details:
                 item.delete()
 
+        return True
+
     def consolidate(self, recount, product, details):
         report = []
         for item in details:
@@ -46,7 +48,7 @@ class MakeRecount():
 
         consolidate = {
             'id_recount_taking': recount,
-            'account_code': Product,
+            'account_code': product,
             'taking_total_boxes':0,
             'taking_total_bottles':0,
             'quantity': 0,
