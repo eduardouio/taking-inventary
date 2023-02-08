@@ -4,11 +4,15 @@ app.component('product-description', {
             <div class="card-header">
                 <div class="row">
                     <div class="col text-center">
-                        <strong class="text-primary h4">{{ current_item.fields.name }}</strong>
+                        <strong class="text-secondary h6">{{ current_item.fields.name }}</strong>
                         <br>
+                        <span class="text-primary">{{ current_item.fields.ean_13_code }}</span>
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-2 align-middle">
+                        <i class="fas fa-eye btn btn-sm btn-outline-info" @click="show_product = !show_product"></i>
+                    </div>
                     <div class="col">
                     <button class="btn btn-success btn-block" @click="changeView('taking_form')">
                             <i class="fas fa-clipboard-check"></i>
@@ -19,14 +23,14 @@ app.component('product-description', {
                     </div>
                 </div>
                 <div id="detail">
-                    <div class="row">
+                    <div class="row" v-if="show_product">
                         <div class="col text-center">
                             <div class="col">
                                 <img :src="default_picture" class="img-fluid img-thumbnail">
                             </div>
                         </div>
                     </div>
-                    <div class="row h5">
+                    <div class="row h5" v-if="show_product">
                         <div class="col text-center">
                             <span class="badge" :class="class_bagded_front" @click="switchImage('front')">
                                 Fontal
@@ -40,7 +44,7 @@ app.component('product-description', {
                     </div>
                     <div class="row">
                         <div class="col">
-                            <table class="table table bordered table condensed">
+                            <table class="table table-bordered table-compact">
                                 <tr>
                                     <th class="bg-gradient-light text-right">Nombre:</th>
                                     <td v-text="current_item.fields.name"></td>
@@ -112,6 +116,7 @@ app.component('product-description', {
         emits:['changeview',],
         data() {
             return{
+                show_product: false,
                 default_picture: '/static/img/generic_product.png',
                 class_bagded_front: 'badge-primary',
                 class_bagded_back: 'badge-light',
