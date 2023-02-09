@@ -29,4 +29,6 @@ class RecountTakings(AppBaseModel):
         return []
     
     def __str__(self) -> str:
-        return self.id_taking
+        return 'Reconteo {} | Toma {}'.format(
+            self.id_recount_taking, self.id_taking.pk
+        )
