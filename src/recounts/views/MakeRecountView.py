@@ -1,19 +1,18 @@
+from ipdb import set_trace
+
 from django.http import HttpResponseRedirect
 from django.views.generic import View
 
 from recounts.lib import MakeRecount
-from takings.models import Taking, TakinDetail
-from takings.lib import ConsolidateTaking
 
-# /recounts/make/taking/<int:id_taking>/
+# /recounts/make/taking/<int:id_taking>/product/<str:account_code>
+
+
 class MakeRecountView(View):
     # todo verificar los items de los detalles de toma
-    def get(self, request, id_taking):
-        resume = ConsolidateTaking().get(id_taking)
-        for item in resume:
-            pass
-        import ipdb;ipdb.set_trace()
+    def get(self, request, id_taking, account_code):
+        account_code = account_code if account_code != 'none' else None
+        recount = MakeRecount()
+        recount.make(id_taking, account_code)
 
-
-        
-
+        return HttpResponseRedirect('/takings/detail/{}'.format(id_taking))
