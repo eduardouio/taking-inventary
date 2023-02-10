@@ -38,13 +38,18 @@ function updateHeaderProduct(product) {
         'account_code',
         'health_register',
     ]
-    url_image = product.image_front
-    product_image = url_image ? url_image : '/static/img/generic_product.png';
+    let product_image = null;
+    if (product.image_front){
+        product_image = '/media/' + product.image_front
+    }else{
+        product_image = '/static/img/generic_product.png';
+    }
     document.getElementById('app-product-desc').innerHTML = `
         ${product.name} 
         <br/>
-        <small>${product.ean_13_code}</small>
+        <small>${product.ean_13_code ? product.ean_13_code : ''}</small>
     `;
+    console.log(product_image);
     document.getElementById('image_product').innerHTML = `
         <img src="${ product_image }" 
             alt="${ product.name }"

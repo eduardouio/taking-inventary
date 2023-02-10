@@ -11,6 +11,8 @@
         <div class="col-8">
             <i class="fa fa-list"></i>
             Toma De Inventario <strong>{{ title_page }}</strong> 
+            &nbsp;| &nbsp;
+            {{ taking.created | naturalday }}
         </div>
         <div class="col-4 text-right">
             <small>[Sistema Toma Inventarios] | <strong>Módulo {{ module_name }}</strong></small>
@@ -21,9 +23,6 @@
     </div>
     <hr/>
     <div class="row border">
-        <div class="col-3 border">
-            <strong>Fecha de Toma:</strong>
-            {{ taking.created | naturalday }}</div>
         <div class="col-2 border">
                 <strong>Manager:</strong>
                 {{ taking.user_manager }}
@@ -45,7 +44,7 @@
             {% endfor %}
             </div>
         </div>
-        <div class="col-2 border">
+        <div class="col-3 border">
             <strong>Empresas:</strong>
              {{ enterprises | length }}
              <div id="enterprises-list">
@@ -58,16 +57,18 @@
                 {% endfor %}
                 </div>
         </div>
-        <div class="col-2 border">
+        <div class="col-4 border">
             <div class="row">
                 <div class="col-2">
                     <i class="fas fa-eye btn btn-outline-dark btn-sm" onclick="showDetails()" id="btn-show-details"></i>
                 </div>
                 <div class="col-10 text-right">
-                    <button class="btn btn-sm btn-warning" onclick="changeStatus({{ taking.pk }})">
-                        <i class="fas fa-share"></i>
-                        Reconteo
-                    </button>
+                    <a href="/recounts/make/taking/{{taking.pk}}/product/none">
+                        <button class="btn btn-sm btn-warning" onclick="changeStatus({{ taking.pk }})">
+                            <i class="fas fa-share"></i>
+                            Reconteo Diferencias
+                        </button>
+                    </a>
                         <button class="btn btn-sm btn-danger" onclick="changeStatus({{ taking.pk }})">
                             <i class="fas fa-stop"></i>
                             Detener Conteo
@@ -106,7 +107,7 @@
                 <td>{{item.product.capacity}}</td>
                 <td class="text-right">{{item.product.quantity_per_box}}</td>
                 <td class="text-right">{{ item.sap_stock | intcomma}}</td>
-                <td class="text-right">{%if item.tk_quantity%}{{ item.tk_quantity | intcomma}}{% else %}0{% endif %}</td>
+                <td class="text-right">{%if item.tk_quantity %}{{ item.tk_quantity | intcomma}}{% else %}0{% endif %}</td>
                 <td class="text-right">{{ item.diff | intcomma }} </td>
                 <td class="text-center">
                     {% if item.is_complete %}
@@ -114,8 +115,11 @@
                             COMPLETO
                         </span>
                     {% else %}
-                        <span class="text-danger">
-                            DIFERENCIA
+                            {%if item.tk_quantity %}
+                            <span class="text-danger">DIFERENCIA</span>
+                            {% else %}
+                            <span class="text-info">SIN TOMA </span>
+                            {% endif %}</td>
                         </span>
                     {% endif %}
                 </td>
@@ -342,8 +346,8 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col">
-                            <button class="btn btn-warning btn-sm">
-                                <i class="fas fa-share"></i> Reconteo
+                            <button class="btn btn-warning btn-sm" disabled>
+                                    <i class="fas fa-share"></i> Reconteo
                             </button>
                         </div>
                         <div class="col text-right">

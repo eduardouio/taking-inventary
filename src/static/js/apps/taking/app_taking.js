@@ -63,7 +63,7 @@ const app = createApp({
             this.sendPostRequest(
                 this.report,
                 'report',
-                '/taking/add-report/'
+                '/takings/add-report/'
             );
             this.sendPostRequest(
                 this.team,
