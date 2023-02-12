@@ -19,6 +19,7 @@ class TakingMasterDetailTV(ValidateManagerMixin, TemplateView):
             'title_page': 'Toma #{}'.format(pk),
             'module_name': 'Reporte de Toma',
             'taking': report['taking'],
+            'teams': report['taking'].teams.all(),
             'report': report['report'],
             'warenhouses': report['warenhouses'],
             'enterprises': report['enterprises'],

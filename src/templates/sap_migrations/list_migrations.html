@@ -19,10 +19,10 @@
 </div>
 {% endblock %}
 {% block content %}
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col" style="padding: 10px;">
-            <table class="table table-bordered table-condensed">
+            <table class="table table-bordered table-condensed table-hover">
                 <tbody>
                     <tr>
                         <th class="text-right bg-light">
@@ -87,7 +87,6 @@
                             {% endif%}
                             <a href="/sap/detail/{{migration.migration.pk}}">
                                 <span class="text-secondary">#{{migration.migration.pk}}</span>
-                                {{ migration.migration.created }}
                             </a>
                         </td>
                         <td class="text-center">{{ migration.user.create_by }}</td>
@@ -102,7 +101,7 @@
                                 {% if forloop.first %}
                                     <span class="text-seconday"> | </span>
                                 {% endif %}
-                                <a href="/takings/detail/{{taking.pk}}">{{ taking.pk }}</a>
+                                <a href="/takings/detail/{{taking.pk}}">{{ taking.notes }}</a>
                                     |
                                 {% endfor %}
                         </td>

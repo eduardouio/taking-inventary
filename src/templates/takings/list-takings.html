@@ -61,13 +61,12 @@
       <tr class="text-center bg-gradient-secondary">
         <th>#</th>
         <th>ID</th>
+        <th>Nombre</th>
         <th>Manager</th>
         <th>SAP Migración</th>
         <th>H Inicio</th>
         <th>H Fin</th>
         <th>T Bodegas</th>
-        <th>T Grupos</th>
-        <th>T Productos</th>
         <th>Reporte</th>
     </tr>
   </thead>
@@ -87,6 +86,7 @@
           </a>
         </td>
         <td>{{ item.user_manager }}</td>
+        <td>{{ item.notes }}</td>
         <td class="text-center">
             <a href="/sap/detail/{{item.id_sap_migration_id}}">
               [{{ item.id_sap_migration_id }}]
@@ -96,8 +96,6 @@
         <td class="text-right">{{ item.hour_start | naturaltime }}</td>
         <td class="text-right">{{ item.hour_end | naturaltime }}</td>
         <td class="text-right">{{ item.total_warenhouses | intcomma}}</td>
-        <td class="text-right">{{ item.total_groups | intcomma }}</td>
-        <td class="text-right">{{ item.total_products | intcomma }}</td>
         <td class="text-center">
           {% if item.have_report %}
             <i class="fas fa-check-square text-success"></i>
