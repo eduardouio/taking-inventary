@@ -23,6 +23,7 @@ class Taking(AppBaseModel):
         null=True,
         default=None
     )
+
     hour_end = models.TimeField(
         'hora fin',
         blank=True,
@@ -31,7 +32,7 @@ class Taking(AppBaseModel):
     )
     user_manager = models.ForeignKey(
         CustomUserModel,
-        on_delete=models.PROTECT    
+        on_delete=models.PROTECT
     )
     warenhouses = models.JSONField(
         blank=True,
@@ -40,6 +41,13 @@ class Taking(AppBaseModel):
     )
     teams = models.ManyToManyField(
         Team
+    )
+    name = models.TextField(
+        'nombre',
+        max_length=255,
+        blank=True,
+        null=True,
+        default=None
     )
     location = models.CharField(
         'ubicacion instalaciones',
@@ -86,14 +94,14 @@ class Taking(AppBaseModel):
             return cls.objects.get(pk=id_taking)
         except ObjectDoesNotExist as e:
             return None
-    
+
     @classmethod
     def get_by_team(cls, id_team):
         takings = cls.objects.filter(teams__id_team=id_team)
         if takings:
             return takings.first()
         return None
-    
+
     @classmethod
     def get_by_sap_migrations(cls, id_sap_migration):
         takings = cls.objects.filter(id_sap_migration=id_sap_migration)
@@ -103,7 +111,7 @@ class Taking(AppBaseModel):
 
     def __str__(self):
         return '{}->{}->{}'.format(
-            self.id_taking, 
+            self.id_taking,
             self.user_manager,
             self.created
-           )
+        )
