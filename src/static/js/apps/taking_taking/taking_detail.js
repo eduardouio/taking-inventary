@@ -9,6 +9,7 @@ function showDetails() {
     button = document.getElementById('btn-show-details');
     document.getElementById('warenhouses-list').hidden = show_details;
     document.getElementById('enterprises-list').hidden = show_details;
+    document.getElementById('groups-list').hidden = show_details;
     show_details = !show_details;
 
     if (show_details) {

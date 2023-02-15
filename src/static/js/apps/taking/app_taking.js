@@ -93,7 +93,6 @@ const app = createApp({
                         this.server_status.type = 'error';
                         this.server_status.have_error_message = true;
                         this.disable_button_send = false;
-                        console.dir(e);
                         alert("No es posible comunicarse con el servidor, confirme su conección a la red" + e);
                 }
             this.server_status.message = xhr.responseText;
