@@ -7,11 +7,33 @@
 {% endblock %}
 {% block title_bar %}
 <div class="row border bg-gardient-secondary rounded" style="padding: 15px;">
-    <div class="col-8">
+    <div class="col-3">
         <i class="fa fa-list"></i>
-        {{ title_page }} <strong> {{ total_records }} Registros Encontrados </strong>
+        {{ title_page }} <strong> {{ total_records }} items </strong>
     </div>
-    <div class="col-4 text-right"><small>[Sistema Toma Inventarios] | <strong>Módulo {{ module_name }}
+    <div class="col-6">
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-group">
+                        <select class="form-control" name="criteria">
+                            <option>Mostrar Resumen Por Bodega</option>
+                            <option>Mostrar Resumen por Empresa</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="form-group">
+                        <select class="form-control" name="criteria">
+                            <option>Todas</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <button class="btn bg-gradient-dark btn-sm"><i class="fas fa-sync"></i> Actualizar</button>
+                </div>
+            </div>
+    </div>
+    <div class="col-3 text-right"><small>[Sistema Toma Inventarios] | <strong>Módulo {{ module_name }}
             </strong></small>
             <span class="text-primary">
                 [{{ total_time | floatformat:2 }} segs]
@@ -22,49 +44,6 @@
 {% block content %}
 <div>
 <div class="container-fluid">
-        <div class="row row-vertical-space">
-            <br/>
-            <div class="col">
-                <a href="/sap/" class="">
-                    <button class="btn bg-gradient-info btn-sm btn-sm">
-                        <i class="fas fa-bars"></i>
-                        Voler a la Lista
-                    </button>
-                </a>
-            </div>
-            <div class="col-4">
-                <form  method="get">
-                <div class="row">
-                    <div class="col-8">
-                            <div class="form-group">
-                                <select class="form-control" name="criteria">
-                                    <option value="by_warenhouses" {%if condition_report == 'by_warenhouses'%} selected {%endif%} >Mostrar Resumen Por Bodega</option>
-                                    <option value="by_owners" {%if condition_report == 'by_owners'%} selected {%endif%} >Mostrar Resumen por Empresa</option>
-                                </select>
-                            </div>
-                    </div>
-                    <div class="col">
-                        <button class="btn bg-gradient-dark btn-sm"><i class="fas fa-sync"></i> Actualizar</button>
-                    </div>
-                </div>
-            </form>
-            </div>
-            <div class="col text-right">
-                <a href="#" class="">
-                    <button class="btn bg-gradient-dark btn-sm">
-                        <i class="fas fa-file"></i>
-                        Tomas Realizadas
-                    </button>
-                </a>
-                <a href="/takings/create/{{ pk }}" class="">
-                    <button class="btn bg-gradient-dark btn-sm">
-                        <i class="fas fa-file"></i>
-                        Realizar Nueva Toma
-                    </button>
-                </a>
-            </div>
-            <br />  
-        </div>
     <div class="row">
         <div class="col">
             <div class="table-responsive">
@@ -99,6 +78,23 @@
         </div>
         </div>
     </div>
+            <div class="row">
+                <div class="col">
+                    <hr/>
+                    <a href="/sap/" class="">
+                        <button class="btn bg-gradient-info btn-sm btn-sm">
+                            <i class="fas fa-arrow-left"></i>
+                            Voler a la Lista
+                        </button>
+                    </a>
+                    <a href="/takings/create/{{ pk }}" class="">
+                        <button class="btn bg-gradient-dark btn-sm">
+                            <i class="fas fa-file"></i>
+                            Realizar Nueva Toma
+                        </button>
+                    </a>
+                </div>
+            </div>
 </div>
 <!-- Extra large modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

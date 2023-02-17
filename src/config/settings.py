@@ -27,7 +27,7 @@ SECRET_KEY = MY_SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*',]
+ALLOWED_HOSTS = ['*', ]
 
 
 # Application definition
@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    'sslserver',
     'django.contrib.humanize',
     'simple_history',
     'accounts',
@@ -62,7 +61,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
     'crum.CurrentRequestUserMiddleware',
-    
+
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -118,7 +117,6 @@ AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',
                            'guardian.backends.ObjectPermissionBackend')
 
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -152,7 +150,7 @@ MEDIA_ROOT = os.sep.join(os.path.abspath(
 
 MEDIA_URL = '/media/'
 
-#loggin config
+# loggin config
 PATH_LOGS = BASE_DIR / 'logs'
 IS_ENABLE_LOGGIN = True
 LOGS_FILE_NAME = 'logs.log'
@@ -166,15 +164,18 @@ DEALERS = (
 )
 
 ENTERPRISES_TAKING = (
-    ('AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A.','AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A.'),
-    ('CORPORACIÓN PLUSBRAND DEL ECUADOR CIA LTDA','CORPORACIÓN PLUSBRAND DEL ECUADOR CIA LTDA'),
-    ('IMNAC IMPORTADORA NACIONAL CIA LTDA','IMNAC IMPORTADORA NACIONAL CIA LTDA'),
-    ('PANIAGUA S.A.','PANIAGUA S.A.'),
-    ('REV ECUADOR S.A','REV ECUADOR S.A'),
+    ('AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A.',
+     'AGENCIAS Y REPRESENTACIONES CORDOVEZ S.A.'),
+    ('CORPORACIÓN PLUSBRAND DEL ECUADOR CIA LTDA',
+     'CORPORACIÓN PLUSBRAND DEL ECUADOR CIA LTDA'),
+    ('IMNAC IMPORTADORA NACIONAL CIA LTDA', 'IMNAC IMPORTADORA NACIONAL CIA LTDA'),
+    ('PANIAGUA S.A.', 'PANIAGUA S.A.'),
+    ('REV ECUADOR S.A', 'REV ECUADOR S.A'),
     ('SERVMULTIMARC CIA LTDA', 'SERVMULTIMARC CIA LTDA'),
-    ('VIDINTERNACIONAL S.A.','VIDINTERNACIONAL S.A.'),
-    ('VINOS Y ESPIRITUOSOS DEL LITORAL VINLITORAL S.A.','VINOS Y ESPIRITUOSOS DEL LITORAL VINLITORAL S.A.'),
-    ('VINOS Y ESPIRITUOSOS VINESA S.A.','VINOS Y ESPIRITUOSOS VINESA S.A.'),
+    ('VIDINTERNACIONAL S.A.', 'VIDINTERNACIONAL S.A.'),
+    ('VINOS Y ESPIRITUOSOS DEL LITORAL VINLITORAL S.A.',
+     'VINOS Y ESPIRITUOSOS DEL LITORAL VINLITORAL S.A.'),
+    ('VINOS Y ESPIRITUOSOS VINESA S.A.', 'VINOS Y ESPIRITUOSOS VINESA S.A.'),
 )
 
 WARENHOUSES_LOCATIONS_NAME = (
@@ -184,4 +185,3 @@ WARENHOUSES_LOCATIONS_NAME = (
     ('SERVMULTIMARC', 'SERVMULTIMARC'),
     ('ALMAGRO QUITO', 'ALMAGRO QUITO'),
 )
-

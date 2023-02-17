@@ -111,3 +111,8 @@ table.mi_table td{
     padding: 0.15rem;
     vertical-align: middle;
 }
+
+.form-control{
+    height: calc(1.5rem + 2px);
+    padding: 0.2rem 0.5rem;
+}
