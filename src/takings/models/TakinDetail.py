@@ -1,8 +1,9 @@
 from common import AppBaseModel
 from django.db import models
 from products.models import Product
-from takings.models import Taking
 from accounts.models.Team import Team
+
+from .Taking import Taking
 
 
 class TakinDetail(AppBaseModel):
@@ -68,13 +69,6 @@ class TakinDetail(AppBaseModel):
     is_complete = models.BooleanField(
         'esta completo?',
         default=False
-    )
-    token_team = models.CharField(
-        'llave token',
-        max_length=255,
-        blank=True,
-        null=True,
-        default=None
     )
 
     @classmethod
