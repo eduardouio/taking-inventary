@@ -52,36 +52,49 @@ class LoadTestData():
 
     def load_my_users(self):
         users = [
-            {'username': 'dayana', 'first_name': 'DAYANA', 'last_name': 'GARCIA',
-                'password': '1234.abc', 'email': 'dayana@vinesa.com.ec', 'role': 'asistente'},
-            {'username': 'karley', 'first_name': 'KARLEY', 'last_name': 'ZUBIETA',
-                'password': '1234.abc', 'email': 'karley@vinesa.com.ec', 'role': 'asistente'},
-            {'username': 'johanna', 'first_name': 'JOHANNA', 'last_name': 'PLACES',
-                'password': '1234.abc', 'email': 'johanna@vinesa.com.ec', 'role': 'asistente'},
-            {'username': 'david', 'first_name': 'DAVID', 'last_name': 'GONZALEZ',
-                'password': '1234.abc', 'email': 'david@vinesa.com.ec', 'role': 'asistente'},
-            {'username': 'gerardo', 'first_name': 'GERARDO', 'last_name': 'LITA',
-                'password': '1234.abc', 'email': 'gerardo@vinesa.com.ec', 'role': 'asistente'},
-            {'username': 'mercy', 'first_name': 'MERCY', 'last_name': 'HERNANDEZ',
-                'password': '1234.abc', 'email': 'mercy@vinesa.com.ec', 'role': 'asistente'},
-            {'username': 'jordan', 'first_name': 'JORDAN', 'last_name': 'DUEÑAS',
-                'password': '1234.abc', 'email': 'jordan@vinesa.com.ec', 'role': 'asistente'},
-            {'username': 'diego', 'first_name': 'DIEGO', 'last_name': 'GARCIA',
-                'password': '1234.abc', 'email': 'diego@vinesa.com.ec', 'role': 'asistente'},
-            {'username': 'joel', 'first_name': 'JOEL', 'last_name': 'TITOAÑA',
-                'password': '1234.abc', 'email': 'joel@vinesa.com.ec', 'role': 'asistente'},
-            {'username': 'isaac', 'first_name': 'ISAAC', 'last_name': 'MALAN',
-                'password': '1234.abc', 'email': 'isaac@vinesa.com.ec', 'role': 'asistente'},
-            {'username': 'mayra', 'first_name': 'MAYRA', 'last_name': 'AYALA',
-                'password': '1234.abc', 'email': 'mayra@vinesa.com.ec', 'role': 'asistente'},
-            {'username': 'gaby', 'first_name': 'GABY', 'last_name': 'TOAPANTA',
-                'password': '1234.abc', 'email': 'gaby@vinesa.com.ec', 'role': 'asistente'},
-            {'username': 'lorena', 'first_name': 'LORENA', 'last_name': 'RODRIGUEZ',
-                'password': '1234.abc', 'email': 'lorena@vinesa.com.ec', 'role': 'gestor'},
-            {'username': 'alex', 'first_name': 'ALEX', 'last_name': 'LEON',
-                'password': '1234.abc', 'email': 'alex@vinesa.com.ec', 'role': 'gestor'},
+            {'username': 'lrodriguez', 'first_name': 'LORENA', 'last_name': 'RODRIGUEZ',
+                'email': 'lorena@vinesa.com.ec', 'role': 'gestor'},
+            {'username': 'aleon', 'first_name': 'ALEX', 'last_name': 'LEON',
+                'email': 'alex@vinesa.com.ec', 'role': 'gestor'},
+            {'username': 'vheredia', 'first_name': 'VEROICA', 'last_name': 'HEREDIA',
+                'email': 'vheredia@vinesa.com.ec', 'role': 'gestor'},
+            {'username': 'dygarcia', 'first_name': 'DAYANA', 'last_name': 'GARCIA',
+                'email': 'dayana@vinesa.com.ec', 'role': 'asistente'},
+            {'username': 'kzubieta', 'first_name': 'KARLEY', 'last_name': 'ZUBIETA',
+                'email': 'karley@vinesa.com.ec', 'role': 'asistente'},
+            {'username': 'jplaces', 'first_name': 'JOHANNA', 'last_name': 'PLACES',
+                'email': 'johanna@vinesa.com.ec', 'role': 'asistente'},
+            {'username': 'dgonzalez', 'first_name': 'DAVID', 'last_name': 'GONZALEZ',
+                'email': 'david@vinesa.com.ec', 'role': 'asistente'},
+            {'username': 'glita', 'first_name': 'GERARDO', 'last_name': 'LITA',
+                'email': 'gerardo@vinesa.com.ec', 'role': 'asistente'},
+            {'username': 'mhernandez', 'first_name': 'MERCY', 'last_name': 'HERNANDEZ',
+                'email': 'mercy@vinesa.com.ec', 'role': 'asistente'},
+            {'username': 'jduenas', 'first_name': 'JORDAN', 'last_name': 'DUEÑAS',
+                'email': 'jordan@vinesa.com.ec', 'role': 'asistente'},
+            {'username': 'dggarcia', 'first_name': 'DIEGO', 'last_name': 'GARCIA',
+                'email': 'diego@vinesa.com.ec', 'role': 'asistente'},
+            {'username': 'jtitoana', 'first_name': 'JOEL', 'last_name': 'TITOAÑA',
+                'email': 'joel@vinesa.com.ec', 'role': 'asistente'},
+            {'username': 'imalan', 'first_name': 'ISAAC', 'last_name': 'MALAN',
+                'email': 'isaac@vinesa.com.ec', 'role': 'asistente'},
+            {'username': 'mayala', 'first_name': 'MAYRA', 'last_name': 'AYALA',
+                'email': 'mayra@vinesa.com.ec', 'role': 'asistente'},
+            {'username': 'gtoapanta', 'first_name': 'GABY', 'last_name': 'TOAPANTA',
+                'email': 'gaby@vinesa.com.ec', 'role': 'asistente'},
+            {'username': 'cmorales', 'first_name': 'CESAR', 'last_name': 'MORALES',
+                'email': 'cmorales@plusbrand.com.ec', 'role': 'asistente'},
+            {'username': 'gperez', 'first_name': 'GABRIEL', 'last_name': 'PEREZ',
+                'email': 'gperez@plusbrand.com.ec', 'role': 'asistente'},
+            {'username': 'vpadilla', 'first_name': 'VERONICA', 'last_name': 'PADILLA',
+                'email': 'vpadilla@vinesa.com.ec', 'role': 'asistente'},
+            {'username': 'ypreciado', 'first_name': 'YULIANA', 'last_name': 'PRECIADO',
+                'email': 'ypreciado@vinesa.com.ec', 'role': 'asistente'},
+            {'username': 'jcruz', 'first_name': 'JONATHAN', 'last_name': 'CRUZ',
+                'email': 'jcruz@vinesa.com.ec', 'role': 'asistente'},
         ]
         for new_user in users:
+            new_user['password'] = '1234.abc'
             CustomUserModel.objects.create(**new_user)
         print('[OK] Usuarios Insertados...')
 
@@ -226,6 +239,6 @@ loadData = LoadTestData()
 # loadData.load_warenhouses()
 # loadData.load_sap_migrations()
 # loadData.load_takings()
-# loadData.load_my_users()
+loadData.load_my_users()
 loadData.unifyPassworwds()
 print('---> END TASK <---')
