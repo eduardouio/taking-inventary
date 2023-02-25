@@ -19,7 +19,7 @@
 </div>
 {% endblock %}
 {% block content %}
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <div class="col" style="padding: 10px;">
             <table class="table table-bordered table-condensed table-hover">
@@ -65,11 +65,9 @@
                         <th>#</th>
                         <th>Fecha</th>
                         <th>Usuario</th>
+                        <th>SKU'S</th>
                         <th>Bodegas</th>
-                        <th>Productos</th>
-                        <th>Unidades</th>
                         <th>Tomas</th>
-                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -80,45 +78,45 @@
                                 &nbsp;{{ forloop.counter }}&nbsp;
                         </td>
                         <td>
-                            {% if migration.migration.is_active %}
-                                <i class="fas fa-lock-open text-success"></i>
-                            {% else %}
-                                <i class="fas fa-lock"></i>
-                            {% endif%}
                             <a href="/sap/detail/{{migration.migration.pk}}">
-                                <span class="text-secondary">#{{migration.migration.pk}}</span>
+                                {{ migration.migration.created | naturalday }}
                             </a>
                         </td>
                         <td class="text-center">{{ migration.user.create_by }}</td>
-                        <td class="text-center">{{ migration.migration.total_warenhouses | intcomma }}</td>
                         <td class="text-center">{{ migration.migration.total_products | intcomma }}</td>
-                        <td class="text-center">{{ migration.migration.total_products_unities | intcomma }}</td>
-                        <td class="text-center">
+                        <td class="text-center">{{ migration.migration.total_warenhouses | intcomma }}</td>
+                        <td>
                             {% if not migration.takings %}
+                            <i class="fas fa-ban text-secondary"></i>
                             <span class="text-secondary">SIN TOMAS</span>
-                            {% endif %}
-                            {% for taking in migration.takings%}
-                                {% if forloop.first %}
-                                    <span class="text-seconday"> | </span>
-                                {% endif %}
-                                <a href="/takings/detail/{{taking.pk}}">{{ taking.notes }}</a>
-                                    |
-                                {% endfor %}
-                        </td>
-                        <td class="text-center">
-                            {% if migration.migration.is_active %}
-                                <span class="text-success">Abierto</span>
                             {% else %}
-                                <span class="text-secondary">Cerrado</span>
+                            <i class="fas fa-arrows-alt text-info" onclick="showTaking({{migration.migration.pk}})"></i>
+                                {{ migration.takings | length }} TOMAS
                             {% endif %}
+                                <ul id="show-takings-{{migration.migration.pk}}" hidden="">
+                            {% for taking in migration.takings%}
+                                    <li>
+                                        <a href="/takings/detail/{{taking.pk}}">{{ taking.name | default_if_none:'Sin Nombre' }}</a>
+                                        | {{ taking.created | naturalday }}
+                                        | {{ taking.user_manager }}
+                                        | {{ taking.location }}
+                                    </li>
+                            {% endfor %}
+                                </ul>
                         </td>
-                        <td class="text-center">
-                            <a href="/takings/create/{{ migration.migration.pk }}">
+                        <td style="padding-left: 20px;">
+                            {% if migration.migration.is_active %}
+                                <i class="fas fa-unlock text-success" title="Disponible Para Tomas"></i>
+                            {% else %}
+                                <i class="fas fa-lock" title="No se puede hacer mas tomas"></i>
+                            {% endif %}
+                            <span class="text-secondary">&nbsp;|&nbsp;</span>
+                            <a href="/takings/create/{{ migration.migration.pk }}" title="Crear una Toma">
                                 <i class="fas fa-clipboard text-info"></i>
                             </a>
                             {% if not migration.takings %}
-                            &nbsp; <span class="text-secondary">|</span> &nbsp;
-                            <a href="/takings/delete/{{ migration.migration.pk }}/">
+                            <span class="text-secondary">&nbsp;|&nbsp;</span>
+                            <a href="/takings/delete/{{ migration.migration.pk }}/" title="Eliminar Migración">
                                 <i class="fas fa-trash text-danger"></i>
                             </a>
                             {% endif %}
@@ -132,5 +130,10 @@
 </div>
 {% endblock %}
 {% block scritp_code %}
-<script src="{% static 'js/vue.global.js' %}"></script>
+<script>
+    function showTaking(id_row) {
+       current = document.getElementById('show-takings-' + id_row).hidden;
+       document.getElementById('show-takings-'+ id_row).hidden = !current;
+    }
+</script>
 {% endblock %}
