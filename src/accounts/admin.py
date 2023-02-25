@@ -6,13 +6,16 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models.CustomUserModel import CustomUserModel
 from .models.Team import Team
 
+
 class CustomUserAdmin(UserAdmin):
-    add_form=CustomUserCreationForm
-    form=CustomUserChangeForm
-    model=CustomUserModel
-    
-    list_display=[
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
+    model = CustomUserModel
+
+    list_display = [
         'username',
+        'first_name',
+        'last_name',
         'role',
         'email',
         'is_staff',
@@ -22,17 +25,17 @@ class CustomUserAdmin(UserAdmin):
         'role',
         'is_active',
     )
-    
+
     fieldsets = (
         ('Información Básica', {
-            'fields':(
+            'fields': (
                 'username',
                 'password',
                 'role',
             )
         }),
-        ('Información Adicional',{
-            'fields':(
+        ('Información Adicional', {
+            'fields': (
                 'first_name',
                 'last_name',
                 'dni_number',
@@ -42,15 +45,15 @@ class CustomUserAdmin(UserAdmin):
                 'notes',
             )
         }),
-       ('Permisos', {
-           'fields': (
+        ('Permisos', {
+            'fields': (
                 'is_staff',
                 'is_active',
                 'is_superuser',
-        )},
-       ))
-    
-    add_fieldsets=(
+            )},
+         ))
+
+    add_fieldsets = (
         (None, {
             'classes': ('wide',),
             'fields': (
@@ -62,7 +65,7 @@ class CustomUserAdmin(UserAdmin):
                 'is_staff',
                 'is_active',
             )}
-        ),
+         ),
     )
     search_fields = [
         'username'
@@ -83,7 +86,7 @@ class TeamAdmin(SimpleHistoryAdmin):
         'warenhouse_assistant',
         'created',
     ]
-    
+
     search_fields = [
         'group_number',
         'manager__first_name',
@@ -92,5 +95,6 @@ class TeamAdmin(SimpleHistoryAdmin):
         'warenhouse_assistant',
     ]
 
+
 admin.site.register(CustomUserModel, CustomUserAdmin)
-admin.site.register(Team,TeamAdmin)
+admin.site.register(Team, TeamAdmin)
