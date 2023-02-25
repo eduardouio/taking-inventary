@@ -87,6 +87,19 @@ class Taking(AppBaseModel):
         blank=True,
         null=True
     )
+    audit_comments = models.CharField(
+        'Comentarios Auditoria',
+        max_length=1200,
+        blank=True,
+        null=True,
+        default=None
+    )
+    is_it_audited = models.BooleanField(
+        '¿Auditado?',
+        blank=True,
+        null=True,
+        default=False
+    )
 
     @classmethod
     def get(cls, id_taking):
