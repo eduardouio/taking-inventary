@@ -11,3 +11,4 @@ logs/
 /media/
 */media/
 secrets_config.py
+.sql
