@@ -46,9 +46,8 @@ class AppBaseModel(models.Model):
         help_text="Nombre del usuario que realiza el registro"
     )
 
-    notes = models.CharField(
+    notes = models.TextField(
         'observaciones',
-        max_length=400,
         blank=True,
         null=True,
         default=None

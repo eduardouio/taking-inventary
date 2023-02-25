@@ -23,6 +23,13 @@ class TakinDetail(AppBaseModel):
         Team,
         on_delete=models.RESTRICT
     )
+    token_team = models.CharField(
+        'llave token',
+        max_length=255,
+        blank=True,
+        null=True,
+        default=None
+    )
     taking_total_boxes = models.PositiveIntegerField(
         'conteo cajas',
         blank=True,

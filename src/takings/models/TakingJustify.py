@@ -6,7 +6,7 @@ from products.models import Product
 
 class TakingJustify(AppBaseModel):
     """
-        permite una justificación para un producto en una toma
+        Justifies a difference un report
     """
     id_taking_comment = models.IntegerField(
         primary_key=True
