@@ -37,7 +37,7 @@ class AppBaseModel(models.Model):
         blank=True,
         help_text="Nombre del usuario que realiza el registro"
     )
-    
+
     id_user_updated = models.PositiveSmallIntegerField(
         'Actualizado Por',
         default=1,
@@ -46,15 +46,14 @@ class AppBaseModel(models.Model):
         help_text="Nombre del usuario que realiza el registro"
     )
 
-    notes = models.CharField(
+    notes = models.TextField(
         'observaciones',
-        max_length=400,
         blank=True,
         null=True,
         default=None
     )
     history = HistoricalRecords(inherit=True)
-    
+
     def save(self, *args, **kwargs):
         user = get_current_user()
         if user is None:
@@ -68,8 +67,8 @@ class AppBaseModel(models.Model):
 
     def get_user(self):
         users = {
-            'create_by':None,
-            'update_by':None,
+            'create_by': None,
+            'update_by': None,
         }
 
         try:
@@ -78,7 +77,7 @@ class AppBaseModel(models.Model):
             )
         except ObjectDoesNotExist:
             pass
-        
+
         try:
             if self.id_user_updated is None:
                 users['update_by'] = None
