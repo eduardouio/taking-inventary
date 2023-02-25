@@ -12,21 +12,25 @@ class TakingJustify(AppBaseModel):
         primary_key=True
     )
     id_taking = models.ForeignKey(
-        Taking
+        Taking,
+        on_delete=models.PROTECT
     )
     id_product = models.ForeignKey(
-        Product
+        Product,
+        on_delete=models.PROTECT
     )
     justify = models.CharField(
         'justificacion',
+        max_length=1200,
     )
     audit_comments = models.CharField(
         'Comentarios Auditoria',
+        max_length=1200,
         blank=True,
         null=True,
         default=None
     )
-    is_it_aprobate = models.BooleanField(
+    is_it_aproved = models.BooleanField(
         '¿Aprobado?',
         blank=True,
         null=True,
