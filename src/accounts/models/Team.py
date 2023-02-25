@@ -6,6 +6,13 @@ from common import AppBaseModel, loggin
 
 
 class Team(AppBaseModel):
+    """
+     Group used to register the detail takings, a token is use to validate
+     if de detail taking was registered, the token must be created before
+     send send taking to client app in django reponse object
+
+     The Token must be renewed on each http request
+    """
     id_team = models.AutoField(
         'id equipo',
         primary_key=True
@@ -22,13 +29,20 @@ class Team(AppBaseModel):
     )
     warenhouse_assistant = models.CharField(
         'asistete bodega',
-        max_length = 255,
+        max_length=255,
         blank=True,
         null=True,
         default=None
     )
     id_taking = models.PositiveIntegerField(
         'id toma',
+    )
+    token_team = models.CharField(
+        'llave token',
+        max_length=255,
+        blank=True,
+        null=True,
+        default=None
     )
 
     @classmethod
@@ -44,19 +58,16 @@ class Team(AppBaseModel):
         if teams:
             return teams
         return []
-    
+
     @classmethod
     def get_teams_by_user(cls, username):
         teams = cls.objects.filter(manager=username)
         if teams:
-            return teams 
+            return teams
         return []
-
-        
 
     def __str__(self):
         return 'grupo #{}->Manager {}'.format(
             self.group_number,
             self.manager
         )
- 
