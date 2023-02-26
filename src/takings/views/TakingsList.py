@@ -1,10 +1,11 @@
 from time import time
+import json
 
 from django.views.generic import ListView
 from django.http import Http404
 
 from accounts.mixins import ValidateManagerMixin
-from takings.models import Taking
+from takings.models import Taking, TakinDetail
 
 
 # /taking/list/
@@ -22,8 +23,17 @@ class TakingsList(ValidateManagerMixin, ListView):
             'total_records': len(self.object_list),
             'total_time': time() - start_time,
             'last_taking': self.object_list[0],
-            'total_groups': 23,
-            'total_warenhouses': 12,
         }
         context = self.get_context_data(**kwargs)
         return self.render_to_response({**context, **extra_context})
+
+    def get_queryset(self):
+        queryset = Taking.objects.all()
+        for item in queryset:
+            item.takings_details = TakinDetail.get_by_taking(item.id_taking)
+            if item.warenhouses:
+                item.warenhouses = json.loads(item.warenhouses)
+            else:
+                item.warenhouses = []
+
+        return queryset

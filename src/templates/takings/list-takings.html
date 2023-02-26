@@ -60,14 +60,13 @@
     <thead>
       <tr class="text-center bg-gradient-secondary">
         <th>#</th>
-        <th>ID</th>
+        <th>Nombre Toma</th>
+        <th>Fecha</th>
+        <th>SAP</th>
         <th>Manager</th>
-        <th>Nombre</th>
-        <th>SAP Migración</th>
-        <th>H Inicio</th>
-        <th>H Fin</th>
-        <th>T Bodegas</th>
-        <th>Reporte</th>
+        <th>Ubicación</th>
+        <th>Bodegas</th>
+        <th>Acciones</th>
     </tr>
   </thead>
     <tbody>
@@ -75,32 +74,46 @@
       <tr {% if forloop.first %} class="bg-gradient-light-selector" {% endif %}>
         <td class="text-center">{{ forloop.counter }}</td>
         <td>
-          <a href="/takings/detail/{{item.pk}}">
-            {% if item.is_active %}
-              <i class="fas fa-lock-open text-success"></i>
-            {% else %}
-              <i class="fas fa-lock"></i>
-            {% endif%}
-            <span class="text-secondary">#{{ item.pk }}</span>
-            {{ item.created | naturalday }}
+          <a href="/takings/detail/{{item.pk}}" title="{{ item.created | naturaltime}}">
+            [{{ item.pk }}] {{ item.name | default_if_none:'Sin Nombre'}}
           </a>
         </td>
-        <td>{{ item.user_manager }}</td>
-        <td>{{ item.notes }}</td>
+        <td>
+            {{ item.created | naturalday }}
+        </td>
         <td class="text-center">
             <a href="/sap/detail/{{item.id_sap_migration_id}}">
-              [{{ item.id_sap_migration_id }}]
-              {{ item.id_sap_migration.created | naturalday }}
+              {{ item.id_sap_migration_id }}
             </a>
         </td>
-        <td class="text-right">{{ item.hour_start | naturaltime }}</td>
-        <td class="text-right">{{ item.hour_end | naturaltime }}</td>
-        <td class="text-right">{{ item.total_warenhouses | intcomma}}</td>
-        <td class="text-center">
-          {% if item.have_report %}
-            <i class="fas fa-check-square text-success"></i>
+        <td>{{ item.user_manager }}</td>
+        <td>{{ item.location | default_if_none:'Sin Dato'}}</td>
+        <td>
+          <i class="fas fa-arrows-alt text-info" onclick="showWarenhouses({{ item.pk }})"></i>
+          {{ item.total_warenhouses | intcomma}} Bodegas
+          <ul id="show-warenhouses-{{item.pk}}" hidden="">
+            {% for warenhouse in item.warenhouses %}
+            <li>{{ warenhouse }}</li>
+            {% endfor %}
+          </ul>
+        </td>
+        <td style="padding-left: 20px;">
+          {% if item.is_active %}
+          <i class="fas fa-lock-open text-success" title="Toma Activa"></i>
           {% else %}
-            --
+          <i class="fas fa-lock" title="Toma Cerrada"></i>
+          {% endif%}
+          <span class="text-secondary">&nbsp;|&nbsp;</span>
+          {% if item.have_report %}
+            <i class="fas fa-check-square text-success" title="Ver Reporte de Toma"></i>
+          {% else %}
+            <i class="fas fa-minus-square text-secondary" title="Sin Reporte"></i>
+          {% endif %}
+          <span class="text-secondary">&nbsp;|&nbsp;</span>
+          {% if item.takings_details %}
+            <i class="fas fa-trash text-danger" title="Eliminar Toma"></i>
+            <span class="text-secondary">&nbsp;|&nbsp;</span>
+            <i class="fas fa-pencil-alt text-info" title="Modificar Toma"></i>
           {% endif %}
         </td>
       </tr>
@@ -111,9 +124,10 @@
 {% endblock %}
 {% block scritp_code %}
 <script type="text/javascript" charset="utf8" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
-<script type="text/javascript">
-  $(document).ready(function () {
-    $('#table').DataTable();
-  });
+<script>
+  function showWarenhouses(id_row) {
+    current = document.getElementById('show-warenhouses-' + id_row).hidden;
+    document.getElementById('show-warenhouses-' + id_row).hidden = !current;
+  }
 </script>
 {% endblock %}
