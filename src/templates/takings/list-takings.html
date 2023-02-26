@@ -10,6 +10,13 @@
   <div class="col-8">
     <i class="fa fa-list"></i>
     {{ title_page }} <strong> [{{ total_records }} Registros] </strong>
+    {% if message != '' %}
+    &nbsp;&nbsp;&nbsp;
+    <strong class="text-info">
+      <i class="fas fa-exclamation-triangle"></i>
+      {{ message }}
+    </strong>
+    {% endif %}
   </div>
   <div class="col-4 text-right">[Sistema Toma Inventarios] | <strong>Módulo {{ module_name }}
     <span class="text-primary">
@@ -46,7 +53,7 @@
                 </a>
               </td>
               <td class="text-right">
-                <a href="/sap/?migrate=true" class="btn btn-outline-dark btn-xs">
+                <a href="/sap/?action=migrate" class="btn btn-outline-dark btn-xs">
                   <i class="fas fa-share text-info"></i>
                   Importar Saldos SAP
                 </a>
@@ -110,10 +117,12 @@
             <i class="fas fa-minus-square text-secondary" title="Sin Reporte"></i>
           {% endif %}
           <span class="text-secondary">&nbsp;|&nbsp;</span>
-          {% if item.takings_details %}
+          {% if not item.takings_details %}
+          <i class="fas fa-pencil-alt text-info" title="Modificar Toma"></i>
+          <span class="text-secondary">&nbsp;|&nbsp;</span>
+          <a href="?action=delete&pk={{item.pk}}">
             <i class="fas fa-trash text-danger" title="Eliminar Toma"></i>
-            <span class="text-secondary">&nbsp;|&nbsp;</span>
-            <i class="fas fa-pencil-alt text-info" title="Modificar Toma"></i>
+          </a>
           {% endif %}
         </td>
       </tr>

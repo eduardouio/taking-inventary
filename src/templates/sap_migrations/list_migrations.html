@@ -5,11 +5,17 @@
 {% endblock %}
 {% block title_bar %}
 <div class="row border bg-gardient-secondary rounded" style="padding: 10px;">
-    <div class="col-4">
+    <div class="col-8">
         <i class="fa fa-list"></i>
         {{ title_page }} <strong> [{{ total_records }} registros]</strong>
+        {% if message != '' %}
+        &nbsp;&nbsp;&nbsp;
+        <strong class="text-info">
+            <i class="fas fa-exclamation-triangle"></i>
+            {{ message }}
+        </strong>
+        {% endif %}
     </div>
-            <div class="col-4 text-center h5">Migraciones SAP</div>
     <div class="col-4 text-right">
         [Sistema Toma Inventarios] | Módulo {{ module_name }} 
         <span class="text-primary">
@@ -114,12 +120,6 @@
                             <a href="/takings/create/{{ migration.migration.pk }}" title="Crear una Toma">
                                 <i class="fas fa-clipboard text-info"></i>
                             </a>
-                            {% if not migration.takings %}
-                            <span class="text-secondary">&nbsp;|&nbsp;</span>
-                            <a href="/takings/delete/{{ migration.migration.pk }}/" title="Eliminar Migración">
-                                <i class="fas fa-trash text-danger"></i>
-                            </a>
-                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
