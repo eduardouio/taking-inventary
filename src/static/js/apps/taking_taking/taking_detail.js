@@ -226,7 +226,9 @@ function getTakings(id_taking, account_code, sap_report) {
     xhr.onerror = (response) => {
         alert('Error al obtener el reporte')
     }
-
+    // Actualizamos el enlace de reconteo
+    document.getElementById('recount-item').href = `/recounts/make/taking/${id_taking}/product/${account_code}`;
+    
 }
 
 // Inserta el detalle de las tomas en las tablas

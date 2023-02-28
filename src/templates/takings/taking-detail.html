@@ -78,7 +78,7 @@
                     Reconteos: <strong>0</strong>
                 </div>
                 <div class="col-8 text-right">
-                    <a href="/recounts/make/taking/{{taking.pk}}/product/none">
+                    <a href="/recounts/make/taking/{{taking.pk}}/product/all">
                         <button class="btn btn-sm btn-warning" onclick="changeStatus({{ taking.pk }})">
                             <i class="fas fa-share"></i>
                             Reconteo Diferencias
@@ -364,9 +364,9 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col">
-                            <button class="btn btn-warning btn-sm" disabled>
-                                    <i class="fas fa-share"></i> Reconteo
-                            </button>
+                            <a class="btn btn-warning btn-sm" id="recount-item">
+                                    <i class="fas fa-share"></i> Reconteo Item
+                            </a>
                         </div>
                         <div class="col text-right">
                             <button class="btn btn-dark btn-sm" data-dismiss="modal">

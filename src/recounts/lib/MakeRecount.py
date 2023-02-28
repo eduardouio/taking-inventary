@@ -16,7 +16,7 @@ class MakeRecount():
         elimina los registros de las tomas
     '''
 
-    def make(self, id_taking, account_code=None):
+    def make(self, id_taking, account_code):
         taking = Taking.get(id_taking)
         recount = RecountTakings.objects.create(
             id_taking=taking
@@ -28,7 +28,7 @@ class MakeRecount():
                      ]
         if account_code:
             for item_resume in tk_resume:
-                if item_resume.account_code.acount_code == account_code:
+                if item_resume['account_code'].account_code == account_code:
                     self.consolidate(item_resume, taking, recount)
                     return True
 
