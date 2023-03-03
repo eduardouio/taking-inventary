@@ -13,3 +13,5 @@ logs/
 secrets_config.py
 *.sql
 settings.py
+static_django/
+/static_django/
