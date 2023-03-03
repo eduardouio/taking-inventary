@@ -1,15 +1,14 @@
 import json
+from secrets import token_hex
 
 from django.core.serializers import serialize
 from django.views.generic import TemplateView
-from django.http import HttpResponseBadRequest
 
 from products.models import Product
-from sap_migrations.models import SapMigration, SapMigrationDetail
-from accounts.models.Team import Team
+from sap_migrations.models import SapMigrationDetail
 from accounts.models.CustomUserModel import CustomUserModel
 from accounts.mixins import ValidateAssistantMixin
-from takings.models import TakinDetail, Taking
+from takings.models import Taking
 
 
 # /takings/<int:id_sap_migration>
@@ -24,7 +23,10 @@ class TakingTV(ValidateAssistantMixin, TemplateView):
         my_team = None
         for team in taking.teams.all():
             if team.manager == user:
+                team.token_team = token_hex(32)
+                team.save()
                 my_team = team
+
         if my_team is None:
             raise Exception('El ususario no se encuentra en la toma')
         my_team = serialize('json', [my_team])
