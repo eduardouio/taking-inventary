@@ -20,6 +20,15 @@
                 &nbsp;| &nbsp;
                 Manager: 
                 <strong class="text-secondary">{{ taking.user_manager.first_name }} {{ taking.user_manager.last_name }}</strong>
+                &nbsp;| &nbsp;
+                Estado:
+                {% if taking.is_active %}
+                    <i class="fas fa-play text-success"></i>
+                    <span class="text-success">Conteo Abierto, Recibiendo Datos  </span>
+                {% else %}
+                    <i class="fas fa-stop text-danger"></i>
+                    <span class="text-danger">Conteo Cerrado, No se reciben nuevas tomas</span>
+                {% endif %}
         </div>
         <div class="col-4 text-right">
             <small>[Sistema Toma Inventarios] | <strong>Módulo {{ module_name }}</strong></small>
@@ -85,10 +94,17 @@
                         </button>
                     </a>
                     &nbsp;
-                        <button class="btn btn-sm btn-danger" onclick="changeStatus({{ taking.pk }})">
+                    {% if taking.is_active %}
+                        <a href="/takings/detail/{{taking.pk}}?action=close" class="btn btn-sm btn-danger">
                             <i class="fas fa-stop"></i>
                             Detener Conteo
-                        </button>
+                        </a>
+                    {% else %}
+                        <a href="/takings/detail/{{taking.pk}}?action=open" class="btn btn-sm btn-success">
+                            <i class="fas fa-play"></i>
+                            Habilitar Conteo
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
