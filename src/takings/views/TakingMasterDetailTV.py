@@ -15,6 +15,16 @@ class TakingMasterDetailTV(ValidateManagerMixin, TemplateView):
         context = self.get_context_data(**kwargs)
         report = ConsolidateTaking().get(pk)
 
+        if request.GET.get('action'):
+            action = request.GET.get('action')
+            if action == 'open':
+                report['taking'].is_active = True
+
+            if action == 'close':
+                report['taking'].is_active = False
+
+            report['taking'].save()
+
         page_data = {
             'title_page': 'Toma #{}'.format(pk),
             'module_name': 'Reporte de Toma',
