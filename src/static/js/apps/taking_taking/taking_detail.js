@@ -25,11 +25,6 @@ function showProductImg() {
     show_product = !show_product
 }
 
-// Acepta | Detiene la inserción de las tomas
-function changeStatus(id_taking) {
-    alert('desa cancelar el conteo' + id_taking);
-}
-
 // Obtiene los datos del productos y los datos inciales 
 function getProduct(account_code) {
     //ocultamos la imagen de prodyucto
