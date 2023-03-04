@@ -13,9 +13,9 @@ function showDetails() {
     show_details = !show_details;
 
     if (show_details) {
-        button.className = 'fas fa-eye btn btn-outline-secondary btn-sm';
+        button.className = 'fas fa-eye';
     } else {
-        button.className = 'fas fa-eye btn btn-outline-dark btn-sm';
+        button.className = 'fas fa-eye';
     }
 }
 

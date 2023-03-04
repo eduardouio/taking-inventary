@@ -84,8 +84,10 @@
         </div>
         <div class="col-4 border">
             <div class="row">
-                <div class="col-1">
-                    <i class="fas fa-eye btn btn-outline-dark btn-sm" onclick="showDetails()" id="btn-show-details"></i>
+                <div class="col-2">
+                    <i class="fas fa-eye" onclick="showDetails()" id="btn-show-details"></i>
+                    <span class="text-secondary">&nbsp;|&nbsp;</span>
+                    <i class="fas fa-arrow-down" onclick="tableToCSV()"></i>
                 </div>
                 <div class="col-2 text-right">
                      {% if request.GET.action == 'view_all' %}
@@ -99,18 +101,18 @@
                      {% endif %}
                     
                 </div>
-                <div class="col-9 text-right">
+                <div class="col-8 text-right">
                     <a href="/recounts/make/taking/{{taking.pk}}/product/all">
                         <button class="btn btn-sm btn-warning" onclick="changeStatus({{ taking.pk }})">
                             <i class="fas fa-share"></i>
-                            Reconteo Diferencias
+                            Reconteo
                         </button>
                     </a>
                     &nbsp;
                     {% if taking.is_active %}
                         <a href="/takings/detail/{{taking.pk}}?action=close" class="btn btn-sm btn-danger">
                             <i class="fas fa-stop"></i>
-                            Detener Conteo
+                            Detener
                         </a>
                     {% else %}
                         <a href="/takings/detail/{{taking.pk}}?action=open" class="btn btn-sm btn-success">
@@ -428,5 +430,18 @@
 <script>
     var id_migration = {{ taking.id_sap_migration.pk }};
     var id_taking = {{ taking.pk }};
+</script>
+<script>
+    function tableToCSV() {
+            let csv_data = [];
+            let data_table = document.getElementById('table').innerText.split('\n').map((ele) => { return ele.replaceAll('\t', ',') })
+            csv_data = data_table.join('\n');
+            const file = new Blob([csv_data], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(file)
+            const a = document.createElement('a')
+            a.setAttribute('href', url)
+            a.setAttribute('download', 'download.csv');
+            a.click()
+        }
 </script>
 {% endblock %}
