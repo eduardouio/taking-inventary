@@ -46,7 +46,11 @@
             {% for team in teams %}
             <small>
                 <ul>
-                    <li>G{{ team.group_number }} {{ team.manager.first_name }} {{team.manager.first_name }} | <strong>Asis:</strong> {{ team.warenhouse_assistant }}</li>
+                    <li>G{{ team.group_number }} 
+                        {{ team.manager.first_name }} 
+                        {{team.manager.last_name }} 
+                        | <strong>Asis:</strong> 
+                    {{ team.warenhouse_assistant }}</li>
                 </ul>
             </small>
             {% endfor %}
