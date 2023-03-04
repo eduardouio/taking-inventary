@@ -14,6 +14,7 @@ class TakingMasterDetailTV(ValidateManagerMixin, TemplateView):
         start_time = time()
         context = self.get_context_data(**kwargs)
         report = ConsolidateTaking().get(pk)
+        view_all = False
 
         if request.GET.get('action'):
             action = request.GET.get('action')
@@ -24,6 +25,14 @@ class TakingMasterDetailTV(ValidateManagerMixin, TemplateView):
                 report['taking'].is_active = False
 
             report['taking'].save()
+
+            if action == 'view_all':
+                view_all = True
+
+        if not view_all:
+            report['report'] = [
+                x for x in report['report'] if x['diff'] != 0
+            ]
 
         page_data = {
             'title_page': 'Toma #{}'.format(pk),

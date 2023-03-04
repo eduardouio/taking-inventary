@@ -84,7 +84,16 @@
                     <i class="fas fa-eye btn btn-outline-dark btn-sm" onclick="showDetails()" id="btn-show-details"></i>
                 </div>
                 <div class="col-2 text-right">
-                    Ver Todo: <input type="checkbox" name="" id="">
+                     {% if request.GET.action == 'view_all' %}
+                    <a href="?" class="text-success">
+                        Todo <i class="fas fa-check-square"></i>
+                    </a>
+                     {% else %}
+                        <a href="?action=view_all" class="text-danger">
+                            Diferencias <i class="fas fa-minus-square"></i>
+                        </a>
+                     {% endif %}
+                    
                 </div>
                 <div class="col-9 text-right">
                     <a href="/recounts/make/taking/{{taking.pk}}/product/all">
@@ -156,7 +165,7 @@
                                     <span class="text-danger">FALTANTE</span>
                                 {% endif %}
                             {% else %}
-                            <span class="text-info">SIN TOMA </span>
+                            <span class="text-info">SIN TOMA</span>
                             {% endif %}</td>
                         </span>
                     {% endif %}
