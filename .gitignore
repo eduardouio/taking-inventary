@@ -16,3 +16,5 @@ settings.py
 static_django/
 /static_django/
 src/config/settings.py
+src/config/settings.py
+src/tests/test_data/seed.py
