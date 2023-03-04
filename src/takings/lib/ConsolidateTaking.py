@@ -24,8 +24,8 @@ class ConsolidateTaking(object):
             for tkn_stock in taking_resume:
                 if sku_stock['account_code'].account_code == tkn_stock['account_code']:
                     sku_stock['sku_code'] = tkn_stock['account_code']
-                    sku_stock['diff'] = sku_stock['sap_stock'] - \
-                        int(tkn_stock['quantity'])
+                    sku_stock['diff'] = int(
+                        tkn_stock['quantity']) - sku_stock['sap_stock']
 
                     if sku_stock['product'] is None:
                         raise Exception('Dont exist {} in db'.format(

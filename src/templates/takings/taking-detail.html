@@ -83,10 +83,10 @@
                 <div class="col-1">
                     <i class="fas fa-eye btn btn-outline-dark btn-sm" onclick="showDetails()" id="btn-show-details"></i>
                 </div>
-                <div class="col-3 text-right">
-                    Reconteos: <strong>0</strong>
+                <div class="col-2 text-right">
+                    Ver Todo: <input type="checkbox" name="" id="">
                 </div>
-                <div class="col-8 text-right">
+                <div class="col-9 text-right">
                     <a href="/recounts/make/taking/{{taking.pk}}/product/all">
                         <button class="btn btn-sm btn-warning" onclick="changeStatus({{ taking.pk }})">
                             <i class="fas fa-share"></i>
@@ -150,7 +150,11 @@
                         </span>
                     {% else %}
                             {%if item.tk_quantity %}
-                            <span class="text-danger">DIFERENCIA</span>
+                                {% if item.diff > 0%}
+                                    <span class="text-danger">SOBRANTE</span>
+                                {% else %}
+                                    <span class="text-danger">FALTANTE</span>
+                                {% endif %}
                             {% else %}
                             <span class="text-info">SIN TOMA </span>
                             {% endif %}</td>
