@@ -1,6 +1,6 @@
 {% extends 'base/base.html' %}
 {% block content %}
-    <div class="container" style="font-size: 14px;">
+    <div class="container" style="font-size: 16px;">
         <div class="row bordered" style="padding: 5px;">
             <div class="col-9">
                     <i class="fas fa-user text-info"></i>  {{ request.user.first_name }} {{ request.user.last_name }}
@@ -26,52 +26,46 @@
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane show   fade active" id="pills-home" role="tabpanel">
-                        <table class="table table-bordered table-condensed">
-                            <tr>
-                                <td class=" text-center">Disponibles para Toma Física</td>
-                            </tr>
-                            <tbody>
+                            <ul class="list-group">
                                 {% for item in takings %}
                                 {% if item.is_active %}
-                                <tr class="bg-gradient-light">
-                                        <td>
+                                <li class="list-group-item">
+                                        <span>
                                             <a href="/mobile/taking/{{ item.id_taking }}" class="text-dark">
                                                 <span class="h5 text-success">
                                                     <i class="fas fa-clipboard-list"></i>
                                                 </span>
-                                                [{{item.pk}}]
-                                                <small>{{ item.created }}</small>
+                                                <strong>[Toma {{item.pk}}]</strong>
+                                                <br>
+                                                <span>{{item.name}} </span>
+                                                <br>
+                                                <small class="text-info">{{ item.created }}  </small>
                                             </a>
-                                        </td>
-                                    </tr>
+                                        </span>
+                                    </li>
                                     {% endif %}
                                     {% endfor %}
-                            </tbody>
-                        </table>
+                            </ul>
                     </div>
                     <div class="tab-pane fade bordered" id="pills-profile" role="tabpanel">
-                        <table class="table table-bordered table-condensed">
-                            <tr>
-                                <td class="text-center">Registros Históricos de Toma Física</td>
-                            </tr>
-                            <tbody>
                                 {% for item in takings %}
                                 {% if not item.is_active %}
-                                <tr class="bg-gradient-light">
-                                <td>
-                                    <a href="/mobile/taking/{{ item.id_taking }}" class="text-dark">
-                                        <span class="h5">
-                                            <i class="fas fa-clipboard-check"></i>
+                                <li class="list-group-item">
+                                    <span>
+                                        <span href="/mobile/report/taking{{ item.id_taking }}" class="text-dark">
+                                            <span class="h5 text-dark">
+                                                <i class="fas fa-clipboard-list"></i>
+                                            </span>
+                                            <strong>[Toma {{item.pk}}]</strong>
+                                            <br>
+                                            <span>{{item.name}} </span>
+                                            <br>
+                                            <small class="text-secondary">{{ item.created }} </small>
                                         </span>
-                                        [{{item.pk}}]
-                                        <small>{{ item.created }}</small>
-                                    </a>
-                                </td>
-                                </tr>
+                                    </span>
+                                </li>
                                 {% endif %}
                                 {% endfor %}
-                            </tbody>
-                        </table>
                     </div>
                     <div class="tab-pane fade bordered" id="pills-contact" role="tabpanel" style="padding: 5px;">
                         <form action="" enctype="multipart/form-data" method="post">
