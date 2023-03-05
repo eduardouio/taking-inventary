@@ -433,15 +433,19 @@
 </script>
 <script>
     function tableToCSV() {
-            let csv_data = [];
-            let data_table = document.getElementById('table').innerText.split('\n').map((ele) => { return ele.replaceAll('\t', ',') })
-            csv_data = data_table.join('\n');
-            const file = new Blob([csv_data], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(file)
-            const a = document.createElement('a')
-            a.setAttribute('href', url)
-            a.setAttribute('download', 'download.csv');
-            a.click()
+        let csv_data = [];
+        let data_table = document.getElementById(
+            'table'
+            ).innerText.split('\n').map(
+                (ele) => ele.split('\t').map((itm)=>`"${itm}"`).join(';')
+            )
+        csv_data = data_table.join('\n');
+        const file = new Blob([csv_data], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(file)
+        const a = document.createElement('a')
+        a.setAttribute('href', url)
+        a.setAttribute('download', 'download.csv');
+        a.click()
         }
 </script>
 {% endblock %}
