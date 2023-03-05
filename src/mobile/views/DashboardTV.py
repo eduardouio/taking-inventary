@@ -9,7 +9,7 @@ from takings.models import Taking
 # /mobile/dashboard/
 class DashboarTV(ValidateAssistantMixin, TemplateView):
     template_name = 'mobile/dashboard.html'
-    
+
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         user_teams = Team.get_teams_by_user(request.user)
@@ -22,13 +22,14 @@ class DashboarTV(ValidateAssistantMixin, TemplateView):
         page_data = {
             'title_page': 'Dashboar Toma',
             'takings': user_takings,
-            'user_form': user_form, 
+            'user_form': user_form,
         }
-
         return self.render_to_response({**context, **page_data})
-    
+
     def post(self, request, *args, **kwargs):
-        context = self.get_context_data(**kwargs)
-        user_form = UserForm(request.POST, request.FILES, instance=request.user)
+        user_form = UserForm(
+            request.POST,
+            request.FILES,
+            instance=request.user)
         user_form.save()
         return HttpResponseRedirect('/mobile/dashboard/')

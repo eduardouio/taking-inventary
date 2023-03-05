@@ -20,14 +20,13 @@ class APITakingDetail(View):
 
         report = []
 
-
         for item in details:
             report.append({
                 'detail': json.loads(serialize('json', [item]))[0],
                 'team':  {
                     'manager': '{} {}'.format(
-                                        item.id_team.manager.first_name,
-                                        item.id_team.manager.last_name),
+                        item.id_team.manager.first_name,
+                        item.id_team.manager.last_name),
                     'assistant': item.id_team.warenhouse_assistant,
                     'username': item.id_team.manager.username,
                 },
