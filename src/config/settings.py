@@ -143,12 +143,15 @@ STATICFILES_DIRS = [
     os.sep.join(os.path.abspath(__file__).split(os.sep)[:-2]+['static']),
 ]
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.sep.join(os.path.abspath(
     __file__).split(os.sep)[:-2]+['media'])
 
 MEDIA_URL = '/media/'
+
+STATIC_ROOT = os.sep.join(os.path.abspath(
+    __file__).split(os.sep)[:-2]+['static_django'])
 
 # loggin config
 PATH_LOGS = BASE_DIR / 'logs'
@@ -185,3 +188,5 @@ WARENHOUSES_LOCATIONS_NAME = (
     ('SERVMULTIMARC', 'SERVMULTIMARC'),
     ('ALMAGRO QUITO', 'ALMAGRO QUITO'),
 )
+
+LOGIN_URL = '/accounts/login/'
