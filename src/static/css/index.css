@@ -113,6 +113,6 @@ table.mi_table td{
 }
 
 .form-control{
-    height: calc(1.5rem + 2px);
+    /** height: calc(1.5rem + 2px); */
     padding: 0.2rem 0.5rem;
 }
