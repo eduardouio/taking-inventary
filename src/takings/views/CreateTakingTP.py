@@ -11,7 +11,7 @@ from accounts.models.CustomUserModel import CustomUserModel
 from accounts.models.Team import Team
 from accounts.mixins import ValidateManagerMixin
 from sap_migrations.lib import ConsolidateMigration
-from sap_migrations.models import SapMigration, SapMigrationDetail
+from sap_migrations.models import SapMigration
 from takings.models import Taking
 
 
