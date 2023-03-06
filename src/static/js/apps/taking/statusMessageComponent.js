@@ -3,9 +3,11 @@ app.component('status-message', {
     <div class="card card-outline card-primary">
         <div class="card-header">
             <div class="row">
-                <strong class="text-info" v-text="[taking.pk]"></strong>
-                <div class="col">
-                    <strong>Fecha:</strong> 
+            <div class="col text-center text-primary">
+                    <strong>[TOMA # {{ taking.pk }} ]</strong>
+                    {{ taking.fields.name  }}
+                    &nbsp;
+                    <br/>
                     <span 
                         v-text="new Date(taking.fields.created).toLocaleString('es-EC')">
                     </span>
@@ -19,18 +21,9 @@ app.component('status-message', {
                     </div>
                 </div>
             </div>
-            
-            <div class="row" v-if="report.length">
-                <div class="col text-center">
-                    <div class="alert alert-warning" role="alert">
-                        <i class="fas fa-exclamation-circle"></i>
-                        Tiene datos sin Sincronizar
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 <div class="col">
-                    <strong>Grupo: [#<span v-text="team.fields.group_number"></span> ]</strong>
+                    <strong>[Grupo: #{{team.fields.group_number}}] </strong>
                     <span>{{user.fields.first_name}} {{user.fields.last_name}} </span>
                     |
                     <span v-text="team.fields.warenhouse_assistant"></span>

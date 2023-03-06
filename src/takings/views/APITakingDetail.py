@@ -32,7 +32,6 @@ class APITakingDetail(View):
                 },
             })
 
-        #import ipdb;ipdb.set_trace()
         response_data = {
             'id_product': id_product,
             'id_taking': id_taking,

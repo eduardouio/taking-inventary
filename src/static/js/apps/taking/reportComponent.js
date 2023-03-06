@@ -6,10 +6,15 @@ app.component('report-taking', {
                     <div class="row">
                         <div class="col text-center">
                             <i class="fas fa-table"></i>
-                            <strong class="text-primary h5">
+                            <strong class="h6">
+                                {{ taking.fields.name }}
+                            <br>
                                 Reporte Toma <small class="text-info">[{{ report.length }}] items</small>
-                                <br>
                             </strong>
+                            <br>
+                             <span 
+                                    v-text="new Date(taking.fields.created).toLocaleString('es-EC')">
+                            </span>
                             <i class="fas fa-close"></i>
                         </div>
                     </div>
@@ -106,7 +111,7 @@ app.component('report-taking', {
 
             </div>
         </div>`,
-        props:['user', 'report', 'server_status', 'csrf_token'],
+        props:['user', 'report', 'server_status', 'csrf_token', 'taking'],
         emits:['removeitem', 'sendreport', 'changeview'],
         data() {
             return {

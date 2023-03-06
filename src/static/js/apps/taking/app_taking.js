@@ -69,6 +69,8 @@ const app = createApp({
                 '/takings/add-report/'
             );
             this.show_view.report_info = true;
+            this.show_view.status_message = true;
+
             setTimeout(() => {
                 this.show_view.loader = false;
             }, 3000);
@@ -90,7 +92,6 @@ const app = createApp({
                 this.server_status.have_error_message = true;
                 this.disable_button_send = false;
                 this.server_status.message = xhr.responseText;
-                alert(xhr.responseText);
             }
         }
         xhr.onerror = (e) => {
