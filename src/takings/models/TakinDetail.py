@@ -87,10 +87,10 @@ class TakinDetail(AppBaseModel):
 
     @classmethod
     def token_exist(cls, token):
-        report = cls.objects.filter(token_team = token):
-        if report: 
+        report = cls.objects.filter(token_team=token)
+        if report:
             return True
-        
+
         return False
 
     def __str__(self):

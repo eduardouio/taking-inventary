@@ -61,25 +61,21 @@ const app = createApp({
             this.switchView('loader');
             this.show_status_message = false;
             this.sendPostRequest(
-                this.report,
-                'report',
+                {
+                    'report': this.report,
+                    'team': this.team,
+                    'taking': this.taking,
+                },
                 '/takings/add-report/'
-            );
-            this.sendPostRequest(
-                this.team,
-                'team',
-                '/accounts/team/update/'
             );
             this.show_view.report_info = true;
             setTimeout(() => {
                 this.show_view.loader = false;
             }, 3000);
-        },sendPostRequest(data, name, url){
-            this.disable_button_send = true;
+        },sendPostRequest(data, url){
+            this.disable_button_send = false;
             const formData = new FormData()
-            formData.append(name, JSON.stringify(data));
-            formData.append('taking', JSON.stringify(taking.pk));
-            formData.append('team', JSON.stringify(this.team));
+            formData.append('data', JSON.stringify(data));
             let xhr = new XMLHttpRequest
             xhr.open('POST',url);
             xhr.setRequestHeader('X-CSRFToken', this.csrf_token);
@@ -87,16 +83,23 @@ const app = createApp({
             xhr.onload = ()=>{
             if(xhr.status === 201){
                 this.server_status.type = 'success';
-                this.server_status.message = name + 'Ingresado Correctamente';
+                this.server_status.message = 'Ingresado Correctamente';
             }
-            xhr.onerror = function (e) {
-                        this.server_status.type = 'error';
-                        this.server_status.have_error_message = true;
-                        this.disable_button_send = false;
-                        alert("No es posible comunicarse con el servidor, confirme su conección a la red" + e);
-                }
-            this.server_status.message = xhr.responseText;
+            if (xhr.status === 400){    
+                this.server_status.type = 'error';
+                this.server_status.have_error_message = true;
+                this.disable_button_send = false;
+                this.server_status.message = xhr.responseText;
+                alert(xhr.responseText);
+            }
         }
+        xhr.onerror = (e) => {
+            this.server_status.have_error_message = true;
+            this.server_status.type = 'error';
+            this.disable_button_send = false;
+            alert("Ocurrió un error, en la aplicación" + e);
+        }
+        this.server_status.message = xhr.responseText;
         },
     },
     mounted(){

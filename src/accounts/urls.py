@@ -1,5 +1,5 @@
 from django.urls import path
-from accounts.views import UpdateTeamCV, LoginTV, LogoutRV
+from accounts.views import LoginTV, LogoutRV
 
 app_name = 'accounts'
 

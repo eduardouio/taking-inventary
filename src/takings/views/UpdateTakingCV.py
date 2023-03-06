@@ -11,47 +11,46 @@ from products.models import Product
 
 # /takings/add/report/
 class UpdateTakingCV(LoginRequiredMixin, CreateView):
-    def post(self, request, *args, **kwargs):
-        report_data = json.loads(request.POST.get('report'))
-        if not report_data:
-            return HttpResponse('Missing report data', status=400)
-        
-        id_taking = json.loads(request.POST.get('taking'))
-        if not id_taking:
-            return HttpResponse('Missing taking data', status=400)
 
-        team_data = json.loads(request.POST.get('team'))
-        if not team_data:
-            return HttpResponse('Missing team data', status=400)
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.POST.get('data'))
+        report_data = data['report']
+        taking = Taking.get(data['taking']['pk'])
+
+        if taking is None:
+            return HttpResponse('No Existe', status=404)
+
+        if not taking.is_active:
+            return HttpResponse('Inventario Cerrado', status=400)
+
+        team = Team.objects.get(id_team=data['team']['pk'])
+
+        if TakinDetail.token_exist(team.token_team):
+            return HttpResponse('Datos ya registrados', status=400)
 
         try:
-            team = Team.objects.get(id_team=team_data['pk'])
-            taking = Taking.get(id_taking=id_taking)
             report = []
 
             for item in report_data:
-                product = Product.objects.get(account_code=item['product']['fields']['account_code'])
-                
+                product = Product.objects.get(
+                    account_code=item['product']['fields']['account_code'])
+
                 my_taking = TakinDetail(
                     id_taking=taking,
                     account_code=product,
                     id_team=team,
+                    token_team=team.token_team,
                     taking_total_boxes=item['taking_total_boxes'],
                     taking_total_bottles=item['taking_total_bottles'],
-                    quantity = (item['taking_total_boxes'] * product.quantity_per_box) + item['taking_total_bottles'],
+                    quantity=(item['taking_total_boxes'] *
+                              product.quantity_per_box) + item['taking_total_bottles'],
                     notes=item['notes']
                 )
                 report.append(my_taking)
-            
+
             TakinDetail.objects.bulk_create(report)
-            
+
             return HttpResponse('Updated success', status=201)
-        
-        except Team.DoesNotExist:
-            return HttpResponse('Team not found', status=404)
-        except Taking.DoesNotExist:
-            return HttpResponse('Taking not found', status=404)
-        except Product.DoesNotExist:
-            return HttpResponse('Product not found', status=404)
+
         except Exception as e:
             return HttpResponse(str(e), status=500)
