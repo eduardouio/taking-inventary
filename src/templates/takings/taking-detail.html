@@ -102,12 +102,14 @@
                     
                 </div>
                 <div class="col-8 text-right">
+                    {%if taking.is_active %}
                     <a href="/recounts/make/taking/{{taking.pk}}/product/all">
                         <button class="btn btn-sm btn-warning" onclick="changeStatus({{ taking.pk }})">
                             <i class="fas fa-share"></i>
                             Reconteo
                         </button>
                     </a>
+                    {% endif %}
                     &nbsp;
                     {% if taking.is_active %}
                         <a href="/takings/detail/{{taking.pk}}?action=close" class="btn btn-sm btn-danger">
