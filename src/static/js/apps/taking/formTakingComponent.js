@@ -3,8 +3,12 @@ app.component('form-taking', {
     <div class="card card-outline card-success">
             <div class="card-header">
                 <div class="row align-middle text-center">
-                    <div class="col text-secondary h6">
-                        {{ current_item.fields.name }} 
+                    <div class="col h6">
+                        {{ current_item.fields.name }}
+                        <br/>
+                        <small class="text-primary">
+                        CAPACIDAD: {{ current_item.fields.capacity }} {{ current_item.fields.unit_measurement }}
+                        </small>
                         <br/>
                         <small class="text-primary">[{{current_item.fields.quantity_per_box}} x Caja] 
                         &nbsp;|&nbsp; 
