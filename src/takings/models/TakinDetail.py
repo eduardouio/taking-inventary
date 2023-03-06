@@ -85,6 +85,14 @@ class TakinDetail(AppBaseModel):
             return list(detail)
         return []
 
+    @classmethod
+    def token_exist(cls, token):
+        report = cls.objects.filter(token_team = token):
+        if report: 
+            return True
+        
+        return False
+
     def __str__(self):
         return '{}->{}'.format(
             self.account_code,
