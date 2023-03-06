@@ -176,10 +176,10 @@
     <div class="row border">
         <div class="col-6">
             <br>
-            <label for="" class="h6 text-primary">*Nombre Para Toma:</label>
-            <textarea v-model="notes" rows="1" class="form-control" maxlength="400"></textarea>
+            <label for="" class="h6 text-primary">Nombre Para Toma:</label>
+            <input type="tetx" v-model="name" class="form-control" maxlength="400"></input>
         </div>
-        <div class="col-6 text-right align-bottom" v-if="totalWarenhousesSelected > 0 && totalUsersSelected > 0 && notes">
+        <div class="col-6 text-right align-bottom" v-if="totalWarenhousesSelected > 0 && totalUsersSelected > 0 && name">
                 <button 
                     class="btn btn-primary btn-lg" 
                     @click="sendData" :disabled="btn_send_disable">

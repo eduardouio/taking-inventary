@@ -49,10 +49,11 @@ class CreateTakingTP(ValidateManagerMixin, TemplateView):
     def post(self, request, id_sap_migration, *args, **kwargs):
         taking = Taking.objects.create(
             id_sap_migration=SapMigration.get(id_sap_migration),
-            notes=request.POST.get('notes'),
+            name=request.POST.get('name'),
             user_manager=request.user,
             hour_start=datetime.now(),
         )
+
         for (idx, username) in enumerate(request.POST.get('users').split(',')):
             my_manager = CustomUserModel.get(username)
             if my_manager is None:

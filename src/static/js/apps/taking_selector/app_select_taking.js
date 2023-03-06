@@ -18,7 +18,7 @@ const app = createApp({
       show_report: false,
       id_taking: null,
       btn_send_disable: false,
-      notes:null,
+      name:null,
     }
   },
   methods: {
@@ -56,7 +56,7 @@ const app = createApp({
     }, sendData() {
       this.btn_send_disable = true;
       formData = new FormData();
-      formData.append('notes', this.notes);
+      formData.append('name', this.name);
       formData.append('warenhouses', this.warenhouses.filter((el) => el.is_selected).map(el => el.warenhouse_name));
       formData.append('users', this.users.filter((el) => el.is_selected).map(el => el.username).filter((curr, index, my_array) => {
         return my_array.indexOf(curr) === index
@@ -70,7 +70,6 @@ const app = createApp({
       })
         .then(reponse => reponse.json())
         .then(data => {
-          console.dir(data);
           window.location.replace(`/takings/detail/${data.id_taking}`);
         })
         .catch(error=> {
