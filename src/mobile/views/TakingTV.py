@@ -5,7 +5,7 @@ from django.core.serializers import serialize
 from django.views.generic import TemplateView
 
 from products.models import Product
-from sap_migrations.models import SapMigrationDetail
+from sap_migrations.models import SapMigrationDetail, SapMigration
 from accounts.models.CustomUserModel import CustomUserModel
 from accounts.mixins import ValidateAssistantMixin
 from takings.models import Taking
@@ -46,9 +46,22 @@ class TakingTV(ValidateAssistantMixin, TemplateView):
         return self.render_to_response({**context, **page_data})
 
     def get_products(self, taking):
-        found_poducts = []
-        products = json.loads(taking.id_sap_migration.report)['products']
-        for account_code in products:
+        products = []
+        warenhouses = json.loads(taking.warenhouses)
+
+        for warenhouse in warenhouses:
+            result = list(SapMigrationDetail.objects.filter(
+                warenhouse_name=warenhouse,
+                id_sap_migration=taking.id_sap_migration
+            ))
+
+            if result:
+                products = products + result
+
+        uniques_products = list(set([x.account_code for x in products]))
+        founded_products = []
+
+        for account_code in uniques_products:
             obj_product = Product.get(account_code)
             if obj_product is None:
                 new_product = SapMigrationDetail.objects.filter(
@@ -61,6 +74,7 @@ class TakingTV(ValidateAssistantMixin, TemplateView):
                     ean_13_code=new_product.ean_13_code,
                     health_register=new_product.health_register,
                 )
-            found_poducts.append(obj_product)
 
-        return found_poducts
+            founded_products.append(obj_product)
+
+        return founded_products
