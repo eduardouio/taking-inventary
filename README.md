@@ -1,25 +1,75 @@
-# taking-inventary
-<ul>
-    <li>Validar que solo exista un taking activo en la base</li>
-</ul>
+<pre>
+Aplicación para tomas físicas de inventario, se conecta al ERP y extrae los saldos de los SKUs disponibles en el ERP.
 
-# cargar informacion de prueba en el repo
-./manage.py shell < tests/test_data/load_test_data.py 
+Proporciona un cliente SPA en el que los asistentes realizan el ingreso de los datos de toma previa verificación de las cantidades de los mismos en las bodegas
 
-# 
+El sistema realiza un cuadre de las cantidades ingresadas VS las cantidades entregadas por el EPR, muestra por defecto solo las cantidades que no coinciden
+</pre>
 
-create view v_unique_product_sale
-as
-select sms.account_code,
-	sum(sms.on_hand),
-	sum(sms.on_order),
-	sum(sms.is_commited),
-	SUM(sms.avaliable)
-from sap_migrations_sapmigrationdetail sms where  sms.avaliable > 0
-group by sms.account_code 
+### Crear Archivo config/secrets_config.py
+<code>
+BASE_DIR = Path(__file__).resolve().parent.parent
+MY_SECRET_KEY = ''
+app_database = {
+    'default': {
+        'ENGINE':'',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': 3306'
+    },
+}
+DATABASE = app_database
+ERP_CONNECTION = {
+    'server': '',
+    'user': '',
+    'password': '',
+    'database': '',
+}
+MIGRATION_QUERY = ''
+</code>
+
+### Realizar migraciones
+<code>
+	./manage.py makemigrations
+	./manage.py migrate
+</code>
+
+### Cargar datos inciales
+
+<code>./manage.py shell < tests/test_data/seed.py</code>
 
 ## TODO
+
 ### Características a implemetar luego de la primara ronda de pruebas
+
 <ul>
-	<li><input type="checkbox"> [ ] Convertir modal de las listas en una ventana nueva</li>
+ <li>[ ] <strong>[MIGRACIONES]</strong>Convertir modal de las listas en una ventana nueva</li>
+	<li>[ ] <strong>[TOMAS]</strong> Convertir modal de las listas en una ventana nueva</li>
+	<li>[ ] <strong>[TOMAS]</strong> Modificar grupos de las tomas</li>
+	<li>[ ] <strong>[TOMAS]</strong> Mostrar progreso de tomas</li>
+	<li>[ ] <strong>[TOMAS]</strong> Mostrar cantidad de reconteos</li>
+	<li>[ ] <strong>[TOMAS]</strong> Mostrar histórico de tomas (conteos y reconteos)</li>
+	<li>[ ] <strong>[TOMAS]</strong> Mostrar tomas por grupos y envíos de los mismos</li>
+	<li>[ ] <strong>[TOMAS]</strong> Exportar reporte de novedades</li>
+	<li>[ ] <strong>[TOMAS]</strong> Permitir justificiar con texto cada una de las diferencias, mostrar luego de que la toma sea cerrada</li>
+	<li>[ ] <strong>[TOMAS]</strong> Generar PDFs para reconteo automáticamente al realizar el conteo</li>
+	<li>[ ] <strong>[TOMAS]</strong> Mostrar como faltante los que quedan sin toma, luego de cerrar el inventario</li>
+	<li>[ ] <strong>[TOMA]</strong> Mostrar el total de las tablas</li>
+	<li>[ ] <strong>[TOMA]</strong> Permitit comentarios de auditoria en los registros de diferencias</li>
+	<li>[ ] <strong>[AUDIT]</strong> revisión de tomas y aprovación de las diferencias</li>
+	<li>[ ] <strong>[CONSULTA]</strong> cómo se procede con los productos que no se encuentran en la lista</li>
+	<li>[ ] <strong>[PRODUCTS]</strong> Cargar imagenes de los productos en la ficha de los productos</li>
+	<li>[ ] <strong>[PRODUCTS]</strong> Habilitar modificaciones de productos</li>
+	<li>[ ] <strong>[PRODUCTS]</strong> Notificar cuando un producto sea modificado para aceptar la modificación</li>
+	<li>[ ] <strong>[SPA]</strong> deshabilitar boton mientras se realiza la petición, no habilitar hasta error `</li>
+	<li>[ ] <strong>[SPA]</strong> habilitar lector de códigos de barras</li>
+	<li>[ ] <strong>[SPA]</strong> No mostrar menú de GESTOR</li>
+	<li>[ ] <strong>[SPA]</strong> Agregar botón de regreso a tomas</li>
+	<li>[ ] <strong>[SPA]</strong> Agregar botón de cierre de sesión</li>
+	<li>[ ] <strong>[SPA]</strong> Mostar posición en la lista cuando se muestre el detalle al dar click en la lista</li>
+	<li>[ ] <strong>[SPA]</strong> Mostrar el histórico de las tomas en los clientes</li>
+	e<li>[ ] <strong>[DB]</strong> Cruzar los datos de las tomas VS inventario, buscar si existen datos que no corresponden a la toma</li>
+	e<li>[ ] <strong>[DB]</strong> Examinar producos que no aparecen en el listado segun correo</li>
 </ul>
