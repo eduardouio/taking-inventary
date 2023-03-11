@@ -1,10 +1,9 @@
-<pre>
+## Toma de Inventarios
 Aplicación para tomas físicas de inventario, se conecta al ERP y extrae los saldos de los SKUs disponibles en el ERP.
 
 Proporciona un cliente SPA en el que los asistentes realizan el ingreso de los datos de toma previa verificación de las cantidades de los mismos en las bodegas
 
 El sistema realiza un cuadre de las cantidades ingresadas VS las cantidades entregadas por el EPR, muestra por defecto solo las cantidades que no coinciden
-</pre>
 
 ### Crear Archivo config/secrets_config.py
 <code>
