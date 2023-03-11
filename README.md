@@ -44,31 +44,31 @@ MIGRATION_QUERY = ''
 ### Características a implemetar luego de la primara ronda de pruebas
 
 <ul>
- <li>[ ] <strong>[MIGRACIONES]</strong>Convertir modal de las listas en una ventana nueva</li>
-	<li>[ ] <strong>[TOMAS]</strong> Convertir modal de las listas en una ventana nueva</li>
-	<li>[ ] <strong>[TOMAS]</strong> Modificar grupos de las tomas</li>
-	<li>[ ] <strong>[TOMAS]</strong> Mostrar progreso de tomas</li>
-	<li>[ ] <strong>[TOMAS]</strong> Mostrar cantidad de reconteos</li>
-	<li>[ ] <strong>[TOMAS]</strong> Mostrar histórico de tomas (conteos y reconteos)</li>
-	<li>[ ] <strong>[TOMAS]</strong> Mostrar tomas por grupos y envíos de los mismos</li>
-	<li>[ ] <strong>[TOMAS]</strong> Exportar reporte de novedades</li>
-	<li>[ ] <strong>[TOMAS]</strong> Permitir justificiar con texto cada una de las diferencias, mostrar luego de que la toma sea cerrada</li>
-	<li>[ ] <strong>[TOMAS]</strong> Generar PDFs para reconteo automáticamente al realizar el conteo</li>
-	<li>[ ] <strong>[TOMAS]</strong> Mostrar como faltante los que quedan sin toma, luego de cerrar el inventario</li>
-	<li>[ ] <strong>[TOMA]</strong> Mostrar el total de las tablas</li>
-	<li>[ ] <strong>[TOMA]</strong> Permitit comentarios de auditoria en los registros de diferencias</li>
-	<li>[ ] <strong>[AUDIT]</strong> revisión de tomas y aprovación de las diferencias</li>
-	<li>[ ] <strong>[CONSULTA]</strong> cómo se procede con los productos que no se encuentran en la lista</li>
-	<li>[ ] <strong>[PRODUCTS]</strong> Cargar imagenes de los productos en la ficha de los productos</li>
-	<li>[ ] <strong>[PRODUCTS]</strong> Habilitar modificaciones de productos</li>
-	<li>[ ] <strong>[PRODUCTS]</strong> Notificar cuando un producto sea modificado para aceptar la modificación</li>
-	<li>[ ] <strong>[SPA]</strong> deshabilitar boton mientras se realiza la petición, no habilitar hasta error `</li>
-	<li>[ ] <strong>[SPA]</strong> habilitar lector de códigos de barras</li>
-	<li>[ ] <strong>[SPA]</strong> No mostrar menú de GESTOR</li>
-	<li>[ ] <strong>[SPA]</strong> Agregar botón de regreso a tomas</li>
-	<li>[ ] <strong>[SPA]</strong> Agregar botón de cierre de sesión</li>
-	<li>[ ] <strong>[SPA]</strong> Mostar posición en la lista cuando se muestre el detalle al dar click en la lista</li>
-	<li>[ ] <strong>[SPA]</strong> Mostrar el histórico de las tomas en los clientes</li>
-	e<li>[ ] <strong>[DB]</strong> Cruzar los datos de las tomas VS inventario, buscar si existen datos que no corresponden a la toma</li>
- e<li>[ ] :green_square: <strong>[DB]</strong> Examinar producos que no aparecen en el listado segun correo</li>
+ <li>:black_square_button: <strong>[MIGRACIONES]</strong>Convertir modal de las listas en una ventana nueva</li>
+	<li>:black_square_button: <strong>[TOMAS]</strong> Convertir modal de las listas en una ventana nueva</li>
+	<li>:black_square_button: <strong>[TOMAS]</strong> Modificar grupos de las tomas</li>
+	<li>:black_square_button: <strong>[TOMAS]</strong> Mostrar progreso de tomas</li>
+	<li>:black_square_button: <strong>[TOMAS]</strong> Mostrar cantidad de reconteos</li>
+	<li>:black_square_button: <strong>[TOMAS]</strong> Mostrar histórico de tomas (conteos y reconteos)</li>
+	<li>:black_square_button: <strong>[TOMAS]</strong> Mostrar tomas por grupos y envíos de los mismos</li>
+	<li>:black_square_button: <strong>[TOMAS]</strong> Exportar reporte de novedades</li>
+	<li>:black_square_button: <strong>[TOMAS]</strong> Permitir justificiar con texto cada una de las diferencias, mostrar luego de que la toma sea cerrada</li>
+	<li>:black_square_button: <strong>[TOMAS]</strong> Generar PDFs para reconteo automáticamente al realizar el conteo</li>
+	<li>:black_square_button: <strong>[TOMAS]</strong> Mostrar como faltante los que quedan sin toma, luego de cerrar el inventario</li>
+	<li>:black_square_button: <strong>[TOMA]</strong> Mostrar el total de las tablas</li>
+	<li>:black_square_button: <strong>[TOMA]</strong> Permitit comentarios de auditoria en los registros de diferencias</li>
+	<li>:black_square_button: <strong>[AUDIT]</strong> revisión de tomas y aprovación de las diferencias</li>
+	<li>:black_square_button: <strong>[CONSULTA]</strong> cómo se procede con los productos que no se encuentran en la lista</li>
+	<li>:black_square_button: <strong>[PRODUCTS]</strong> Cargar imagenes de los productos en la ficha de los productos</li>
+	<li>:black_square_button: <strong>[PRODUCTS]</strong> Habilitar modificaciones de productos</li>
+	<li>:black_square_button: <strong>[PRODUCTS]</strong> Notificar cuando un producto sea modificado para aceptar la modificación</li>
+	<li>:black_square_button: <strong>[SPA]</strong> deshabilitar boton mientras se realiza la petición, no habilitar hasta error `</li>
+	<li>:black_square_button: <strong>[SPA]</strong> habilitar lector de códigos de barras</li>
+	<li>:black_square_button: <strong>[SPA]</strong> No mostrar menú de GESTOR</li>
+	<li>:black_square_button: <strong>[SPA]</strong> Agregar botón de regreso a tomas</li>
+	<li>:black_square_button: <strong>[SPA]</strong> Agregar botón de cierre de sesión</li>
+	<li>:black_square_button: <strong>[SPA]</strong> Mostar posición en la lista cuando se muestre el detalle al dar click en la lista</li>
+	<li>:black_square_button: <strong>[SPA]</strong> Mostrar el histórico de las tomas en los clientes</li>
+	e<li>:black_square_button: <strong>[DB]</strong> Cruzar los datos de las tomas VS inventario, buscar si existen datos que no corresponden a la toma</li>
+ e<li>:black_square_button: <strong>[DB]</strong> Examinar producos que no aparecen en el listado segun correo</li>
 </ul>
