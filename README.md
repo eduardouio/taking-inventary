@@ -19,7 +19,7 @@ from sap_migrations_sapmigrationdetail sms where  sms.avaliable > 0
 group by sms.account_code 
 
 ## TODO
-# Características a implemetar luego de la primara ronda de pruebas
+### Características a implemetar luego de la primara ronda de pruebas
 <ul>
-	<li><input type="checkbox"> Convertir modal de las listas en una ventana nueva</li>
+	<li><input type="checkbox"> [] Convertir modal de las listas en una ventana nueva</li>
 </ul>
