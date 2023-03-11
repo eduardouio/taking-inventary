@@ -41,7 +41,7 @@ MIGRATION_QUERY = ''
 
 ## TODO
 
-### Características a implemetar luego de la primara ronda de pruebas
+### Características a implemetar luego de la primera ronda de pruebas
 
 <ul>
  	<li>:white_large_square: <strong>[MIGRACIONES]</strong>Convertir modal de las listas en una ventana nueva</li>
