@@ -70,5 +70,5 @@ MIGRATION_QUERY = ''
 	<li>[ ] <strong>[SPA]</strong> Mostar posición en la lista cuando se muestre el detalle al dar click en la lista</li>
 	<li>[ ] <strong>[SPA]</strong> Mostrar el histórico de las tomas en los clientes</li>
 	e<li>[ ] <strong>[DB]</strong> Cruzar los datos de las tomas VS inventario, buscar si existen datos que no corresponden a la toma</li>
-	e<li>[ ] <strong>[DB]</strong> Examinar producos que no aparecen en el listado segun correo</li>
+ e<li>[ ] :white_large_square <strong>[DB]</strong> Examinar producos que no aparecen en el listado segun correo</li>
 </ul>
