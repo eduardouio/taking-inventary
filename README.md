@@ -59,6 +59,8 @@ MIGRATION_QUERY = ''
  <li>:white_large_square: <strong>[TOMA]</strong> Mostrar el total de las tablas</li>
  <li>:white_large_square: <strong>[TOMA]</strong> Confirmar los reconteos antes</li>
  <li>:white_large_square: <strong>[TOMA]</strong> Permitit comentarios de auditoria en los registros de diferencias</li>
+ <li>:white_large_square: <strong>[TOMA]</strong> Codificar los caracteres especiales en el CSV tiene errores al mostrar tildes y ñ</li>
+ <li>:white_large_square: <strong>[TOMA]</strong> Al cerrar la toma los que tienen estado **SIN TOMA** debe quedar como **FALTANTE** </li>
  <li>:white_large_square: <strong>[AUDIT]</strong> revisión de tomas y aprovación de las diferencias</li>
  <li>:white_large_square: <strong>[CONSULTA]</strong> cómo se procede con los productos que no se encuentran en la lista</li>
  <li>:white_large_square: <strong>[PRODUCTS]</strong> Cargar imagenes de los productos en la ficha de los productos</li>
