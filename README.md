@@ -64,7 +64,7 @@ MIGRATION_QUERY = ''
  <li>:white_large_square: <strong>[PRODUCTS]</strong> Cargar imagenes de los productos en la ficha de los productos</li>
  <li>:white_large_square: <strong>[PRODUCTS]</strong> Habilitar modificaciones de productos</li>
  <li>:white_large_square: <strong>[PRODUCTS]</strong> Notificar cuando un producto sea modificado para aceptar la modificación</li>
- <li>:white_large_square: <strong>[SPA]</strong> deshabilitar boton mientras se realiza la petición, no habilitar hasta error `</li>
+ <li>:white_large_square: <strong>[SPA]</strong> deshabilitar boton mientras se realiza la petición, no habilitar hasta error o success</li>
  <li>:white_large_square: <strong>[SPA]</strong> habilitar lector de códigos de barras</li>
  <li>:white_large_square: <strong>[SPA]</strong> No mostrar menú de GESTOR</li>
  <li>:white_large_square: <strong>[SPA]</strong> Agregar botón de regreso a tomas</li>
