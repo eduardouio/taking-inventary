@@ -58,6 +58,7 @@ MIGRATION_QUERY = ''
  <li>:white_large_square: <strong>[TOMAS]</strong> Generar PDFs para reconteo automáticamente al realizar el conteo</li>
  <li>:white_large_square: <strong>[TOMAS]</strong> Mostrar como faltante los que quedan sin toma, luego de cerrar el inventario</li>
  <li>:white_large_square: <strong>[TOMA]</strong> Mostrar el total de las tablas</li>
+ <li>:white_large_square: <strong>[TOMA]</strong> No mostrar el botón de editar cuando la toma esté cerrada</li>
  <li>:white_large_square: <strong>[TOMA]</strong> Confirmar los reconteos antes</li>
  <li>:white_large_square: <strong>[TOMA]</strong> Permitit comentarios de auditoria en los registros de diferencias</li>
  <li>:white_large_square: <strong>[TOMA]</strong> Codificar los caracteres especiales en el CSV tiene errores al mostrar tildes y ñ</li>
