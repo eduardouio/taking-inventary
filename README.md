@@ -6,7 +6,7 @@ Proporciona un cliente SPA en el que los asistentes realizan el ingreso de los d
 El sistema realiza un cuadre de las cantidades ingresadas VS las cantidades entregadas por el EPR, muestra por defecto solo las cantidades que no coinciden
 
 ### Crear Archivo config/secrets_config.py
-<code>
+```python
 BASE_DIR = Path(__file__).resolve().parent.parent
 MY_SECRET_KEY = ''
 app_database = {
@@ -27,17 +27,15 @@ ERP_CONNECTION = {
     'database': '',
 }
 MIGRATION_QUERY = ''
-</code>
+```
 
-### Realizar migraciones
-<code>
+``` bash
+# Realizar migraciones
 	./manage.py makemigrations
 	./manage.py migrate
-</code>
-
-### Cargar datos inciales
-
-<code>./manage.py shell < tests/test_data/seed.py</code>
+# Cargar datos inciales
+    ./manage.py shell < tests/test_data/seed.py
+```
 
 ## TODO
 
@@ -83,7 +81,7 @@ MIGRATION_QUERY = ''
  <li>:white_large_square: <strong>[DB]</strong> Examinar producos que no aparecen en el listado segun correo</li>
 </ul>
 
-## consulta para obtener e detalle de novedades, de forma provisional
+#### consulta para obtener e detalle de novedades, de forma provisional
 
 ``` sql
 select 
