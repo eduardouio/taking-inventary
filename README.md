@@ -82,3 +82,22 @@ MIGRATION_QUERY = ''
  <li>:white_large_square: <strong>[DB]</strong> Cruzar los datos de las tomas VS inventario, buscar si existen datos que no corresponden a la toma</li>
  <li>:white_large_square: <strong>[DB]</strong> Examinar producos que no aparecen en el listado segun correo</li>
 </ul>
+
+## consulta para obtener e detalle de novedades, de forma provisional
+
+<code>
+select 
+	pp.account_code ,
+	pp."name" ,
+	tt.taking_total_boxes,
+	tt.taking_total_bottles,
+	at2.manager_id,
+	ac.first_name,
+	ac.last_name,
+	tt.notes
+from takings_takindetail tt 
+inner join products_product pp on pp.id_product  = tt.account_code_id 
+inner join accounts_team at2 on at2.id_team  = tt.id_team_id 
+inner join accounts_customusermodel ac on ac.id  = at2.manager_id 
+where tt.id_taking_id = 31 and tt.notes is not  null;
+</code>
