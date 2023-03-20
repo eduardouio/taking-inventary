@@ -85,7 +85,7 @@ MIGRATION_QUERY = ''
 
 ## consulta para obtener e detalle de novedades, de forma provisional
 
-```
+``` sql
 select 
 	pp.account_code ,
 	pp."name" ,
