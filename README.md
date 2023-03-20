@@ -85,7 +85,7 @@ MIGRATION_QUERY = ''
 
 ## consulta para obtener e detalle de novedades, de forma provisional
 
-<code>
+```
 select 
 	pp.account_code ,
 	pp."name" ,
@@ -100,4 +100,4 @@ inner join products_product pp on pp.id_product  = tt.account_code_id
 inner join accounts_team at2 on at2.id_team  = tt.id_team_id 
 inner join accounts_customusermodel ac on ac.id  = at2.manager_id 
 where tt.id_taking_id = 31 and tt.notes is not  null;
-</code>
+```
