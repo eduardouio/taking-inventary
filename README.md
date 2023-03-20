@@ -64,6 +64,8 @@ MIGRATION_QUERY = ''
  <li>:white_large_square: <strong>[TOMA]</strong> Codificar los caracteres especiales en el CSV tiene errores al mostrar tildes y ñ</li>
  <li>:white_large_square: <strong>[TOMA]</strong> Al cerrar la toma los que tienen estado **SIN TOMA** debe quedar como **FALTANTE** </li>
  <li>:white_large_square: <strong>[TOMA]</strong> cuando el invnentario esté cerrado mostrar el total de la lista completa </li>
+ <li>:white_large_square: <strong>[TOMA]</strong> Realizar una tomas solo para ciertos productos </li>
+ <li>:white_large_square: <strong>[TOMA]</strong> Marcar productos perecibles y no perecibles, para que se haga una toma de esos items </li>
  <li>:white_large_square: <strong>[AUDIT]</strong> revisión de tomas y aprovación de las diferencias</li>
  <li>:white_large_square: <strong>[CONSULTA]</strong> cómo se procede con los productos que no se encuentran en la lista</li>
  <li>:white_large_square: <strong>[PRODUCTS]</strong> Cargar imagenes de los productos en la ficha de los productos</li>
