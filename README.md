@@ -31,10 +31,10 @@ MIGRATION_QUERY = ''
 
 ``` bash
 # Realizar migraciones
-	./manage.py makemigrations
-	./manage.py migrate
+./manage.py makemigrations
+./manage.py migrate
 # Cargar datos inciales
-    ./manage.py shell < tests/test_data/seed.py
+./manage.py shell < tests/test_data/seed.py
 ```
 
 ## TODO
@@ -70,6 +70,7 @@ MIGRATION_QUERY = ''
  <li>:white_large_square: <strong>[PRODUCTS]</strong> Habilitar modificaciones de productos</li>
  <li>:white_large_square: <strong>[PRODUCTS]</strong> Notificar cuando un producto sea modificado para aceptar la modificación</li>
  <li>:white_large_square: <strong>[SPA]</strong> deshabilitar boton mientras se realiza la petición, no habilitar hasta error o success</li>
+ <li>:white_large_square: <strong>[SPA]</strong>Solo listar los productos con diferencias, para que no se pueda buscar en la aplicación</li>
  <li>:white_large_square: <strong>[SPA]</strong> habilitar lector de códigos de barras</li>
  <li>:white_large_square: <strong>[SPA]</strong> No mostrar menú de GESTOR</li>
  <li>:white_large_square: <strong>[SPA]</strong> Agregar botón de regreso a tomas</li>
@@ -79,7 +80,9 @@ MIGRATION_QUERY = ''
  <li>:white_large_square: <strong>[SPA]</strong> Mejorar experiencia de usuario al actualizar los inventarios</li>
  <li>:white_large_square: <strong>[DB]</strong> Cruzar los datos de las tomas VS inventario, buscar si existen datos que no corresponden a la toma</li>
  <li>:white_large_square: <strong>[DB]</strong> Examinar producos que no aparecen en el listado segun correo</li>
+  <li>:white_large_square: <strong>[DB]</strong> nuevo perfil de encargado de la tienda para que pueda cerrar las novedades</li>
 </ul>
+
 
 #### consulta para obtener e detalle de novedades, de forma provisional
 
@@ -99,3 +102,8 @@ inner join accounts_team at2 on at2.id_team  = tt.id_team_id
 inner join accounts_customusermodel ac on ac.id  = at2.manager_id 
 where tt.id_taking_id = 31 and tt.notes is not  null;
 ```
+
+WHISKY ROYAL SALUTE 21AÑOS->6
+
+cerrar por el status del producto
+VINO ARG. E.G.FAMILIA GASCON MALBEC 
