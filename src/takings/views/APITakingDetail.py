@@ -6,7 +6,6 @@ from django.core.serializers import serialize
 
 from takings.models import TakinDetail
 from products.models import Product
-from accounts.models.Team import Team
 
 
 # /takings/api/taking-detail/taking/<int:id_taking>/product/<str:account_code>/
