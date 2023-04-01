@@ -14,7 +14,7 @@
             <div class="col text-center">
                 <img 
                     style="width: 80px"
-                    :src="server_status.type === 'error' ? server_status.img_error : server_status.img_ok" 
+                    :src="server_status.issue_type === 'error' ? server_status.img_error : server_status.img_ok" 
                     alt="status"
                     class="img-fluid">
             </div>
