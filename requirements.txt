@@ -10,6 +10,7 @@ django-crum == 0.7.9
 ipdb
 django-utils-six
 pdfkit
+django-cors-headers
 # Testing
 Faker
 pillow
