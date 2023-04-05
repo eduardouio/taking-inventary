@@ -1,57 +1,71 @@
 <template>
-  <div>
-    <form-group
-      :team="team"
-      :user="user">
-    </form-group>
-    <loader
-      :server_status="server_status">
-    </loader>
-    <status-message
-      :taking="taking"
-      :team="team"
-      :user="user"
-      :report="report"
+  <div class="bg-dark">
+  <div class="container bg-light">
+    <loader 
+      v-if="show_view.loader"
       :server_status="server_status"
-      @changeView="switchView"
-      ></status-message>
+      ></loader>
+      <div v-if="!show_view.loader">
+        <nav-bar
+          :taking="taking"
+          :team="team"
+          :user="user"
+          :report="report"
+          @changeView="$event => switchView($event)"
+        ></nav-bar>
+        <search-form
+          class="mt-1"
+          :products="products"
+          @selectProduct="$event => selectItem($event)"
+        ></search-form>
+        <product-description v-if="show_view.product_description"
+          class="mt-1"
+        ></product-description>
+      </div>
+
+  </div>
   </div>
 </template>
 
 <script>
-import 'bootstrap/dist/css/bootstrap.css'
-import FormGroup from "./components/FormGroup.vue";
+const base_url = 'http://192.168.1.100:8000';
+// const base_url = 'http://192.168.0.37:8000';
+import 'bootstrap/dist/css/bootstrap.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import '@fortawesome/fontawesome-free/js/all.min.js';
+
 import Loader from "./components/Loader.vue";
-import StatusMessage from "./components/StatusMessage.vue";  
+import NavBar from './components/NavBar.vue';
+import SearchForm from './components/SearchForm.vue';
+import ProductDescription from './components/ProductDescription.vue';
 
 export default {
   name: 'App',
   components: {
-    FormGroup,
     Loader,
-    StatusMessage,
+    NavBar,
+    SearchForm,
+    ProductDescription
   },
   data() {
     return {
-      base_url: 'http://localhost:8000/',
-      team: team,
-      products: my_products,
-      user: user,
-      taking: taking,
+      team: null,
+      products: null,
+      user: null,
+      taking: null,
       server_status: {
-        response: false,
-        type: '',
-        img_ok: '/static/img/ok.jpg',
-        img_error: '/static/img/error.jpg',
-        img_loader: '/static/img/loader.gif',
-        class: 'text-success',
+        response: null,
+        issue_type: '',
+        img_ok: base_url + '/static/img/ok.jpg',
+        img_error: base_url + '/static/img/error.jpg',
+        img_loader: base_url + '/static/img/loader.gif',
         have_warning_message: false,
         have_error_message: false,
         message: '',
       },
       current_item: null,
       report: [],
-      csrf_token: csrf_token,
+      csrf_token: null,
       have_team: false,
       report_update: false,
       show_status_message: true,
@@ -69,7 +83,22 @@ export default {
     }
   },
    methods: {
+    getData(url){
+      return fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          return data;
+        })
+        .catch(error => {
+          this.show_view.loader = true;
+          this.server_status.response = null;
+          this.server_status.issue_type= 'error';
+          this.server_status.message = 'Error al cargar los datos -> ' + error ;
+
+        })
+    },
     switchView(template_name) {
+      alert(template_name);
       for (let key in this.show_view) {
         if (key === template_name) {
           this.show_view[key] = true;
@@ -135,14 +164,40 @@ export default {
     },
   },
   mounted() {
-    setTimeout(() => {
-      this.server_status.sended_request = false;
-      this.switchView('search_form');
-    }, 500);
-    window.addEventListener("beforeunload", (e) => {
-      e.preventDefault();
-      return e.returnValue = 'Esta seguro de salir?, la información se perderá';
+    this.getData(base_url + '/takings/api/taking/32/').then((data) => {
+      this.taking = data.taking;
+      this.team = data.team;
+      this.products = data.products;
+      this.user = data.user;
+      this.csrf_token = data.csrf_token;
+      this.show_view.loader = false;
+      this.server_status.issue_type = 'success';
+      this.server_status.message = 'Completado correctamente';
+      this.server_status.response = data;
     });
+    //window.addEventListener("beforeunload", (e) => {
+    //  e.preventDefault();
+    //  return e.returnValue = 'Esta seguro de salir?, la información se perderá';
+    //});
   }
 }
 </script>
+<style>
+.bordered {
+    border: 1px solid #ddd;
+}
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -1px;
+    margin-left: -1px;
+    margin-top: 2px;
+}
+
+.list-group-item {
+    padding: 0.25rem 0.50rem;
+}
+
+</style>
