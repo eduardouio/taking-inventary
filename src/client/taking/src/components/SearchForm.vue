@@ -1,10 +1,13 @@
 <template>
     <div class="card card-outline card-info">
         <div class="card-header">
-            <div id="header" if="show_search">
+            <div id="header">
                 <div class="row mt-1">
                     <div class="col">
-                        <button class="btn bordered" @click="$event => show_barcode_reader = false">
+                        <button
+                            type="button"
+                            class="btn bordered" 
+                            @click="$event => show_barcode_reader = false">
                             <i class="fas fa-search"></i>
                             <span class="text-info"> Buscar</span>
                         </button>
@@ -16,12 +19,7 @@
                         </button>
                         </div>
                 </div>
-                <div class="row mt-1">
-                    <div class="col">
-                        <input type="text" class="form-control" v-model="query_search" @keyup="searchList">
-                    </div>
-                </div>
-                <div class="row mt-1">
+                <div class="row mt-1" v-if="show_barcode_reader">
                     <div class="col">
                         <barcode-reader
                             v-if="show_barcode_reader"
@@ -29,13 +27,18 @@
                         ></barcode-reader>
                     </div>
                 </div>
+                <div class="row mt-1" v-if="show_text_search">
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="query_search" @keyup="searchList">
+                        </div>
+                    </div>
                 <div class="row">
                     <div class="col">
                         <small>Resultados: </small>
                         <small class="text-primary" v-text="query_search"></small>
                         <small class="text-secondary" v-if="filtered_products">
                             <small v-text="filtered_products.length"></small>
-                            registros encontrados de {{ products.length }}
+                             registros encontrados de {{ products.length }}
                         </small>
                     </div>
                 </div>
@@ -64,7 +67,7 @@ export default{
         return{
             query_search: '',
             filtered_products: [],
-            show_search: true,
+            show_text_search: true,
             show_barcode_reader: false,
         }
     },methods: {
@@ -89,6 +92,8 @@ export default{
         },
         selectByBarcode(barcode){
             this.query_search = barcode;
+            this.show_barcode_reader = false;
+            this.show_text_search = true;
             this.filtered_products = this.products.filter(
                 function (elm) {
                     return elm.fields.ean_13_code === barcode;
