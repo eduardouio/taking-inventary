@@ -11,6 +11,5 @@ ipdb
 django-utils-six
 pdfkit
 django-cors-headers
-# Testing
 Faker
 pillow

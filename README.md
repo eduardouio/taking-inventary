@@ -107,3 +107,9 @@ WHISKY ROYAL SALUTE 21AÑOS->6
 
 cerrar por el status del producto
 VINO ARG. E.G.FAMILIA GASCON MALBEC 
+
+-- Seleccionar las tables de la base
+SELECT
+  'DROP TABLE IF EXISTS ' || tablename || ' CASCADE;' 
+from
+  pg_tables WHERE schemaname = 'public';

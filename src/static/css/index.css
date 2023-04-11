@@ -82,7 +82,7 @@ table.mi_table td{
 
 .bg-gradient-light-selector {
     background: #eafcff linear-gradient(180deg, #fffdfd, #cde6ff) repeat-x !important;
-    color: #1f2d3d;
+    color: #1f2d3d;/*  */
 }
 
 .bg-gradient-light-dark {
