@@ -1,9 +1,13 @@
 <template>
     <div>
         <div class="row">
-            <div class="col text-center" v-if="!server_status.response" >
-                <img :src="server_status.img_loader" alt="status" class="img-fluid">
-            </div>
+            <div class="text-center">
+            <div class="spinner-border" 
+            style="width: 13rem; height: 13rem;" role="status" 
+                v-if="!server_status.response">
+             <span class="visually-hidden">Cargando...</span>
+             </div>
+    </div>
         </div>
         <div class="row">
             <div class="col text-center blink">
@@ -36,12 +40,20 @@
 <script>
 export default {
     name: 'Loader',
+    emits: ['changeview'],
     props: {
         server_status: {
             type: Object,
             default: null,
             required: true,
         },
+    },methods: {
+       changeView() {
+           this.$emit('changeView', 'search_form');
+       },
+    },
+    beforeUnmount() {
+        this.changeView();
     },
 }
 </script>
@@ -57,6 +69,5 @@ export default {
     100% {
         opacity: 1;
     }
-    
 }
 </style>
