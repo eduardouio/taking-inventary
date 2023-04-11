@@ -1,13 +1,7 @@
 <template>
-    <div class="row bg-success">
-         <div id="result_strip">
-            <ul class="thumbnails"></ul>
-            <ul class="collector"></ul>
-          </div>
-          <div id="interactive" class="viewport"></div>
+    <div class="row">
         <div class="col mt-1">
-            <video id="video"></video>
-            <canvas id="canvas"></canvas>
+            <video id="video" class="img-fluid"></video>
         </div>
     </div>
 </template>
@@ -22,15 +16,13 @@ export default {
         // Obtener referencias a los elementos de video y canvas
         const self = this;
         const video = document.querySelector('#video');
-        const canvas = document.querySelector('#canvas');
-        const ctx = canvas.getContext('2d');
 
         // Configurar Quagga
         Quagga.init({
             inputStream: {
                 name: 'Live',
                 type: 'LiveStream',
-                target: canvas,
+                target: video,
             },
             decoder: {
                 readers: ['ean_reader'],
@@ -41,20 +33,20 @@ export default {
                 return;
             }
             Quagga.start();
+            navigator.mediaDevices.getUserMedia({video:true})
+            .then(function(stream) {
+                video.srcObject = stream;
+                video.play();
+            }).catch(function(err) {
+                alert('Error al acceder a la cámara: ' + err);
+            })
         });
 
         // Capturar el código de barras cuando se detecte
         Quagga.onDetected(function (result) {
             console.log(result.codeResult.code);
             self.ean_code(result.codeResult.code);
-
-            // mostrar captura de video
-            var code = result.codeResult.code;
-            var $node = null, canvas = Quagga.canvas.dom.image;
-            $node = $('<li><div class="thumbnail"><div class="imgWrapper"><img /></div><div class="caption"><h4 class="code"></h4></div></div></li>');
-            $node.find("img").attr("src", canvas.toDataURL());
-            $node.find("h4.code").html(code);
-            $("#result_strip ul.thumbnails").prepend($node);
+            Quagga.stop();
         });
 
         // Dibujar el resultado en el canvas
@@ -84,15 +76,15 @@ export default {
     },
     methods: {
         ean_code(code) {
+            Quagga.stop();
             this.$emit('ean_code', code);
         },
         stop() {
             Quagga.stop();
         },
     },
-    beforeDestroy() {
-        // Detener la captura de video cuando se destruye el componente
+    beforeUnmount() {
         Quagga.stop();
-    },
+    }
 };
 </script>
