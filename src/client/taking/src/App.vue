@@ -1,35 +1,39 @@
 <template>
   <div class="bg-dark">
-  <div class="container bg-light">
-    <loader 
-      v-if="show_view.loader"
-      :server_status="server_status"
-      ></loader>
+    <div class="container bg-light">
+      <loader
+        v-if="show_view.loader"
+        :server_status="server_status"
+        @changeView="$event => switchView($event)">
+      </loader>
       <div v-if="!show_view.loader">
-        <nav-bar
+        <nav-bar 
           :taking="taking"
           :team="team"
           :user="user"
           :report="report"
-          @changeView="$event => switchView($event)"
-        ></nav-bar>
-        <search-form
-          class="mt-1"
-          :products="products"
-          @selectProduct="$event => selectItem($event)"
-        ></search-form>
-        <product-description v-if="show_view.product_description"
-          class="mt-1"
-        ></product-description>
+          @changeView="$event => switchView($event)">
+        </nav-bar>
+        <search-form 
+          v-if="show_view.search_form"
+          class="mt-1" :products="products"
+          @selectProduct="$event => selectItem($event)">
+        </search-form>
+        <product-description
+          v-if="show_view.product_description"
+          :current_item="current_item"
+          :base_url="base_url"
+          class="mt-1">
+        </product-description>
       </div>
-
-  </div>
+    </div>
   </div>
 </template>
 
 <script>
-const base_url = 'http://192.168.1.100:8000';
-// const base_url = 'http://192.168.0.37:8000';
+//const base_url = 'http://localhost:8000';
+// const base_url = 'http://192.168.1.10:8000';
+const base_url = 'http://192.168.0.38:8000';
 import 'bootstrap/dist/css/bootstrap.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import '@fortawesome/fontawesome-free/js/all.min.js';
@@ -53,12 +57,12 @@ export default {
       products: null,
       user: null,
       taking: null,
+      base_url: base_url,
       server_status: {
         response: null,
         issue_type: '',
         img_ok: base_url + '/static/img/ok.jpg',
         img_error: base_url + '/static/img/error.jpg',
-        img_loader: base_url + '/static/img/loader.gif',
         have_warning_message: false,
         have_error_message: false,
         message: '',
@@ -98,7 +102,7 @@ export default {
         })
     },
     switchView(template_name) {
-      alert(template_name);
+      console.log(template_name);
       for (let key in this.show_view) {
         if (key === template_name) {
           this.show_view[key] = true;
@@ -199,5 +203,4 @@ export default {
 .list-group-item {
     padding: 0.25rem 0.50rem;
 }
-
 </style>
