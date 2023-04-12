@@ -27,26 +27,35 @@
             </div>
         </div>
         <div class="row bordered" v-if="show_details">
+            <div class="col-3 text-end">
+                <strong class="text-secondary">Toma: </strong>
+                    <br>
+                    <strong class="text-secondary">Grupo: </strong>
+                    <br>
+                    <strong class="text-secondary">Nombre: </strong>
+                    <br>
+                    <strong class="text-secondary">Fecha: </strong>
+                    <br>
+                    <strong class="text-secondary">Asistente: </strong>
+                    <br>
+                    <strong class="text-secondary">Auxiliar: </strong>
+                    <br>
+                    <strong class="text-secondary">Token: </strong>
+                    <br>
+            </div>
             <div class="col text-break">
-                <strong class="text-secondary">Toma: </strong> {{ taking.pk }}
+                 {{ taking.pk }}
                 <br>
-                <strong class="text-secondary">Grupo: </strong> {{ team.fields.group_number }}
+                 {{ team.fields.group_number }}
                 <br>
-                <strong class="text-secondary">Nombre: </strong>
                 <span class="text-primary" v-text="taking.fields.name"></span>
                 <br>
-                <strong class="text-secondary">Fecha: </strong>
                 <span v-text="new Date(taking.fields.created).toLocaleString('es-EC')"></span>
                 <br>
-                <strong class="text-secondary">Asistente: </strong>
                 <span>{{ user.fields.first_name }} {{ user.fields.last_name }}</span>
                 <br>
-                <strong class="text-secondary">Auxiliar: </strong>
                 <span v-text="team.fields.warenhouse_assistant"></span>
-                <br>
-                <strong class="text-secondary">Token: </strong>
                 <span v-text="team.fields.token_team"></span>
-                <br>
             </div>
             <button class="btn btn-block btn-dark text-center" @click="showDetails">
                 <i class="fas fa-info-circle"></i>
