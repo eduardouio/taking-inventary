@@ -20,11 +20,27 @@
           @selectProduct="$event => selectItem($event)">
         </search-form>
         <product-description
+          class="mt-1"
           v-if="show_view.product_description"
           :current_item="current_item"
           :base_url="base_url"
-          class="mt-1">
+          @changeView="$event => switchView($event)">
         </product-description>
+        <form-taking 
+          v-if="show_view.taking_form"
+          :current_item="current_item"
+          :base_url="base_url"
+          :report="report"
+          @changeView="$event => switchView($event)">
+        </form-taking>
+        <report-taking
+          v-if="show_view.report_info"
+          :report="report"
+          :user="user"
+          :taking="taking"
+          :server_status="server_status"
+        >
+        </report-taking>
       </div>
     </div>
   </div>
@@ -33,7 +49,7 @@
 <script>
 //const base_url = 'http://localhost:8000';
 // const base_url = 'http://192.168.1.10:8000';
-const base_url = 'http://192.168.0.38:8000';
+const base_url = 'http://192.168.0.36:8000';
 import 'bootstrap/dist/css/bootstrap.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import '@fortawesome/fontawesome-free/js/all.min.js';
@@ -42,6 +58,8 @@ import Loader from "./components/Loader.vue";
 import NavBar from './components/NavBar.vue';
 import SearchForm from './components/SearchForm.vue';
 import ProductDescription from './components/ProductDescription.vue';
+import FormTaking from './components/FormTaking.vue';
+import ReportTaking from './components/ReportTaking.vue';
 
 export default {
   name: 'App',
@@ -49,7 +67,9 @@ export default {
     Loader,
     NavBar,
     SearchForm,
-    ProductDescription
+    ProductDescription,
+    FormTaking,
+    ReportTaking
   },
   data() {
     return {
