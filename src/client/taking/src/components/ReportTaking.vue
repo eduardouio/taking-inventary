@@ -129,11 +129,6 @@ export default {
             default: null,
             required: true
         },
-        csrf_token: {
-            type: String,
-            default: null,
-            required: true
-        },
         report: {
             type: Array,
             default: null,
