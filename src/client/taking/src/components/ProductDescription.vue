@@ -148,7 +148,7 @@ export default {
             }
         },
         changeView(view_name) {
-            this.$emit('changeview', view_name)
+            this.$emit('changeView', view_name)
         },
     }, mounted() {
         if (this.current_item.fields.image_front) {
