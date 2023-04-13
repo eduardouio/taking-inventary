@@ -14,12 +14,8 @@
                         <span class="text-primary">{{ current_item.fields.ean_13_code }}</span></small>
                 </div>
             </div>
-            <div class="row align-middle mt-1">
-                <div class="col text-center">
-                    <i class="fas fa-check-square"></i>
-                    <strong class="text-success">Ingresa Existencias</strong>
-                </div>
             </div>
+            <div class="card-body">
             <div class="row mt-3">
                 <div class="col-4 text-center">
                     <img :src="default_picture" class="img-fluid img-thumbnail">
@@ -41,19 +37,19 @@
                     </div>
                 </div>
             </div>
+               <div class="row mt-1">
+                        <div class="col-5 text-end">Añada:</div>
+                            <div class="col">
+                                <input type="year" class="form-control taking-number text-end"
+                                    v-model="current_taking.year">
+                            </div>
+                </div>
             <div class="row mt-1">
-                <div class="col-5 text-end">Vencimiento:</div>
+                <div class="col-5 text-end">Caducidad:</div>
                     <div class="col">
                         <input type="date" class="form-control taking-number text-end"
                             v-model="current_taking.date_expiry">
                     </div>
-            </div>
-            <div class="row mt-1">
-                    <div class="col-5 text-end">Añada:</div>
-                        <div class="col">
-                            <input type="year" class="form-control taking-number text-end"
-                                v-model="current_taking.year">
-                        </div>
             </div>
             <div class="row mt-1">
                 <div class="col-3 text-end">Notas:</div>
@@ -61,14 +57,21 @@
                     <textarea class="form-control taking-text" v-model="current_taking.notes"></textarea>
                 </div>
             </div>
-            <div class="row mt-2">
-                <div class="col">
+        </div>
+        <div class="card-footer mt-1 bg-ligth">
+            <div class="row text-center">
+                <div class="col-6">
+                    <button class="btn btn-block btn-outline-secondary" @click="changeView">
+                        <i class="fas fa-arrow-left"></i> Regresar</button>
+                </div>
+                <div class="col-6">
                     <button class="btn btn-block btn-success" @click="addReport">
-                        <i class="fas fa-plus"></i> Agregar Toma</button>
+                        <i class="fas fa-plus"></i> Agregar</button>
                 </div>
             </div>
         </div>
-</div></template>
+    </div>
+</template>
 <script>
 export default {
     name: 'FormTaking',
@@ -109,18 +112,6 @@ export default {
     methods: {
         changeView() {
             this.$emit('changeView', 'search_form')
-        }, switchImage(option) {
-            if (option === 'front' && this.current_item.fields.image_front) {
-                this.default_picture = '/media/' + this.current_item.fields.image_front;
-                this.class_bagded_front = 'badge-primary'
-                this.class_bagded_back = 'badge-light'
-            } else if (option === 'back' && this.current_item.fields.image_back) {
-                this.default_picture = '/media/' + this.current_item.fields.image_back;
-                this.class_bagded_back = 'badge-primary'
-                this.class_bagded_front = 'badge-light'
-            } else {
-                this.default_picture = '/static/img/generic_product.png';
-            }
         }, addReport() {
             if (typeof (this.current_taking.taking_total_boxes) != 'number') {
                 this.current_taking.taking_total_boxes = 0;
@@ -134,6 +125,7 @@ export default {
                 return false;
             }
             this.current_taking.product = this.current_item;
+            this.current_taking.pk = this.current_item.pk;
             this.report.push(this.current_taking);
             this.changeView();
         }
@@ -148,8 +140,7 @@ export default {
     .taking-number{
         font-size: 1.2em;
     }
-    .taking-number:focus{
-        font-size: 1.8em;
+    .taking-number:fo   cus{
         background-color: #96e4f780;
     }
     .taking-text:focus{

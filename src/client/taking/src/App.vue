@@ -39,6 +39,7 @@
           :user="user"
           :taking="taking"
           :server_status="server_status"
+          @removeItem="$event => deteleItemReport($event)"
         >
         </report-taking>
       </div>
