@@ -8,7 +8,7 @@
                             <i class="fas fa-search text-primary"></i>
                         </button>
                         &nbsp;
-                        <button class="btn btn" @click="changeView('report_primary')">
+                        <button class="btn btn" @click="changeView('report_info')">
                             <i class="fas fa-table text-primary"></i>
         <span class="visually-hidden">unread messages</span>
                             <small  class="badge rounded-pill bg-danger">{{ report.length }}</small>
@@ -18,45 +18,75 @@
                             <i class="fas fa-users text-primary"></i>
                         </button>
                     </div>
-                    <div class="col-4 text-rigth">
+                    <div class="col-4 text-end">
                         <button class="btn btn-sm bordered fw-bold" @click="showDetails">
-                            Toma #{{ taking.pk }} 
+                            <i class="fas fa-info-circle text-primary"></i> Toma: {{ taking.pk }} 
                         </button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row bordered" v-if="show_details">
-            <div class="col-3 text-end">
-                <strong class="text-secondary">Toma: </strong>
-                    <br>
-                    <strong class="text-secondary">Grupo: </strong>
-                    <br>
-                    <strong class="text-secondary">Nombre: </strong>
-                    <br>
-                    <strong class="text-secondary">Fecha: </strong>
-                    <br>
-                    <strong class="text-secondary">Asistente: </strong>
-                    <br>
-                    <strong class="text-secondary">Auxiliar: </strong>
-                    <br>
-                    <strong class="text-secondary">Token: </strong>
-                    <br>
+            <div class="col">
+                <div class="row">
+                    <div class="col-3 text-end border">
+                        <strong class="text-secondary">Toma: </strong>
+                    </div>
+                    <div class="col border">
+                       {{ taking.pk }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 text-end border">
+                        <strong class="text-secondary">Grupo: </strong>
+                    </div>
+                    <div class="col border">
+                        {{ team.fields.group_number }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 text-end border">
+                        <strong class="text-secondary">Nombre: </strong>
+                    </div>
+                    <div class="col border">
+                       <span class="text-primary" v-text="taking.fields.name"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 text-end border">
+                        <strong class="text-secondary">Fecha: </strong>
+                    </div>
+                    <div class="col border">
+                        <span v-text="new Date(taking.fields.created).toLocaleString('es-EC')"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 text-end border">
+                        <strong class="text-secondary">Asistente: </strong>
+                    </div>
+                    <div class="col border">
+                        <span>{{ user.fields.first_name }} {{ user.fields.last_name }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 text-end border">
+                         <strong class="text-secondary">Auxiliar: </strong>
+                    </div>
+                    <div class="col border">
+                        <span>{{ user.fields.warenhouse_assistant }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 text-end border">
+                        <strong class="text-secondary">Token: </strong>
+                    </div>
+                    <div class="col text-break border">
+                        <span v-text="team.fields.token_team"></span>
+                    </div>
+                </div>
             </div>
-            <div class="col text-break">
-                 {{ taking.pk }}
-                <br>
-                 {{ team.fields.group_number }}
-                <br>
-                <span class="text-primary" v-text="taking.fields.name"></span>
-                <br>
-                <span v-text="new Date(taking.fields.created).toLocaleString('es-EC')"></span>
-                <br>
-                <span>{{ user.fields.first_name }} {{ user.fields.last_name }}</span>
-                <br>
-                <span v-text="team.fields.warenhouse_assistant"></span>
-                <span v-text="team.fields.token_team"></span>
             </div>
+            <div class="row">
             <button class="btn btn-block btn-dark text-center" @click="showDetails">
                 <i class="fas fa-info-circle"></i>
                 Cerrar
