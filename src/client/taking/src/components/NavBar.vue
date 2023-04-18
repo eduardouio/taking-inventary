@@ -26,7 +26,8 @@
                 </div>
             </div>
         </div>
-        <div class="row bordered" v-if="show_details">
+        <div v-if="show_details">
+        <div class="row bordered">
             <div class="col">
                 <div class="row">
                     <div class="col-3 text-end border">
@@ -91,6 +92,7 @@
                 <i class="fas fa-info-circle"></i>
                 Cerrar
             </button>
+        </div>
         </div>
     </div>
 </template>
