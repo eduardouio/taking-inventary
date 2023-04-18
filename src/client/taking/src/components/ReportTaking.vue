@@ -11,13 +11,18 @@
                             Reporte Toma <small class="text-info">[{{ report.length }}] items</small>
                         </strong>
                         <br>
-                        <span v-text="new Date(taking.fields.created).toLocaleString('es-EC')">
-                        </span>
+                        <span v-text="new Date(taking.fields.created).toLocaleString('es-EC')"></span>
+                        <br>
+                        <button
+                            @click="downloadReport"
+                            class="btn btn-primary btn-sm">
+                            <i class="fas fa-file-excel"></i> Descargar
+                        </button>
                     </div>
                 </div>
                 <div class="row mt-1">
                     <div class="col">
-                        <table class="mi_table" style="width:100%;">
+                        <table class="mi_table table table-striped " style="width:100%;">
                             <thead>
                                 <tr class="bg-secondary">
                                     <th class="text-center">#</th>
@@ -59,7 +64,16 @@
             </div>
             <div v-if="show_taking" class="bg-white">
                 <div class="card" style="width: 100%;">
-                    <img src="" class="card-img-top" alt="">
+                    <div class="row">
+                        <div class="col text-center">
+                            <img 
+                            :src="selected_taking.product.fields.image_front ? selected_taking.product.fields.image_front : default_picture" 
+                            class="card-img-top img-thumbnail"
+                            alt="Imagen Producto"
+                            style="width:12em; height:auto;"
+                            >
+                        </div>
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title text-center text-primary">{{ selected_taking.product.fields.name }}</h5>
                         <p class="card-text text-secondary">
@@ -139,7 +153,10 @@
     </div>
 </template>
 <script>
+import { utils, writeFile } from 'xlsx';
+
 export default {
+    emits:['sendReport'],
     name: 'ReportTaking',
     props: {
         taking: {
@@ -161,7 +178,12 @@ export default {
             type: Array,
             default: null,
             required: true
-        }
+        },
+        base_url: {
+            type: String,
+            default: null,
+            required: true
+        },
     }, data() {
         return {
             selected_taking: null,
@@ -170,6 +192,7 @@ export default {
             confirm_report_send: false,
             class_sync_btn: 'btn-primary',
             message_button: 'Sincronizar Datos',
+            default_picture: this.base_url + '/static/img/generic_product.png',
         };
     }, methods: {
         showTaking(item) {
@@ -185,11 +208,29 @@ export default {
         }, sendReport() {
             if (this.confirm_report_send) {
                 this.disable_button_send = true;
-                return this.$emit('sendreport');
+                return this.$emit('sendReport');
             }
             this.confirm_report_send = true;
             this.class_sync_btn = 'btn-success';
             this.message_button = 'Confirmar Reporte';
+        },downloadReport(){
+            let report_json = this.report.map(item=>{
+                return {
+                    'PK': item.pk,
+                    'Cuenta Contable': item.product.fields.account_code,
+                    'Producto': item.product.fields.name,
+                    'Cajas': item.taking_total_boxes,
+                    'Unidades': item.taking_total_bottles,
+                    'Añada': item.year,
+                    'Caducidad': item.date_expiry,
+                    'Novedad': item.notes,
+                }
+            })
+            const wb = utils.book_new();
+            const ws = utils.json_to_sheet(report_json);
+            utils.book_append_sheet(wb, ws, 'Reporte');
+            let filename = this.taking.fields.name + '-'+ this.taking.fields.created + '-' + '.xlsx';
+            writeFile(wb,filename);
         }
     }, computed: {
         total_boxes() {
@@ -199,6 +240,7 @@ export default {
             }, initialValue);
             return total;
         }, total_bottles() {
+            const sheet = this.report;
             const initialValue = 0;
             const total = this.report.reduce((last_sum, current) => {
                 return last_sum + current.taking_total_bottles;
@@ -208,3 +250,9 @@ export default {
     },
 }
 </script>
+<style>
+table.mi_table td{
+    border: 0.20px solid;
+}
+
+</style>
