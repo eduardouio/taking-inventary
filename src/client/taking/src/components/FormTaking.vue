@@ -18,14 +18,22 @@
             <div class="card-body">
             <div class="row mt-3">
                 <div class="col-4 text-center">
-                    <img :src="default_picture" class="img-fluid img-thumbnail">
+                    <img
+                        :src="current_item.fields.image_front ? current_item.fields.image_front: default_picture"
+                        class="img-fluid img-thumbnail"
+                        >
                 </div>
                 <div class="col">
                     <div class="row">
                         <div class="col-5 text-end">Cajas:</div>
                         <div class="col">
-                            <input type="number" class="form-control taking-number text-end"
-                                v-model="current_taking.taking_total_boxes" onfocus="this.value=''">
+                            <input
+                                type="number"
+                                class="form-control taking-number text-end"
+                                autofocus
+                                v-model="current_taking.taking_total_boxes"
+                                onfocus="this.value=''"
+                                >
                         </div>
                     </div>
                     <div class="row mt-1">
@@ -40,7 +48,7 @@
                <div class="row mt-1">
                         <div class="col-5 text-end">Añada:</div>
                             <div class="col">
-                                <input type="year" class="form-control taking-number text-end"
+                                <input type="number" class="form-control taking-number text-end"
                                     v-model="current_taking.year">
                             </div>
                 </div>
@@ -96,7 +104,6 @@ export default {
             current_taking: {
                 pk: null,
                 product: null,
-                account_code: null,
                 taking_total_boxes: 0,
                 taking_total_bottles: 0,
                 date_expiry: null,
