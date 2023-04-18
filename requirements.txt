@@ -13,3 +13,5 @@ pdfkit
 django-cors-headers
 Faker
 pillow
+pytest
+pytest-django

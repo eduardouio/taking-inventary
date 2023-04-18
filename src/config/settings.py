@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'django.contrib.humanize',
+    'pytest_django',
     'corsheaders',
     'simple_history',
     'accounts',
