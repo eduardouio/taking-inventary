@@ -38,8 +38,10 @@
           :report="report"
           :user="user"
           :taking="taking"
+          :base_url="base_url"
           :server_status="server_status"
           @removeItem="$event => deteleItemReport($event)"
+          @sendReport="$event => saveReport($event)"
         >
         </report-taking>
       </div>
@@ -49,8 +51,8 @@
 
 <script>
 //const base_url = 'http://localhost:8000';
-// const base_url = 'http://192.168.1.10:8000';
-const base_url = 'http://192.168.0.36:8000';
+//const base_url = 'http://192.168.0.36:8000';
+const base_url = 'http://192.168.1.10:8000';
 import 'bootstrap/dist/css/bootstrap.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import '@fortawesome/fontawesome-free/js/all.min.js';
@@ -122,6 +124,30 @@ export default {
 
         })
     },
+    postData(url, data){
+      return fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': this.csrf_token,
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          this.show_view.loader = false;
+          this.server_status.have_error_message = false;
+          return data;
+        })
+        .catch(error => {
+          this.show_view.loader = false;
+          this.server_status.response = null;
+          this.server_status.have_error_message = true;
+          this.server_status.issue_type= 'error';
+          this.server_status.message = 'Error al cargar los datos -> ' + error ;
+
+        })
+    },
     switchView(template_name) {
       console.log(template_name);
       for (let key in this.show_view) {
@@ -142,13 +168,13 @@ export default {
       });
       this.switchView('report_info')
     }, saveReport() {
+      alert('Genial, estamo enviando el reporte');
       // Sealizar una sola llama da  al API
       this.switchView('loader');
       this.show_status_message = false;
       this.sendPostRequest(
         {
           'report': this.report,
-          'team': this.team,
           'taking': this.taking,
         },
         '/takings/add-report/'
