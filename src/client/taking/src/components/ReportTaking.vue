@@ -208,6 +208,7 @@ export default {
         }, sendReport() {
             if (this.confirm_report_send) {
                 this.disable_button_send = true;
+                this.downloadReport();
                 return this.$emit('sendReport');
             }
             this.confirm_report_send = true;
@@ -229,7 +230,12 @@ export default {
             const wb = utils.book_new();
             const ws = utils.json_to_sheet(report_json);
             utils.book_append_sheet(wb, ws, 'Reporte');
-            let filename = this.taking.fields.name + '-'+ this.taking.fields.created + '-' + '.xlsx';
+            let filename = (
+                this.user.fields.username +
+                '-' + this.taking.fields.name + 
+                '-' + this.taking.fields.created + 
+                '-' + '.xlsx'
+                );
             writeFile(wb,filename);
         }
     }, computed: {
@@ -254,5 +260,4 @@ export default {
 table.mi_table td{
     border: 0.20px solid;
 }
-
 </style>
