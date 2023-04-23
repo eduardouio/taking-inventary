@@ -15,14 +15,14 @@ def request_data_factory():
     team = Team.get(102)
     request_data = {
         "report": [
-            {"pk": 3668, "taking_total_bottles": 8,
-             "taking_total_boxes": 0, "notes": None},
-            {"pk": 2425, "taking_total_bottles": 4,
-                "taking_total_boxes": 0, "notes": None},
-            {"pk": 681, "taking_total_bottles": 5,
-                "taking_total_boxes": 0, "notes": None},
-            {"pk": 2023, "taking_total_bottles": 13,
-                "taking_total_boxes": 0, "notes": None},
+            {"pk": 3668, "taking_total_bottles": 8, "taking_total_boxes": 0,
+                "notes": None, "year": 2019, "date_expiry": '2022-10-01'},
+            {"pk": 2425, "taking_total_bottles": 4, "taking_total_boxes": 0,
+                "notes": None, "year": 2019, "date_expiry": '2022-10-01'},
+            {"pk": 681, "taking_total_bottles": 5, "taking_total_boxes": 0,
+                "notes": None, "year": 2019, "date_expiry": '2022-10-01'},
+            {"pk": 2023, "taking_total_bottles": 13, "taking_total_boxes": 0,
+                "notes": None, "year": 2019, "date_expiry": '2022-10-01'},
         ],
         "taking": json.loads(serialize("json", [taking]))[0],
         "team": json.loads(serialize("json", [team]))[0],
@@ -52,22 +52,22 @@ class TestUpdateTakingCV:
             id_team=request_data["team"].pk
         )
 
-        assert regitered_items.count() == 557
-        assert result == 0
+        assert regitered_items.count() == 561
+        assert result == 4
 
     def test_verify_data_exist_parted_exists(self):
         self.taking = Taking.get(32)
         self.team = Team.get(102)
         request_data = {
             "report": [
-                {"pk": 3668, "taking_total_bottles": 8,
-                    "taking_total_boxes": 1, "notes": None},
-                {"pk": 2425, "taking_total_bottles": 4,
-                    "taking_total_boxes": 1, "notes": None},
-                {"pk": 681, "taking_total_bottles": 5,
-                    "taking_total_boxes": 0, "notes": None},
-                {"pk": 2023, "taking_total_bottles": 13,
-                    "taking_total_boxes": 0, "notes": None},
+                {"pk": 3668, "taking_total_bottles": 8, "taking_total_boxes": 1,
+                    "notes": None, "year": 2019, "date_expiry": '2022-10-01'},
+                {"pk": 2425, "taking_total_bottles": 4, "taking_total_boxes": 1,
+                    "notes": None, "year": 2019, "date_expiry": '2022-10-01'},
+                {"pk": 681, "taking_total_bottles": 5, "taking_total_boxes": 0,
+                    "notes": None, "year": 2019, "date_expiry": '2022-10-01'},
+                {"pk": 2023, "taking_total_bottles": 13, "taking_total_boxes": 0,
+                    "notes": None, "year": 2019, "date_expiry": '2022-10-01'},
             ],
             "taking": json.loads(serialize("json", [self.taking]))[0],
             "team": json.loads(serialize("json", [self.team]))[0],
@@ -85,8 +85,8 @@ class TestUpdateTakingCV:
             id_team=self.team.pk
         )
 
-        assert regitered_items.count() == 559
-        assert result == 2
+        assert regitered_items.count() == 561
+        assert result == 4
 
     def test_report_for_new_taking(self, mocker):
 
@@ -111,13 +111,13 @@ class TestUpdateTakingCV:
 
         request_data = {
             "report": [
-                {"pk": 3668, "taking_total_bottles": 8,
+                {"pk": 3668, "taking_total_bottles": 8, "year": 2019, "date_expiry": '2022-10-01',
                     "taking_total_boxes": 0, "notes": None, "product": my_products[0][0]},
-                {"pk": 2425, "taking_total_bottles": 4,
+                {"pk": 2425, "taking_total_bottles": 4, "year": 2019, "date_expiry": '2022-10-01',
                     "taking_total_boxes": 0, "notes": None, "product": my_products[1][0]},
-                {"pk": 681, "taking_total_bottles": 5,
+                {"pk": 681, "taking_total_bottles": 5, "year": 2019, "date_expiry": '2022-10-01',
                     "taking_total_boxes": 0, "notes": None, "product": my_products[2][0]},
-                {"pk": 2023, "taking_total_bottles": 13,
+                {"pk": 2023, "taking_total_bottles": 13, "year": 2019, "date_expiry": '2022-10-01',
                     "taking_total_boxes": 0, "notes": None, "product": my_products[3][0]},
             ],
             "taking": json.loads(serialize("json", [self.taking]))[0],
@@ -148,13 +148,13 @@ class TestUpdateTakingCV:
             "report": [
 
                 {"pk": 3668, "taking_total_bottles": 8,
-                    "taking_total_boxes": 0, "notes": None},
+                    "taking_total_boxes": 0, "notes": None, "year": 2019, "date_expiry": '2022-10-01', },
                 {"pk": 2425, "taking_total_bottles": 4,
-                    "taking_total_boxes": 0, "notes": None},
+                    "taking_total_boxes": 0, "notes": None, "year": 2019, "date_expiry": '2022-10-01', },
                 {"pk": 681, "taking_total_bottles": 5,
-                    "taking_total_boxes": 0, "notes": None},
+                    "taking_total_boxes": 0, "notes": None, "year": 2019, "date_expiry": '2022-10-01', },
                 {"pk": 2023, "taking_total_bottles": 13,
-                    "taking_total_boxes": 0, "notes": None},
+                    "taking_total_boxes": 0, "notes": None, "year": 2019, "date_expiry": '2022-10-01', },
             ],
             "taking": json.loads(serialize("json", [self.taking]))[0],
             "team": json.loads(serialize("json", [self.team]))[0],

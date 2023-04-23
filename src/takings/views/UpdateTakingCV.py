@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
+from datetime import date
 
 # para test
 from django.views.decorators.csrf import csrf_exempt
@@ -31,7 +32,7 @@ class UpdateTakingCV(CreateView):
         team = Team.objects.get(id_team=taking_data["team"]["pk"])
 
         if TakinDetail.token_exist(team.token_team):
-            counter = self.verify_taking_data(
+            counter = self.verify_data_exist(
                 taking_data,
                 taking,
                 team
@@ -61,7 +62,14 @@ class UpdateTakingCV(CreateView):
                 quantity=(
                     item["taking_total_boxes"] * product.quantity_per_box
                 ) + item["taking_total_bottles"],
-                notes=item["notes"]
+                notes=item["notes"],
+                year=int(item["year"]) if item["year"] != "" else None,
+                date_expiry=date(
+                    int(item["date_expiry"].split("-")[0]),
+                    int(item["date_expiry"].split("-")[1]),
+                    int(item["date_expiry"].split("-")[2])
+                ) if item["date_expiry"] != "" else None,
+
             )
             report.append(my_taking)
 
@@ -75,31 +83,40 @@ class UpdateTakingCV(CreateView):
         return HttpResponse("Updated success", status=201)
 
     def verify_data_exist(self, taking_data, taking, team):
-        items_not_found = []
         regitered_items = TakinDetail.objects.filter(
             id_taking_id=taking_data["taking"]["pk"]
         ).filter(
             id_team=taking_data["team"]["pk"]
         )
 
-        for line in regitered_items:
-            line_regitered = {
+        details_db = [
+            {
                 "pk_product": line.account_code_id,
                 "taking_total_boxes": line.taking_total_boxes,
                 "taking_total_bottles": line.taking_total_bottles,
+                "year": line.year,
+                "date_expiry": (
+                    line.date_expiry.strftime("%Y-%m-%d")
+                ) if line.date_expiry else None,
                 "notes": line.notes,
-
             }
-            for item in taking_data["report"]:
-                line_report = {
-                    "pk_product": item["pk"],
-                    "taking_total_boxes": item["taking_total_boxes"],
-                    "taking_total_bottles": item["taking_total_bottles"],
-                    "notes": item["notes"],
-                }
-                if line_regitered['pk_product'] == line_report['pk_product']:
-                    if line_regitered != line_report:
-                        items_not_found.append(line_report)
+            for line in regitered_items
+        ]
+        details_request = [
+            {
+                "pk_product": line["pk"],
+                "taking_total_boxes": line["taking_total_boxes"],
+                "taking_total_bottles": line["taking_total_bottles"],
+                "year": int(line["year"]) if line["year"] != "" else None,
+                "date_expiry": line["date_expiry"],
+                "notes": line["notes"],
+            }
+            for line in taking_data["report"]
+        ]
+
+        items_not_found = [
+            item for item in details_request if item not in details_db
+        ]
 
         for item_new in items_not_found:
             product = Product.objects.get(pk=item_new["pk_product"])
@@ -113,6 +130,13 @@ class UpdateTakingCV(CreateView):
                 quantity=(
                     item_new["taking_total_boxes"] * product.quantity_per_box
                 ) + item_new["taking_total_bottles"],
+                notes=item_new["notes"],
+                year=item_new["year"],
+                date_expiry=date(
+                    int(item_new["date_expiry"].split("-")[0]),
+                    int(item_new["date_expiry"].split("-")[1]),
+                    int(item_new["date_expiry"].split("-")[2])
+                ) if item_new["date_expiry"] != "" else None,
             )
 
         return len(items_not_found)
