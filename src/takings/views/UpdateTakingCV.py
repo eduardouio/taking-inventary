@@ -51,6 +51,16 @@ class UpdateTakingCV(CreateView):
             product = [
                 prod for prod in products if prod.pk == item["product"]["pk"]
             ][0]
+            my_date_expiry = item["date_expiry"] if item["date_expiry"] != "" else None
+            if my_date_expiry:
+                my_date_expiry = date(
+                    int(item["date_expiry"].split("-")[0]),
+                    int(item["date_expiry"].split("-")[1]),
+                    int(item["date_expiry"].split("-")[2])
+                )
+            my_year = item["year"] if item["year"] != "" else None
+            if my_year:
+                my_year = int(item["year"])
 
             my_taking = TakinDetail(
                 id_taking=taking,
@@ -63,13 +73,8 @@ class UpdateTakingCV(CreateView):
                     item["taking_total_boxes"] * product.quantity_per_box
                 ) + item["taking_total_bottles"],
                 notes=item["notes"],
-                year=int(item["year"]) if item["year"] != "" else None,
-                date_expiry=date(
-                    int(item["date_expiry"].split("-")[0]),
-                    int(item["date_expiry"].split("-")[1]),
-                    int(item["date_expiry"].split("-")[2])
-                ) if item["date_expiry"] != "" else None,
-
+                year=my_year,
+                date_expiry=my_date_expiry
             )
             report.append(my_taking)
 
@@ -89,36 +94,52 @@ class UpdateTakingCV(CreateView):
             id_team=taking_data["team"]["pk"]
         )
 
-        details_db = [
-            {
-                "pk_product": line.account_code_id,
-                "taking_total_boxes": line.taking_total_boxes,
-                "taking_total_bottles": line.taking_total_bottles,
-                "year": line.year,
-                "date_expiry": (
-                    line.date_expiry.strftime("%Y-%m-%d")
-                ) if line.date_expiry else None,
-                "notes": line.notes,
-            }
-            for line in regitered_items
-        ]
-        details_request = [
-            {
-                "pk_product": line["pk"],
-                "taking_total_boxes": line["taking_total_boxes"],
-                "taking_total_bottles": line["taking_total_bottles"],
-                "year": int(line["year"]) if line["year"] != "" else None,
-                "date_expiry": line["date_expiry"],
-                "notes": line["notes"],
-            }
-            for line in taking_data["report"]
-        ]
+        details_db = []
+
+        for line in regitered_items:
+            my_date_expiry = line.date_expiry if line.date_expiry != "" else None
+            if my_date_expiry:
+                my_date_expiry = my_date_expiry.strftime("%Y-%m-%d")
+
+            details_db.append(
+                {
+                    "pk_product": line.account_code_id,
+                    "taking_total_boxes": line.taking_total_boxes,
+                    "taking_total_bottles": line.taking_total_bottles,
+                    "year": line.year,
+                    "date_expiry": my_date_expiry,
+                    "notes": line.notes,
+                }
+            )
+
+        details_request = []
+        for line in taking_data["report"]:
+            details_request.append(
+                {
+                    "pk_product": line["pk"],
+                    "taking_total_boxes": line["taking_total_boxes"],
+                    "taking_total_bottles": line["taking_total_bottles"],
+                    "year": line["year"] if line["year"] != "" else None,
+                    "date_expiry": line["date_expiry"] if line["date_expiry"] != "" else None,
+                    "notes": line["notes"],
+                })
 
         items_not_found = [
             item for item in details_request if item not in details_db
         ]
 
         for item_new in items_not_found:
+            my_date_expiry = item_new["date_expiry"] if item_new["date_expiry"] != "" else None
+            if my_date_expiry:
+                my_date_expiry = date(
+                    int(item_new["date_expiry"].split("-")[0]),
+                    int(item_new["date_expiry"].split("-")[1]),
+                    int(item_new["date_expiry"].split("-")[2])
+                )
+            my_year = item_new["year"] if item_new["year"] != "" else None
+            if my_year:
+                my_year = int(item_new["year"])
+
             product = Product.objects.get(pk=item_new["pk_product"])
             TakinDetail.objects.create(
                 id_taking=taking,
@@ -131,12 +152,8 @@ class UpdateTakingCV(CreateView):
                     item_new["taking_total_boxes"] * product.quantity_per_box
                 ) + item_new["taking_total_bottles"],
                 notes=item_new["notes"],
-                year=item_new["year"],
-                date_expiry=date(
-                    int(item_new["date_expiry"].split("-")[0]),
-                    int(item_new["date_expiry"].split("-")[1]),
-                    int(item_new["date_expiry"].split("-")[2])
-                ) if item_new["date_expiry"] != "" else None,
+                year=my_year,
+                date_expiry=my_date_expiry
             )
 
         return len(items_not_found)
