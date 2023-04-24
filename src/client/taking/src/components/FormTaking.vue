@@ -126,11 +126,6 @@ export default {
             if (typeof (this.current_taking.taking_total_bottles) != 'number') {
                 this.current_taking.taking_total_bottles = 0;
             }
-            let sum = this.current_taking.taking_total_boxes + this.current_taking.taking_total_bottles
-            if (!sum) {
-                alert('Valores en cero');
-                return false;
-            }
             this.current_taking.product = this.current_item;
             this.current_taking.pk = this.current_item.pk;
             this.report.push(this.current_taking);
@@ -139,6 +134,16 @@ export default {
     }, mounted() {
         if (this.current_item.fields.image_front) {
             this.default_picture = this.base_url + '/media/' + this.current_item.fields.image_front
+        }
+    },updated(){
+        if (this.current_taking.taking_total_boxes <= 0) {
+            this.current_taking.taking_total_boxes = "";
+        }
+        if (this.current_taking.taking_total_bottles <= 0) {
+            this.current_taking.taking_total_bottles = "";
+        }
+        if (this.current_taking.year <= 0) {
+            this.current_taking.year = "";
         }
     }
 }
