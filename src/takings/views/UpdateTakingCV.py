@@ -82,7 +82,7 @@ class UpdateTakingCV(CreateView):
             TakinDetail.objects.bulk_create(report)
         except Exception as e:
             return HttpResponse(
-                "Error al registrar datos {}".format(e.__str__),
+                "Error al registrar datos {}".format(e.__str__()),
                 status=400)
 
         return HttpResponse("Updated success", status=201)
