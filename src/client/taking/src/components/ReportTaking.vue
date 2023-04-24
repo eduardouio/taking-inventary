@@ -164,6 +164,11 @@ export default {
             default:null,
             required: true
         },
+        team: {
+            type: Object,
+            default: null,
+            required: true
+        },
         user: {
             type: Object,
             default: null,
@@ -218,10 +223,16 @@ export default {
             let report_json = this.report.map(item=>{
                 return {
                     'PK': item.pk,
+                    'ID Team': this.team.pk,
+                    'token': this.team.fields.token_team,
                     'Cuenta Contable': item.product.fields.account_code,
                     'Producto': item.product.fields.name,
                     'Cajas': item.taking_total_boxes,
                     'Unidades': item.taking_total_bottles,
+                    'Total UND': (
+                        item.taking_total_boxes 
+                        * item.product.fields.quantity_per_box 
+                    ) + item.taking_total_bottles,
                     'Añada': item.year,
                     'Caducidad': item.date_expiry,
                     'Novedad': item.notes,
