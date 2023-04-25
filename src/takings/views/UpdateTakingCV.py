@@ -38,7 +38,8 @@ class UpdateTakingCV(CreateView):
                 team
             )
             return HttpResponse(
-                "Datos ya registrados, {} registros creados".format(counter),
+                "Datos ya registrados, {} registros adicionales creados".format(
+                    counter),
                 status=400
             )
         products = Product.objects.filter(pk__in=[
@@ -85,7 +86,7 @@ class UpdateTakingCV(CreateView):
                 "Error al registrar datos {}".format(e.__str__()),
                 status=400)
 
-        return HttpResponse("Updated success", status=201)
+        return HttpResponse("Datos Registrados Correctamente", status=201)
 
     def verify_data_exist(self, taking_data, taking, team):
         regitered_items = TakinDetail.objects.filter(
