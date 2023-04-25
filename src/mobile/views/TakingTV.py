@@ -39,6 +39,7 @@ class TakingTV(ValidateAssistantMixin, TemplateView):
             'title_page': 'Toma Inventario',
             'module_name': 'Toma',
             'products': products,
+            'id_taking': id_taking,
             'taking': json.dumps(json.loads(taking)[0]),
             'team': json.dumps(json.loads(my_team)[0]),
             'user': json.dumps(user),
