@@ -1,89 +1,24 @@
 {% extends 'base/base.html' %}
 {% load static %}
 {% block css_files %}
-<link rel="stylesheet" type="text/css" href="{% static '/css/jquery.dataTables.min.css' %}">
-<script src="{% static '/js/jquery-3.6.1.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/jquery.dataTables.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/apps/taking/chunk-vendors.css' %}">
+<link rel="stylesheet" href="{% static 'css/apps/taking/app.css' %}">
+<link rel="stylesheet" href="{% static 'fonts/fa-brands-400.5f7c5bb7.ttf' %}">
+<link rel="stylesheet" href="{% static 'fonts/fa-brands-400.9210030c.woff2' %}">
+<link rel="stylesheet" href="{% static 'fonts/fa-regular-400.02ad4ff9.woff2' %}">
+<link rel="stylesheet" href="{% static 'fonts/fa-solid-900.0b5caff7.ttf' %}">
+<link rel="stylesheet" href="{% static 'fonts/fa-solid-900.3eae9857.woff2' %}">
+<link rel="stylesheet" href="{% static 'fonts/fa-v4compatibility.92dce52f.ttf' %}">
 {% endblock %}
 {% block content %}
 <div class="container" id="app">
-    <status-message v-if="show_status_message"
-        :taking="taking"
-        :team="team"
-        :user="user"
-        :report="report"
-        :server_status="server_status"
-        @changeView="switchView($event)">
-    </status-message>
-        <loader 
-            v-if="show_view.loader"
-            :server_status="server_status">
-        </loader>
-        <search-form
-        v-if="show_view.search_form"
-        :products="products"
-        @selectProduct="selectItem($event)"
-        >
-    </search-form>
-     <product-description
-        v-if="show_view.product_description" 
-        :current_item="current_item"
-        @changeView="switchView($event)"
-     ></product-description>
-     <product-form v-if="show_view.product_form"
-        :current_item="current_item"
-        :csrf_token="csrf_token"
-        :server_status="server_status"
-        @selectProduct="selectItem($event)"
-        @changeView="switchView($event)"
-     >
-     </product-form>
-    <form-taking
-        v-if="show_view.taking_form"
-        @changeView="switchView($event)"
-        :current_item="current_item"
-        :report="report"
-    >
-    </form-taking>
-    <form-group
-        v-if="show_view.group_form"
-        @changeView="switchView($event)"
-        :team="team"
-        :user="user"
-    >
-    </form-group>
-    <report-taking
-        v-if="show_view.report_info"
-        :team="team"
-        :user="user"
-        :report="report"
-        :taking="taking"
-        :disable_button_send="disable_button_send"
-        @removeItem="deteleItemReport($event)"
-        @sendReport="saveReport($event)"
-    >
-    </report-taking>
-    </div>
-    {% endblock %}
-    {% block scritp_code %}
+</div>
     <script>
-        var my_products = {{ products | safe }};
-        var team = {{ team | safe }};
-        var taking = {{ taking | safe }};
-        var user = {{ user | safe }};
         var csrf_token = '{{ csrf_token }}';
+        var base_url = 'http://localhost:8000';
+        var url_data = '/takings/api/taking/{{ id_taking}}/';
     </script>
-    <script type="text/javascript" charset="utf8" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'js/vue.global.js' %}"></script>
-    <script src="{% static 'js/apps/taking/app_taking.js' %}"></script>
-    <script src="{% static 'js/apps/taking/formGroupComponent.js' %}"></script>
-    <script src="{% static 'js/apps/taking/loaderComponent.js' %}"></script>
-    <script src="{% static 'js/apps/taking/statusMessageComponent.js' %}"></script>
-    <script src="{% static 'js/apps/taking/productFormComponent.js' %}"></script>
-    <script src="{% static 'js/apps/taking/productDescriptionComponent.js' %}"></script>
-    <script src="{% static 'js/apps/taking/searchFormComponent.js' %}"></script>
-    <script src="{% static 'js/apps/taking/formTakingComponent.js' %}"></script>
-    <script src="{% static 'js/apps/taking/reportComponent.js' %}"></script>
-    <script>
-        app.mount('#app');
-    </script>
+    <script src="{% static 'js/apps/taking/chunk-vendors.js' %}"></script>
+    <script src="{% static 'js/apps/taking/app.js' %}"></script>
     {% endblock %}

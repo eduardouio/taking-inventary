@@ -2,13 +2,12 @@
     <div>
         <div class="row">
             <div class="text-center">
-            <div class="spinner-border" 
-            style="width: 13rem; height: 13rem;" role="status" 
-                v-if="!server_status.response">
+            <div class="spinner-border" v-if="!server_status.response"
+            style="width: 13rem; height: 13rem;" role="status" >
              <span class="visually-hidden">Cargando...</span>
              </div>
     </div>
-        </div>
+        </div>  
         <div class="row">
             <div class="col text-center blink">
                 <strong class="h2 text-primary">CARGANDO APLICACIÓN...</strong>
@@ -32,7 +31,7 @@
         </div>
         <div class="row text-center">
             <a class="btn btn-primary btn-block" href="/mobile/dashboard/">
-            <i class="fas fa-home"></i> Volver al inicio
+            <i class="fas fa-home"></i> Recargar Aplicación
             </a>
         </div>
     </div>

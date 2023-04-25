@@ -78,7 +78,7 @@
                         <h5 class="card-title text-center text-primary">{{ selected_taking.product.fields.name }}</h5>
                         <p class="card-text text-secondary">
                             <span v-if="selected_taking.notes" v-text="selected_taking.notes"></span>
-                            <span v-else="" class="text-secondary">Sin Novedad</span>
+                            <span v-else class="text-secondary">Sin Novedad</span>
                         </p>
                     </div>
                     <ul class="list-group list-group-flush fs-5 text">

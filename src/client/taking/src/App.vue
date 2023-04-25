@@ -6,8 +6,9 @@
         :server_status="server_status"
         @changeView="$event => switchView($event)">
       </loader>
-      <div v-if="!show_view.loader">
-        <nav-bar 
+      <div>
+        <nav-bar
+          v-if="show_view.loader === false"
           :taking="taking"
           :team="team"
           :user="user"
@@ -36,6 +37,7 @@
         <report-taking
           v-if="show_view.report_info"
           :report="report"
+          :team="team"
           :user="user"
           :taking="taking"
           :base_url="base_url"
@@ -50,8 +52,8 @@
 </template>
 
 <script>
-const base_url = "http://192.168.0.25:8000";
-const url = "/takings/api/taking/32/"
+const base_url = "esta_es_la_base_url";
+const url = "aqui_cargamos_los_datos";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -117,7 +119,6 @@ export default {
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       xhr.onload = () => {
-        console.dir(xhr);
         if (xhr.status === 200){
           const data = JSON.parse(xhr.responseText);
           this.taking = data.taking;
@@ -140,30 +141,34 @@ export default {
       xhr.send();
     },
     saveReport(){
+      this.show_view.loader = true;
+      this.server_status.response = null;
       const xhr_1 = new XMLHttpRequest();
       xhr_1.open('POST', this.base_url + '/takings/add-report/');
-      // xhr_1.setRequestHeader('Content-Type', 'application/json');
+      xhr_1.setRequestHeader('Content-Type', 'application/json');
       xhr_1.setRequestHeader('X-CSRFToken', this.csrf_token);
       xhr_1.onload = () => {
-        if (xhr_1.status === 200) {
-          const data = JSON.parse(xhr_1.responseText);
-          this.show_view.loader = false;
-          this.server_status.have_error_message = false;
-          console.log(data);
-        } else {
-          this.show_view.loader = false;
+        this.server_status.have_error_message = true;
+        this.show_view.report_info = true;
+        this.server_status.response = xhr_1.responseText;
+        if (xhr_1.status === 201) {
+          this.server_status.message = xhr_1.responseText;
+          console.dir(xhr_1);
+        } else if (xhr_1.status === 400) {
+          this.server_status.message = xhr_1.responseText;
+          this.server_status.issue_type = 'warning';
+        }
+          else{
           this.server_status.response = null;
-          this.server_status.have_error_message = true;
           this.server_status.issue_type = 'error';
-          this.server_status.message = 'Error al cargar los datos -> ' + xhr_1.statusText;
+          this.server_status.message = 'Error al cargar los datos -> ' + xhr_1.responseText;
         }
       };
       xhr_1.onerror = () => {
-        this.show_view.loader = false;
         this.server_status.response = null;
         this.server_status.have_error_message = true;
         this.server_status.issue_type = 'error';
-        this.server_status.message = 'Error al cargar los datos -> ' + xhr_1.statusText;
+        this.server_status.message = 'Error al cargar los datos -> ' + xhr_1.responseText;
       };
       
       xhr_1.send(JSON.stringify({
