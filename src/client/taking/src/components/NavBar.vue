@@ -74,7 +74,7 @@
                          <strong class="text-secondary">Auxiliar: </strong>
                     </div>
                     <div class="col border">
-                        <span>{{ user.fields.warenhouse_assistant }}</span>
+                        <span>{{ team.fields.warenhouse_assistant }}</span>
                     </div>
                 </div>
                 <div class="row">

@@ -2,7 +2,7 @@
     <div class="card card-outline card-info">
         <div class="card-header">
             <div id="header">
-                <div class="row mt-1">
+                <div class="row mt-1" v-if="false">
                     <div class="col">
                         <button
                             type="button"
@@ -75,8 +75,10 @@ export default{
             if (this.query_search.length < 3) {
                 return false;
             }
+            const self = this;
+            // buscamos por nombre en los productos
             let params = this.query_search.toUpperCase().split(' ');
-            this.filtered_products = this.products.filter(function (elm) {
+            let filtered_by_name = this.products.filter(function (elm) {
                 let condition = true;
                 for (let i = 0; i < params.length; i++) {
                     if (elm.fields.name.search(params[i]) < 0) {
@@ -85,6 +87,21 @@ export default{
                 }
                 return condition;
             }).slice(0, 20);
+
+            // buscamos por código de barras
+            let filtered_by_barcode = this.products.filter(
+                function (elm) {
+                    if (elm.fields.ean_13_code === null) {
+                        return false;
+                    }
+                    return elm.fields.ean_13_code.includes(self.query_search);
+                }
+            ).slice(0, 20);
+
+            // unimos los resultados
+            this.filtered_products = filtered_by_name.concat(
+                filtered_by_barcode
+            );
         },
         selectProduct(product) {
             this.$emit('selectProduct', product);
@@ -94,11 +111,7 @@ export default{
             this.query_search = barcode;
             this.show_barcode_reader = false;
             this.show_text_search = true;
-            this.filtered_products = this.products.filter(
-                function (elm) {
-                    return elm.fields.ean_13_code === barcode;
-                }
-            );
+            this.searchList();
         }
     },
     components: {
