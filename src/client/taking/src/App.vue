@@ -46,14 +46,28 @@
           @sendReport="$event => saveReport($event)"
         >
         </report-taking>
+        <form-group
+         v-if="!have_team || show_view.group_form"
+         :team="team"
+         :user="user"
+         @updateGroup="$event => updateTeam($event)"
+        >
+        </form-group>
+        <!--<form-product
+          v-if="show_view.product_form"
+          :current_item="current_item"
+          @updateProduct="$event => updateProduct($event)"
+          ></form-product>
+          -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-const base_url = "esta_es_la_base_url";
-const url = "aqui_cargamos_los_datos";
+const csrf_token = 'este_es_el_token_de_seguridad';
+const url = 'esta_es_la_url';
+const base_url = '';
 
 import "bootstrap/dist/css/bootstrap.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -63,8 +77,10 @@ import Loader from "./components/Loader.vue";
 import NavBar from "./components/NavBar.vue";
 import SearchForm from "./components/SearchForm.vue";
 import ProductDescription from "./components/ProductDescription.vue";
-import FormTaking from "./components/FormTaking.vue";
 import ReportTaking from "./components/ReportTaking.vue";
+import FormTaking from "./components/FormTaking.vue";
+import FormGroup from './components/FormGroup.vue';
+import FormProduct from './components/FormProduct.vue';
 
 export default {  
   name: 'App',
@@ -74,7 +90,9 @@ export default {
     SearchForm,
     ProductDescription,
     FormTaking,
-    ReportTaking
+    ReportTaking,
+    FormGroup,
+    FormProduct,
   },
   data() {
     return {
@@ -89,14 +107,12 @@ export default {
         issue_type: '',
         img_ok: base_url + '/static/img/ok.jpg',
         img_error: base_url + '/static/img/error.jpg',
-        have_warning_message: false,
-        have_error_message: false,
         message: '',
       },
       current_item: null,
       report: [],
-      csrf_token: null,
-      have_team: false,
+      csrf_token: csrf_token,
+      have_team: true,
       report_update: false,
       show_status_message: true,
       show_view: {
@@ -129,8 +145,7 @@ export default {
           this.server_status.issue_type = 'success';
           this.server_status.message = 'Completado correctamente';
           this.server_status.response = data;
-          this.csrf_token = data.csrf_token;
- 
+          this.have_team = Boolean(this.team.fields.warenhouse_assistant);
       }};
       xhr.onerror = () => {
         this.show_view.loader = true;
@@ -148,12 +163,10 @@ export default {
       xhr_1.setRequestHeader('Content-Type', 'application/json');
       xhr_1.setRequestHeader('X-CSRFToken', this.csrf_token);
       xhr_1.onload = () => {
-        this.server_status.have_error_message = true;
         this.show_view.report_info = true;
         this.server_status.response = xhr_1.responseText;
         if (xhr_1.status === 201) {
           this.server_status.message = xhr_1.responseText;
-          console.dir(xhr_1);
         } else if (xhr_1.status === 400) {
           this.server_status.message = xhr_1.responseText;
           this.server_status.issue_type = 'warning';
@@ -166,7 +179,6 @@ export default {
       };
       xhr_1.onerror = () => {
         this.server_status.response = null;
-        this.server_status.have_error_message = true;
         this.server_status.issue_type = 'error';
         this.server_status.message = 'Error al cargar los datos -> ' + xhr_1.responseText;
       };
@@ -180,14 +192,43 @@ export default {
 
     },
     switchView(template_name) {
-      console.log(template_name);
-      for (let key in this.show_view) {
-        if (key === template_name) {
-          this.show_view[key] = true;
+       this.show_view = {
+        loader: false,
+        search_form: false,
+        product_form: false,
+        group_form: false,
+        taking_form: false,
+        report_info: false,
+        product_description: false,
+        status_message: false,
+        [template_name]: true,
+      };
+    },
+    updateTeam(team) {
+      this.team = team;
+      this.show_view.loader = true;
+      this.server_status.response = null;
+      const xhr_team = new XMLHttpRequest();
+      xhr_team.open('POST', this.base_url + '/accounts/update-team/');
+      xhr_team.setRequestHeader('Content-Type', 'application/json');
+      xhr_team.setRequestHeader('X-CSRFToken', this.csrf_token);
+      xhr_team.onload = () => {
+        this.show_view.loader = false;
+        if (xhr_team.status === 200) {
+          this.have_team = true;
+          this.server_status.issue_type = 'success';
+          this.server_status.message = 'Completado correctamente';
+          this.server_status.response = xhr_team.responseText;
+          this.switchView('search_form');
         } else {
-          this.show_view[key] = false;
+          this.server_status.issue_type = 'error';
+          this.server_status.message = 'Error al cargar los datos -> ' + xhr_team.responseText;
+          this.switchView('group_form');
         }
-      }
+      };
+        xhr_team.send(JSON.stringify({
+        team: this.team,
+      }));
     },
     selectItem(product) {
       this.current_item = product;
@@ -202,13 +243,14 @@ export default {
    },
   mounted() {
     // Cargamos datos iniciales de la aplicacion
-      this.getData();
-    //window.addEventListener("beforeunload", (e) => {
-    //  e.preventDefault();
-    //  return e.returnValue = 'Esta seguro de salir?, la información se perderá';
-    //});
+     this.getData();
+    window.addEventListener("beforeunload", (e) => {
+      e.preventDefault();
+      return e.returnValue = 'Esta seguro de salir?, la información se perderá';
+    });
+    }
   }
-}
+
 </script>
 <style>
 .bordered {
@@ -225,6 +267,11 @@ export default {
 }
 
 .list-group-item {
-    padding: 0.25rem 0.50rem;
+    padding: 0.25rem 0.03rem;
+}
+
+.container {
+    padding-right: calc(var(--bs-gutter-x) * 0.01);
+    padding-left: calc(var(--bs-gutter-x) * 0.01);
 }
 </style>
