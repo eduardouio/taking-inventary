@@ -33,13 +33,13 @@ export default {
                 return;
             }
             Quagga.start();
-            navigator.mediaDevices.getUserMedia({video:true})
-            .then(function(stream) {
-                video.srcObject = stream;
-                video.play();
-            }).catch(function(err) {
-                alert('Error al acceder a la cámara: ' + err);
-            })
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    video.srcObject = stream;
+                    video.play();
+                }).catch(function (err) {
+                    alert('Error al acceder a la cámara: ' + err);
+                })
         });
 
         // Capturar el código de barras cuando se detecte

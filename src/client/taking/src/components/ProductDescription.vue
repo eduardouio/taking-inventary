@@ -98,7 +98,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" v-if="false">
                     <div class="d-grid gap-2">
                           <button 
                                             class="btn btn-primary btn-block"
@@ -106,6 +106,15 @@
                                             <i class="fas fa-box"></i>
                                                 Actualiza Ficha
                                         </button>
+                    </div>
+                </div>
+                            <div class="row">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-success btn-block" @click="changeView('taking_form')">
+                            <i class="fas fa-clipboard-check"></i>
+                            Ingresar Toma
+                        </button>
+                        <br />
                     </div>
                 </div>
             </div>
@@ -136,11 +145,11 @@ export default {
     }, methods: {
         switchImage(option) {
             if (option === 'front' && this.current_item.fields.image_front) {
-                this.default_picture = '/media/' + this.current_item.fields.image_front;
+                this.default_picture = '/media' + this.current_item.fields.image_front;
                 this.class_bagded_front = 'badge-primary'
                 this.class_bagded_back = 'badge-light'
             } else if (option === 'back' && this.current_item.fields.image_back) {
-                this.default_picture = '/media/' + this.current_item.fields.image_back;
+                this.default_picture = '/media' + this.current_item.fields.image_back;
                 this.class_bagded_back = 'badge-primary'
                 this.class_bagded_front = 'badge-light'
             } else {
@@ -152,7 +161,7 @@ export default {
         },
     }, mounted() {
         if (this.current_item.fields.image_front) {
-            this.default_picture = '/media/' + this.current_item.fields.image_front
+            this.default_picture = '/media' + this.current_item.fields.image_front
         }
     },
 }
