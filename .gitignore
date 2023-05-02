@@ -8,7 +8,10 @@ migrations/
 */migrations/*
 logs.log
 logs/
+*/imgs/
+src/tests/test_data/images/imgs/
 /media/
+src/client/traking/dist
 */media/
 secrets_config.py
 *.sql
@@ -18,3 +21,4 @@ static_django/
 src/config/settings.py
 src/config/settings.py
 src/tests/test_data/seed.py
+src/tests/images/imgs/
