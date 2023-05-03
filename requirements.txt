@@ -16,3 +16,4 @@ pillow
 pytest
 pytest-django
 pytest-mock
+pandas
