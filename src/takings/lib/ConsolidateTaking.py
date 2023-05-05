@@ -22,6 +22,7 @@ class ConsolidateTaking(object):
             )
             sku_stock['diff'] = sku_stock['sap_stock']
             for tkn_stock in taking_resume:
+                item_found = False
                 if sku_stock['account_code'].account_code == tkn_stock['account_code']:
                     sku_stock['sku_code'] = tkn_stock['account_code']
                     sku_stock['diff'] = int(
@@ -35,12 +36,19 @@ class ConsolidateTaking(object):
 
                     if sku_stock['sap_stock'] == int(tkn_stock['quantity']):
                         sku_stock['is_complete'] = True
+
                     sku_stock['tk_bottles'] = int(
                         tkn_stock['taking_total_bottles'])
                     sku_stock['tk_boxes'] = int(
                         tkn_stock['taking_total_boxes'])
                     sku_stock['tk_quantity'] = int(tkn_stock['quantity'])
+                    item_found = True
                     break
+
+                if item_found is False:
+                    sku_stock['sku_code'] = tkn_stock['account_code']
+                    sku_stock['is_complete'] = False
+
         enterprises = self.get_owners(taking.id_sap_migration_id, warenhouses)
         return {
             'report': start_stock,
@@ -110,8 +118,8 @@ class ConsolidateTaking(object):
                 FROM 
                     sap_migrations_sapmigrationdetail sms 
                 WHERE 
-                    sms.id_sap_migration_id  = 14 and sms.warenhouse_name  = '{}';
-            '''.format(warenhouse))
+                    sms.id_sap_migration_id  = {} and sms.warenhouse_name  = '{}';
+            '''.format(id_sap_migration, warenhouse))
 
             columns = [col[0] for col in cursor.description]
             enterprises.extend([
