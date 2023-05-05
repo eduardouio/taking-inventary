@@ -1,4 +1,5 @@
 import json
+from ipdb import set_trace
 
 from django.core.serializers import serialize
 
@@ -27,7 +28,7 @@ class MakeRecount():
         tk_resume = ConsolidateTaking().get(id_taking)
         tk_resume = tk_resume['report']
         tk_resume = [i for i in tk_resume
-                     if i['sap_stock'] != i['diff'] and i['diff'] != 0
+                     if i['is_complete'] is False
                      ]
         if account_code:
             for item_resume in tk_resume:
@@ -44,7 +45,6 @@ class MakeRecount():
         taking_detail = TakinDetail.objects.filter(
             id_taking=taking.pk
         ).filter(account_code=item_resume['product'])
-
         report = []
         for detail_tk in taking_detail:
             report.append({
@@ -74,7 +74,6 @@ class MakeRecount():
 
         RecountDetails.objects.create(**consolidate)
 
-        for taking_det in taking_detail:
-            taking_det.delete()
+        [detail.delete() for detail in taking_detail]
 
         return True

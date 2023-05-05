@@ -97,7 +97,7 @@ class SapMigrationDetail(AppBaseModel):
     def get_by_migration(cls, id_migration):
         detail = cls.objects.filter(id_sap_migration=id_migration)
         if len(detail):
-            return list(detail)
+            detail
 
         return []
 
