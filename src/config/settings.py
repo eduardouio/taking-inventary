@@ -75,10 +75,12 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:8000',
     'http://192.168.0.35:8000',
     'http://192.168.0.35:8080',
+    'http://179.49.60.158:8882',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8080',
+    'http://179.49.60.158:8882',
 ]
 
 ROOT_URLCONF = 'config.urls'
