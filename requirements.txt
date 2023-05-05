@@ -18,3 +18,4 @@ pytest-django
 pytest-mock
 pandas
 django-pandas
+openpyxl

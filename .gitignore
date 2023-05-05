@@ -15,9 +15,11 @@ src/client/traking/dist
 */media/
 secrets_config.py
 *.sql
+*.pem
 settings.py
 static_django/
 /static_django/
+src/static/admin/
 src/config/settings.py
 src/config/settings.py
 src/tests/test_data/seed.py
