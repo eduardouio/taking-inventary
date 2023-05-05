@@ -13,7 +13,6 @@ class DetailMigrationsTV(TemplateView):
         context = self.get_context_data(*args, **kwargs)
         report_migration = ConsolidateMigration().get(pk)
         conditon_report = 'by_products'
-
         if request.GET.get('criteria') == 'by_owners':
             report = {
                 'columns': report_migration['warenhouses'],

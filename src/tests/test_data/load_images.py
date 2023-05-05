@@ -1,7 +1,6 @@
 # Load images in database
 # 1. run script download_images.py
 # 3. run this script
-import ipdb
 from django.core.files import File
 import json
 import os

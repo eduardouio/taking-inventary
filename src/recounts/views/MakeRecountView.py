@@ -1,5 +1,3 @@
-from ipdb import set_trace
-
 from django.http import HttpResponseRedirect
 from django.views.generic import View
 

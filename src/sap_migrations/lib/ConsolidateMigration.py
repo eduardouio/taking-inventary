@@ -117,8 +117,8 @@ class ConsolidateMigration(object):
             }
         }
         sap_migration = SapMigration.get(id_sap_migration)
-        sap_migration_detail = SapMigrationDetail.get_by_migration(
-            id_sap_migration
+        sap_migration_detail = SapMigrationDetail.objects.filter(
+            id_sap_migration=sap_migration
         )
 
         if not sap_migration_detail:
