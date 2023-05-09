@@ -16,8 +16,7 @@ from sap_migrations.models import SapMigrationDetail
 class APITaking(View):
 
     def get(self, request, id_taking, *args, **kwargs):
-        # user = CustomUserModel.get(request.user)
-        user = CustomUserModel.get("evillota")
+        user = CustomUserModel.get(request.user)
         taking = Taking.get(id_taking)
         products = serialize("json", self.get_products(taking))
         my_team = None
@@ -27,12 +26,8 @@ class APITaking(View):
                 team.save()
                 my_team = team
                 break
-
         if my_team is None:
-            my_team = taking.teams.all()[0]  # for test
-            my_team.token_team = token_hex(32)  # for test
-            my_team.save()  # for test
-            # raise Exception("Your team not in this taking")
+            raise Exception("Your team not in this taking")
 
         taking_data = {
             "taking": json.loads(serialize("json", [taking]))[0],
