@@ -5,6 +5,7 @@ from takings.views import (CreateTakingTP,
                            UpdateTakingCV,
                            APITakingDetail,
                            APITaking,
+                           APITakingManager
                            )
 
 app_name = 'takings'
@@ -19,4 +20,6 @@ urlpatterns = [
     path('api/taking-detail/taking/<int:id_taking>/product/<str:id_product>/',
          APITakingDetail.as_view(), name="detail_migration_api"),
     path('api/taking/<int:id_taking>/', APITaking.as_view(), name="taking_api"),
+    path('api/taking-manager/<int:id_taking>/',
+         APITakingManager.as_view(), name="taking_manager_api"),
 ]

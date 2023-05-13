@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid mt-1">
+  <div class="container-fluid mt-1 bg-light">
       <div class="row">
     <div class="progress">
     <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>

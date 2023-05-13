@@ -1,0 +1,116 @@
+<template>
+    <div class="bg-light">
+        <div class="container-fluid mt-3" v-if="show_view_report">
+            <table class="table table-hover table-bordered" id="report">
+                <thead>
+                        <tr class="bg-secondary text-white">
+                            <th class="text-center">#</th>
+                            <th class="text-center text-nowrap">Producto</th>
+                            <th class="text-center">SKU</th>
+                            <th class="text-center">Capacidad</th>
+                            <th class="text-center">CxCaja</th>
+                            <th class="text-center">Stock</th>
+                            <th class="text-center">Toma</th>
+                            <th class="text-center">Diff</th>
+                            <th class="text-center">Status</th>
+                        </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="( item, index) in report.report.report" :key="item.prod" @click="showItemDetail(item)">
+                       <td class="text-center">{{ index + 1 }}</td>
+                       <td>{{ item.product.fields.name }}</td>
+                       <td>{{ item.product.fields.ean_13_code }}</td>
+                       <td class="text-end">{{ item.product.fields.capacity }}</td>
+                       <td class="text-end">{{ item.product.fields.quantity_per_box }}</td>
+                       <td class="text-end">{{ item.sap_stock }}</td>
+                       <td class="text-end">{{ item.quantity }}</td>
+                       <td class="text-end">{{ item.sap_stock - item.quantity }}</td>
+                       <td class="text-center">FALTANTE</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div v-else>
+            <base-detail
+                :selected_item="selected_item"
+                @showReport="showReport"
+                :base_url="base_url"
+                ></base-detail>
+        </div>
+    </div>
+</template>
+<script>
+
+import DataTable from 'datatables.net-dt';
+import 'datatables.net-dt/css/jquery.dataTables.css';
+import BaseDetail from './BaseDetail.vue';
+
+export default {
+    name: 'TakingReport',
+    props: {
+        report: {
+            type: Array,
+            required: true,
+        },
+        base_url: {
+            type: String,
+            required: true,
+        },
+    },
+    data() {
+        return {
+            selected_item: null,
+            show_view_report:true,
+        }
+    },
+    methods: {
+        showItemDetail(item) {
+            this.show_view_report = false;
+            this.selected_item = item;
+        },showReport() {
+            this.show_view_report = true;
+            this.initializeDataTable();
+        }, initializeDataTable() {
+            if (!this.data) {
+                this.data = new DataTable("#report", {
+                    pageLength: 20,
+                    lengthMenu: [[20, 50, 100, -1], ["20", "50", "100", "Todos"]],
+                });
+            } else {
+                this.data.clear().destroy();
+                this.data = new DataTable("#report", {
+                    pageLength: 20,
+                    lengthMenu: [[20, 50, 100, -1], ["20", "50", "100", "Todos"]],
+                });
+            }
+        },
+       destroyDataTable() {
+            if (this.data) {
+                this.data.clear().destroy();
+                this.data = null;
+            }
+        },
+    },
+    computed: {
+    },
+    mounted() {
+        this.initializeDataTable();
+    },beforeUnmount() {
+        this.destroyDataTable();
+    },
+    components: {
+        BaseDetail,
+    },
+
+}
+</script>
+
+<style>
+    table.dataTable tbody th, table.dataTable tbody td {
+        padding: 1px 1px !important;
+        border: 0.1px solid #ddd !important;
+    }
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+</style>

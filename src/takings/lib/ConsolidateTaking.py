@@ -2,7 +2,7 @@ import json
 from django.db import connection
 
 from products.models import Product
-from takings.models import TakinDetail, Taking
+from takings.models import Taking
 from sap_migrations.models import SapMigrationDetail
 
 
