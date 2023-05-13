@@ -145,11 +145,11 @@ export default {
     }, methods: {
         switchImage(option) {
             if (option === 'front' && this.current_item.fields.image_front) {
-                this.default_picture = '/media' + this.current_item.fields.image_front;
+                this.default_picture = '/media/' + this.current_item.fields.image_front;
                 this.class_bagded_front = 'badge-primary'
                 this.class_bagded_back = 'badge-light'
             } else if (option === 'back' && this.current_item.fields.image_back) {
-                this.default_picture = '/media' + this.current_item.fields.image_back;
+                this.default_picture = '/media/' + this.current_item.fields.image_back;
                 this.class_bagded_back = 'badge-primary'
                 this.class_bagded_front = 'badge-light'
             } else {
@@ -161,7 +161,7 @@ export default {
         },
     }, mounted() {
         if (this.current_item.fields.image_front) {
-            this.default_picture = '/media' + this.current_item.fields.image_front
+            this.default_picture = '/media/' + this.current_item.fields.image_front
         }
     },
 }
