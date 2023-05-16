@@ -2,11 +2,10 @@ Django
 django-simple_history == 3.0 
 django-guardian == 2.4.0
 markdown == 3.3.6
-django-filter == 22.1
 djangorestframework == 3.13.1
 django_extensions == 3.1.5
-pytest == 7.0.1
 django-crum == 0.7.9
+django-filter
 ipdb
 django-utils-six
 pdfkit
@@ -19,3 +18,5 @@ pytest-mock
 pandas
 django-pandas
 openpyxl
+pymssql
+psycopg2

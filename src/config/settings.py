@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django_extensions',
     'django.contrib.humanize',
     'pytest_django',
-    'sslserver',
     'corsheaders',
     'simple_history',
     'accounts',
