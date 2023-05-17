@@ -34,7 +34,9 @@
             <base-detail
                 :selected_item="selected_item"
                 @showReport="showReport"
+                :show_view_report="show_view_report"
                 :base_url="base_url"
+                :report="report"
                 ></base-detail>
         </div>
     </div>
@@ -49,7 +51,7 @@ export default {
     name: 'TakingReport',
     props: {
         report: {
-            type: Array,
+            type: Object,
             required: true,
         },
         base_url: {
