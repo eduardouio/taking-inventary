@@ -11,18 +11,15 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <span class="nav-link">
-
                 Inicio
               </span>
             </li>
             <li class="nav-item">
               <span class="badge rounded-pill bg-info text-dark">
-                {{
-                report.warenhouses | length }}</span>
+                {{ report.warenhouses }}</span>
             </li>
             <li class="nav-item">
-              <span class="nav-link" href="#">Empresas<span class="badge rounded-pill bg-info text-dark">{{
-                report.enterprises | length }}</span></span>
+              <span class="nav-link" href="#">Empresas<span class="badge rounded-pill bg-info text-dark">{{ report.enterprises  }}</span></span>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Bodegas <span class="badge rounded-pill bg-info text-dark">3</span></a>
@@ -73,7 +70,7 @@ export default {
   name: 'NavBar',
   props: {
     report: {
-      type: Array,
+      type: Object,
       required: true
     }
   },
