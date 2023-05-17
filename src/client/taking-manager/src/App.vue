@@ -14,7 +14,7 @@
 
 <script>  
 const base_url = 'http://localhost:8000';
-const url_data = '/takings/api/taking-manager/84/';
+const url_data = '/takings/api/taking-manager/131/';
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
@@ -49,8 +49,9 @@ export default {
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       xhr.onload = () =>{
-        this.report = JSON.parse(xhr.responseText);
-        console.dir(this.report);
+        if (xhr.status === 200){
+          this.report = JSON.parse(xhr.responseText) ;
+        }
       };
       xhr.send();
     }
