@@ -67,9 +67,12 @@ export default {
     background-color: #f5f5f5;
   }
   .bg-gray {
-    background-color: #e8e8e8;
+    background-color: #f1f1f1;
   }
   .bg-gray-gradient {
     background: linear-gradient(180deg, #f5f5f5 0%, #e8e8e8 100%);
+  }
+  .bg-success-gradient {
+    background: linear-gradient(180deg, #f1f1f1 10%, #f5f5f5 100%);
   }
 </style>

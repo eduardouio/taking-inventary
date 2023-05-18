@@ -28,6 +28,7 @@ class APITakingDetail(View):
                         item.id_team.manager.last_name),
                     'assistant': item.id_team.warenhouse_assistant,
                     'username': item.id_team.manager.username,
+                    'group_number': item.id_team.group_number,
                 },
             })
 
