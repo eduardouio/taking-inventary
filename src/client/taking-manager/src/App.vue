@@ -14,7 +14,7 @@
 
 <script>  
 const base_url = 'http://localhost:8000';
-const url_data = '/takings/api/taking-manager/131/';
+const url_data = '/takings/api/taking-manager/88/';
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
@@ -65,5 +65,11 @@ export default {
 <style>
   body {
     background-color: #f5f5f5;
+  }
+  .bg-gray {
+    background-color: #e8e8e8;
+  }
+  .bg-gray-gradient {
+    background: linear-gradient(180deg, #f5f5f5 0%, #e8e8e8 100%);
   }
 </style>
