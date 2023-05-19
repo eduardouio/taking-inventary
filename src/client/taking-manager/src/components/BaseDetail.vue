@@ -1,160 +1,194 @@
 <template>
     <div>
-    <loader v-if="!item_report"></loader>
-    <div class="container-fluid mt-3 border bg-white" v-if="item_report">
-        <div class="row bg  bg-ligth bg-gradient">
-            <div class="col-1">
-                <span class="badge bg-dark">
-                    {{ selected_item.product.fields.type_product }}
-                </span>
-            </div>
-            <div class="col-10 text-center">
-                <span class="text-primary" id="app-product-desc">
-                    {{ selected_item.product.fields.name }}
-                    <br>
-                    <small>{{ selected_item.product.fields.ean_13_code }}</small>
-                </span>
-                <hr>
-            </div>
-            <div class="col text-end">
-                <button class="btn btn-outline-danger fs-5" @click="showReport">
-                    <i class="fas fa-close"></i>
-                </button>
-            </div>
-        </div>
-        <div class="row bg-ligth">
-            <div class="col-3">
-                <img :src="image_url" class="img-thumbnail">
-                <div class="row">
-                    <div class="col">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <strong>Cod Barras:</strong>&nbsp;{{ selected_item.product.fields.ean_13_code }}
-                            </li>
-                            <li class="list-group-item">
-                                <strong>Cod Contable:</strong>&nbsp;{{ selected_item.product.fields.account_code }}
-                            </li>
-                            <li class="list-group-item">
-                                <strong>Cap:</strong>&nbsp;{{ selected_item.product.fields.capacity }}
-                                <span class="text-seondary">&nbsp;| &nbsp;</span>
-                                <strong>CxCaja:</strong>&nbsp;{{ selected_item.product.fields.quantity_per_box }}
-                            </li>
-                        </ul>
-                    </div>
+        <loader v-if="!item_report"></loader>
+        <div class="container-fluid mt-3 border bg-white" v-if="item_report">
+            <div class="row bg  bg-ligth bg-gradient h5">
+                <div class="col-1">
+                    <span class="badge bg-dark">
+                        {{ selected_item.product.fields.type_product }}
+                    </span>
+                </div>
+                <div class="col-10 text-center">
+                    <span class="text-primary" id="app-product-desc">
+                        {{ selected_item.product.fields.name }}
+                        <br>
+                        <small>{{ selected_item.product.fields.ean_13_code }}</small>
+                    </span>
+                    <hr>
+                </div>
+                <div class="col text-end">
+                    <button class="btn btn-outline-danger fs-5" @click="showReport">
+                        <i class="fas fa-close"></i>
+                    </button>
                 </div>
             </div>
-            <div class="col">
-                <div class="d-flex align-items-start">
-                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <button class="btn btn-white active" id="v-pills-home-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"> <i
-                                class="fas fa-clipboard-check"></i>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOMA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-                        <button class="btn btn-white" id="v-pills-profile-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-profile" role="tab" aria-controls="v-pills-profile"
-                            aria-selected="false"> <i class="fas fa-warning"></i> &nbsp;NOVEDADES</button>
-                        <button class="btn btn-white" id="v-pills-messages-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-messages" role="tab" aria-controls="v-pills-messages"
-                            aria-selected="false"><i class="fas fa-warehouse"></i>&nbsp;EXISTENCIAS</button>
-                        <button class="btn btn-warning mt-5" id="recount-item"
-                                href="/recounts/make/taking/121/product/02045932711101010750">
-                                <i class="fas fa-share"></i> Reconteo Item
-                        </button>
+            <div class="row bg-ligth">
+                <div class="col-3">
+                    <img :src="image_url" class="img-thumbnail">
+                    <div class="row">
+                        <div class="col">
+                            <ul class="list-group">
+                                <li class="list-group-item text-center h5" :class="status_taking.class">
+                                    <i :class="status_taking.icon"></i>
+                                    &nbsp;
+                                    <strong>{{ status_taking.text }}</strong>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Cod Contable:</strong>&nbsp;{{ selected_item.product.fields.account_code }}
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Cap:</strong>&nbsp;{{ selected_item.product.fields.capacity }}
+                                    <span class="text-seondary">&nbsp;| &nbsp;</span>
+                                    <strong>CxCaja:</strong>&nbsp;{{ selected_item.product.fields.quantity_per_box }}
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="tab-content" id="v-pills-tabContent" style="width: 100%;">
-                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab"> 
-                            <div class="bg-gray border">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="row text-center">
-                                            <div class="col text-center">
-                                                <span class="h3 text-secondary">Stock</span>
+                </div>
+                <div class="col">
+                    <div class="d-flex align-items-start">
+                        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                            aria-orientation="vertical">
+                            <button class="btn btn-white active btn-sm" data-bs-toggle="pill" data-bs-target="#v-pills-home">
+                                <i class="fas fa-clipboard-check"></i><br>Toma
+                            </button>
+                            <button class="btn btn-white btn-sm" data-bs-toggle="pill" data-bs-target="#v-pills-profile">
+                                <i class="fas fa-warning"></i> &nbsp;Novedades
+                            </button>
+                            <button class="btn btn-white btn-sm" data-bs-toggle="pill" data-bs-target="#v-pills-messages">
+                                <i class="fas fa-warehouse"></i>&nbsp;Existencias
+                            </button>
+                            <button class="btn btn-warning mt-5 btn-sm" id="recount-item">
+                                <a href="/recounts/make/taking/121/product/02045932711101010750" class="text-dark">
+                                    <i class="fas fa-share"></i> RECONTEO
+                                </a>
+                            </button>
+                        </div>
+                        <div class="tab-content" id="v-pills-tabContent" style="width: 100%;">
+                            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                                aria-labelledby="v-pills-home-tab">
+                                <div class="border">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="row text-center">
+                                                <div class="col text-center">
+                                                    <span class="h4 text-secondary">Stock</span> 
+                                                    &nbsp;
+                                                    <span class="h4 text-secondary">{{ selected_item.sap_stock }}</span>
+                                                </div>
+                                                <div class="col text-center">
+                                                    <span class="h4 text-primary">Toma</span>
+                                                    &nbsp;
+                                                    <span class="h4 text-primary">{{ total_quantity }}</span>
+                                                </div>
+                                                <div class="col text-center" :class="status_taking.class">
+                                                    <i class="h4" :class="status_taking.icon"></i>
+                                                    &nbsp;
+                                                    <span class="h4">{{ status_taking.text }}</span>
+                                                    <h4 v-if="sale_boxes">{{ sale_boxes }}</h4>
+                                                </div>
                                             </div>
-                                            <div class="col text-center">
-                                                <span class="h3 text-primary">Toma</span>
-                                            </div>
-                                            <div class="col text-center"><h3 :class="status_taking.class">{{ status_taking.text }}</h3></div>
-                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr class="text-center bg-gray-gradient">
+                                                    <th>#</th>
+                                                    <th>Hora</th>
+                                                    <th>Grupo</th>
+                                                    <th>Manager</th>
+                                                    <th>Cajas</th>
+                                                    <th>Unds</th>
+                                                    <th>Total</th>
+                                                    <th class="text-center text-danger"><i class="fas fa-trash"></i></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(item, index) in item_report.query" :key="item.query">
+                                                    <td class="text-center">{{ index + 1 }}</td>
+                                                    <td>{{ new Date(item.detail.fields.created).toLocaleString('es-EC') }}
+                                                    </td>
+                                                    <td class="text-center">{{ item.team.group_number }}</td>
+                                                    <td> {{ item.team.manager }}</td>
+                                                    <td class="text-end">{{ item.detail.fields.taking_total_boxes }}</td>
+                                                    <td class="text-end">{{ item.detail.fields.taking_total_bottles }}</td>
+                                                    <td class="text-end bg-gray">{{ item.detail.fields.quantity }}</td>
+                                                    <td class="text-center text-danger"><i class="fas fa-minus"></i></td>
+                                                </tr>
+                                                <tr class="bg-success-gradient text-bold">
+                                                    <td colspan="4" class="text-end"><strong>Sumas:</strong></td>
+                                                    <td class="text-end"><strong>{{ total_boxes }}</strong></td>
+                                                    <td class="text-end"><strong>{{ total_bottles }}</strong></td>
+                                                    <td class="text-end"><strong>{{ total_quantity }}</strong></td>
+                                                    <td class="text-center">--</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="row text-center">
-                                            <div class="col text-center">
-                                                <span class="h2 text-secondary">{{ selected_item.sap_stock }}</span>
-                                            </div>
-                                            <div class="col text-center">
-                                                <span class="h2 text-primary">{{ total_quantity }}</span>
-                                            </div>
-                                            <div class="col text-center"><h2 v-if="sale_boxes">{{ sale_boxes }}</h2></div>
-                                            </div>
-                                </div>
-                            </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col">
-                                <table class="table table-bordered table-hover">
+                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                <div class="row mt-2">
+                                    <div class="col text-center text-success" v-if="!news_report.length">
+                                        <span class="h3">Sin Novedades</span>
+                                    </div>
+                                    <div class="col" v-else>
+                                    <table class="table table-bordered table-hover">
                                     <thead>
-                                        <tr class="text-center bg-gray-gradient">
-                                            <th>#</th>
-                                            <th>Hora</th>
-                                            <th>Grupo</th>
-                                            <th>Manager</th>
-                                            <th>Cajas</th>
-                                            <th>Unds</th>
-                                            <th>Total</th>
-                                            <th class="text-center text-danger"><i class="fas fa-trash"></i></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(item, index) in item_report.query" :key="item.query">
-                                                  <td class="text-center">{{ index +1 }}</td>
-                                                  <td>{{ new Date(item.detail.fields.created).toLocaleString('es-EC') }}</td>
-                                                  <td class="text-center">{{ item.team.group_number }}</td>
-                                                  <td> {{ item.team.manager }}</td>
-                                                  <td class="text-end">{{ item.detail.fields.taking_total_boxes }}</td>
-                                                  <td class="text-end">{{ item.detail.fields.taking_total_bottles }}</td>
-                                                  <td class="text-end bg-gray">{{ item.detail.fields.quantity }}</td>
-                                                  <td class="text-center text-danger"><i class="fas fa-minus"></i></td>
-                                            </tr>
-                                            <tr class="bg-success-gradient text-bold">
-                                                <td colspan="4" class="text-end"><strong>Sumas:</strong></td>
-                                                <td class="text-end"><strong>{{ total_boxes }}</strong></td>
-                                                <td class="text-end"><strong>{{ total_bottles }}</strong></td>
-                                                <td class="text-end"><strong>{{ total_quantity }}</strong></td>
-                                                <td class="text-center">--</td>
-                                            </tr>
-                                        </tbody>
-                                </table>
+                                       <tr class="text-center">
+                                        <th>#</th>
+                                        <th>Grupo</th>
+                                        <th>Novedad</th>
+                                        <th>Año</th>
+                                        <th>Caducidad</th>
+                                        <th>Unds</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(item, index) in news_report" :key="item">
+                                                <td>{{ index + 1 }}</td>
+                                                <td><span class="badge bg-info">G#{{ item.team.group_number }}</span> {{ item.team.manager }}</td>
+                                                <td>{{ item.detail.fields.notes }}</td>
+                                                <td class="text-end">{{ item.detail.fields.year }}</td>
+                                                <td class="text-end">
+                                                    {{ new Date(item.detail.fields.date_expiry).toLocaleDateString('es-EC') }}
+                                                </td>
+                                                <td class="text-end">{{ item.detail.fields.quantity }}</td>
+                                          </tr>
+                                    </tbody>
+                                    </table>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
-                            aria-labelledby="v-pills-profile-tab">...</div>
-                        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
-                            aria-labelledby="v-pills-messages-tab">...</div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
-    </div>
     </div>
 </template>
 <script>
 import Loader from './Loader.vue';
 
 export default {
-  components: { Loader },
+    components: { Loader },
     //Mostamos la informacion adicional usando una tabla maestro detalle en la que se muestra la informacion de los grupos y los productos que se han tomado
     name: 'BaseDetail',
-    componets:{
+    componets: {
         Loader,
     },
     emits: ['showReport'],
-    data(){
-        return{
-            item_report:null,
+    data() {
+        return {
+            item_report: null,
+            stock_report:null,
         }
     },
     props: {
@@ -170,34 +204,59 @@ export default {
             type: String,
             required: true,
         },
-        report:{
-            type:Object,
-            required:true,
+        report: {
+            type: Object,
+            required: true,
         }
-    },methods: {
+    }, methods: {
         showReport() {
             this.$emit('showReport');
-        },
-        loadDetailData(){
-            console.log('obtenemos el detalle del producto');
-            let url = '/takings/api/taking-detail/taking/{pk_taking}/product/{pk_product}/'.replace(
+        },sendGetRequest(url, callback) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', this.base_url + url);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.onload = () => {
+                if (xhr.status === 200){
+                  return callback(JSON.parse(xhr.responseText));
+                }
+                alert('Error en peticion GET');
+            };
+            xhr.onerror = () => {
+                alert('Error en peticion GET evento on onerror');
+            };
+            xhr.send();
+        },loadTakingData(taking_report) {
+           this.item_report = taking_report;
+        },loadStockData(stock_report) {
+            this.stock_report = stock_report;
+        }
+    },
+    mounted() {
+        // cargamos informacion de toma
+        this.sendGetRequest(
+            '/takings/api/taking-detail/taking/{pk_taking}/product/{pk_product}/'.replace(
                 '{pk_product}', this.selected_item.product.fields.account_code
             ).replace(
                 '{pk_taking}', this.report.report.taking.pk
-            )
-            const xhr_data = new XMLHttpRequest();
-            xhr_data.open('GET', this.base_url + url);
-            xhr_data.setRequestHeader('Content-Type', 'application/json');
-            xhr_data.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            xhr_data.onload = () =>{
-                this.item_report = JSON.parse(xhr_data.responseText);
-            };
-            xhr_data.send();
-
-        },
-    },
-    mounted(){
-        this.loadDetailData();
+            ),
+            this.loadTakingData
+        );
+        //cargamos informacion de saldos iniciales
+        this.sendGetRequest(
+            '/sap/api/migration/{id_migration}/taking/{id_taking}/product/{account_code}'.replace(
+                '{id_migration}', this.report.report.taking.fields.id_sap_migration
+            ).replace(
+                '{id_taking}', this.report.report.taking.pk
+            ).replace(
+                '{account_code}', this.selected_item.product.fields.account_code
+            ),
+            this.loadStockData
+        );
+    },unmounted() {
+        // enceramos los reportes
+        this.item_report = null;
+        this.stock_report = null;
     },
     computed: {
         // si el item no tiene imagen mostramos imagen por defecto
@@ -207,30 +266,28 @@ export default {
             } else {
                 return this.base_url + '/static/img/generic_product.png';
             }
-        },total_boxes(){
+        }, total_boxes() {
             return this.item_report.query.reduce((a, b) => a + b.detail.fields.taking_total_boxes, 0)
-        },total_bottles(){
+        }, total_bottles() {
             return this.item_report.query.reduce((a, b) => a + b.detail.fields.taking_total_bottles, 0)
-        },total_quantity(){
+        }, total_quantity() {
             return this.item_report.query.reduce((a, b) => a + b.detail.fields.quantity, 0)
-        },status_taking(){
-            if(this.selected_item.sap_stock === this.total_quantity){
-                return { text: 'Completo', class: 'text-success' };
+        }, status_taking() {
+            if (this.selected_item.sap_stock === this.total_quantity) {
+                return { text: 'Completo', class: 'text-success', icon: 'fas fa-check' };
             }
             if (this.selected_item.sap_stock > this.total_quantity) {
-                return { text: 'Faltante', class: 'text-warning' };
+                return { text: 'Faltante', class: 'text-warning', icon: 'fas fa-exclamation' };
             }
             if (this.selected_item.sap_stock < this.total_quantity) {
-                return { text: 'Sobrante', class: 'text-danger' };
+                return { text: 'Sobrante', class: 'text-danger', icon: 'fas fa-exclamation' };
             }
-        },sale_boxes(){
+        }, sale_boxes() {
             return Math.abs(this.selected_item.sap_stock - this.total_quantity)
         },
-        news_report(){
-            return true;
+        news_report() {
+            return this.item_report.query.filter(item => item.detail.fields.notes);
         },
     },
 }
 </script>
-
-<style scoped></style>

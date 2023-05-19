@@ -14,7 +14,7 @@
 
 <script>  
 const base_url = 'http://localhost:8000';
-const url_data = '/takings/api/taking-manager/88/';
+const url_data = '/takings/api/taking-manager/98/';
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
@@ -65,6 +65,7 @@ export default {
 <style>
   body {
     background-color: #f5f5f5;
+    font-size: 0.85rem;
   }
   .bg-gray {
     background-color: #f1f1f1;
