@@ -108,8 +108,8 @@ export default {
 </script>
 
 <style>
-    table.dataTable tbody th, table.dataTable tbody td {
-        padding: 1px 1px !important;
+    table tbody th, tbody td {
+        padding: 0.6px 1px !important;
         border: 0.1px solid #ddd !important;
     }
     .fade-enter-active, .fade-leave-active {
