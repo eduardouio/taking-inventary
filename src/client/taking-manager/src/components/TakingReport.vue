@@ -25,7 +25,12 @@
                        <td class="text-end">{{ item.sap_stock }}</td>
                        <td class="text-end">{{ item.quantity }}</td>
                        <td class="text-end">{{ item.sap_stock - item.quantity }}</td>
-                       <td class="text-center">FALTANTE</td>
+                       <td class="text-center text-success" v-if="item.sap_stock === item.quantity">COMPLETO</td>
+                       <td class="text-center text-danger" v-if="item.sap_stock < item.quantity">SOBRANTE</td>
+                       <td class="text-center" v-if="item.sap_stock > item.quantity">
+                            <span v-if="item.quantity === 0" class="text-info">SIN TOMA</span>
+                            <span v-else class="text-danger">FALTANTE</span>
+                        </td>
                     </tr>
                 </tbody>
             </table>

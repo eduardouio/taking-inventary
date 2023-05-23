@@ -12,12 +12,15 @@ from takings.models import Taking
 
 # /sap/api/migration/<int:id_migration>/taking/<str:id_taking>/product/<int:id_product>/
 class APISapMigrationDetail(View):
+    """
+        Retorna el detalle para un producto, filtrado por bodegas
+        las bodegas se obtienen del registro de toma
+    """
 
-    def get(self, request, id_migration, id_taking, id_product,):
+    def get(self, request, id_migration, id_taking, id_product) -> JsonResponse:
 
         taking = Taking.get(id_taking)
 
-        my_product = Product.get(account_code=id_product)
         custom_filters = []
         for warenhouse in json.loads(taking.warenhouses):
             custom_filters.append(warenhouse)
@@ -33,9 +36,8 @@ class APISapMigrationDetail(View):
         ).filter(filters)
 
         response_data = {
-            'id_product': id_product,
+            'account_code': id_product,
             'id_migration': id_migration,
-            'product': json.loads(serialize('json', [my_product]))[0],
             'query': json.loads(serialize('json', query)),
         }
         return JsonResponse(response_data)

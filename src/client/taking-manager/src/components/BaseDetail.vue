@@ -11,6 +11,10 @@
                 <div class="col-10 text-center">
                     <span class="text-primary" id="app-product-desc">
                         {{ selected_item.product.fields.name }}
+                        &nbsp;
+                        <span class="text-dark">
+                            Cajas X {{ selected_item.product.fields.quantity_per_box }} Unds
+                        </span>
                         <br>
                         <small>{{ selected_item.product.fields.ean_13_code }}</small>
                     </span>
@@ -59,9 +63,11 @@
                                 <i class="fas fa-warehouse"></i>&nbsp;Existencias
                             </button>
                             <button class="btn btn-warning mt-5 btn-sm" id="recount-item">
-                                <a href="/recounts/make/taking/121/product/02045932711101010750" class="text-dark">
-                                    <i class="fas fa-share"></i> RECONTEO
-                                </a>
+                                    <span v-if="confirm_recount"><i class="fas fa-check"></i> CONFIRMAR</span>
+                                    <span v-else>
+                                        <i class="fas fa-share"></i> 
+                                        RECONTEO
+                                    </span>
                             </button>
                         </div>
                         <div class="tab-content" id="v-pills-tabContent" style="width: 100%;">
@@ -85,7 +91,8 @@
                                                     <i class="h4" :class="status_taking.icon"></i>
                                                     &nbsp;
                                                     <span class="h4">{{ status_taking.text }}</span>
-                                                    <h4 v-if="sale_boxes">{{ sale_boxes }}</h4>
+                                                      &nbsp;    
+                                                    <span class="h4" v-if="sale_boxes">{{ sale_boxes }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -164,7 +171,38 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-
+                                    <div class="row">
+                                        <div class="col">
+                                            <table class="table table-bordered table-striped" v-if="stock_report">
+                                                <thead>
+                                                    <tr class="text-center bg-gray-gradient">
+                                                        <th>#</th>
+                                                        <th>Empresa</th>
+                                                        <th>Bodega</th>
+                                                        <th>Cajas</th>
+                                                        <th>Unds</th>
+                                                        <th>Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="(item, index) in stock_report.query" :key="item">
+                                                        <td>{{ index + 1 }}</td>
+                                                        <td>{{ item.fields.company_name }}</td>
+                                                        <td><span class="badge bg-success">{{ item.fields.id_warenhouse_sap_code  }}</span> {{ item.fields.warenhouse_name }} </td>
+                                                        <td class="text-end">{{ Math.floor(item.fields.on_hand / selected_item.product.fields.quantity_per_box) }}</td>
+                                                        <td class="text-end">{{ item.fields.on_hand -  Math.floor(item.fields.on_hand / selected_item.product.fields.quantity_per_box) * selected_item.product.fields.quantity_per_box  }}</td>
+                                                        <td class="text-end">{{ item.fields.on_hand }}</td>
+                                                    </tr>
+                                                    <tr class="bg-gray-gradient">
+                                                        <th colspan="3">Sumas</th>
+                                                        <td class="text-end"><strong>{{ Math.floor(total_stocks / selected_item.product.fields.quantity_per_box)  }}</strong></td>
+                                                        <td class="text-end"><strong>{{ total_stocks -  Math.floor(total_stocks / selected_item.product.fields.quantity_per_box) * selected_item.product.fields.quantity_per_box   }}</strong></td>
+                                                        <td class="text-end"><strong>{{ total_stocks }}</strong></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>    
+                                        </div>
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -189,6 +227,8 @@ export default {
         return {
             item_report: null,
             stock_report:null,
+            recount_url:null,
+            confirm_recount:false,
         }
     },
     props: {
@@ -228,6 +268,9 @@ export default {
             xhr.send();
         },loadTakingData(taking_report) {
            this.item_report = taking_report;
+           this.recount_url = '/recounts/make/taking/{id_taking}/product/{account_code}';
+           this.recount_url = this.recount_url.replace('{id_taking}', this.report.report.taking.pk);
+           this.recount_url = this.recount_url.replace('{account_code}', this.selected_item.product.fields.account_code);
         },loadStockData(stock_report) {
             this.stock_report = stock_report;
         }
@@ -277,17 +320,31 @@ export default {
                 return { text: 'Completo', class: 'text-success', icon: 'fas fa-check' };
             }
             if (this.selected_item.sap_stock > this.total_quantity) {
-                return { text: 'Faltante', class: 'text-warning', icon: 'fas fa-exclamation' };
+                return { text: 'Faltante', class: 'text-warning', icon: 'fas fa-exclamation-triangle' };
             }
             if (this.selected_item.sap_stock < this.total_quantity) {
-                return { text: 'Sobrante', class: 'text-danger', icon: 'fas fa-exclamation' };
+                return { text: 'Sobrante', class: 'text-danger', icon: 'fas fa-exclamation-triangle' };
             }
         }, sale_boxes() {
             return Math.abs(this.selected_item.sap_stock - this.total_quantity)
         },
         news_report() {
             return this.item_report.query.filter(item => item.detail.fields.notes);
-        },
+        },total_stocks(){
+            return this.stock_report.query.reduce((a, b) => a + b.fields.on_hand, 0)
+        },boxesConverter(units) {
+            if (typeof(units) != "number") {
+                return {
+                    boxes: 0, bottles: 0
+                };
+            }
+
+            let boxes = Math.floor(units / this.selected_item.product.fields.quantity_per_box);
+            let bottles = units % this.selected_item.product.fields.quantity_per_box;
+            return {
+                boxes: boxes, bottles: bottles
+            };
     },
+},
 }
 </script>

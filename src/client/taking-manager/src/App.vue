@@ -14,7 +14,7 @@
 
 <script>  
 const base_url = 'http://localhost:8000';
-const url_data = '/takings/api/taking-manager/98/';
+const url_data = '/takings/api/taking-manager/71/';
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
