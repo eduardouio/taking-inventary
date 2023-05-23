@@ -273,7 +273,20 @@ export default {
            this.recount_url = this.recount_url.replace('{account_code}', this.selected_item.product.fields.account_code);
         },loadStockData(stock_report) {
             this.stock_report = stock_report;
-        }
+        }, makeRecount(){
+            //realiza un reconteo del producto de la ficha
+            if (!this.confirm_recount){
+                return false;
+            }
+            let url = '/recounts/make/taking/{id_taking}/product/{account_code}';
+            url.replace('{id_taking}', this.report.taking.pk).replace(
+                '{account_code}', this.selected_item.product.fields.account_code
+            );
+
+            
+
+
+        },
     },
     mounted() {
         // cargamos informacion de toma
