@@ -21,6 +21,5 @@ openpyxl
 pymssql
 psycopg2
 djangorestframework
-simple-json
 markdown
 django-filter
