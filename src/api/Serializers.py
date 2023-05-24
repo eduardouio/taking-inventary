@@ -39,12 +39,12 @@ class RecountTakingsSerializet(ModelSerializer):
 class SapMigrationSerializer(ModelSerializer):
     class Meta:
         model = SapMigration
-        fields='__all_-'
+        fields='__all__'
     
 
 class SapMigrationDetailSerializer(ModelSerializer):
     class Meta:
-        model = SapMigrationDetailSerializer
+        model = SapMigrationDetail
         fields = '__all__'
 
 
@@ -62,5 +62,5 @@ class TakingSerializer(ModelSerializer):
 
 class TakingJustifySerializer(ModelSerializer):
     class Meta:
-        model = akingJustify
+        model = TakingJustify
         fields = '__all__'
