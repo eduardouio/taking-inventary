@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'django.contrib.humanize',
+    'guardian',
+    'rest_framework',
     'pytest_django',
     'corsheaders',
     'simple_history',
@@ -48,9 +50,9 @@ INSTALLED_APPS = [
     'products',
     'sap_migrations',
     'takings',
-    'guardian',
     'mobile',
     'recounts',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -208,3 +210,11 @@ WARENHOUSES_LOCATIONS_NAME = (
 )
 
 LOGIN_URL = '/accounts/login/'
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
