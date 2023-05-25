@@ -1,4 +1,4 @@
-from accounts.models.CustomUserModel import CustomUserManager
+from accounts.models.CustomUserModel import CustomUserModel
 from accounts.models.Team import Team
 from products.models import Product
 from sap_migrations.models import SapMigration, SapMigrationDetail
@@ -7,40 +7,42 @@ from recounts.models import RecountDetails, RecountTakings
 
 from rest_framework.serializers import ModelSerializer
 
+
 class TeamSerializer(ModelSerializer):
     class Meta:
-        model= Team
-        fields='__all__'
+        model = Team
+        fields = '__all__'
 
 
 class CustomUserManagerSerializer(ModelSerializer):
     class Meta:
-        model = CustomUserManager
+        model = CustomUserModel
         exclude = ['password']
 
 
 class ProductSerializer(ModelSerializer):
     class Meta:
         model = Product
-        fields= '__all__'
+        fields = '__all__'
 
 
 class RecountDetailsSerializer(ModelSerializer):
     class Meta:
-        model=RecountDetails
-        fields='__all__'
+        model = RecountDetails
+        fields = '__all__'
 
-class RecountTakingsSerializet(ModelSerializer):
+
+class RecountTakingsSerializer(ModelSerializer):
     class Meta:
-        model=RecountTakings
-        fields='__all__'
+        model = RecountTakings
+        fields = '__all__'
 
 
 class SapMigrationSerializer(ModelSerializer):
     class Meta:
         model = SapMigration
-        fields='__all__'
-    
+        fields = '__all__'
+
 
 class SapMigrationDetailSerializer(ModelSerializer):
     class Meta:
@@ -48,7 +50,7 @@ class SapMigrationDetailSerializer(ModelSerializer):
         fields = '__all__'
 
 
-class TakinDetailSerializer(ModelSerializer):
+class TakingDetailSerializer(ModelSerializer):
     class Meta:
         model = TakinDetail
         fields = '__all__'

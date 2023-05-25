@@ -1,7 +1,6 @@
 import pytest
 
 from api.Serializers import SapMigrationSerializer
-from sap_migrations.models import SapMigration
 
 
 @pytest.mark.django_db
@@ -23,7 +22,7 @@ class Test_SapMigration:
 
         mock_serializer = SapMigrationSerializer(data=mock_serializer_data)
         assert mock_serializer.is_valid() == True
-    
+
     def test_create_migration_incomplete(self, mocker):
         mock_serializer_data = {
             "total_warenhouses": "error",

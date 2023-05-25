@@ -8,7 +8,7 @@ class TakingJustify(AppBaseModel):
     """
         Justifies a difference un report
     """
-    id_taking_comment = models.IntegerField(
+    id_taking_comment = models.AutoField(
         primary_key=True
     )
     id_taking = models.ForeignKey(

@@ -1,7 +1,6 @@
 import pytest
 
 from api.Serializers import SapMigrationDetailSerializer
-from sap_migrations.models import SapMigrationDetail, SapMigration
 
 
 @pytest.mark.django_db

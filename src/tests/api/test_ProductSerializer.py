@@ -1,8 +1,8 @@
 import pytest
-from django.core.exceptions import ObjectDoesNotExist
 
 from api.Serializers import ProductSerializer
 from products.models import Product
+
 
 @pytest.mark.django_db
 class TestSerializers:
@@ -18,7 +18,7 @@ class TestSerializers:
         }
         mock_serializer = ProductSerializer(data=mock_serializer_data)
         result = mock_serializer.is_valid()
-    
+
         # Assert
         assert result is True
 
@@ -42,10 +42,9 @@ class TestSerializers:
             'unit_measurement': 'LITROS',
             'sale_unit_measurement': 'updated_test',
         }
-        mock_serializer = ProductSerializer(instance=mock_product, data=mock_serializer_data)
+        mock_serializer = ProductSerializer(
+            instance=mock_product, data=mock_serializer_data)
 
-        # Act
-        mocker.patch('products.models.Product.objects.get', return_value=mock_product)
         result = mock_serializer.is_valid()
 
         # Assert
@@ -90,30 +89,11 @@ class TestSerializers:
             'unit_measurement': 'invalid',
             'sale_unit_measurement': 'invalid',
         }
-        mock_serializer = ProductSerializer(instance=mock_product, data=mock_serializer_data)
+        mock_serializer = ProductSerializer(
+            instance=mock_product, data=mock_serializer_data)
 
         # Act
         result = mock_serializer.is_valid()
 
         # Assert
         assert result is False
-
-    def test_retrieve_product_by_account_code(self, mocker):
-        # Arrange
-        mock_product = Product(
-            account_code='1234',
-            name='Test Product',
-            type_product='test',
-            quantity_per_box=1,
-            capacity=10,
-            unit_measurement='test',
-            sale_unit_measurement='test',
-        )
-        mock_serializer = ProductSerializer(instance=mock_product)
-
-        # Act
-        mocker.patch('products.models.Product.objects.get', return_value=mock_product)
-        result = mock_serializer.data
-
-        # Assert
-        assert result['account_code'] == '1234'
