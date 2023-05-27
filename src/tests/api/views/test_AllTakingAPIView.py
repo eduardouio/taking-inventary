@@ -24,6 +24,13 @@ class TestAllTakingData():
                 "VINOS Y ESPIRITUOSOS VINESA S.A",
                 "IMNAC IMPORTADORA NACIONAL CIA LTDA",
             ],
+            "manager": {
+                "id": 5,
+                "username": "lrodriguez",
+                "first_name": "LORENA",
+                "last_name": "RODRIGUEZ",
+                "email": "lorena@vinesa.com.ec",
+            }
         }
 
         response = self.client.get("/api/all-taking-data/1/")
@@ -55,7 +62,21 @@ class TestAllTakingData():
 
         # verificamos grupos
         assert (len(response["teams"]) == spected["total_groups"])
-        0/0
+
+        # Verificamos manager
+        assert (
+            spected["manager"]["id"] == response["manager"]["id"]
+        )
+        assert (
+            spected["manager"]["username"] == response["manager"]["username"]
+        )
+        assert (
+            spected["manager"]["first_name"] == response["manager"]["first_name"]
+        )
+        assert (
+            spected["manager"]["last_name"] == response["manager"]["last_name"]
+        )
+        assert (spected["manager"]["email"] == response["manager"]["email"])
 
     def test_dont_exist_taking(self):
         response = self.client.get("/api/all-taking-data/999/")
