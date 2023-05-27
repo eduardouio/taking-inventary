@@ -14,7 +14,7 @@ class TeamSerializer(ModelSerializer):
         fields = '__all__'
 
 
-class CustomUserManagerSerializer(ModelSerializer):
+class CustomUserSerializer(ModelSerializer):
     class Meta:
         model = CustomUserModel
         exclude = ['password']

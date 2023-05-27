@@ -1,7 +1,6 @@
 import pytest
 
-from api.Serializers import CustomUserManagerSerializer
-from accounts.models.CustomUserModel import CustomUserModel
+from api.Serializers import CustomUserSerializer
 
 
 @pytest.mark.django_db
@@ -13,7 +12,7 @@ class Test_CustomUserManagerSerializer:
             "password": "test",
             "email": "eduardo@sin.com"
         }
-        serializer = CustomUserManagerSerializer(data=data)
+        serializer = CustomUserSerializer(data=data)
         assert serializer.is_valid() is True
 
     def test_create_user_blank_null_fields(self):
@@ -22,5 +21,5 @@ class Test_CustomUserManagerSerializer:
             "password": "",
             "email": ""
         }
-        serializer = CustomUserManagerSerializer(data=data)
+        serializer = CustomUserSerializer(data=data)
         assert serializer.is_valid() is False
