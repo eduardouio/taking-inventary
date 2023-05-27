@@ -53,6 +53,9 @@ class ConsolidateTaking(object):
                 if item_found is False:
                     sku_stock['sku_code'] = tkn_stock['account_code']
                     sku_stock['is_complete'] = False
+                    sku_stock['tk_bottles'] = 0
+                    sku_stock['tk_boxes'] = 0
+                    sku_stock['tk_quantity'] = 0
 
         enterprises = self.get_owners(taking.id_sap_migration_id, warenhouses)
         return {
