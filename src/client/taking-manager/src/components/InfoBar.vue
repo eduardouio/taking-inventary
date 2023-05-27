@@ -23,6 +23,17 @@
           <i class="fas fa-stop"></i>
           Detener
         </button>
+        &nbsp;
+        <button class="btn btn-outline-success btn-sm">
+          <i class="fas fa-play"></i>
+          Continuar
+          </button>
+          &nbsp;
+          <button class="btn btn-outline-primary btn-sm">
+            <i class="fas fa-eye"></i>
+            Ver Todo
+            </button>
+
       </div>
       <div class="col text-end">
         <strong class="text-info h6">

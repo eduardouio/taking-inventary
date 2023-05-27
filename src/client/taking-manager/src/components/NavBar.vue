@@ -10,18 +10,18 @@
         <div class="collapse navbar-collapse" id="navbarText">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <span class="nav-link">
-                Inicio
-              </span>
+                <a href="/" class="nav-link">
+                  Inicio
+                </a>
             </li>
             <li class="nav-item">
-              <span class="nav-link" href="#">Empresas &nbsp;<span class="badge rounded-pill bg-info text-dark"> {{ total_enterprises  }}</span></span>
+              <span class="nav-link">Empresas &nbsp;<span class="badge rounded-pill bg-info text-dark"> {{ total_enterprises  }}</span></span>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Bodegas &nbsp;<span class="badge rounded-pill bg-info text-dark"> {{total_warenhouses}}</span></a>
+              <a class="nav-link">Bodegas &nbsp;<span class="badge rounded-pill bg-info text-dark"> {{total_warenhouses}}</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Usuarios &nbsp;<span class="badge rounded-pill bg-info text-dark"> {{total_users}}</span></a>
+              <a class="nav-link">Usuarios &nbsp;<span class="badge rounded-pill bg-info text-dark"> {{total_users}}</span></a>
             </li>
           </ul>
           <ul class="navbar-nav ml-auto">
