@@ -14,7 +14,8 @@ def django_db_setup():
         'USER': 'postgres',
         'PASSWORD': 'elian.2011',
         'HOST': '127.0.0.1',
-        'PORT': '5432'
+        'PORT': '5432',
+        'ATOMIC_REQUESTS': True,
     }
 
     # call_command('loaddata', 'initial_data.json', verbosity=0)
