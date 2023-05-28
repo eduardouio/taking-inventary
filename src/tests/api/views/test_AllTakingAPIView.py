@@ -30,7 +30,8 @@ class TestAllTakingData():
                 "first_name": "LORENA",
                 "last_name": "RODRIGUEZ",
                 "email": "lorena@vinesa.com.ec",
-            }
+            }, "all_warenhouses": 40,
+            "all_users_assistants": 111,
         }
 
         response = self.client.get("/api/all-taking-data/1/")
@@ -77,6 +78,13 @@ class TestAllTakingData():
             spected["manager"]["last_name"] == response["manager"]["last_name"]
         )
         assert (spected["manager"]["email"] == response["manager"]["email"])
+
+        # comprobamos las boedegas
+        assert (spected["all_warenhouses"] == len(response["all_warenhouses"]))
+
+        # Comprobamos los usuarios con perfil asistentes
+        assert (spected["all_users_assistants"] ==
+                len(response["all_users_assistants"]))
 
     def test_dont_exist_taking(self):
         response = self.client.get("/api/all-taking-data/999/")

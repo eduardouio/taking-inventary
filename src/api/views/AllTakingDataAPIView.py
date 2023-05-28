@@ -52,6 +52,13 @@ class AllTakingDataAPIView(APIView):
             for activity in teams_activity:
                 if team["id_team"] == activity["id_team_id"]:
                     team["activity"] = activity
+        # obtenemos todas las bodegas de la migracion
+        all_warenhouses = self.get_all_warenhouses(taking.id_sap_migration.pk)
+
+        # obtenemos todos los usuarios asistentes
+        all_users_assistants = CustomUserModel.objects.filter(
+            role='asistente'
+        )
 
         data = {
             "taking": TakingSerializer(taking).data,
@@ -59,6 +66,8 @@ class AllTakingDataAPIView(APIView):
             "enterprises": detail["enterprises"],
             "report": report,
             "manager": CustomUserSerializer(taking.user_manager).data,
+            "all_warenhouses": all_warenhouses,
+            "all_users_assistants": CustomUserSerializer(all_users_assistants, many=True).data,
         }
 
         return Response(data)
@@ -81,4 +90,18 @@ class AllTakingDataAPIView(APIView):
             ).first()
             item["last_taking"] = last_taking.created
 
+        return data
+
+    def get_all_warenhouses(self, id_sap_migration):
+        query = """
+            SELECT DISTINCT(smd.warenhouse_name) 
+            FROM sap_migrations_sapmigrationdetail smd
+            WHERE smd.id_sap_migration_id = {};
+        """.format(id_sap_migration)
+        cursor = connection.cursor()
+        cursor.execute(query)
+        data = [{"name": list(row)[0],
+                 "selected": False
+                 }
+                for row in cursor.fetchall()]
         return data
