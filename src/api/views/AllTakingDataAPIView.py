@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from api.Serializers import (CustomUserSerializer, ProductSerializer,
                              TakingSerializer, TeamSerializer)
 from takings.lib import ConsolidateTaking
-from takings.models import Taking
+from takings.models import Taking, TakinDetail
 from accounts.models.CustomUserModel import CustomUserModel
 
 
@@ -22,8 +22,11 @@ class AllTakingDataAPIView(APIView):
         if taking is None:
             raise Http404
 
+        # recuperamos reporte consolidado
         detail = ConsolidateTaking().get(id_taking)
         report = []
+
+        # personalizamos reporte
         for item in detail["report"]:
             product = ProductSerializer(item["product"]).data
             report.append({
@@ -35,6 +38,7 @@ class AllTakingDataAPIView(APIView):
                 "tk_quantity": item["tk_quantity"],
             })
 
+        # recuperamos equipos
         teams = TeamSerializer(taking.teams.all(), many=True).data
         teams = [dict(t) for t in teams]
         teams_activity = self.teams_activity(id_taking)
@@ -68,4 +72,13 @@ class AllTakingDataAPIView(APIView):
         cursor = connection.cursor()
         cursor.execute(query)
         columns = [col[0] for col in cursor.description]
-        return [dict(zip(columns, row)) for row in cursor.fetchall()]
+        data = [dict(zip(columns, row)) for row in cursor.fetchall()]
+        for item in data:
+            # ultima toma de equipo
+            # Obtener el último TakingDetail para un id_team específico ordenado por created desc
+            last_taking = TakinDetail.objects.filter(id_team_id=430).order_by(
+                '-created'
+            ).first()
+            item["last_taking"] = last_taking.created
+
+        return data
