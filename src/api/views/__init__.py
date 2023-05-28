@@ -1,1 +1,2 @@
 from .AllTakingDataAPIView import AllTakingDataAPIView
+from .UpdateTakingAPIView import UpdateTakingAPIView
