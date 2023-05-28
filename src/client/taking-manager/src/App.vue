@@ -1,8 +1,20 @@
 <template>
   <div>
-    <loader v-if="!report"></loader>
-    <nav-bar v-if="report" :report="report"></nav-bar>
-    <info-bar v-if="report" :report="report"></info-bar>
+    <loader 
+      v-if="!report"
+    ></loader>
+    <nav-bar
+      v-if="report" 
+      :report="report"
+      :warenhouses="warenhouses"
+      :userdata="userdata"
+      ></nav-bar>
+    <info-bar 
+        v-if="report"
+        :report="report"
+        :warenhouses="warenhouses"
+        >
+    </info-bar>
     <taking-report 
       v-if="report"
       :report="report"
@@ -14,7 +26,15 @@
 
 <script>  
 const base_url = 'http://localhost:8000';
-const url_data = '/takings/api/taking-manager/71/';
+//const url_data = '/api/all-taking-data/118/';
+const url_data = '/api/all-taking-data/1/';
+const userdata = {
+  "username": "Eduardo Villota",
+  "id": 2,
+  "first_name": "Eduardo",
+  "last_name": "Villota",
+  "email": "eduardouio7@gmail.com",
+};
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
@@ -39,7 +59,9 @@ export default {
     return {
       base_url: base_url,
       url_data: url_data,
+      userdata: userdata,
       report: null,
+      warenhouses: null,
     }
   },methods: {
     // Cargamos los datos iniciales para la interfase
@@ -50,7 +72,8 @@ export default {
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       xhr.onload = () =>{
         if (xhr.status === 200){
-          this.report = JSON.parse(xhr.responseText) ;
+          this.report = JSON.parse(xhr.responseText);
+          this.warenhouses = JSON.parse(this.report.taking.warenhouses);
         }
       };
       xhr.send();
