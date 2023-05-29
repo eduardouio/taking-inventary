@@ -72,8 +72,11 @@ export default {
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       xhr.onload = () =>{
         if (xhr.status === 200){
+          // cargamos el reporte
           this.report = JSON.parse(xhr.responseText);
+          // cargamos las bodegas
           this.warenhouses = JSON.parse(this.report.taking.warenhouses);
+          
         }
       };
       xhr.send();

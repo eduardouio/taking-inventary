@@ -70,7 +70,6 @@ class TestUpdateTakingView:
             "name": "BODEGA GENERAL 10 DE AGOSTO",
             "location": "INVALID",
             "user_manager": 5,
-            "teams": [21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
         }
 
         # moock taking
@@ -99,7 +98,6 @@ class TestUpdateTakingView:
             "name": "BODEGA GENERAL 10 DE AGOSTO",
             "location": "INVALID",
             "user_manager": 5,
-            "teams": [21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
         }
 
         # moock taking

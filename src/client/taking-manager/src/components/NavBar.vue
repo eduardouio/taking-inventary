@@ -290,14 +290,9 @@ export default {
     },
     //agregamos una bodega a la toma
     addWarenhouses(){
-      
+
     },
-  }, mounted() {
-    let my_table = new DataTable("#table-whrs", {
-      pageLength: 20,
-      lengthMenu: [[20, 50, 100, -1], ["20", "50", "100", "Todos"]],
-    })
-  }
+  },
 }
 </script>
 
