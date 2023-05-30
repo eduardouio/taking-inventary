@@ -30,7 +30,7 @@ class TestAllTakingData():
                 "first_name": "LORENA",
                 "last_name": "RODRIGUEZ",
                 "email": "lorena@vinesa.com.ec",
-            }, "all_warenhouses": 40,
+            }, "all_warenhouses": 37,
             "all_users_assistants": 111,
         }
 
@@ -81,6 +81,16 @@ class TestAllTakingData():
 
         # comprobamos las boedegas
         assert (spected["all_warenhouses"] == len(response["all_warenhouses"]))
+
+        # verificamos que las bodegas de la toma no esten en la lista
+        exclude_warenhouses = [
+            'ALMACÉN GENERAL UIO',
+            'ALMACEN 10 DE AGOSTO',
+            'CONSIGNACIONES PB PROVEEDORES'
+        ]
+
+        for item in exclude_warenhouses:
+            assert (item not in response["all_warenhouses"])
 
         # Comprobamos los usuarios con perfil asistentes
         assert (spected["all_users_assistants"] ==

@@ -5,7 +5,7 @@ from api.Serializers import TakingSerializer
 from takings.models import Taking
 
 
-# /api/update-taking/
+# /api/takings/update-taking/
 class UpdateTakingAPIView(UpdateAPIView):
     queryset = Taking.objects.all()
     serializer_class = TakingSerializer

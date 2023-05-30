@@ -2,6 +2,8 @@
 # get user manager
 # ger teams whit user manager team
 
+import json
+
 from django.http import Http404
 from django.db import connection
 from rest_framework.response import Response
@@ -14,7 +16,7 @@ from takings.models import Taking, TakinDetail
 from accounts.models.CustomUserModel import CustomUserModel
 
 
-# /api/all-taking-data/<id_taking>/
+# /api/common/taking-data/<id_taking>/
 class AllTakingDataAPIView(APIView):
 
     def get(self, request, id_taking, *args, **kwargs):
@@ -53,7 +55,7 @@ class AllTakingDataAPIView(APIView):
                 if team["id_team"] == activity["id_team_id"]:
                     team["activity"] = activity
         # obtenemos todas las bodegas de la migracion
-        all_warenhouses = self.get_all_warenhouses(taking.id_sap_migration.pk)
+        all_warenhouses = self.get_all_warenhouses(taking)
 
         # obtenemos todos los usuarios asistentes
         all_users_assistants = CustomUserModel.objects.filter(
@@ -92,16 +94,19 @@ class AllTakingDataAPIView(APIView):
 
         return data
 
-    def get_all_warenhouses(self, id_sap_migration):
+    def get_all_warenhouses(self, taking):
         query = """
             SELECT DISTINCT(smd.warenhouse_name) 
             FROM sap_migrations_sapmigrationdetail smd
             WHERE smd.id_sap_migration_id = {};
-        """.format(id_sap_migration)
+        """.format(taking.id_sap_migration.pk)
         cursor = connection.cursor()
         cursor.execute(query)
+        used_warenhouses = json.loads(taking.warenhouses)
+
         data = [{"name": list(row)[0],
                  "selected": False
                  }
-                for row in cursor.fetchall()]
+                for row in cursor.fetchall() if list(row)[0] not in used_warenhouses
+                ]
         return data
