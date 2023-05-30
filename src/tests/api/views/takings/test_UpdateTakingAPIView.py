@@ -84,6 +84,9 @@ class TestUpdateTakingView:
         )
         # moock view
         assert (response.status_code == 400)
+        errors_spected = ['location', 'id_sap_migration', 'teams']
+        errors = [i for i in response.json().keys()]
+        assert (errors_spected == errors)
 
     def test_does_not_exist(self):
         updated_taking = {
@@ -111,3 +114,27 @@ class TestUpdateTakingView:
         )
         # moock view
         assert (response.status_code == 404)
+
+    def test_one_field_update(self):
+        taking = Taking.objects.get(pk=1)
+
+        updated_taking = {
+            "id_taking": 1,
+            "warenhouses": ["ALMACÉN GENERAL UIO"],
+            "id_sap_migration": 2,
+            "user_manager": 5,
+            "teams": [21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+        }
+
+        url = reverse('update_taking', kwargs={'id_taking': taking.id_taking})
+        # moock request
+        response = self.client.put(
+            url,
+            json.dumps(updated_taking),
+            content_type='application/json'
+        )
+        # moock view
+        assert (response.status_code == 200)
+        response = response.data
+
+        assert (response["warenhouses"] == updated_taking["warenhouses"])

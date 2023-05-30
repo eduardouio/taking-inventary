@@ -14,6 +14,9 @@ class UpdateTakingAPIView(UpdateAPIView):
     def put(self, requests, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=requests.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response(serializer.data)
+        is_valid = serializer.is_valid()
+        if is_valid:
+            self.perform_update(serializer)
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=400)

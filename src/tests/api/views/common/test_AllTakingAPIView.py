@@ -34,7 +34,7 @@ class TestAllTakingData():
             "all_users_assistants": 111,
         }
 
-        response = self.client.get("/api/all-taking-data/1/")
+        response = self.client.get("/api/common/taking-data/1/")
 
         # verificams el status code
         assert (response.status_code == 200)
@@ -97,5 +97,5 @@ class TestAllTakingData():
                 len(response["all_users_assistants"]))
 
     def test_dont_exist_taking(self):
-        response = self.client.get("/api/all-taking-data/999/")
+        response = self.client.get("/api/common/taking-data/999/")
         assert (response.status_code == 404)
