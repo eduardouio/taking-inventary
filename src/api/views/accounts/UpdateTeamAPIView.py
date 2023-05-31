@@ -1,15 +1,15 @@
 from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
 
-from api.Serializers import TakingSerializer
-from takings.models import Taking
+from api.Serializers import TeamSerializer
+from accounts.models.Team import Team
 
 
-# /api/takings/update-taking/<id_taking>/
-class UpdateTakingAPIView(UpdateAPIView):
-    queryset = Taking.objects.all()
-    serializer_class = TakingSerializer
-    lookup_field = 'id_taking'
+# /api/teams/update-team/<id_team>/
+class UpdateTeamAPIView(UpdateAPIView):
+    queryset = Team.objects.all()
+    serializer_class = TeamSerializer
+    lookup_field = 'id_team'
 
     def put(self, requests, *args, **kwargs):
         instance = self.get_object()
