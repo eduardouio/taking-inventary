@@ -115,7 +115,7 @@ class TestUpdateTakingView:
         # moock view
         assert (response.status_code == 404)
 
-    def test_one_field_update(self):
+    def test_minimal_fields(self):
         taking = Taking.objects.get(pk=1)
 
         updated_taking = {

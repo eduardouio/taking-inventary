@@ -111,14 +111,22 @@
             <div class="card-body">
               <h6 class="card-subtitle mb-2 text-muted">Listado de Bodegas</h6>
               <ul class="list-group">
-                <li v-for="(warenhouse, idx) in warenhouses" :key="warenhouse" class="list-group-item">
+                <li 
+                    v-for="(warenhouse, idx) in warenhouses" 
+                    :key="warenhouse" 
+                    class="list-group-item" 
+                    @click="warenhouse.selected = !warenhouse.selected">
                   <span class="badge bg-secondary">
                       <i class="fas fa-minus text-danger"></i>
                       &nbsp;
                       Eliminar
                     </span>
                     &nbsp;
-                  <span class="badge bg-secondary">{{ idx + 1 }}</span> {{ warenhouse }}
+                    <span v-if="!warenhouse.selected" class="badge bg-danger">
+                      Maracado Para Eliminar
+                    </span>
+                    <span v-if="!warenhouse.selected">&nbsp;</span>
+                  <span class="badge bg-secondary">{{ idx + 1 }}</span> {{ warenhouse.name }}
                 </li>
               </ul>
               <button class="btn btn-sm btn-outline-dark mt-2" @click="showDetail">
@@ -147,15 +155,22 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(item, idx) in report.all_warenhouses" :key="item">
+                  <tr 
+                    v-for="(item, idx) in report.all_warenhouses" 
+                    :key="item"
+                    @click="item.selected = !item.selected"
+                    >
                     <td class="text-center">
                       {{ idx + 1 }}
                     </td>
                     <td>{{ item.name }}</td>
                     <td class="text-center">
-                      <span class="badge bg-secondary">
+                      <span class="badge bg-secondary" v-if="!item.selected">
                         <i class="fas fa-plus text-success"></i>
                         Agregar
+                      </span>
+                      <span v-else class="badge bg-success">
+                        Marcado Para Agregar
                       </span>
                     </td>
                   </tr>
@@ -165,7 +180,7 @@
           </div>
         </div>
         <div class="col-2">
-          <button class="btn btn-outline-success">
+          <button class="btn btn-outline-success" @click="updateWarenhouses">
             <i class="fa-solid fa-check"></i>
             Aplicar Cambios
           </button>
@@ -238,6 +253,7 @@ import 'datatables.net-dt/css/jquery.dataTables.css';
 
 export default {
   name: 'NavBar',
+  emits: ['updateWarenhouses'],
   data() {
     return {
       show_detail: {
@@ -257,8 +273,13 @@ export default {
     }, userdata: {
       type: Object,
       required: true
+    },
+    base_url: {
+      type: String,
+      required: true
     }
-  }, computed: {
+  }
+  ,computed: {
     // items completos
     full() {
       return this.report.report.filter(
@@ -284,14 +305,11 @@ export default {
       }
       this.show_detail[name] = true;
     },
-    // eliminamos una bodega de la toma
-    deleteWarenhouse(name){
-
-    },
-    //agregamos una bodega a la toma
-    addWarenhouses(){
-
-    },
+    // Actualizamos las bodegas
+    updateWarenhouses() {
+      this.$emit('updateWarenhouses');
+  },
+  // nuevo metodo
   },
 }
 </script>
