@@ -143,6 +143,10 @@
                 <i class="fa-solid fa-plus"></i>
                 &nbsp;
                 Agregar Bodegas
+                <button class="btn btn-outline-success btn-sm float-end" @click="updateWarenhouses">
+              <i class="fa-solid fa-check"></i>
+              Aplicar Cambios
+            </button>
               </h5>
             </div>
             <div class="card-body">
@@ -179,20 +183,17 @@
             </div>
           </div>
         </div>
-        <div class="col-2">
-          <button class="btn btn-outline-success" @click="updateWarenhouses">
-            <i class="fa-solid fa-check"></i>
-            Aplicar Cambios
-          </button>
-        </div>
       </div>
       <!--/Vista Bodegas-->
       <!--Vista Grupos-->
       <div class="row" v-if="show_detail.groups">
-        <div class="col">
-          <div class="card" style="width: 100rem;">
+        <div class="col-8">
+          <div class="card">
             <div class="card-header">
-              <h5 class="card-title text-info">Grupos</h5>
+              <h5 class="card-title text-info">
+                <i class="fa-solid fa-users"></i>
+                Grupos
+              </h5>
             </div>
             <div class="card-body">
               <h6 class="card-subtitle mb-2 text-muted">Listado de Grupos</h6>
@@ -204,7 +205,6 @@
                     <th>Asistente</th>
                     <th><i class="fas fa-refresh"></i></th>
                     <th>Ultima</th>
-                    <th><i class="fas fa-gears"></i></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -218,15 +218,6 @@
                         {{ new Date(team.activity.last_taking).toLocaleString('es-Ec') }}
                       </span>
                       <span v-else class="text-danger">No tiene</span>
-                    </td>
-                    <td class="text-center">
-                      <span v-if="team.activity.last_taking" class="text-secondary">
-                        <i class="fas fa-stop"></i>
-                      </span>
-                      <span v-else class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top"
-                        title="Elimnar Grupo">
-                        [<i class="fas fa-minus"></i>]
-                      </span>
                     </td>
                   </tr>
                 </tbody>
@@ -242,25 +233,62 @@
             </div>
           </div>
         </div>
+        <div class="col-4">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title text-info">
+                  <i class="fa-solid fa-user-plus"></i>
+                  &nbsp;
+                  Agregar Grupos
+                  <button class="btn btn-outline-success btn-sm float-end">
+                    <i class="fa-solid fa-check"></i>
+                    Aplicar Cambios
+                  </button>
+                </h5>
+              </div>
+              <div class="card-body">
+                  <input type="text" v-model="my_query" placeholder="Buscar" @keyup="filterUsers" class="float-end form-control form-control-sm ">
+                  <table class="table table-hover table-bordered">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Asistente</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(user,idx) in all_users_assistants" :key="user.id" @click="user.selected = !user.selected">
+                        <td class="text-center">{{ idx+1 }}</td>
+                        <td>
+                          <span v-if="user.selected" class="badge bg-success">
+                            &nbsp; Marcado Para Agregar
+                          </span>
+                          {{ user.first_name }} {{ user.last_name }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
       </div>
       <!--/Vista Grupos-->
     </div>
   </div>
 </template>
 <script>
-import DataTable from 'datatables.net-dt';
-import 'datatables.net-dt/css/jquery.dataTables.css';
 
 export default {
   name: 'NavBar',
-  emits: ['updateWarenhouses'],
+  emits: ['updateWarenhouses', 'updateGroups'],
   data() {
     return {
-      show_detail: {
+        show_detail: {
         enterprises: false,
         warenhouses: false,
         groups: false,
-      }
+        },
+      my_query:null,
+      all_users_assistants: null
     }
   },
   props: {
@@ -305,12 +333,29 @@ export default {
       }
       this.show_detail[name] = true;
     },
+    // filtramos usuarios del cuadro
+    filterUsers() {
+      this.all_users_assistants = this.report.all_users_assistants.map(item=>item)
+      this.all_users_assistants = this.all_users_assistants.filter(
+        user => {
+          return user.first_name.toLowerCase().includes(this.my_query.toLowerCase()) ||
+            user.last_name.toLowerCase().includes(this.my_query.toLowerCase())
+        }
+      )
+    },
     // Actualizamos las bodegas
     updateWarenhouses() {
       this.$emit('updateWarenhouses');
   },
-  // nuevo metodo
-  },
+  // actualizamos los grupos
+  updateGroups() {
+    const users_aditionals = this.all_users_assistants.filter(item=>item.selected == true);
+    this.$emit('updateGroups', users_aditionals);
+  }
+
+  },mounted(){
+    this.all_users_assistants = this.report.all_users_assistants.map(item=>item);
+  }
 }
 </script>
 

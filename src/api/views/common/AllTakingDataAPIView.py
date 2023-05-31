@@ -40,13 +40,16 @@ class AllTakingDataAPIView(APIView):
                 "tk_quantity": item["tk_quantity"],
             })
 
-        # recuperamos equipos
+        # recuperamos equipos y creamos el diccionario
         teams = TeamSerializer(taking.teams.all(), many=True).data
         teams = [dict(t) for t in teams]
+
         teams_activity = self.teams_activity(id_taking)
+
         for team in teams:
             manager = CustomUserModel.objects.get(pk=team["manager"])
             team["manager"] = CustomUserSerializer(manager).data
+            team["selected"] = True
             team["activity"] = {
                 'id_team_id': team["id_team"],
                 'count': 0,
@@ -62,6 +65,18 @@ class AllTakingDataAPIView(APIView):
             role='asistente'
         )
 
+        # serializamos el objeto
+        all_users_assistants = CustomUserSerializer(
+            all_users_assistants, many=True
+        ).data
+
+        # creamos el diccionario
+        all_users_assistants = [dict(t) for t in all_users_assistants]
+
+        # agregamos campo selected
+        for user in all_users_assistants:
+            user["selected"] = False
+
         data = {
             "taking": TakingSerializer(taking).data,
             "teams": teams,
@@ -69,7 +84,7 @@ class AllTakingDataAPIView(APIView):
             "report": report,
             "manager": CustomUserSerializer(taking.user_manager).data,
             "all_warenhouses": all_warenhouses,
-            "all_users_assistants": CustomUserSerializer(all_users_assistants, many=True).data,
+            "all_users_assistants": all_users_assistants,
         }
 
         return Response(data)

@@ -8,6 +8,8 @@
       :report="report"
       :warenhouses="warenhouses"
       :userdata="userdata"
+      :base_url="base_url"
+      @updateWarenhouses="$event => updateWarenhouses($event)"
       ></nav-bar>
     <info-bar 
         v-if="report"
@@ -26,8 +28,8 @@
 
 <script>  
 const base_url = 'http://localhost:8000';
-//const url_data = '/api/all-taking-data/118/';
-const url_data = '/api/all-taking-data/1/';
+const url_data = '/api/common/taking-data/1/';
+
 const userdata = {
   "username": "Eduardo Villota",
   "id": 2,
@@ -75,13 +77,67 @@ export default {
           // cargamos el reporte
           this.report = JSON.parse(xhr.responseText);
           // cargamos las bodegas
-          this.warenhouses = JSON.parse(this.report.taking.warenhouses);
-          
+          let my_warenhouses = JSON.parse(this.report.taking.warenhouses);
+          this.warenhouses = my_warenhouses.map(item => {
+            return {
+              'name': item,
+              'selected': true,
+            }
+            });
+      // ordenamos las bodegas
+      this.report.all_warenhouses.sort((a, b) => {
+        if (a.name > b.name) {
+          return 1;
         }
+        if (a.name < b.name) {
+          return -1;
+        }
+        return 0;
+      });
       };
-      xhr.send();
-    }
-  },
+    };
+    xhr.onerror = () => {
+      alert('Error al cargar los datos');
+    };
+    xhr.send();
+    },
+    // Actualizamos las bodegas
+    updateWarenhouses: function() {
+      const selected_warenhouses = this.warenhouses.filter(
+        item => item.selected
+      ).map(item => item.name).concat(
+      this.report.all_warenhouses.filter(
+          item => item.selected
+        ).map(item => item.name)
+      );
+      
+      // si no hay bodegas seleccionadas no hacemos nada
+      if (selected_warenhouses.length === 0){
+          return;
+      }
+      // actualizamos la toma
+      const update_taking = this.report.taking;
+      update_taking.warenhouses = JSON.stringify(selected_warenhouses);
+      const xhr_taking = new XMLHttpRequest();
+      xhr_taking.open(
+        "PUT", 
+        this.base_url + '/api/takings/update-taking/' + update_taking.id_taking + '/'
+        );
+      xhr_taking.setRequestHeader('Content-Type', 'application/json');
+      xhr_taking.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+      xhr_taking.onload = () =>{
+        if (xhr_taking.status === 200){
+          // cargamos el reporte
+          location.reload();
+          }
+        }
+      xhr_taking.onerror = () => {
+        alert('Error al cargar los datos');
+      };
+      xhr_taking.send(JSON.stringify(update_taking));
+      },
+      //
+    },
   mounted(){
     this.updateData();
   },
