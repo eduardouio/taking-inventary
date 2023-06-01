@@ -16,19 +16,19 @@
                         </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="( item, index) in report.report" :key="item.prod" @click="showItemDetail(item)">
+                    <tr v-for="( item, index) in table_takings" :key="item" @click="showItemDetail(item)">
                        <td class="text-center">{{ index + 1 }}</td>
                        <td>{{ item.product.name }}</td>
                        <td>{{ item.product.ean_13_code }}</td>
                        <td class="text-end">{{ item.product.capacity }}</td>
                        <td class="text-end">{{ item.product.quantity_per_box }}</td>
                        <td class="text-end">{{ item.sap_stock }}</td>
-                       <td class="text-end">{{ item.quantity }}</td>
-                       <td class="text-end">{{ item.sap_stock - item.quantity }}</td>
-                       <td class="text-center text-success" v-if="item.sap_stock === item.quantity">COMPLETO</td>
-                       <td class="text-center text-danger" v-if="item.sap_stock < item.quantity">SOBRANTE</td>
-                       <td class="text-center" v-if="item.sap_stock > item.quantity">
-                            <span v-if="item.quantity === 0" class="text-info">SIN TOMA</span>
+                       <td class="text-end">{{ item.tk_quantity }}</td>
+                       <td class="text-end">{{ item.sap_stock - item.tk_quantity }}</td>
+                       <td class="text-center text-success" v-if="item.sap_stock === item.tk_quantity">COMPLETO</td>
+                       <td class="text-center text-danger" v-if="item.sap_stock < item.tk_quantity">SOBRANTE</td>
+                       <td class="text-center" v-if="item.sap_stock > item.tk_quantity">
+                            <span v-if="item.tk_quantity === 0" class="text-info">SIN TOMA</span>
                             <span v-else class="text-danger">FALTANTE</span>
                         </td>
                     </tr>
@@ -55,12 +55,16 @@ import BaseDetail from './BaseDetail.vue';
 export default {
     name: 'TakingReport',
     props: {
-        report: {
+        table_takings: {
             type: Object,
             required: true,
         },
         base_url: {
             type: String,
+            required: true,
+        },
+        show_all_takings: {
+            type: Boolean,
             required: true,
         },
     },
@@ -71,44 +75,22 @@ export default {
         }
     },
     methods: {
+        // muestra el detalle de la toma seleccionada
         showItemDetail(item) {
             this.show_view_report = false;
             this.selected_item = item;
         },showReport() {
             this.show_view_report = true;
-            this.initializeDataTable();
-        }, initializeDataTable() {
-            if (!this.data) {
-                this.data = new DataTable("#report", {
-                    pageLength: 20,
-                    lengthMenu: [[20, 50, 100, -1], ["20", "50", "100", "Todos"]],
-                });
-            } else {
-                this.data.clear().destroy();
-                this.data = new DataTable("#report", {
-                    pageLength: 20,
-                    lengthMenu: [[20, 50, 100, -1], ["20", "50", "100", "Todos"]],
-                });
-            }
-        },
-       destroyDataTable() {
-            if (this.data) {
-                this.data.clear().destroy();
-                this.data = null;
-            }
-        },
-    },
-    computed: {
+        }, 
     },
     mounted() {
-        this.initializeDataTable();
+        // inicializamos la datatable
     },beforeUnmount() {
+        // destruimos la datatable
         this.destroyDataTable();
-    },
-    components: {
+    },components: {
         BaseDetail,
     },
-
 }
 </script>
 

@@ -1,17 +1,18 @@
 <template>
   <div class="container-fluid mt-1 bg-light">
-      <div class="row">
-    <div class="progress">
-    <div class="progress-bar bg-success" role="progressbar" :style="{'width': percent_progress +'%'}" :aria-valuenow="percent_progress" aria-valuemin="0" aria-valuemax="100"></div>
-    AVANCE DE TOMA
-  </div>
+    <div class="row">
+      <div class="progress">
+        <div class="progress-bar bg-success" role="progressbar" :style="{ 'width': percent_progress + '%' }"
+          :aria-valuenow="percent_progress" aria-valuemin="0" aria-valuemax="100"></div>
+        AVANCE DE TOMA
       </div>
+    </div>
     <div class="row border bg-gardient-secondary rounded bg-gradient-light" style="padding: 5px;">
       <div class="col-8">
         {{ new Date(report.taking.created).toLocaleString('es-Ec') }}
         &nbsp;| &nbsp;
         Estado:
-        <span v-if=" report.taking.is_active">
+        <span v-if="report.taking.is_active">
           <i class="fas fa-play text-success"></i>&nbsp;
           <span class="text-success">Conteo Abierto, Recibiendo Datos </span>
         </span>
@@ -29,20 +30,22 @@
           <i class="fas fa-stop"></i>
           Cerrar Toma
         </button>
+        &nbsp;
+        <button class="btn btn-outline-secondary btn-sm" @click="showAllTakings">
+          <i class="fas fa-eye"></i>
           &nbsp;
-          <button class="btn btn-outline-primary btn-sm" @click="show_all_takings=!show_all_takings">
-            <i class="fas fa-eye"></i>
-            Ver Todo
-          </button>
+          <span v-if="show_all_takings" class="text-success">Mostrar Diferencias</span>
+          <span v-else class="text-danger">Mostrar Todo</span>
+        </button>
       </div>
       <div class="col text-end">
         <strong class="text-info h6">
           {{ report.taking.name }}
         </strong>
         &nbsp;
-        <button class="btn btn-sm btn-outline-success">
+        <button class="btn btn-outline-secondary btn-sm">
           <i class="fas fa-file-excel text-success"></i>
-          Reporte
+          Reporte Diferencias
         </button>
       </div>
     </div>
@@ -51,15 +54,16 @@
 <script>
 export default {
   name: 'InfoBar',
+  emits: ['showAllTakings'],
   props: {
     report: {
       type: Object,
       required: true,
-    },show_all_takings: {
+    }, show_all_takings: {
       type: Boolean,
       required: true,
     }
-  },computed: {
+  }, computed: {
     // items completos
     full() {
       return this.report.report.filter(
@@ -72,13 +76,17 @@ export default {
     }, percent_progress() {
       return Math.round((this.full / this.report.report.length) * 100);
     }
+  }, methods: {
+    showAllTakings() {
+      this.$emit('showAllTakings');
     }
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .progress {
-    --bs-progress-height: 0.3rem;
+  --bs-progress-height: 0.3rem;
 }
 </style>

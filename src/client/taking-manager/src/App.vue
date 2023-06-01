@@ -4,23 +4,25 @@
       v-if="!report"
     ></loader>
     <nav-bar
-      v-if="report" 
-      :report="report"
-      :warenhouses="warenhouses"
-      :userdata="userdata"
-      :base_url="base_url"
-      @updateWarenhouses="$event => updateWarenhouses($event)"
-      ></nav-bar>
+        v-if="report" 
+        :report="report"
+        :warenhouses="warenhouses"
+        :userdata="userdata"
+        :base_url="base_url"
+        @updateWarenhouses="$event => updateWarenhouses($event)"
+        ></nav-bar>
     <info-bar 
         v-if="report"
         :report="report"
         :show_all_takings="show_all_takings"
+        @showAllTakings="$event => showAllTakings($event)"
         >
     </info-bar>
     <taking-report 
-      v-if="report"
-      :report="report"
+      v-if="report && filtered"
+      :table_takings="table_takings"
       :base_url="base_url"
+      :show_all_takings="show_all_takings"
       ></taking-report>
   </div>
 </template>
@@ -40,6 +42,7 @@ const userdata = {
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
+
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@fortawesome/fontawesome-free/js/all.min.js";
 
@@ -64,7 +67,9 @@ export default {
       userdata: userdata,
       report: null,
       warenhouses: null,
-      show_all_takings: false,
+      table_takings:null,
+      show_all_takings:true,
+      filtered:true,
     }
   },methods: {
     // Cargamos los datos iniciales para la interfase
@@ -95,6 +100,8 @@ export default {
         }
         return 0;
       });
+      // creamos una copia del reporte
+      this.table_takings = JSON.parse(xhr.responseText).report;
       };
     };
     xhr.onerror = () => {
@@ -136,13 +143,34 @@ export default {
         alert('Error al cargar los datos');
       };
       xhr_taking.send(JSON.stringify(update_taking));
+      },showAllTakings() {
+        this.show_all_takings = !this.show_all_takings;
+      },
+      // filtamos el reporte
+      filterReport(){
+        this.filtered = false;
+        this.table_takings = [];
+        const report = this.report.report.map(item => item);
+        if (this.show_all_takings) {
+          this.table_takings = report;
+          this.filtered = true;
+          return;
+        }
+        this.table_takings = report.filter(
+          item => item.is_complete === false
+        );
+        this.filtered = true;
+        return;
       },
       //
     },
   mounted(){
     this.updateData();
-  },
-}
+  },watch:{
+    show_all_takings: function() {
+      this.filterReport();
+  }
+  }}
 </script>
 
 <style>

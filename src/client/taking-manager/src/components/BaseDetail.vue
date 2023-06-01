@@ -282,10 +282,6 @@ export default {
             url.replace('{id_taking}', this.report.taking.pk).replace(
                 '{account_code}', this.selected_item.product.fields.account_code
             );
-
-            
-
-
         },
     },
     mounted() {
