@@ -16,12 +16,12 @@
                         </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="( item, index) in report.report.report" :key="item.prod" @click="showItemDetail(item)">
+                    <tr v-for="( item, index) in report.report" :key="item.prod" @click="showItemDetail(item)">
                        <td class="text-center">{{ index + 1 }}</td>
-                       <td>{{ item.product.fields.name }}</td>
-                       <td>{{ item.product.fields.ean_13_code }}</td>
-                       <td class="text-end">{{ item.product.fields.capacity }}</td>
-                       <td class="text-end">{{ item.product.fields.quantity_per_box }}</td>
+                       <td>{{ item.product.name }}</td>
+                       <td>{{ item.product.ean_13_code }}</td>
+                       <td class="text-end">{{ item.product.capacity }}</td>
+                       <td class="text-end">{{ item.product.quantity_per_box }}</td>
                        <td class="text-end">{{ item.sap_stock }}</td>
                        <td class="text-end">{{ item.quantity }}</td>
                        <td class="text-end">{{ item.sap_stock - item.quantity }}</td>
