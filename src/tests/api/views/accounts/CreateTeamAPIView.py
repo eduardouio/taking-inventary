@@ -8,7 +8,7 @@ from accounts.models.Team import Team
 
 
 @pytest.mark.django_db
-class TestCreateTeamAPIView(APIClient):
+class TestCreateTeamAPIView():
     # Tests that valid data is posted and a new team is created successfully.
     def test_valid_data_creates_new_team(self, mocker):
         """
