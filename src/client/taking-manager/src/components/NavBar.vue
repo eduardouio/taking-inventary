@@ -240,7 +240,7 @@
                   <i class="fa-solid fa-user-plus"></i>
                   &nbsp;
                   Agregar Grupos
-                  <button class="btn btn-outline-success btn-sm float-end">
+                  <button class="btn btn-outline-success btn-sm float-end" @click="addTeams">
                     <i class="fa-solid fa-check"></i>
                     Aplicar Cambios
                   </button>
@@ -347,10 +347,28 @@ export default {
     updateWarenhouses() {
       this.$emit('updateWarenhouses');
   },
-  // actualizamos los grupos
-  updateGroups() {
-    const users_aditionals = this.all_users_assistants.filter(item=>item.selected == true);
-    this.$emit('updateGroups', users_aditionals);
+  // agregamos los grupos
+  addTeams() {
+    const teams = {
+      'teams': this.all_users_assistants.filter(item => item.selected)
+    } ;
+    
+    let xhr_team = new XMLHttpRequest();
+    xhr_team.open(
+      'POST', 
+      this.base_url + '/api/common/add-team-taking/' + this.report.taking.id_taking + '/'
+      );
+    xhr_team.setRequestHeader('Content-Type', 'application/json');
+    xhr_team.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr_team.onload = ()=>{
+      if(xhr_team.status === 200){
+        location.reload();
+      }
+    }
+    xhr_team.send(JSON.stringify(teams));
+    xhr_team.onerror = ()=>{
+      alert('Error al agregar los grupos');
+    }
   }
 
   },mounted(){
