@@ -2,45 +2,43 @@
   <div class="container-fluid mt-1 bg-light">
       <div class="row">
     <div class="progress">
-    <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+    <div class="progress-bar bg-success" role="progressbar" :style="{'width': percent_progress +'%'}" :aria-valuenow="percent_progress" aria-valuemin="0" aria-valuemax="100"></div>
     AVANCE DE TOMA
   </div>
       </div>
     <div class="row border bg-gardient-secondary rounded bg-gradient-light" style="padding: 5px;">
       <div class="col-8">
-        2 de mayo de 2023
+        {{ new Date(report.taking.created).toLocaleString('es-Ec') }}
         &nbsp;| &nbsp;
         Estado:
-        <i class="fas fa-play text-success"></i>&nbsp;
-        <span class="text-success">Conteo Abierto, Recibiendo Datos </span>
+        <span v-if=" report.taking.is_active">
+          <i class="fas fa-play text-success"></i>&nbsp;
+          <span class="text-success">Conteo Abierto, Recibiendo Datos </span>
+        </span>
+        <span v-else>
+          <i class="fas fa-stop text-danger"></i>&nbsp;
+          <span class="text-danger">Conteo Cerrado </span>
+        </span>
         &nbsp;| &nbsp;
-        <button class="btn btn-outline-warning btn-sm">
+        <button class="btn btn-outline-warning btn-sm" v-if="report.taking.is_active">
           <i class="fas fa-share"></i>
           Reconteo
         </button>
         &nbsp;
-        <button class="btn btn-outline-danger btn-sm">
+        <button class="btn btn-outline-danger btn-sm" v-if="report.taking.is_active">
           <i class="fas fa-stop"></i>
-          Detener
+          Cerrar Toma
         </button>
-        &nbsp;
-        <button class="btn btn-outline-success btn-sm">
-          <i class="fas fa-play"></i>
-          Continuar
-          </button>
           &nbsp;
-          <button class="btn btn-outline-primary btn-sm">
+          <button class="btn btn-outline-primary btn-sm" @click="show_all_takings=!show_all_takings">
             <i class="fas fa-eye"></i>
             Ver Todo
-            </button>
-
+          </button>
       </div>
       <div class="col text-end">
         <strong class="text-info h6">
-          CICLICO 02/05/2023
+          {{ report.taking.name }}
         </strong>
-        &nbsp;
-        <label class="badge bg-info">10%</label>
         &nbsp;
         <button class="btn btn-sm btn-outline-success">
           <i class="fas fa-file-excel text-success"></i>
@@ -53,7 +51,29 @@
 <script>
 export default {
   name: 'InfoBar',
-}
+  props: {
+    report: {
+      type: Object,
+      required: true,
+    },show_all_takings: {
+      type: Boolean,
+      required: true,
+    }
+  },computed: {
+    // items completos
+    full() {
+      return this.report.report.filter(
+        item => item.is_complete == true
+      ).length;
+    }, left_over() {
+      return this.report.report.filter(
+        item => item.is_complete == false
+      ).length;
+    }, percent_progress() {
+      return Math.round((this.full / this.report.report.length) * 100);
+    }
+    }
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

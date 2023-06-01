@@ -14,7 +14,7 @@
     <info-bar 
         v-if="report"
         :report="report"
-        :warenhouses="warenhouses"
+        :show_all_takings="show_all_takings"
         >
     </info-bar>
     <taking-report 
@@ -64,6 +64,7 @@ export default {
       userdata: userdata,
       report: null,
       warenhouses: null,
+      show_all_takings: false,
     }
   },methods: {
     // Cargamos los datos iniciales para la interfase
