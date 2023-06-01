@@ -47,7 +47,6 @@
     </div>
 </template>
 <script>
-
 import DataTable from 'datatables.net-dt';
 import 'datatables.net-dt/css/jquery.dataTables.css';
 import BaseDetail from './BaseDetail.vue';
@@ -81,7 +80,7 @@ export default {
             this.selected_item = item;
         },showReport() {
             this.show_view_report = true;
-        }, 
+        },
     },
     mounted() {
         // inicializamos la datatable

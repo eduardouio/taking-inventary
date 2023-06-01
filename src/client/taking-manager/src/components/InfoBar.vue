@@ -32,18 +32,29 @@
         </button>
         &nbsp;
         <button class="btn btn-outline-secondary btn-sm" @click="showAllTakings">
-          <i class="fas fa-eye"></i>
-          &nbsp;
-          <span v-if="show_all_takings" class="text-success">Mostrar Diferencias</span>
-          <span v-else class="text-danger">Mostrar Todo</span>
+          <span v-if="show_all_takings">
+            <i class="fa-solid fa-eye-slash"></i> &nbsp;
+            Mostrar Diferencias
+          </span>
+          <span v-else>
+            <i class="fas fa-eye"></i>&nbsp;
+            Mostrar Todo
+          </span>
         </button>
+        &nbsp;
+        <span v-if="show_all_takings" class="badge bg-success">
+          Se estan mostrando todos los registros
+        </span>
+        <span v-else class="badge bg-danger">
+          Solo se muestran los registros con diferencias
+        </span>
       </div>
       <div class="col text-end">
         <strong class="text-info h6">
           {{ report.taking.name }}
         </strong>
         &nbsp;
-        <button class="btn btn-outline-secondary btn-sm">
+        <button class="btn btn-outline-secondary btn-sm" @click="downloadReport">
           <i class="fas fa-file-excel text-success"></i>
           Reporte Diferencias
         </button>
@@ -52,6 +63,9 @@
   </div>
 </template>
 <script>
+import utils from 'xlsx';
+import writeFile from 'xlsx';
+
 export default {
   name: 'InfoBar',
   emits: ['showAllTakings'],
@@ -80,7 +94,13 @@ export default {
     showAllTakings() {
       this.$emit('showAllTakings');
     }
-  }
+  },downloadReport(){
+    let report_json = {
+      'Codigo Contable': 12
+    }
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet(report_json);
+  },//next
 }
 </script>
 
