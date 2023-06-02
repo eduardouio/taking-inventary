@@ -20,6 +20,7 @@
     </info-bar>
     <taking-report 
       v-if="report && filtered"
+      :report="report"
       :table_takings="table_takings"
       :base_url="base_url"
       :show_all_takings="show_all_takings"

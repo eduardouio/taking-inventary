@@ -276,7 +276,6 @@
   </div>
 </template>
 <script>
-
 export default {
   name: 'NavBar',
   emits: ['updateWarenhouses', 'updateGroups'],
@@ -369,7 +368,7 @@ export default {
     xhr_team.onerror = ()=>{
       alert('Error al agregar los grupos');
     }
-  }
+  },//prox method
 
   },mounted(){
     this.all_users_assistants = this.report.all_users_assistants.map(item=>item);

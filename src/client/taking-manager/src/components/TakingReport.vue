@@ -65,6 +65,9 @@ export default {
         show_all_takings: {
             type: Boolean,
             required: true,
+        },report: {
+            type: Object,
+            required: true,
         },
     },
     data() {

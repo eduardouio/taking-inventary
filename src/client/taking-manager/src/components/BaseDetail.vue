@@ -5,18 +5,18 @@
             <div class="row bg  bg-ligth bg-gradient h5">
                 <div class="col-1">
                     <span class="badge bg-dark">
-                        {{ selected_item.product.fields.type_product }}
+                        {{ selected_item.product.type_product }}
                     </span>
                 </div>
                 <div class="col-10 text-center">
                     <span class="text-primary" id="app-product-desc">
-                        {{ selected_item.product.fields.name }}
+                        {{ selected_item.product.name }}
                         &nbsp;
                         <span class="text-dark">
-                            Cajas X {{ selected_item.product.fields.quantity_per_box }} Unds
+                            Cajas X {{ selected_item.product.quantity_per_box }} Unds
                         </span>
                         <br>
-                        <small>{{ selected_item.product.fields.ean_13_code }}</small>
+                        <small>{{ selected_item.product.ean_13_code }}</small>
                     </span>
                     <hr>
                 </div>
@@ -38,12 +38,12 @@
                                     <strong>{{ status_taking.text }}</strong>
                                 </li>
                                 <li class="list-group-item">
-                                    <strong>Cod Contable:</strong>&nbsp;{{ selected_item.product.fields.account_code }}
+                                    <strong>Cod Contable:</strong>&nbsp;{{ selected_item.product.account_code }}
                                 </li>
                                 <li class="list-group-item">
-                                    <strong>Cap:</strong>&nbsp;{{ selected_item.product.fields.capacity }}
+                                    <strong>Cap:</strong>&nbsp;{{ selected_item.product.capacity }}
                                     <span class="text-seondary">&nbsp;| &nbsp;</span>
-                                    <strong>CxCaja:</strong>&nbsp;{{ selected_item.product.fields.quantity_per_box }}
+                                    <strong>CxCaja:</strong>&nbsp;{{ selected_item.product.quantity_per_box }}
                                 </li>
                             </ul>
                         </div>
@@ -116,13 +116,13 @@
                                             <tbody>
                                                 <tr v-for="(item, index) in item_report.query" :key="item.query">
                                                     <td class="text-center">{{ index + 1 }}</td>
-                                                    <td>{{ new Date(item.detail.fields.created).toLocaleString('es-EC') }}
+                                                    <td>{{ new Date(item.detail.created).toLocaleString('es-EC') }}
                                                     </td>
                                                     <td class="text-center">{{ item.team.group_number }}</td>
                                                     <td> {{ item.team.manager }}</td>
-                                                    <td class="text-end">{{ item.detail.fields.taking_total_boxes }}</td>
-                                                    <td class="text-end">{{ item.detail.fields.taking_total_bottles }}</td>
-                                                    <td class="text-end bg-gray">{{ item.detail.fields.quantity }}</td>
+                                                    <td class="text-end">{{ item.detail.taking_total_boxes }}</td>
+                                                    <td class="text-end">{{ item.detail.taking_total_bottles }}</td>
+                                                    <td class="text-end bg-gray">{{ item.detail.quantity }}</td>
                                                     <td class="text-center text-danger"><i class="fas fa-minus"></i></td>
                                                 </tr>
                                                 <tr class="bg-success-gradient text-bold">
@@ -158,12 +158,12 @@
                                         <tr v-for="(item, index) in news_report" :key="item">
                                                 <td>{{ index + 1 }}</td>
                                                 <td><span class="badge bg-info">G#{{ item.team.group_number }}</span> {{ item.team.manager }}</td>
-                                                <td>{{ item.detail.fields.notes }}</td>
-                                                <td class="text-end">{{ item.detail.fields.year }}</td>
+                                                <td>{{ item.detail.notes }}</td>
+                                                <td class="text-end">{{ item.detail.year }}</td>
                                                 <td class="text-end">
-                                                    {{ new Date(item.detail.fields.date_expiry).toLocaleDateString('es-EC') }}
+                                                    {{ new Date(item.detail.date_expiry).toLocaleDateString('es-EC') }}
                                                 </td>
-                                                <td class="text-end">{{ item.detail.fields.quantity }}</td>
+                                                <td class="text-end">{{ item.detail.quantity }}</td>
                                           </tr>
                                     </tbody>
                                     </table>
@@ -187,16 +187,16 @@
                                                 <tbody>
                                                     <tr v-for="(item, index) in stock_report.query" :key="item">
                                                         <td>{{ index + 1 }}</td>
-                                                        <td>{{ item.fields.company_name }}</td>
-                                                        <td><span class="badge bg-success">{{ item.fields.id_warenhouse_sap_code  }}</span> {{ item.fields.warenhouse_name }} </td>
-                                                        <td class="text-end">{{ Math.floor(item.fields.on_hand / selected_item.product.fields.quantity_per_box) }}</td>
-                                                        <td class="text-end">{{ item.fields.on_hand -  Math.floor(item.fields.on_hand / selected_item.product.fields.quantity_per_box) * selected_item.product.fields.quantity_per_box  }}</td>
-                                                        <td class="text-end">{{ item.fields.on_hand }}</td>
+                                                        <td>{{ item.company_name }}</td>
+                                                        <td><span class="badge bg-success">{{ item.id_warenhouse_sap_code  }}</span> {{ item.warenhouse_name }} </td>
+                                                        <td class="text-end">{{ Math.floor(item.on_hand / selected_item.product.quantity_per_box) }}</td>
+                                                        <td class="text-end">{{ item.on_hand -  Math.floor(item.on_hand / selected_item.product.quantity_per_box) * selected_item.product.quantity_per_box  }}</td>
+                                                        <td class="text-end">{{ item.on_hand }}</td>
                                                     </tr>
                                                     <tr class="bg-gray-gradient">
                                                         <th colspan="3">Sumas</th>
-                                                        <td class="text-end"><strong>{{ Math.floor(total_stocks / selected_item.product.fields.quantity_per_box)  }}</strong></td>
-                                                        <td class="text-end"><strong>{{ total_stocks -  Math.floor(total_stocks / selected_item.product.fields.quantity_per_box) * selected_item.product.fields.quantity_per_box   }}</strong></td>
+                                                        <td class="text-end"><strong>{{ Math.floor(total_stocks / selected_item.product.quantity_per_box)  }}</strong></td>
+                                                        <td class="text-end"><strong>{{ total_stocks -  Math.floor(total_stocks / selected_item.product.quantity_per_box) * selected_item.product.quantity_per_box   }}</strong></td>
                                                         <td class="text-end"><strong>{{ total_stocks }}</strong></td>
                                                     </tr>
                                                 </tbody>
@@ -269,8 +269,8 @@ export default {
         },loadTakingData(taking_report) {
            this.item_report = taking_report;
            this.recount_url = '/recounts/make/taking/{id_taking}/product/{account_code}';
-           this.recount_url = this.recount_url.replace('{id_taking}', this.report.report.taking.pk);
-           this.recount_url = this.recount_url.replace('{account_code}', this.selected_item.product.fields.account_code);
+           this.recount_url = this.recount_url.replace('{id_taking}', this.report.taking.id_taking);
+           this.recount_url = this.recount_url.replace('{account_code}', this.selected_item.product.account_code);
         },loadStockData(stock_report) {
             this.stock_report = stock_report;
         }, makeRecount(){
@@ -279,8 +279,8 @@ export default {
                 return false;
             }
             let url = '/recounts/make/taking/{id_taking}/product/{account_code}';
-            url.replace('{id_taking}', this.report.taking.pk).replace(
-                '{account_code}', this.selected_item.product.fields.account_code
+            url.replace('{id_taking}', this.report.taking.id_taking).replace(
+                '{account_code}', this.selected_item.product.account_code
             );
         },
     },
@@ -288,20 +288,20 @@ export default {
         // cargamos informacion de toma
         this.sendGetRequest(
             '/takings/api/taking-detail/taking/{pk_taking}/product/{pk_product}/'.replace(
-                '{pk_product}', this.selected_item.product.fields.account_code
+                '{pk_product}', this.selected_item.product.account_code
             ).replace(
-                '{pk_taking}', this.report.report.taking.pk
+                '{pk_taking}', this.report.taking.id_taking
             ),
             this.loadTakingData
         );
         //cargamos informacion de saldos iniciales
         this.sendGetRequest(
             '/sap/api/migration/{id_migration}/taking/{id_taking}/product/{account_code}'.replace(
-                '{id_migration}', this.report.report.taking.fields.id_sap_migration
+                '{id_migration}', this.report.taking.id_sap_migration
             ).replace(
-                '{id_taking}', this.report.report.taking.pk
+                '{id_taking}', this.report.taking.id_taking
             ).replace(
-                '{account_code}', this.selected_item.product.fields.account_code
+                '{account_code}', this.selected_item.product.account_code
             ),
             this.loadStockData
         );
@@ -313,8 +313,8 @@ export default {
     computed: {
         // si el item no tiene imagen mostramos imagen por defecto
         image_url() {
-            if (this.selected_item.product.fields.image_front) {
-                return this.base_url + '/media' + this.selected_item.product.fields.image_front;
+            if (this.selected_item.product.image_front) {
+                return this.base_url + '/media' + this.selected_item.product.image_front;
             } else {
                 return this.base_url + '/static/img/generic_product.png';
             }
@@ -338,9 +338,9 @@ export default {
             return Math.abs(this.selected_item.sap_stock - this.total_quantity)
         },
         news_report() {
-            return this.item_report.query.filter(item => item.detail.fields.notes);
+            return this.item_report.query.filter(item => item.detail.notes);
         },total_stocks(){
-            return this.stock_report.query.reduce((a, b) => a + b.fields.on_hand, 0)
+            return this.stock_report.query.reduce((a, b) => a + b.on_hand, 0)
         },boxesConverter(units) {
             if (typeof(units) != "number") {
                 return {
@@ -348,8 +348,8 @@ export default {
                 };
             }
 
-            let boxes = Math.floor(units / this.selected_item.product.fields.quantity_per_box);
-            let bottles = units % this.selected_item.product.fields.quantity_per_box;
+            let boxes = Math.floor(units / this.selected_item.product.quantity_per_box);
+            let bottles = units % this.selected_item.product.quantity_per_box;
             return {
                 boxes: boxes, bottles: bottles
             };
