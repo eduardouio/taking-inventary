@@ -7,8 +7,9 @@ from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.Serializers import (SapMigrationDetailSerializer,
-                             TakingDetailSerializer)
+from api.Serializers import (CustomUserSerializer,
+                             SapMigrationDetailSerializer,
+                             TakingDetailSerializer, TeamSerializer)
 from products.models import Product
 from sap_migrations.models import SapMigrationDetail
 from takings.models import TakinDetail, Taking
@@ -50,21 +51,28 @@ class TakingMigrationAPIView(APIView):
             id_taking=id_taking
         ).filter(account_code_id=product.pk)
 
+        # serializamos los datos
+        takings_report = []
+        for item in taking_detail:
+            itm_serializer = TakingDetailSerializer(item)
+            team_serializer = TeamSerializer(item.id_team)
+            user_serializer = CustomUserSerializer(item.id_team.manager)
+            takings_report.append({
+                "taking": itm_serializer.data,
+                "team": team_serializer.data,
+                "user": user_serializer.data,
+            })
+
         migration_detail = [
             dict(item)
             for item
             in SapMigrationDetailSerializer(migration_detail, many=True).data
         ]
-        taking_detail = [
-            dict(item)
-            for item in
-            TakingDetailSerializer(taking_detail, many=True).data
-        ]
 
         # datos a retornar
         detail_data = {
             "migrations": migration_detail,
-            "takings": taking_detail,
+            "takings": takings_report,
         }
 
         return Response(detail_data, status=200)

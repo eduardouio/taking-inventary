@@ -46,7 +46,7 @@ class TestTakingMigrationAPIView:
         assert (
             sum([x["quantity"] for x in spected_data["takings"]])
             ==
-            sum([x["quantity"] for x in response["takings"]])
+            sum([x["taking"]["quantity"] for x in response["takings"]])
         )
 
         # verificamos la suma de las cantidades de las migraciones
