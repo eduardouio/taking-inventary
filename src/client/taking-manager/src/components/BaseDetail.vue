@@ -39,6 +39,10 @@
                                 </li>
                                 <li class="list-group-item">
                                     <strong>Cod Contable:</strong>&nbsp;{{ selected_item.product.account_code }}
+                                    &nbsp;| &nbsp;
+                                    <span class="badge bg-dark">
+                                        #: {{ selected_item.product.id_product }}
+                                    </span>
                                 </li>
                                 <li class="list-group-item">
                                     <strong>Cap:</strong>&nbsp;{{ selected_item.product.capacity }}
@@ -114,15 +118,15 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="(item, index) in item_report.query" :key="item.query">
+                                                <tr v-for="(item, index) in item_report.takings" :key="item">
                                                     <td class="text-center">{{ index + 1 }}</td>
-                                                    <td>{{ new Date(item.detail.created).toLocaleString('es-EC') }}
+                                                    <td>{{ new Date(item.taking.created).toLocaleString('es-EC') }}
                                                     </td>
-                                                    <td class="text-center">{{ item.team.group_number }}</td>
-                                                    <td> {{ item.team.manager }}</td>
-                                                    <td class="text-end">{{ item.detail.taking_total_boxes }}</td>
-                                                    <td class="text-end">{{ item.detail.taking_total_bottles }}</td>
-                                                    <td class="text-end bg-gray">{{ item.detail.quantity }}</td>
+                                                    <td class="text-center">{{item.team.group_number }} </td>
+                                                    <td>{{ item.user.first_name }} {{ item.user.last_name }}</td>
+                                                    <td class="text-end">{{ item.taking.taking_total_boxes }}</td>
+                                                    <td class="text-end">{{ item.taking.taking_total_bottles }}</td>
+                                                    <td class="text-end bg-gray">{{ item.taking.quantity }}</td>
                                                     <td class="text-center text-danger"><i class="fas fa-minus"></i></td>
                                                 </tr>
                                                 <tr class="bg-success-gradient text-bold">
@@ -139,10 +143,7 @@
                             </div>
                             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                                 <div class="row mt-2">
-                                    <div class="col text-center text-success" v-if="!news_report.length">
-                                        <span class="h3">Sin Novedades</span>
-                                    </div>
-                                    <div class="col" v-else>
+                                    <div class="col">
                                     <table class="table table-bordered table-hover">
                                     <thead>
                                        <tr class="text-center">
@@ -155,15 +156,18 @@
                                        </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(item, index) in news_report" :key="item">
+                                        <tr v-for="(item, index) in item_report.takings" :key="item">
                                                 <td>{{ index + 1 }}</td>
-                                                <td><span class="badge bg-info">G#{{ item.team.group_number }}</span> {{ item.team.manager }}</td>
-                                                <td>{{ item.detail.notes }}</td>
-                                                <td class="text-end">{{ item.detail.year }}</td>
-                                                <td class="text-end">
-                                                    {{ new Date(item.detail.date_expiry).toLocaleDateString('es-EC') }}
+                                                <td><span class="badge bg-info">G#{{ item.team.group_number }}</span> 
+                                                    {{ item.user.first_name }} {{ item.user.last_name }}</td>
+                                                <td>
+                                                    {{ item.taking.notes ? item.taking.notes : '--' }}
                                                 </td>
-                                                <td class="text-end">{{ item.detail.quantity }}</td>
+                                                <td class="text-end">{{ item.taking.year ? item.taking.year : '--' }}</td>
+                                                <td class="text-end">
+                                                    {{ item.taking.date_expiry ? new Date(item.taking.date_expiry).toLocaleDateString('es-EC') : '--'}}
+                                                </td>
+                                                <td class="text-end">{{ item.taking.quantity }}</td>
                                           </tr>
                                     </tbody>
                                     </table>
@@ -173,7 +177,7 @@
                             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
                                     <div class="row">
                                         <div class="col">
-                                            <table class="table table-bordered table-striped" v-if="stock_report">
+                                            <table class="table table-bordered table-striped" v-if="item_report">
                                                 <thead>
                                                     <tr class="text-center bg-gray-gradient">
                                                         <th>#</th>
@@ -185,7 +189,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr v-for="(item, index) in stock_report.query" :key="item">
+                                                    <tr v-for="(item, index) in item_report.migrations" :key="item">
                                                         <td>{{ index + 1 }}</td>
                                                         <td>{{ item.company_name }}</td>
                                                         <td><span class="badge bg-success">{{ item.id_warenhouse_sap_code  }}</span> {{ item.warenhouse_name }} </td>
@@ -266,13 +270,11 @@ export default {
                 alert('Error en peticion GET evento on onerror');
             };
             xhr.send();
-        },loadTakingData(taking_report) {
-           this.item_report = taking_report;
+        },loadTakingData(item_report) {
+           this.item_report = item_report;
            this.recount_url = '/recounts/make/taking/{id_taking}/product/{account_code}';
            this.recount_url = this.recount_url.replace('{id_taking}', this.report.taking.id_taking);
            this.recount_url = this.recount_url.replace('{account_code}', this.selected_item.product.account_code);
-        },loadStockData(stock_report) {
-            this.stock_report = stock_report;
         }, makeRecount(){
             //realiza un reconteo del producto de la ficha
             if (!this.confirm_recount){
@@ -285,45 +287,33 @@ export default {
         },
     },
     mounted() {
-        // cargamos informacion de toma
+        // cargamos informacion de stock y toma del producto
         this.sendGetRequest(
-            '/takings/api/taking-detail/taking/{pk_taking}/product/{pk_product}/'.replace(
+            '/api/common/taking-migration/taking/{pk_taking}/product/{pk_product}/'.replace(
                 '{pk_product}', this.selected_item.product.account_code
             ).replace(
                 '{pk_taking}', this.report.taking.id_taking
             ),
             this.loadTakingData
         );
-        //cargamos informacion de saldos iniciales
-        this.sendGetRequest(
-            '/sap/api/migration/{id_migration}/taking/{id_taking}/product/{account_code}'.replace(
-                '{id_migration}', this.report.taking.id_sap_migration
-            ).replace(
-                '{id_taking}', this.report.taking.id_taking
-            ).replace(
-                '{account_code}', this.selected_item.product.account_code
-            ),
-            this.loadStockData
-        );
     },unmounted() {
         // enceramos los reportes
         this.item_report = null;
-        this.stock_report = null;
     },
     computed: {
         // si el item no tiene imagen mostramos imagen por defecto
         image_url() {
             if (this.selected_item.product.image_front) {
-                return this.base_url + '/media' + this.selected_item.product.image_front;
+                return this.base_url + this.selected_item.product.image_front;
             } else {
                 return this.base_url + '/static/img/generic_product.png';
             }
         }, total_boxes() {
-            return this.item_report.query.reduce((a, b) => a + b.detail.fields.taking_total_boxes, 0)
+            return this.item_report.takings.reduce((a, b) => a + b.taking.taking_total_boxes, 0)
         }, total_bottles() {
-            return this.item_report.query.reduce((a, b) => a + b.detail.fields.taking_total_bottles, 0)
+            return this.item_report.takings.reduce((a, b) => a + b.taking.taking_total_bottles, 0)
         }, total_quantity() {
-            return this.item_report.query.reduce((a, b) => a + b.detail.fields.quantity, 0)
+            return this.item_report.takings.reduce((a, b) => a + b.taking.quantity, 0)
         }, status_taking() {
             if (this.selected_item.sap_stock === this.total_quantity) {
                 return { text: 'Completo', class: 'text-success', icon: 'fas fa-check' };
@@ -336,11 +326,8 @@ export default {
             }
         }, sale_boxes() {
             return Math.abs(this.selected_item.sap_stock - this.total_quantity)
-        },
-        news_report() {
-            return this.item_report.query.filter(item => item.detail.notes);
         },total_stocks(){
-            return this.stock_report.query.reduce((a, b) => a + b.on_hand, 0)
+            return this.item_report.migrations.reduce((a, b) => a + b.on_hand, 0)
         },boxesConverter(units) {
             if (typeof(units) != "number") {
                 return {

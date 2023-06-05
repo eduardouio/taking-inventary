@@ -14,7 +14,8 @@
     "datatables.net-dt": "^1.13.4",
     "font-awesome": "^4.7.0",
     "vue": "^3.2.13",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "xslx": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

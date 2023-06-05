@@ -54,7 +54,7 @@
           {{ report.taking.name }}
         </strong>
         &nbsp;
-        <button class="btn btn-outline-secondary btn-sm" @click="downloadReport">
+        <button class="btn btn-outline-secondary btn-sm" @click="downloadReport()">
           <i class="fas fa-file-excel text-success"></i>
           Reporte Diferencias
         </button>
@@ -63,8 +63,8 @@
   </div>
 </template>
 <script>
-import utils from 'xlsx';
-import writeFile from 'xlsx';
+import { utils, writeFile } from 'xlsx';
+
 
 export default {
   name: 'InfoBar',
@@ -93,14 +93,29 @@ export default {
   }, methods: {
     showAllTakings() {
       this.$emit('showAllTakings');
-    }
   },downloadReport(){
-    let report_json = {
-      'Codigo Contable': 12
-    }
+    let report_json = this.report.report.filter(
+      item => item.is_complete == false
+    ).map((item)=> {
+      return {
+        'Cod Contable': item.product.account_code,
+        'Producto': item.product.name,
+        'Cod Barra': item.product.ean_13_code,
+        'Cantidad Caja': item.product.quantity_per_box,
+        'Cajas': null,
+        'Botellas': null,
+      }
+    });
+    
     const wb = utils.book_new();
     const ws = utils.json_to_sheet(report_json);
+    ws["!cols"] = [{ wch: 25 }, { wch: 80 }, { wch: 15 }, { wch: 15 }, { wch: 10 }, { wch: 10 }];
+    ws["!rows"] = [{hpx: 30}];
+      
+    utils.book_append_sheet(wb, ws, 'Reporte');
+    writeFile(wb, 'Reconteo.xlsx');
   },//next
+},//nextvue
 }
 </script>
 
