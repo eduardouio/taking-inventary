@@ -25,7 +25,7 @@ class ConsolidateTaking(object):
                     account_code=sku_stock['account_code'].account_code,
                     quantity_per_box=sku_stock['account_code'].quantity_per_box,
                     ean_13_code=sku_stock['account_code'].ean_13_code,
-                    health_register=sku_stock['account_code'].health_register,
+                    # health_register=sku_stock['account_code'].health_register,
                 )
 
             sku_stock['diff'] = sku_stock['sap_stock']
