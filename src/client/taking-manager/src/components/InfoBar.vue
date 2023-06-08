@@ -21,23 +21,35 @@
           <span class="text-danger">Conteo Cerrado </span>
         </span>
         &nbsp;| &nbsp;
-        <button class="btn btn-outline-warning btn-sm" v-if="report.taking.is_active">
-          <i class="fas fa-share"></i>
-          Reconteo
+        <button class="btn btn-secondary btn-sm" v-if="report.taking.is_active" @click="makeRecount">
+          <strong v-if="recount_confirm">
+            <i class="fas fa-check text-warning"></i>
+            Confirmar
+        </strong>
+          <span v-else>
+            <i class="fas fa-share text-warning"></i>
+            Reconteo
+          </span>
         </button>
         &nbsp;
-        <button class="btn btn-outline-danger btn-sm" v-if="report.taking.is_active">
-          <i class="fas fa-stop"></i>
-          Cerrar Toma
-        </button>
+        <button class="btn btn-secondary btn-sm" v-if="report.taking.is_active" @click="closeTaking">
+          <span v-if="!close_confirm">      
+          <i class="fas fa-stop text-danger"></i>
+            Cerrar Toma
+          </span>
+          <strong v-else>
+            <i class="fas fa-check text-danger"></i>
+            Confirmar
+          </strong>
+      </button>
         &nbsp;
-        <button class="btn btn-outline-secondary btn-sm" @click="showAllTakings">
+        <button class="btn btn-secondary btn-sm" @click="showAllTakings">
           <span v-if="show_all_takings">
-            <i class="fa-solid fa-eye-slash"></i> &nbsp;
+            <i class="fa-solid fa-eye-slash text-warning"></i> &nbsp;
             Mostrar Diferencias
           </span>
           <span v-else>
-            <i class="fas fa-eye"></i>&nbsp;
+            <i class="fas fa-eye text-success"></i>&nbsp;
             Mostrar Todo
           </span>
         </button>
@@ -68,7 +80,7 @@ import { utils, writeFile } from 'xlsx';
 
 export default {
   name: 'InfoBar',
-  emits: ['showAllTakings'],
+  emits: ['showAllTakings', 'makeRecountItem'],
   props: {
     report: {
       type: Object,
@@ -77,7 +89,13 @@ export default {
       type: Boolean,
       required: true,
     }
-  }, computed: {
+  }, data() {
+    return {
+      recount_confirm: false,
+      close_confirm: false,
+    }
+  },
+  computed: {
     // items completos
     full() {
       return this.report.report.filter(
@@ -114,7 +132,19 @@ export default {
       
     utils.book_append_sheet(wb, ws, 'Reporte');
     writeFile(wb, 'Reconteo.xlsx');
-  },//next
+  }, makeRecount(){
+    if (!this.recount_confirm){
+      this.recount_confirm = true;
+      return
+    }
+    this.$emit('makeRecount', this.report.taking.id_taking);
+  },closeTaking(){
+    if (!this.close_confirm){
+      this.close_confirm = true;
+      return
+    }
+    this.$emit('closeTaking', this.report.taking.id_taking);
+  }, //text mtehod
 },//nextvue
 }
 </script>
