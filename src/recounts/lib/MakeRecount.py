@@ -19,7 +19,7 @@ class MakeRecount():
     def make(self, id_taking, account_code):
         taking = Taking.get(id_taking)
         if not taking.is_active:
-            return True
+            return False
 
         recount = RecountTakings.objects.create(
             id_taking=taking
