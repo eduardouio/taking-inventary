@@ -24,6 +24,7 @@
       :table_takings="table_takings"
       :base_url="base_url"
       :show_all_takings="show_all_takings"
+      @makeRecountItem="$event => makeRecountItem($event)"
       ></taking-report>
   </div>
 </template>
@@ -162,8 +163,12 @@ export default {
         );
         this.filtered = true;
         return;
+      }, makeRecountItem(account_code){
+        //TODO generar el item de recuento
+        console.log('make recount item');
+        console.log(account_code);
       },
-      //
+      // nexr method
     },
   mounted(){
     this.updateData();
