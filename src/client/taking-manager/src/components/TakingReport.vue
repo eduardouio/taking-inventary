@@ -38,10 +38,11 @@
         <div v-else>
             <base-detail
                 :selected_item="selected_item"
-                @showReport="showReport"
                 :show_view_report="show_view_report"
                 :base_url="base_url"
                 :report="report"
+                @showReport="showReport"
+                @makeRecountItem="makeRecountItem($event)"
                 ></base-detail>
         </div>
     </div>
@@ -53,6 +54,7 @@ import BaseDetail from './BaseDetail.vue';
 
 export default {
     name: 'TakingReport',
+    emits: ['makeRecountItem'],
     props: {
         table_takings: {
             type: Object,
@@ -83,7 +85,9 @@ export default {
             this.selected_item = item;
         },showReport() {
             this.show_view_report = true;
-        },
+        }, makeRecountItem(account_code) {
+            this.$emit('makeRecountItem', account_code);
+        },//next_method
     },
     mounted() {
         // inicializamos la datatable

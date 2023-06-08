@@ -57,7 +57,8 @@
                     <div class="d-flex align-items-start">
                         <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
                             aria-orientation="vertical">
-                            <button class="btn btn-white active btn-sm" data-bs-toggle="pill" data-bs-target="#v-pills-home">
+                            <button class="btn btn-white active btn-sm" data-bs-toggle="pill"
+                                data-bs-target="#v-pills-home">
                                 <i class="fas fa-clipboard-check"></i><br>Toma
                             </button>
                             <button class="btn btn-white btn-sm" data-bs-toggle="pill" data-bs-target="#v-pills-profile">
@@ -66,12 +67,13 @@
                             <button class="btn btn-white btn-sm" data-bs-toggle="pill" data-bs-target="#v-pills-messages">
                                 <i class="fas fa-warehouse"></i>&nbsp;Existencias
                             </button>
-                            <button class="btn btn-warning mt-5 btn-sm" id="recount-item">
-                                    <span v-if="confirm_recount"><i class="fas fa-check"></i> CONFIRMAR</span>
-                                    <span v-else>
-                                        <i class="fas fa-share"></i> 
-                                        RECONTEO
-                                    </span>
+                            <button class="btn btn-warning mt-5 btn-sm" id="recount-item" @click="makeRecountItem">
+                                <span v-if="confirm_recount" class="text-danger"><i class="fas fa-check"></i>
+                                    CONFIRMAR</span>
+                                <span v-else>
+                                    <i class="fas fa-share"></i>
+                                    RECONTEO
+                                </span>
                             </button>
                         </div>
                         <div class="tab-content" id="v-pills-tabContent" style="width: 100%;">
@@ -82,7 +84,7 @@
                                         <div class="col">
                                             <div class="row text-center">
                                                 <div class="col text-center">
-                                                    <span class="h4 text-secondary">Stock</span> 
+                                                    <span class="h4 text-secondary">Stock</span>
                                                     &nbsp;
                                                     <span class="h4 text-secondary">{{ selected_item.sap_stock }}</span>
                                                 </div>
@@ -95,7 +97,7 @@
                                                     <i class="h4" :class="status_taking.icon"></i>
                                                     &nbsp;
                                                     <span class="h4">{{ status_taking.text }}</span>
-                                                      &nbsp;    
+                                                    &nbsp;
                                                     <span class="h4" v-if="sale_boxes">{{ sale_boxes }}</span>
                                                 </div>
                                             </div>
@@ -122,7 +124,7 @@
                                                     <td class="text-center">{{ index + 1 }}</td>
                                                     <td>{{ new Date(item.taking.created).toLocaleString('es-EC') }}
                                                     </td>
-                                                    <td class="text-center">{{item.team.group_number }} </td>
+                                                    <td class="text-center">{{ item.team.group_number }} </td>
                                                     <td>{{ item.user.first_name }} {{ item.user.last_name }}</td>
                                                     <td class="text-end">{{ item.taking.taking_total_boxes }}</td>
                                                     <td class="text-end">{{ item.taking.taking_total_bottles }}</td>
@@ -141,72 +143,83 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                                aria-labelledby="v-pills-profile-tab">
                                 <div class="row mt-2">
                                     <div class="col">
-                                    <table class="table table-bordered table-hover">
-                                    <thead>
-                                       <tr class="text-center">
-                                        <th>#</th>
-                                        <th>Grupo</th>
-                                        <th>Novedad</th>
-                                        <th>Año</th>
-                                        <th>Caducidad</th>
-                                        <th>Unds</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(item, index) in item_report.takings" :key="item">
-                                                <td>{{ index + 1 }}</td>
-                                                <td><span class="badge bg-info">G#{{ item.team.group_number }}</span> 
-                                                    {{ item.user.first_name }} {{ item.user.last_name }}</td>
-                                                <td>
-                                                    {{ item.taking.notes ? item.taking.notes : '--' }}
-                                                </td>
-                                                <td class="text-end">{{ item.taking.year ? item.taking.year : '--' }}</td>
-                                                <td class="text-end">
-                                                    {{ item.taking.date_expiry ? new Date(item.taking.date_expiry).toLocaleDateString('es-EC') : '--'}}
-                                                </td>
-                                                <td class="text-end">{{ item.taking.quantity }}</td>
-                                          </tr>
-                                    </tbody>
-                                    </table>
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr class="text-center bg-gray-gradient">
+                                                    <th>#</th>
+                                                    <th>Grupo</th>
+                                                    <th>Novedad</th>
+                                                    <th>Año</th>
+                                                    <th>Caducidad</th>
+                                                    <th>Unds</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(item, index) in item_report.takings" :key="item">
+                                                    <td>{{ index + 1 }}</td>
+                                                    <td><span class="badge bg-info">G#{{ item.team.group_number }}</span>
+                                                        {{ item.user.first_name }} {{ item.user.last_name }}</td>
+                                                    <td>
+                                                        {{ item.taking.notes ? item.taking.notes : '--' }}
+                                                    </td>
+                                                    <td class="text-end">{{ item.taking.year ? item.taking.year : '--' }}
+                                                    </td>
+                                                    <td class="text-end">
+                                                        {{ item.taking.date_expiry ? new
+                                                            Date(item.taking.date_expiry).toLocaleDateString('es-EC') : '--' }}
+                                                    </td>
+                                                    <td class="text-end">{{ item.taking.quantity }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-                                    <div class="row">
-                                        <div class="col">
-                                            <table class="table table-bordered table-striped" v-if="item_report">
-                                                <thead>
-                                                    <tr class="text-center bg-gray-gradient">
-                                                        <th>#</th>
-                                                        <th>Empresa</th>
-                                                        <th>Bodega</th>
-                                                        <th>Cajas</th>
-                                                        <th>Unds</th>
-                                                        <th>Total</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr v-for="(item, index) in item_report.migrations" :key="item">
-                                                        <td>{{ index + 1 }}</td>
-                                                        <td>{{ item.company_name }}</td>
-                                                        <td><span class="badge bg-success">{{ item.id_warenhouse_sap_code  }}</span> {{ item.warenhouse_name }} </td>
-                                                        <td class="text-end">{{ Math.floor(item.on_hand / selected_item.product.quantity_per_box) }}</td>
-                                                        <td class="text-end">{{ item.on_hand -  Math.floor(item.on_hand / selected_item.product.quantity_per_box) * selected_item.product.quantity_per_box  }}</td>
-                                                        <td class="text-end">{{ item.on_hand }}</td>
-                                                    </tr>
-                                                    <tr class="bg-gray-gradient">
-                                                        <th colspan="3">Sumas</th>
-                                                        <td class="text-end"><strong>{{ Math.floor(total_stocks / selected_item.product.quantity_per_box)  }}</strong></td>
-                                                        <td class="text-end"><strong>{{ total_stocks -  Math.floor(total_stocks / selected_item.product.quantity_per_box) * selected_item.product.quantity_per_box   }}</strong></td>
-                                                        <td class="text-end"><strong>{{ total_stocks }}</strong></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>    
-                                        </div>
+                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                                aria-labelledby="v-pills-messages-tab">
+                                <div class="row">
+                                    <div class="col">
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr class="text-center bg-gray-gradient">
+                                                    <th>#</th>
+                                                    <th>Empresa</th>
+                                                    <th>Bodega</th>
+                                                    <th>Cajas</th>
+                                                    <th>Unds</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(item, index) in item_report.migrations" :key="item">
+                                                    <td>{{ index + 1 }}</td>
+                                                    <td>{{ item.company_name }}</td>
+                                                    <td><span class="badge bg-success">{{ item.id_warenhouse_sap_code
+                                                    }}</span> {{ item.warenhouse_name }} </td>
+                                                    <td class="text-end">{{ Math.floor(item.on_hand /
+                                                        selected_item.product.quantity_per_box) }}</td>
+                                                    <td class="text-end">{{ item.on_hand - Math.floor(item.on_hand /
+                                                        selected_item.product.quantity_per_box) *
+                                                        selected_item.product.quantity_per_box }}</td>
+                                                    <td class="text-end">{{ item.on_hand }}</td>
+                                                </tr>
+                                                <tr class="bg-gray-gradient">
+                                                    <th colspan="3">Sumas</th>
+                                                    <td class="text-end"><strong>{{ Math.floor(total_stocks /
+                                                        selected_item.product.quantity_per_box) }}</strong></td>
+                                                    <td class="text-end"><strong>{{ total_stocks - Math.floor(total_stocks /
+                                                        selected_item.product.quantity_per_box) *
+                                                        selected_item.product.quantity_per_box }}</strong></td>
+                                                    <td class="text-end"><strong>{{ total_stocks }}</strong></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -226,13 +239,13 @@ export default {
     componets: {
         Loader,
     },
-    emits: ['showReport'],
+    emits: ['showReport', 'makeRecountItem'],
     data() {
         return {
             item_report: null,
-            stock_report:null,
-            recount_url:null,
-            confirm_recount:false,
+            stock_report: null,
+            recount_url: null,
+            confirm_recount: false,
         }
     },
     props: {
@@ -255,14 +268,14 @@ export default {
     }, methods: {
         showReport() {
             this.$emit('showReport');
-        },sendGetRequest(url, callback) {
+        }, sendGetRequest(url, callback) {
             const xhr = new XMLHttpRequest();
             xhr.open('GET', this.base_url + url);
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.onload = () => {
-                if (xhr.status === 200){
-                  return callback(JSON.parse(xhr.responseText));
+                if (xhr.status === 200) {
+                    return callback(JSON.parse(xhr.responseText));
                 }
                 alert('Error en peticion GET');
             };
@@ -270,20 +283,23 @@ export default {
                 alert('Error en peticion GET evento on onerror');
             };
             xhr.send();
-        },loadTakingData(item_report) {
-           this.item_report = item_report;
-           this.recount_url = '/recounts/make/taking/{id_taking}/product/{account_code}';
-           this.recount_url = this.recount_url.replace('{id_taking}', this.report.taking.id_taking);
-           this.recount_url = this.recount_url.replace('{account_code}', this.selected_item.product.account_code);
-        }, makeRecount(){
-            //realiza un reconteo del producto de la ficha
-            if (!this.confirm_recount){
+        }, loadTakingData(item_report) {
+            this.item_report = item_report;
+            this.recount_url = '/recounts/make/taking/{id_taking}/product/{account_code}';
+            this.recount_url = this.recount_url.replace('{id_taking}', this.report.taking.id_taking);
+            this.recount_url = this.recount_url.replace('{account_code}', this.selected_item.product.account_code);
+        }, makeRecountItem() { // realiza el reconteo del item
+            // validamos que se haya confirmado el reconteo, si no se valida se pasa a true
+            if (!this.confirm_recount) {
+                this.confirm_recount = true;
                 return false;
             }
-            let url = '/recounts/make/taking/{id_taking}/product/{account_code}';
-            url.replace('{id_taking}', this.report.taking.id_taking).replace(
-                '{account_code}', this.selected_item.product.account_code
+            // realizamos el emit al padre para que se genere el reconteo
+            this.$emit(
+                'makeRecountItem', this.selected_item.product.account_code
             );
+            // setamos le contador nuevamente a false
+            this.confirm_recount = false;
         },
     },
     mounted() {
@@ -296,7 +312,7 @@ export default {
             ),
             this.loadTakingData
         );
-    },unmounted() {
+    }, unmounted() {
         // enceramos los reportes
         this.item_report = null;
     },
@@ -326,10 +342,10 @@ export default {
             }
         }, sale_boxes() {
             return Math.abs(this.selected_item.sap_stock - this.total_quantity)
-        },total_stocks(){
+        }, total_stocks() {
             return this.item_report.migrations.reduce((a, b) => a + b.on_hand, 0)
-        },boxesConverter(units) {
-            if (typeof(units) != "number") {
+        }, boxesConverter(units) {
+            if (typeof (units) != "number") {
                 return {
                     boxes: 0, bottles: 0
                 };
@@ -340,7 +356,7 @@ export default {
             return {
                 boxes: boxes, bottles: bottles
             };
+        },
     },
-},
 }
 </script>
