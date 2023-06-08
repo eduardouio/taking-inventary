@@ -1,8 +1,9 @@
 from django.urls import path
-from api.views.common import AllTakingDataAPIView, AddTeamTakingAPIView, TakingMigrationAPIView
-from api.views.takings.UpdateTakingAPIView import UpdateTakingAPIView
-from api.views.accounts.UpdateTeamAPIView import UpdateTeamAPIView
 
+from api.views.accounts.UpdateTeamAPIView import UpdateTeamAPIView
+from api.views.common import (AddTeamTakingAPIView, AllTakingDataAPIView,
+                              RecountAPIView, TakingMigrationAPIView)
+from api.views.takings.UpdateTakingAPIView import UpdateTakingAPIView
 
 urlpatterns = [
     path('common/taking-data/<int:id_taking>/',
@@ -12,12 +13,16 @@ urlpatterns = [
          TakingMigrationAPIView.as_view(), name="taking_migration"
          ),
     path('common/add-team-taking/<int:id_taking>/',
-         AddTeamTakingAPIView.as_view(), name="add-team-taking"),
+         AddTeamTakingAPIView.as_view(), name="add-team-taking"
+         ),
+    path('common/recount/<int:id_taking>/<str:account_code>/',
+         RecountAPIView.as_view(), name="recount-taking"
+         ),
     path('takings/update-taking/<int:id_taking>/',
          UpdateTakingAPIView.as_view(), name="update_taking"
          ),
     path('teams/update-team/<int:id_team>/',
-         UpdateTeamAPIView.as_view(), name="update_taking"
+         UpdateTeamAPIView.as_view(), name="update-team"
          ),
 
 ]
