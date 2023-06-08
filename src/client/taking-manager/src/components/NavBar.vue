@@ -36,20 +36,22 @@
             </li>
           </ul>
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item border rounded bg-secondary">
-              <span class="nav-link"><span class="text-white">
+            <li class="nav-item border">
+              <span class="nav-link"><span>
                   Pendientes:
                 </span>
                 <strong class="badge bg-danger text-dark">{{ left_over }}</strong></span>
             </li>
-            <li class="nav-item border rounded bg-secondary">
-              <span class="nav-link"><span class="text-white">
+            &nbsp;
+            <li class="nav-item border">
+              <span class="nav-link"><span>
                   Completos:
                 </span><strong class="badge bg-success"> {{ full }} / {{ report.report.length }} </strong></span>
             </li>
-            <li class="nav-item border rounded bg-secondary">
+              &nbsp;
+            <li class="nav-item border">
               <span class="nav-link">
-                <span class="text-white">
+                <span>
                   Progreso:
                 </span>
                 <strong class="text-light badge bg-primary">
