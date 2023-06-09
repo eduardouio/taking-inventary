@@ -16,6 +16,8 @@
         :report="report"
         :show_all_takings="show_all_takings"
         @showAllTakings="$event => showAllTakings($event)"
+        @makeRecount="$event => makeRecount($event)"
+        @closeTaking="$event => closeTaking($event)"
         >
     </info-bar>
     <taking-report 
@@ -24,7 +26,7 @@
       :table_takings="table_takings"
       :base_url="base_url"
       :show_all_takings="show_all_takings"
-      @makeRecountItem="$event => makeRecountItem($event)"
+      @makeRecount="$event => makeRecount($event)"
       ></taking-report>
   </div>
 </template>
@@ -163,10 +165,10 @@ export default {
         );
         this.filtered = true;
         return;
-      }, makeRecountItem(account_code){
-        //TODO generar el item de recuento
-        console.log('make recount item');
-        console.log(account_code);
+      }, makeRecount(account_code){
+        alert('Generamos el reconteo del item ' + account_code);
+      }, closeTaking(id_taking){
+        alert('Cerramos la toma' + id_taking);
       },
       // nexr method
     },
@@ -192,5 +194,8 @@ export default {
   }
   .bg-success-gradient {
     background: linear-gradient(180deg, #f1f1f1 10%, #f5f5f5 100%);
+  }
+  .btn-secondary {
+    background-color: #9b9b9b;
   }
 </style>

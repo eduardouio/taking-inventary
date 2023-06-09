@@ -80,7 +80,7 @@ import { utils, writeFile } from 'xlsx';
 
 export default {
   name: 'InfoBar',
-  emits: ['showAllTakings', 'makeRecountItem'],
+  emits: ['showAllTakings','makeRecount', 'closeTaking'],
   props: {
     report: {
       type: Object,
@@ -137,7 +137,7 @@ export default {
       this.recount_confirm = true;
       return
     }
-    this.$emit('makeRecount', this.report.taking.id_taking);
+    this.$emit('makeRecount', 'all');
   },closeTaking(){
     if (!this.close_confirm){
       this.close_confirm = true;

@@ -67,7 +67,7 @@
                             <button class="btn btn-white btn-sm" data-bs-toggle="pill" data-bs-target="#v-pills-messages">
                                 <i class="fas fa-warehouse"></i>&nbsp;Existencias
                             </button>
-                            <button class="btn btn-warning mt-5 btn-sm" id="recount-item" @click="makeRecountItem">
+                            <button class="btn btn-warning mt-5 btn-sm" id="recount-item" @click="makeRecount">
                                 <span v-if="confirm_recount" class="text-danger"><i class="fas fa-check"></i>
                                     CONFIRMAR</span>
                                 <span v-else>
@@ -239,7 +239,7 @@ export default {
     componets: {
         Loader,
     },
-    emits: ['showReport', 'makeRecountItem'],
+    emits: ['showReport', 'makeRecount'],
     data() {
         return {
             item_report: null,
@@ -288,7 +288,7 @@ export default {
             this.recount_url = '/recounts/make/taking/{id_taking}/product/{account_code}';
             this.recount_url = this.recount_url.replace('{id_taking}', this.report.taking.id_taking);
             this.recount_url = this.recount_url.replace('{account_code}', this.selected_item.product.account_code);
-        }, makeRecountItem() { // realiza el reconteo del item
+        }, makeRecount() { // realiza el reconteo del item
             // validamos que se haya confirmado el reconteo, si no se valida se pasa a true
             if (!this.confirm_recount) {
                 this.confirm_recount = true;
@@ -296,7 +296,7 @@ export default {
             }
             // realizamos el emit al padre para que se genere el reconteo
             this.$emit(
-                'makeRecountItem', this.selected_item.product.account_code
+                'makeRecount', this.selected_item.product.account_code
             );
             // setamos le contador nuevamente a false
             this.confirm_recount = false;
