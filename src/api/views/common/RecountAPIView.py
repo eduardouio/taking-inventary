@@ -5,13 +5,18 @@ from recounts.lib import MakeRecount
 
 # /api/common/recount/<int:id_taking>/<str:account_code>/
 class RecountAPIView(APIView):
-    """ Elimna las tomas de inventario que no esten cerradas
-        elimnar todas las tomas de inventario que no esten cerradas
+    """Elimina las tomas de inventario que no estén cerradas.
 
+    Args:
+        id_taking (int): ID de la toma de inventario.
+        account_code (str): Código contable del producto a eliminar.
+
+    API endpoints:
         /api/common/recount/<int:id_taking>/all/
+            Eliminar las tomas de un item.
 
-        eliminar las tomas de un item
         /api/common/recount/<int:id_taking>/<str:account_code>/
+            Eliminar las tomas de inventario específicas para un producto.
     """
 
     def get(self, request, id_taking, account_code, format=None):
