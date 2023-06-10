@@ -209,12 +209,27 @@ export default {
         xhr_recount.send();
       }, closeTaking(id_taking){
         // set is_closed to true in taking
+        let update_taking = this.report.taking;
+        update_taking.is_active = false;
         const xhr_taking = new XMLHttpRequest();
         xhr_taking.open(
           "PUT", 
-          this.base_url + '/api/common/close-taking/' + id_taking + '/'
+          this.base_url + '/api/takings/update-taking/' + id_taking + '/'
           );
-
+        xhr_taking.setRequestHeader('Content-Type', 'application/json');
+        xhr_taking.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr_taking.onload = () =>{
+          if (xhr_taking.status === 200){
+            // cargamos el reporte
+            location.reload();
+            }
+          }
+        xhr_taking.onerror = () => {
+          alert('Error al completar la petición, toma no cerrada');
+        };
+        xhr_taking.send(
+          JSON.stringify(update_taking)
+          );
       },
       // next method
     },
