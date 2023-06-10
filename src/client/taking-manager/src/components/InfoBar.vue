@@ -73,10 +73,10 @@
         </button>
         &nbsp;
         <span v-if="show_all_takings" class="badge bg-success">
-          Se estan mostrando todos los registros
+          Todos Los Registros
         </span>
         <span v-else class="badge bg-danger">
-          Solo se muestran los registros con diferencias
+          Mostrando Diferencias
         </span>
       </div>
       <div class="col text-end">
