@@ -41,8 +41,9 @@
                 :show_view_report="show_view_report"
                 :base_url="base_url"
                 :report="report"
+                :taking_is_open ="taking_is_open"
                 @showReport="showReport"
-                @makeRecountItem="makeRecountItem($event)"
+                @makeRecount="makeRecount($event)"
                 ></base-detail>
         </div>
     </div>
@@ -54,7 +55,7 @@ import BaseDetail from './BaseDetail.vue';
 
 export default {
     name: 'TakingReport',
-    emits: ['makeRecountItem'],
+    emits: ['makeRecount'],
     props: {
         table_takings: {
             type: Object,
@@ -70,7 +71,10 @@ export default {
         },report: {
             type: Object,
             required: true,
-        },
+        }, taking_is_open: {
+            type: Boolean,
+            required: true,
+        }
     },
     data() {
         return {
@@ -85,8 +89,8 @@ export default {
             this.selected_item = item;
         },showReport() {
             this.show_view_report = true;
-        }, makeRecountItem(account_code) {
-            this.$emit('makeRecountItem', account_code);
+        }, makeRecount(account_code) {
+            this.$emit('makeRecount', account_code);
         },//next_method
     },
     mounted() {

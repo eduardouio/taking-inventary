@@ -15,6 +15,7 @@
         v-if="report"
         :report="report"
         :show_all_takings="show_all_takings"
+        :taking_is_open:="taking_is_open"
         @showAllTakings="$event => showAllTakings($event)"
         @makeRecount="$event => makeRecount($event)"
         @closeTaking="$event => closeTaking($event)"
@@ -26,6 +27,7 @@
       :table_takings="table_takings"
       :base_url="base_url"
       :show_all_takings="show_all_takings"
+      :taking_is_open="taking_is_open"
       @makeRecount="$event => makeRecount($event)"
       ></taking-report>
   </div>
@@ -74,6 +76,7 @@ export default {
       table_takings:null,
       show_all_takings:true,
       filtered:true,
+      taking_is_open:false,
     }
   },methods: {
     // Cargamos los datos iniciales para la interfase
@@ -86,6 +89,8 @@ export default {
         if (xhr.status === 200){
           // cargamos el reporte
           this.report = JSON.parse(xhr.responseText);
+          // marcamos el estatus de la toma
+          this.taking_is_open = this.report.taking.is_active;
           // cargamos las bodegas
           let my_warenhouses = JSON.parse(this.report.taking.warenhouses);
           this.warenhouses = my_warenhouses.map(item => {
@@ -166,11 +171,40 @@ export default {
         this.filtered = true;
         return;
       }, makeRecount(account_code){
-        alert('Generamos el reconteo del item ' + account_code);
+        // check if recount all taking or one item
+        let id_taking = this.report.taking.id_taking;
+        let url = `/api/common/recount/${id_taking}/${account_code}/`;
+        const xhr_recount = new XMLHttpRequest();
+        xhr_recount.open(
+          "GET", 
+          this.base_url + url
+          );
+        xhr_recount.setRequestHeader('Content-Type', 'application/json');
+        xhr_recount.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr_recount.onload = () =>{
+          if (xhr_recount.status === 200){
+            let response = JSON.parse(xhr_recount.responseText);
+            if (response.status != 'ok'){
+                alert(`Error al ejecutar accion ${response.status}`);
+                return;
+            }
+            location.reload();
+            }
+          }
+        xhr_recount.onerror = () => {
+          alert('Error al actualizar el estado de la toma');
+        };
+        xhr_recount.send();
       }, closeTaking(id_taking){
-        alert('Cerramos la toma' + id_taking);
+        // set is_closed to true in taking
+        const xhr_taking = new XMLHttpRequest();
+        xhr_taking.open(
+          "PUT", 
+          this.base_url + '/api/common/close-taking/' + id_taking + '/'
+          );
+
       },
-      // nexr method
+      // next method
     },
   mounted(){
     this.updateData();

@@ -67,7 +67,7 @@
                             <button class="btn btn-white btn-sm" data-bs-toggle="pill" data-bs-target="#v-pills-messages">
                                 <i class="fas fa-warehouse"></i>&nbsp;Existencias
                             </button>
-                            <button class="btn btn-warning mt-5 btn-sm" id="recount-item" @click="makeRecount">
+                            <button class="btn btn-warning mt-5 btn-sm" id="recount-item" @click="makeRecount" v-if="taking_is_open && status_taking.text != 'Completo'">
                                 <span v-if="confirm_recount" class="text-danger"><i class="fas fa-check"></i>
                                     CONFIRMAR</span>
                                 <span v-else>
@@ -264,7 +264,10 @@ export default {
         report: {
             type: Object,
             required: true,
-        }
+        }, taking_is_open: {
+            type: Boolean,
+            required: true,
+        },
     }, methods: {
         showReport() {
             this.$emit('showReport');
