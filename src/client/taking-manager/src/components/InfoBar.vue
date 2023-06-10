@@ -88,7 +88,10 @@ export default {
     }, show_all_takings: {
       type: Boolean,
       required: true,
-    }
+    }, taking_is_open: {
+      type: Boolean,
+      required: true,
+    },
   }, data() {
     return {
       recount_confirm: false,
