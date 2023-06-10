@@ -324,6 +324,9 @@ export default {
     base_url: {
       type: String,
       required: true
+    },csrf_token: {
+      type: String,
+      required: true
     }
   }
   ,computed: {
@@ -379,6 +382,7 @@ export default {
       );
     xhr_team.setRequestHeader('Content-Type', 'application/json');
     xhr_team.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr_team.setRequestHeader('X-CSRFToken', this.csrf_token);
     xhr_team.onload = ()=>{
       if(xhr_team.status === 200){
         location.reload();

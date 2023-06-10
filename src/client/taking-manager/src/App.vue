@@ -9,6 +9,7 @@
         :warenhouses="warenhouses"
         :userdata="userdata"
         :base_url="base_url"
+        :csrf_token="csrf_token"
         @updateWarenhouses="$event => updateWarenhouses($event)"
         ></nav-bar>
     <info-bar 
