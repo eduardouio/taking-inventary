@@ -19,6 +19,13 @@ class ConsolidateTaking(object):
             sku_stock['product'] = Product.get(
                 sku_stock['account_code'].account_code
             )
+
+            # colocamos toma incial en 0
+            sku_stock['is_complete'] = False
+            sku_stock['tk_bottles'] = 0
+            sku_stock['tk_boxes'] = 0
+            sku_stock['tk_quantity'] = 0
+
             if sku_stock['product'] is None:
                 sku_stock['product'] = Product.objects.create(
                     name=sku_stock['account_code'].name,
