@@ -1,0 +1,1 @@
+from .DeleteTakingDetailAPIView import DeleteTakingDetailAPIView

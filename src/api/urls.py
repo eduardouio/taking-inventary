@@ -4,8 +4,10 @@ from api.views.accounts.UpdateTeamAPIView import UpdateTeamAPIView
 from api.views.common import (AddTeamTakingAPIView, AllTakingDataAPIView,
                               RecountAPIView, TakingMigrationAPIView)
 from api.views.takings.UpdateTakingAPIView import UpdateTakingAPIView
+from api.views.takings_detail import DeleteTakingDetailAPIView
 
 urlpatterns = [
+    # vistas comunes
     path('common/taking-data/<int:id_taking>/',
          AllTakingDataAPIView.as_view(), name="all_taking_data"
          ),
@@ -18,11 +20,16 @@ urlpatterns = [
     path('common/recount/<int:id_taking>/<str:account_code>/',
          RecountAPIView.as_view(), name="recount-taking"
          ),
+    # tomas de inventario
     path('takings/update-taking/<int:id_taking>/',
          UpdateTakingAPIView.as_view(), name="update_taking"
          ),
+    # equipos
     path('teams/update-team/<int:id_team>/',
          UpdateTeamAPIView.as_view(), name="update-team"
          ),
-
+    # tomas de inventario detalle
+    path('takings-detail/delete/<int:id_taking_detail>/',
+         DeleteTakingDetailAPIView.as_view(), name="delete-taking-detail"
+         ),
 ]
