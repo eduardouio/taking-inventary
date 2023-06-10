@@ -115,34 +115,35 @@ from
   pg_tables WHERE schemaname = 'public';
 
  --
+
 DROP TABLE IF EXISTS accounts_customusermodel_groups CASCADE;
-DROP TABLE IF EXISTS accounts_historicalteam CASCADE;
-DROP TABLE IF EXISTS accounts_customusermodel CASCADE;
-DROP TABLE IF EXISTS accounts_customusermodel_user_permissions CASCADE;
-DROP TABLE IF EXISTS auth_group_permissions CASCADE;
-DROP TABLE IF EXISTS auth_permission CASCADE;
-DROP TABLE IF EXISTS django_content_type CASCADE;
 DROP TABLE IF EXISTS accounts_team CASCADE;
+DROP TABLE IF EXISTS auth_group_permissions CASCADE;
 DROP TABLE IF EXISTS guardian_groupobjectpermission CASCADE;
-DROP TABLE IF EXISTS django_admin_log CASCADE;
 DROP TABLE IF EXISTS django_migrations CASCADE;
 DROP TABLE IF EXISTS django_session CASCADE;
-DROP TABLE IF EXISTS guardian_userobjectpermission CASCADE;
-DROP TABLE IF EXISTS products_historicalproduct CASCADE;
+DROP TABLE IF EXISTS accounts_customusermodel CASCADE;
+DROP TABLE IF EXISTS accounts_customusermodel_user_permissions CASCADE;
 DROP TABLE IF EXISTS auth_group CASCADE;
-DROP TABLE IF EXISTS recounts_recounttakings CASCADE;
-DROP TABLE IF EXISTS takings_historicaltakindetail CASCADE;
-DROP TABLE IF EXISTS sap_migrations_historicalsapmigrationdetail CASCADE;
+DROP TABLE IF EXISTS auth_permission CASCADE;
+DROP TABLE IF EXISTS accounts_historicalteam CASCADE;
+DROP TABLE IF EXISTS django_content_type CASCADE;
+DROP TABLE IF EXISTS django_admin_log CASCADE;
+DROP TABLE IF EXISTS guardian_userobjectpermission CASCADE;
 DROP TABLE IF EXISTS products_product CASCADE;
+DROP TABLE IF EXISTS products_historicalproduct CASCADE;
 DROP TABLE IF EXISTS recounts_historicalrecountdetails CASCADE;
+DROP TABLE IF EXISTS recounts_recounttakings CASCADE;
 DROP TABLE IF EXISTS sap_migrations_historicalsapmigration CASCADE;
+DROP TABLE IF EXISTS sap_migrations_historicalsapmigrationdetail CASCADE;
 DROP TABLE IF EXISTS sap_migrations_sapmigration CASCADE;
-DROP TABLE IF EXISTS sap_migrations_sapmigrationdetail CASCADE;
 DROP TABLE IF EXISTS recounts_historicalrecounttakings CASCADE;
 DROP TABLE IF EXISTS recounts_recountdetails CASCADE;
+DROP TABLE IF EXISTS sap_migrations_sapmigrationdetail CASCADE;
 DROP TABLE IF EXISTS takings_historicaltakingjustify CASCADE;
 DROP TABLE IF EXISTS takings_takindetail CASCADE;
 DROP TABLE IF EXISTS takings_taking_teams CASCADE;
+DROP TABLE IF EXISTS takings_historicaltakindetail CASCADE;
 DROP TABLE IF EXISTS takings_historicaltaking CASCADE;
 DROP TABLE IF EXISTS takings_takingjustify CASCADE;
 DROP TABLE IF EXISTS takings_taking CASCADE;
