@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid mt-1 bg-light">
     <div class="row">
-      <div class="progress">
+      <div class="progress" style="height: 0.2rem;">
         <div class="progress-bar bg-success" role="progressbar" :style="{ 'width': percent_progress + '%' }"
           :aria-valuenow="percent_progress" aria-valuemin="0" aria-valuemax="100"></div>
         AVANCE DE TOMA
@@ -220,8 +220,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 .progress {
-  --bs-progress-height: 0.3rem;
+  --bs-progress-height: 0.11rem;
 }
 </style>

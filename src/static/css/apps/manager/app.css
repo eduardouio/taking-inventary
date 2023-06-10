@@ -1,1 +1,5 @@
-@keyframes blinker-8d23aefa{50%{opacity:20%;color:red}}.text-blink[data-v-8d23aefa]{animation:blinker-8d23aefa 1s linear infinite}.progress[data-v-e78cdacc]{--bs-progress-height:0.3rem}table tbody th,tbody td{padding:.6px 1px!important;border:.1px solid #ddd!important}.fade-enter-active,.fade-leave-active{transition:opacity .5s}body{background-color:#f5f5f5;font-size:.85rem}.bg-gray{background-color:#f1f1f1}.bg-gray-gradient{background:linear-gradient(180deg,#f5f5f5,#e8e8e8)}.bg-success-gradient{background:linear-gradient(180deg,#f1f1f1 10%,#f5f5f5)}.btn-secondary{background-color:#9b9b9b}
+@keyframes blinker-8d23aefa{50%{opacity:20%;color:red}}.text-blink[data-v-8d23aefa]{animation:blinker-8d23aefa 1s linear infinite}.progress{--bs-progress-height:0.04rem}table tbody th,tbody td{padding:.6px 1px!important;border:.1px solid #ddd!important}.fade-enter-active,.fade-leave-active{transition:opacity .5s}body{background-color:#f5f5f5;font-size:.85rem}.bg-gray{background-color:#f1f1f1}.bg-gray-gradient{background:linear-gradient(180deg,#f5f5f5,#e8e8e8)}.bg-success-gradient{background:linear-gradient(180deg,#f1f1f1 10%,#f5f5f5)}.btn-secondary{background-color:#9b9b9b}
+
+.progress{
+    height: 0.2rem;
+}
