@@ -102,7 +102,10 @@ export default {
     }, taking_is_open: {
       type: Boolean,
       required: true,
-    },
+    },csrf_token: {
+      type: String,
+      required: true,
+    }
   }, data() {
     return {
       recount_confirm: false,

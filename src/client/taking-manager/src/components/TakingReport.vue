@@ -42,6 +42,7 @@
                 :base_url="base_url"
                 :report="report"
                 :taking_is_open ="taking_is_open"
+                :csrf_token="csrf_token"
                 @showReport="showReport"
                 @makeRecount="makeRecount($event)"
                 ></base-detail>
@@ -78,7 +79,10 @@ export default {
         }, taking_is_open: {
             type: Boolean,
             required: true,
-        }
+        },csrf_token: {
+            type: String,
+            required: true,
+        },
     },
     data() {
         return {

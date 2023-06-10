@@ -16,6 +16,7 @@
         :report="report"
         :show_all_takings="show_all_takings"
         :taking_is_open:="taking_is_open"
+        :csrf_token="csrf_token"
         @showAllTakings="$event => showAllTakings($event)"
         @makeRecount="$event => makeRecount($event)"
         @closeTaking="$event => closeTaking($event)"
@@ -28,6 +29,7 @@
       :base_url="base_url"
       :show_all_takings="show_all_takings"
       :taking_is_open="taking_is_open"
+      :csrf_token="csrf_token"
       @makeRecount="$event => makeRecount($event)"
       ></taking-report>
   </div>
@@ -37,6 +39,7 @@
 <script>  
 const base_url = '';
 const url_data = 'url_de_toma_item';
+const csrf_token = document.cookie.match(/csrftoken=([^;]+)/)[1];
 
 const userdata = {
   "username": "Datos",
@@ -69,6 +72,7 @@ export default {
   },data() {
     return {
       base_url: base_url,
+      csrf_token: csrf_token,
       url_data: url_data,
       userdata: userdata,
       report: null,
@@ -144,6 +148,7 @@ export default {
         );
       xhr_taking.setRequestHeader('Content-Type', 'application/json');
       xhr_taking.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+      xhr_taking.setRequestHeader('X-CSRFToken', this.csrf_token);
       xhr_taking.onload = () =>{
         if (xhr_taking.status === 200){
           // cargamos el reporte
@@ -222,6 +227,7 @@ export default {
           );
         xhr_taking.setRequestHeader('Content-Type', 'application/json');
         xhr_taking.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr_taking.setRequestHeader('X-CSRFToken', this.csrf_token);
         xhr_taking.onload = () =>{
           if (xhr_taking.status === 200){
             // cargamos el reporte

@@ -273,6 +273,9 @@ export default {
         }, taking_is_open: {
             type: Boolean,
             required: true,
+        },csrf_token: {
+            type: String,
+            required: true,
         },
     }, methods: {
         showReport() {
@@ -325,6 +328,7 @@ export default {
 
             xhr_item_detail.setRequestHeader('Content-Type', 'application/json');
             xhr_item_detail.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr_item_detail.setRequestHeader('X-CSRFToken', this.csrf_token);
 
             xhr_item_detail.onload = () => {
                 if (xhr_item_detail.status === 204) {
