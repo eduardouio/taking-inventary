@@ -21,6 +21,11 @@
           <span class="text-danger">Conteo Cerrado </span>
         </span>
         &nbsp;| &nbsp;
+        <input type="checkbox">
+        &nbsp;
+        <i class="fa-solid fa-refresh"></i>
+        Actualizar
+        &nbsp;| &nbsp;
         <button class="btn btn-secondary btn-sm" v-if="report.taking.is_active" @click="makeRecount">
           <strong v-if="recount_confirm">
             <i class="fas fa-check text-warning"></i>

@@ -129,7 +129,12 @@
                                                     <td class="text-end">{{ item.taking.taking_total_boxes }}</td>
                                                     <td class="text-end">{{ item.taking.taking_total_bottles }}</td>
                                                     <td class="text-end bg-gray">{{ item.taking.quantity }}</td>
-                                                    <td class="text-center text-danger"><i class="fas fa-minus"></i></td>
+                                                    <td class="text-center text-danger" @click="delteItemDetail(item.taking.id_taking_detail)">
+                                                            <i class="fas fa-minus" v-if="!confirm_delete_detail"></i>
+                                                            <i class="fa-solid fa-check text-danger" v-else>
+                                                                Confirmar
+                                                            </i>
+                                                    </td>
                                                 </tr>
                                                 <tr class="bg-success-gradient text-bold">
                                                     <td colspan="4" class="text-end"><strong>Sumas:</strong></td>
@@ -239,13 +244,14 @@ export default {
     componets: {
         Loader,
     },
-    emits: ['showReport', 'makeRecount'],
+    emits: ['showReport', 'makeRecount',],
     data() {
         return {
             item_report: null,
             stock_report: null,
             recount_url: null,
             confirm_recount: false,
+            confirm_delete_detail: false,
         }
     },
     props: {
@@ -304,7 +310,38 @@ export default {
             this.showReport();
             // setamos le contador nuevamente a false
             this.confirm_recount = false;
-        },
+        }, delteItemDetail(id_taking_detail){
+            if (!this.confirm_delete_detail){
+                this.confirm_delete_detail = true;
+                return;
+            }
+
+            let url = `/api/takings-detail/delete/${id_taking_detail}/`;
+
+            let xhr_item_detail = new XMLHttpRequest();
+            xhr_item_detail.open(
+                'DELETE',
+                this.base_url + url);
+
+            xhr_item_detail.setRequestHeader('Content-Type', 'application/json');
+            xhr_item_detail.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+            xhr_item_detail.onload = () => {
+                if (xhr_item_detail.status === 204) {
+                    this.item_report.takings = this.item_report.takings.filter(
+                        item => { return item.taking.id_taking_detail !== id_taking_detail }
+                    );
+
+                } else {
+                    alert('Error en peticion DELETE');
+                }
+            };
+
+            xhr_item_detail.onerror = () => {
+                alert('Error en peticion DELETE evento on onerror');
+            };
+            xhr_item_detail.send();
+        },//next method
     },
     mounted() {
         // cargamos informacion de stock y toma del producto

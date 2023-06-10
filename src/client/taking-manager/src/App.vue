@@ -35,11 +35,11 @@
 
 
 <script>  
-const base_url = 'http://localhost:8000';
-const url_data = '/api/common/taking-data/1/';
+const base_url = '';
+const url_data = 'url_de_toma_item';
 
 const userdata = {
-  "username": "Eduardo Villota",
+  "username": "datos_usuario",
   "id": 2,
   "first_name": "Eduardo",
   "last_name": "Villota",
@@ -234,8 +234,7 @@ export default {
         xhr_taking.send(
           JSON.stringify(update_taking)
           );
-      },
-      // next method
+      },// next method
     },
   mounted(){
     this.updateData();

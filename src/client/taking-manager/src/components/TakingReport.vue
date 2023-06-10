@@ -114,7 +114,7 @@ export default {
                     url: "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
                 },
             });
-        }//next_method
+        },//next_method
     },components: {
         BaseDetail,
     },watch:{
