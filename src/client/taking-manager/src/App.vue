@@ -15,8 +15,10 @@
         v-if="report"
         :report="report"
         :show_all_takings="show_all_takings"
-        :taking_is_open:="taking_is_open"
+        :taking_is_open="taking_is_open"
         :csrf_token="csrf_token"
+        :auto_reload="auto_reload"
+        @changeAutoReload="$event => handleChangeAutoReload($event)"
         @showAllTakings="$event => showAllTakings($event)"
         @makeRecount="$event => makeRecount($event)"
         @closeTaking="$event => closeTaking($event)"
@@ -37,8 +39,8 @@
 
 
 <script>  
-const base_url = '';
-const url_data = 'url_de_toma_item';
+const base_url = 'http://localhost:8000';
+const url_data = '/api/common/taking-data/184/';
 const csrf_token = 'colocar_el_token_aqui';
 
 const userdata = {
@@ -75,6 +77,7 @@ export default {
       csrf_token: csrf_token,
       url_data: url_data,
       userdata: userdata,
+      auto_reload: false,
       report: null,
       warenhouses: null,
       table_takings:null,
@@ -85,6 +88,13 @@ export default {
   },methods: {
     // Cargamos los datos iniciales para la interfase
     updateData: function() {
+      //enceramos datos iniciales
+      this.report = null;
+      this.warenhouses = null;
+      this.table_takings = null;
+      this.show_all_takings = true;
+      this.filtered = true;
+      this.taking_is_open = false;
       const xhr = new XMLHttpRequest();
       xhr.open("GET", this.base_url + this.url_data);
       xhr.setRequestHeader('Content-Type', 'application/json');
@@ -117,12 +127,23 @@ export default {
       this.table_takings = JSON.parse(xhr.responseText).report;
       // mostramos solo diferencias
       this.show_all_takings = false;
+
+      // marcamos el auto reload
+      if (this.report.taking.is_active){
+          this.autoReload();
+      }
       };
     };
     xhr.onerror = () => {
       alert('Error al cargar los datos');
     };
     xhr.send();
+    },autoReload(){
+        setInterval(() => {
+          if(this.auto_reload){
+            this.updateData();
+          }
+      }, 900000);
     },
     // Actualizamos las bodegas
     updateWarenhouses: function() {
@@ -202,7 +223,6 @@ export default {
               return;
             }
             // update item in table
-               // update item in table
           this.report.report.forEach(item => {
             if (item.product.account_code === account_code) {
               item.tk_botles = 0;
@@ -220,6 +240,8 @@ export default {
         // set is_closed to true in taking
         let update_taking = this.report.taking;
         update_taking.is_active = false;
+        update_taking.date_end_taking = new Date().getTime();
+        
         const xhr_taking = new XMLHttpRequest();
         xhr_taking.open(
           "PUT", 
@@ -240,13 +262,17 @@ export default {
         xhr_taking.send(
           JSON.stringify(update_taking)
           );
-      },// next method
+      }, handleChangeAutoReload(estatus){
+        this.auto_reload = !estatus;
+      }// next method
     },
   mounted(){
     this.updateData();
   },watch:{
     show_all_takings: function() {
-      this.filterReport();
+      if(this.report){
+        this.filterReport();
+      }
   }
   }}
 </script>

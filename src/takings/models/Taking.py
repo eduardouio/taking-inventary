@@ -87,13 +87,13 @@ class Taking(AppBaseModel):
         blank=True,
         null=True
     )
-    date_end_taking = models.DateField(
+    date_end_taking = models.DateTimeField(
         'Fecha Cierre Toma',
         blank=True,
         null=True,
         default=None
     )
-    date_audit = models.DateField(
+    date_audit = models.DateTimeField(
         'Fecha revision Audoitoria',
         blank=True,
         null=True,
