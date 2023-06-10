@@ -18,6 +18,8 @@ class MakeRecount():
 
     def make(self, id_taking, account_code):
         taking = Taking.get(id_taking)
+
+        # verificamos que la toma este activa
         if not taking.is_active:
             return False
 
@@ -29,12 +31,15 @@ class MakeRecount():
         tk_resume = [i for i in tk_resume
                      if i['is_complete'] is False
                      ]
+
+        # si tenemos un codigo contable especifico solo borramos ese item
         if account_code:
             for item_resume in tk_resume:
                 if item_resume['account_code'].account_code == account_code:
                     self.consolidate(item_resume, taking, recount)
                     return True
 
+        # si no tenemos un codigo contable especifico borramos todos los items
         for item_resume in tk_resume:
             self.consolidate(item_resume, taking, recount)
 
