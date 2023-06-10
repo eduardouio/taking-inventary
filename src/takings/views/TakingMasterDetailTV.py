@@ -35,6 +35,8 @@ class TakingMasterDetailTV(ValidateManagerMixin, TemplateView):
             ]
 
         page_data = {
+            'id_taking': pk,
+            'user': request.user,
             'title_page': 'Toma #{}'.format(pk),
             'module_name': 'Reporte de Toma',
             'taking': report['taking'],
