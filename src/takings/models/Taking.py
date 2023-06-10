@@ -87,6 +87,18 @@ class Taking(AppBaseModel):
         blank=True,
         null=True
     )
+    date_end_taking = models.DateField(
+        'Fecha Cierre Toma',
+        blank=True,
+        null=True,
+        default=None
+    )
+    date_audit = models.DateField(
+        'Fecha revision Audoitoria',
+        blank=True,
+        null=True,
+        default=None
+    )
     audit_comments = models.CharField(
         'Comentarios Auditoria',
         max_length=1200,
