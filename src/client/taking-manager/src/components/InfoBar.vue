@@ -9,6 +9,7 @@
     </div>
     <div class="row border bg-gardient-secondary rounded bg-gradient-light" style="padding: 5px;">
       <div class="col-8">
+        Inicio:
         {{ new Date(report.taking.created).toLocaleString('es-Ec') }}
         &nbsp;| &nbsp;
         Estado:
@@ -19,6 +20,10 @@
         <span v-else>
           <i class="fas fa-stop text-danger"></i>&nbsp;
           <span class="text-danger">Conteo Cerrado </span>
+          &nbsp;
+          {{ new Date(report.taking.modified).toLocaleString('es-Ec') }}
+          &nbsp; ->
+          {{  lapsed_time }} Horas
         </span>
         &nbsp;| &nbsp;
         <input type="checkbox">
@@ -67,10 +72,6 @@
         </span>
       </div>
       <div class="col text-end">
-        <strong class="text-info h6">
-          {{ report.taking.name }}
-        </strong>
-        &nbsp;
         <button class="btn btn-outline-secondary btn-sm" @click="downloadReport" v-if="taking_is_open">
           <i class="fas fa-file-excel text-success"></i>
           &nbsp;
@@ -124,6 +125,10 @@ export default {
       ).length;
     }, percent_progress() {
       return Math.round((this.full / this.report.report.length) * 100);
+    },lapsed_time(){
+      const start = new Date(this.report.taking.created);
+      const end = new Date(this.report.taking.modified);
+      return parseInt((end - start)/3600000 * 100)/100;
     }
   }, methods: {
     showAllTakings() {
