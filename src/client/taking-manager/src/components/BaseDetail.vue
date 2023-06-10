@@ -300,7 +300,8 @@ export default {
             // realizamos el emit al padre para que se genere el reconteo
             this.$emit(
                 'makeRecount', this.selected_item.product.account_code
-            );
+                );
+            this.showReport();
             // setamos le contador nuevamente a false
             this.confirm_recount = false;
         },

@@ -188,7 +188,19 @@ export default {
                 alert(`Error al ejecutar accion ${response.status}`);
                 return;
             }
-            location.reload();
+            if(account_code === 'all'){
+              location.reload();
+              return;
+            }
+            // update item in table
+               // update item in table
+          this.report.report.forEach(item => {
+            if (item.product.account_code === account_code) {
+              item.tk_botles = 0;
+              item.tk_boxes = 0;
+              item.tk_quantity = 0;
+            }
+          });
             }
           }
         xhr_recount.onerror = () => {
