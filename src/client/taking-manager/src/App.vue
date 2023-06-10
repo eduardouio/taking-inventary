@@ -39,7 +39,7 @@
 <script>  
 const base_url = '';
 const url_data = 'url_de_toma_item';
-const csrf_token = document.cookie.match(/csrftoken=([^;]+)/)[1];
+const csrf_token = 'colocar_el_token_aqui';
 
 const userdata = {
   "username": "Datos",

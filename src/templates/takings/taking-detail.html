@@ -18,6 +18,7 @@
         "email": '{{user.email}}',  
     };
     var base_url = '';
+    var csrftoken = document.cookie.match(/csrftoken=([^;]+)/)[1];
 </script>
 <script src="{% static 'js/apps/manager/chunk-vendors.js' %}"></script>
 <script src="{% static 'js/apps/manager/app.js' %}"></script>
