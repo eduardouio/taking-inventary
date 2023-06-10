@@ -66,9 +66,15 @@
           {{ report.taking.name }}
         </strong>
         &nbsp;
-        <button class="btn btn-outline-secondary btn-sm" @click="downloadReport()">
+        <button class="btn btn-outline-secondary btn-sm" @click="downloadReport" v-if="taking_is_open">
           <i class="fas fa-file-excel text-success"></i>
-          Reporte Diferencias
+          &nbsp;
+          Reporte Reconteo
+        </button>
+        <button v-else class="btn btn-outline-secondary btn-sm" @click="diffReport">
+          <i class="fas fa-file-excel text-success"></i>
+          &nbsp;
+          Reporte de Diferencias
         </button>
       </div>
     </div>
@@ -130,11 +136,43 @@ export default {
     
     const wb = utils.book_new();
     const ws = utils.json_to_sheet(report_json);
+    const name = this.report.taking.name;
     ws["!cols"] = [{ wch: 25 }, { wch: 80 }, { wch: 15 }, { wch: 15 }, { wch: 10 }, { wch: 10 }];
     ws["!rows"] = [{hpx: 30}];
       
     utils.book_append_sheet(wb, ws, 'Reporte');
-    writeFile(wb, 'Reconteo.xlsx');
+    writeFile(wb, 'Reconteo [Toma #' + this.report.taking.id_taking + ']' + name + '.xlsx');
+  }, diffReport(){
+    // Obtenemos el reporte de diferencias
+    let report_json = this.report.report.filter(
+        item => item.is_complete == false
+      ).map((item) => {
+        let status = '';
+        if (item.sap_stock > item.tk_quantity){
+          status = 'Faltante';
+        } else {
+          status = 'Sobrante';
+        }
+        return {
+          'Cod Contable': item.product.account_code,
+          'Producto': item.product.name,
+          'Cod Barra': item.product.ean_13_code,
+          'Cantidad Caja': item.product.quantity_per_box,
+          'Uns SAP': item.sap_stock,
+          'Uns Conteo': item.tk_quantity,
+          'Diferencia': (item.sap_stock - item.tk_quantity) *-1,
+          'Estado ': status,
+        }
+      });
+      const wb = utils.book_new();
+      const ws = utils.json_to_sheet(report_json);
+      const name = this.report.taking.name;
+      ws["!cols"] = [{ wch: 25 }, { wch: 80 }, { wch: 15 }, { wch: 15 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 10 }];
+      ws["!rows"] = [{ hpx: 30 }];
+
+      utils.book_append_sheet(wb, ws, 'Reporte');
+      writeFile(wb, 'Reporte Diferencias [Toma #' + this.report.taking.id_taking + ']' + name + '.xlsx');
+
   }, makeRecount(){
     if (!this.recount_confirm){
       this.recount_confirm = true;
