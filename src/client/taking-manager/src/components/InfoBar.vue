@@ -21,7 +21,7 @@
           <i class="fas fa-stop text-danger"></i>&nbsp;
           <span class="text-danger">Conteo Cerrado </span>
           &nbsp;
-          {{ new Date(report.taking.modified).toLocaleString('es-Ec') }}
+          {{ new Date(report.taking.date_end_taking).toLocaleString('es-Ec') }}
           &nbsp; ->
           {{  lapsed_time }} Horas
         </span>
@@ -127,7 +127,7 @@ export default {
       return Math.round((this.full / this.report.report.length) * 100);
     },lapsed_time(){
       const start = new Date(this.report.taking.created);
-      const end = new Date(this.report.taking.modified);
+      const end = new Date(this.report.taking.date_end_taking);
       return parseInt((end - start)/3600000 * 100)/100;
     }
   }, methods: {

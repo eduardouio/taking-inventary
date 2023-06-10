@@ -2,7 +2,9 @@
   <div class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/"> {{ report.taking.name}} [Toma #<span v-if="report" v-text="report.taking.id_taking"></span>]</a>
+        <a class="navbar-brand" href="#"> 
+           [T-<span v-if="report" v-text="report.taking.id_taking"></span>]
+          {{ report.taking.name}}</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
           aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
