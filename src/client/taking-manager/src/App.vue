@@ -111,6 +111,7 @@ export default {
       });
       // creamos una copia del reporte
       this.table_takings = JSON.parse(xhr.responseText).report;
+      this.show_all_takings = false;
       };
     };
     xhr.onerror = () => {
