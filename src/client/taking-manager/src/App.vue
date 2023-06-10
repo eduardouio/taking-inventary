@@ -111,6 +111,7 @@ export default {
       });
       // creamos una copia del reporte
       this.table_takings = JSON.parse(xhr.responseText).report;
+      // mostramos solo diferencias
       this.show_all_takings = false;
       };
     };
@@ -159,6 +160,7 @@ export default {
       // filtamos el reporte
       filterReport(){
         this.filtered = false;
+        setTimeout(() => {
         this.table_takings = [];
         const report = this.report.report.map(item => item);
         if (this.show_all_takings) {
@@ -170,7 +172,8 @@ export default {
           item => item.is_complete === false
         );
         this.filtered = true;
-        return;
+        return;  
+        }, 100);
       }, makeRecount(account_code){
         // check if recount all taking or one item
         let id_taking = this.report.taking.id_taking;

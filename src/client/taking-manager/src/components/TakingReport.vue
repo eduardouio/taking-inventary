@@ -49,9 +49,13 @@
     </div>
 </template>
 <script>
+import $ from 'jquery';
 import DataTable from 'datatables.net-dt';
 import 'datatables.net-dt/css/jquery.dataTables.css';
 import BaseDetail from './BaseDetail.vue';
+
+window.$ = $;
+window.jQuery = $;
 
 export default {
     name: 'TakingReport',
@@ -80,6 +84,7 @@ export default {
         return {
             selected_item: null,
             show_view_report:true,
+            datatable: null,
         }
     },
     methods: {
@@ -89,18 +94,40 @@ export default {
             this.selected_item = item;
         },showReport() {
             this.show_view_report = true;
+            this.$nextTick(() => {
+                this.initDataTable();
+            });
         }, makeRecount(account_code) {
             this.$emit('makeRecount', account_code);
-        },//next_method
-    },
-    mounted() {
-        // inicializamos la datatable
-    },beforeUnmount() {
-        // destruimos la datatable
-        this.destroyDataTable();
+        },initDataTable(){
+            // comprobamos si ya existe una instancia de DataTable
+            if (this.datatable !== null) {
+                this.datatable.destroy();
+                this.datatable = null;
+            }
+
+            // creamos una nueva instancia de DataTable
+            this.dataTable = new DataTable("#report",{
+                pageLength: 25,
+                lengthMenu: [ 10, 25, 50, 75, 100, 200, 500, 1000,],
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
+                },
+            });
+        }//next_method
     },components: {
         BaseDetail,
-    },
+    },watch:{
+        show_view_report(){
+            if(this.show_view_report){
+                this.initDataTable();
+            }
+     },
+    },mounted(){
+        this.$nextTick(() => {
+            this.initDataTable();
+        });
+    }
 }
 </script>
 
