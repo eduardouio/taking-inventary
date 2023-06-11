@@ -57,7 +57,10 @@
                         <div class="card-body text-start">
                             <h5 class="card-title text-info">Recomendación</h5>
                             <p class="card-text text-secondary">
-                                Se recomienda el uso de nombre cortos como por ejemplo, no importa si los nombres son los mismo en cada toma, el sistema asigna un código único a cada toma.
+                                Se recomienda el uso de nombre cortos, no importa si los nombres son los mismo en cada toma, el sistema asigna un código único a cada toma.
+                               <br/>
+                               <br/>
+                                Por ejemplo:
                             <ul class="list-group">
                                 <li class="list-group-item text-secondary p-1">Guarda Cuenca</li>
                                 <li class="list-group-item text-secondary p-1">Vinesa 10 De Agosto</li>
