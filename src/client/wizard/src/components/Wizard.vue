@@ -311,7 +311,7 @@
                 <h5 class="mt-2">RESUMEN DE TOMA</h5>
                 <div class="col bg-light">
                     <div class="row">
-                        <div class="col border">
+                        <div class="col">
                             <div class="row mt-2">
                                 <div class="col text-end"><strong>Nombre Toma:</strong></div>
                                 <div class="col text-start">
