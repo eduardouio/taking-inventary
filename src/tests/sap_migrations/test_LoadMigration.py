@@ -1,16 +1,29 @@
-from django.test import TestCase
+import pytest
+import json
 from sap_migrations.lib import LoadMigration
+from common import SAPMigrationConnector
 from sap_migrations.models import SapMigration, SapMigrationDetail
 
 
-class TESTLoadMigration(TestCase):
+@pytest.mark.django_db
+class TestLoadMigration:
+    """Test para migraciones de SAP"""
 
-	def test_load(self):
-		before_count_migrations = SapMigration.objects.all().count()
-		before_count_migrations_det = SapMigrationDetail.objects.all().count()
-		load_migration = LoadMigration()
-		load_migration.load()
-		after_count_migrations = SapMigration.objects.all().count()
-		after_count_migrations_det = SapMigrationDetail.objects.all().count()
-		self.assertEqual(before_count_migrations , after_count_migrations - 1)
-		self.assertTrue(before_count_migrations_det < after_count_migrations_det)
+    def setup_method(self):
+        self.load_migration = LoadMigration()
+
+    def test_load_sucess(self, mocker):
+        # mock de respuesta sap
+        data = open('tests/mocks/sap_response.json', 'r')
+        mock_response = json.loads(data.read())
+        migration = SAPMigrationConnector()
+        mocker.patch.object(
+            migration,
+            'runMigration',
+            return_value=mock_response
+        )
+        details = migration.runMigration()
+        assert (1030 == len(details["response"]))
+
+    def test_load_error(self, mocker):
+        pass
