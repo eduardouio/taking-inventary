@@ -14,3 +14,5 @@ class LoadMigration():
             migration_detail.id_sap_migration = migration
             migration_data.append(migration_detail)
         SapMigrationDetail.objects.bulk_create(migration_data)
+
+        return migration
