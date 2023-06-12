@@ -26,13 +26,14 @@ class ConsolidateTaking(object):
             sku_stock['tk_boxes'] = 0
             sku_stock['tk_quantity'] = 0
 
+            # verificamos que el producto exista, sino lo creamos
             if sku_stock['product'] is None:
                 sku_stock['product'] = Product.objects.create(
                     name=sku_stock['account_code'].name,
                     account_code=sku_stock['account_code'].account_code,
                     quantity_per_box=sku_stock['account_code'].quantity_per_box,
                     ean_13_code=sku_stock['account_code'].ean_13_code,
-                    # health_register=sku_stock['account_code'].health_register,
+                    type_product='LICORES;VARIOS',
                 )
 
             sku_stock['diff'] = sku_stock['sap_stock']
