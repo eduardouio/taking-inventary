@@ -31,7 +31,7 @@ class TestAllTakingData():
                 "last_name": "RODRIGUEZ",
                 "email": "lorena@vinesa.com.ec",
             }, "all_warenhouses": 37,
-            "all_users_assistants": 112,
+            "all_users_assistants": 111,
         }
 
         response = self.client.get("/api/common/taking-data/1/")

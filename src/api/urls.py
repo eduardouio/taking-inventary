@@ -5,6 +5,7 @@ from api.views.common import (AddTeamTakingAPIView, AllTakingDataAPIView,
                               RecountAPIView, TakingMigrationAPIView)
 from api.views.takings.UpdateTakingAPIView import UpdateTakingAPIView
 from api.views.takings_detail import DeleteTakingDetailAPIView
+from api.views.sap_migrations import AllSAPMigrationData
 
 urlpatterns = [
     # vistas comunes
@@ -31,5 +32,9 @@ urlpatterns = [
     # tomas de inventario detalle
     path('takings-detail/delete/<int:id_taking_detail>/',
          DeleteTakingDetailAPIView.as_view(), name="delete-taking-detail"
+         ),
+    # migraciones
+    path('migrations/all-data/',
+         AllSAPMigrationData.as_view(), name="all-sap-migration-data"
          ),
 ]
