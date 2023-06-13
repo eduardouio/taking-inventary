@@ -1,4 +1,4 @@
-from pymssql import connect, Cursor
+from pymssql import connect
 from decimal import Decimal
 
 from config.secrets_config import SAP_CONNECTION, MIGRATION_QUERY
