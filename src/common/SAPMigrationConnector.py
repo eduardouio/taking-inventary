@@ -5,18 +5,16 @@ from config.secrets_config import SAP_CONNECTION, MIGRATION_QUERY
 
 
 class SAPMigrationConnector(object):
-    
-    def __init__(self):
+
+    def conect(self):
         try:
             self.conn = connect(**SAP_CONNECTION, login_timeout=5)
         except:
-            self.conn = False
+            raise Exception('Error al conectar a SAP')
 
     def runMigration(self) -> list:
         """Ejecuta la consulta el servidor y retorna un arreglo"""
-        if self.conn == False:
-            return False
-
+        self.conect()
         # ejecuramos la consulta en SAP
         cursor = self.conn.cursor(as_dict=True)
         cursor.execute(MIGRATION_QUERY)
