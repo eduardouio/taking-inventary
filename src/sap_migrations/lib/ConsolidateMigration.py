@@ -164,13 +164,6 @@ class ConsolidateMigration(object):
             sap_migration.total_products = len(report['products'])
             sap_migration.total_products_unities = report['totals']['on_hand']
             sap_migration.have_report = True
-            sap_migration.report = self.__compress_report(report)
             sap_migration.save()
 
         return report
-
-    def __compress_report(self, report):
-        report_json = report.copy()
-        del (report_json['sap_migration'])
-        del (report_json['sap_migration_detail'])
-        return json.dumps(report_json)
