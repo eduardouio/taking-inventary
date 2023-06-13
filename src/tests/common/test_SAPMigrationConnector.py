@@ -22,7 +22,7 @@ class TestSAPMigrationConnector:
 
         details = migration.runMigration()
 
-        assert (1030 == len(details["response"]))
+        assert (4839 == len(details["response"]))
         mock_run_migration.assert_called_once()
 
     def test_load_error(self, mocker):

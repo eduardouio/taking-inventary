@@ -1,5 +1,12 @@
-from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from api.Serializers import (CustomUserSerializer,
+                             SapMigrationDetailSerializer,
+                             SapMigrationSerializer)
+from sap_migrations.lib import LoadMigration
+from accounts.models.CustomUserModel import CustomUserModel
+from sap_migrations.models import SapMigrationDetail
 
 
 class AllSAPMigrationData(APIView):
@@ -7,33 +14,22 @@ class AllSAPMigrationData(APIView):
     def get(self, request, *args, **kwargs):
         """
         Retorna todos los datos necesarios para crear una toma de inventario
-
-        Parameters:
-            request (HttpRequest): La solicitud HTTP recibida.
-            *args: Argumentos posicionales adicionales.
-            **kwargs: Argumentos de palabras clave adicionales.
-
-        Returns:
-            Response: {
-                "sap_migration": objeto de migracion,
-                "warenhouses": bodegas de las migraciones,
-                "enterprises": propietarios que tienen saldo en las bodegas,
-                "sap_migration_warenhouses": bodegas de las migraciones,
-                "all_users": todos los usuarios asistentes del sistema,
-                "types_products": tipos de productos,
-            }
-
         """
+        # cargamos los datos de la migracion
+        sap_migration = LoadMigration().load()
+        sap_migration_detail = SapMigrationDetail.objects.filter(
+            id_sap_migration=sap_migration
+        )
 
-        sap_migrations = {
-            "sap_migration": {},
-            "warenhouses": [],
-            "enterprises": {},
-            "sap_migration_warenhouses": [],
-            "all_users": [],
-            "types_products": [],
+        # lista de usuarios asistentes
+        all_assistant_users = CustomUserModel.objects.filter(role='asistente')
+
+        report = {
+            "migration": SapMigrationSerializer(sap_migration).data,
+            "migration_detail": SapMigrationDetailSerializer(sap_migration_detail, many=True).data,
+            "all_assistant_user": CustomUserSerializer(all_assistant_users, many=True).data
+
         }
         return Response({
-            "status": "OK",
-            "message": "AllSAPMigrationData"
+            "report": report
         })
