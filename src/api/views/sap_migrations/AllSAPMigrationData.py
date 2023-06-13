@@ -9,6 +9,7 @@ from accounts.models.CustomUserModel import CustomUserModel
 from sap_migrations.models import SapMigrationDetail
 
 
+# /api/migrations/all-data/
 class AllSAPMigrationData(APIView):
 
     def get(self, request, *args, **kwargs):
