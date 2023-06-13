@@ -34,7 +34,7 @@ urlpatterns = [
          DeleteTakingDetailAPIView.as_view(), name="delete-taking-detail"
          ),
     # migraciones
-    path('migrations/all-data/',
+    path('migrations/new-report/',
          AllSAPMigrationData.as_view(), name="all-sap-migration-data"
          ),
 ]
