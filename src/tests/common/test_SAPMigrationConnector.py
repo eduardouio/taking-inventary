@@ -1,6 +1,7 @@
 import pytest
 import json
 from common import SAPMigrationConnector
+from config.secrets_config import SAP_CONNECTION
 
 
 @pytest.mark.django_db
@@ -27,6 +28,8 @@ class TestSAPMigrationConnector:
 
     def test_load_error(self, mocker):
         # corremos el test de errot en la conexion
+        SAP_CONNECTION['password'] = 'error'
         migration = SAPMigrationConnector()
+
         with pytest.raises(Exception):
             migration.runMigration()
