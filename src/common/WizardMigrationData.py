@@ -1,6 +1,11 @@
-from products.models import Product
-from sap_migrations.models import SapMigration, SapMigrationDetail
+import json
+
 from accounts.models.CustomUserModel import CustomUserModel
+from django.db import connection
+
+
+from sap_migrations.models import SapMigration
+from api.Serializers import CustomUserSerializer, SapMigrationSerializer
 
 
 class WizardMigrationData:
@@ -8,6 +13,12 @@ class WizardMigrationData:
         Obtiene un diccionario con los datos necesarios para el wizard de 
         toma de una migración de SAP
     """
+
+    def run_query(self, query):
+        cursor = connection.cursor()
+        cursor.execute(query)
+        data = [list(row)[0] for row in cursor.fetchall()]
+        return data
 
     def get(self, id_sap_migration):
         sap_migration = SapMigration.get(id_sap_migration)
@@ -23,20 +34,23 @@ class WizardMigrationData:
         )
 
         # listado de almacenes
-        warenhouses_names = SapMigrationDetail.objects.filter(
-            id_sap_migration=sap_migration
-        ).values_list('warenhouse_name', flat=True).distinct()
+        warenhouses_names = self.run_query(
+            """SELECT DISTINCT(sms.warenhouse_name) 
+            FROM sap_migrations_sapmigrationdetail sms 
+            WHERE  sms.id_sap_migration_id = {}
+            ORDER BY sms.warenhouse_name""".format(id_sap_migration)
+        )
 
         # listado de tipos de productos
-        types_product = Product.objects.all()
+        types_product = self.run_query(
+            """SELECT DISTINCT(pp.type_product) 
+            FROM products_product pp
+            ORDER BY pp.type_product"""
+        )
 
-        # datos del wizard
-        wizard_data = {
+        return {
             'sap_migration': sap_migration,
             'warenhouses': warenhouses_names,
             'types_products': types_product,
-            'all_users': all_users,
+            'all_users': all_users
         }
-
-        # retorna los datos del wizard
-        return wizard_data

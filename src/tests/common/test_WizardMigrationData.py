@@ -1,6 +1,6 @@
 import pytest
 from sap_migrations.models import SapMigration
-from common import WizardMigrationData
+from common.WizardMigrationData import WizardMigrationData
 
 
 @pytest.mark.django_db
@@ -30,17 +30,7 @@ class TestWizardMigrationData:
                 "MAL ESTADO GYE", "BODEGA CONSIGNACIONES CLIENTES",
                 "ETIQUETAS CFS", "MUESTRAS", "BODEGA CUENCA"
             ],
-            "type_products": {
-                "ACCESORIOS": ["VARIOS",],
-                "LICORES": ["WHISKY", "BAJATIVO", "PISCO", "BRANDY", "VARIOS",
-                            "JEREZ", "APERITIVOS", "APERITIVO", "GIN", "RON",
-                            "PROMO", "MEZCAL", "TEQUILA", "CHAMPAGNE", "COGNAC",
-                            "AGUARDIENTE", "PACKS", "VODKA", "CERVEZA", "VINO",
-                            "VARIOS", "CREMA", "ESPUMANTE", "COMBOS", "LICOR",
-                            "SANGRIA",
-                            ],
-                "VARIOS": ["CIGARRILLOS", "ALIMENTOS", "VARIOS"],
-            },
+            "type_products": 31,
             "all_users": 111,
         }
         self.wizard = WizardMigrationData()
@@ -48,6 +38,14 @@ class TestWizardMigrationData:
     def test_get(self):
         data = self.wizard.get(1)
         assert data['sap_migration'] == self.spected_data['sap_migration']
+        assert len(data['warenhouses']) == len(
+            self.spected_data['warenhouses'])
+        assert len(data['types_products']
+                   ) == self.spected_data['type_products']
+        assert len(data['all_users']) == self.spected_data['all_users']
+
+        for wrhs in data['warenhouses']:
+            assert wrhs in self.spected_data['warenhouses']
 
     def test_get_not_found(self):
         with pytest.raises(Exception):
