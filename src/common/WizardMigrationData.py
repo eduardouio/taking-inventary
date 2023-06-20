@@ -25,7 +25,8 @@ class WizardMigrationData:
 
         if sap_migration is None:
             raise Exception(
-                'No existe la migración de SAP con id: ' + id_sap_migration
+                'No existe la migración de SAP con id: {}'.format(
+                    id_sap_migration)
             )
 
         # listado de usuarios con perfil asistentes
@@ -42,7 +43,7 @@ class WizardMigrationData:
         )
 
         # listado de tipos de productos
-        types_product = self.run_query(
+        type_products = self.run_query(
             """SELECT DISTINCT(pp.type_product) 
             FROM products_product pp
             ORDER BY pp.type_product"""
@@ -51,6 +52,6 @@ class WizardMigrationData:
         return {
             'sap_migration': sap_migration,
             'warenhouses': warenhouses_names,
-            'types_products': types_product,
+            'type_products': type_products,
             'all_users': all_users
         }
