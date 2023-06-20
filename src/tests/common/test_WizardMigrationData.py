@@ -40,7 +40,7 @@ class TestWizardMigrationData:
         assert data['sap_migration'] == self.spected_data['sap_migration']
         assert len(data['warenhouses']) == len(
             self.spected_data['warenhouses'])
-        assert len(data['types_products']
+        assert len(data['type_products']
                    ) == self.spected_data['type_products']
         assert len(data['all_users']) == self.spected_data['all_users']
 
