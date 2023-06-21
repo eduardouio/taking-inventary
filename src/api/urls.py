@@ -2,7 +2,7 @@ from django.urls import path
 
 from api.views.accounts.UpdateTeamAPIView import UpdateTeamAPIView
 from api.views.common import (AddTeamTakingAPIView, AllTakingDataAPIView,
-                              RecountAPIView, TakingMigrationAPIView)
+                              RecountAPIView, TakingMigrationAPIView, WizardAPIView)
 from api.views.takings.UpdateTakingAPIView import UpdateTakingAPIView
 from api.views.takings_detail import DeleteTakingDetailAPIView
 from api.views.sap_migrations import AllSAPMigrationData
@@ -20,6 +20,9 @@ urlpatterns = [
          ),
     path('common/recount/<int:id_taking>/<str:account_code>/',
          RecountAPIView.as_view(), name="recount-taking"
+         ),
+    path('common/wizard-assistant/<int:id_sap_migration>/',
+         WizardAPIView.as_view(), name="wizard-assistant"
          ),
     # tomas de inventario
     path('takings/update-taking/<int:id_taking>/',

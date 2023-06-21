@@ -1,3 +1,12 @@
 {
-    "vue.features.codeActions.enable": false
+    "vue.features.codeActions.enable": false,
+    "vue.codeActions.enabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.banditEnabled": false,
+    "python.linting.mypyEnabled": false,
+    "python.linting.prospectorEnabled": false,
+    "python.linting.pycodestyleEnabled": false,
+    "python.linting.pydocstyleEnabled": false
 }

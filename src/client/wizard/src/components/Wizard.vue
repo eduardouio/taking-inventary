@@ -2,8 +2,8 @@
     <div class="container text-center">
         <div class="row mt-2 shadow-sm">
             <ul class="nav nav-pills nav-fill">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">
+                <li class="nav-item" @click="showView(1)">
+                    <a class="nav-link" href="#" :class="{'active':show_views.step1}">
                         <span class="badge bg-secondary">
                             <i class="fa-solid fa-home"></i>
                         </span>
@@ -11,8 +11,8 @@
                         Nombre
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                <li class="nav-item" @click="showView(2)">
+                    <a class="nav-link" href="#" :class="{'active': show_views.step2}">
                         <span class="badge bg-secondary">
                             <i class="fa-solid fa-warehouse"></i>
                         </span>
@@ -20,8 +20,8 @@
                         Bodegas
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                <li class="nav-item" @click="showView(3)">
+                    <a class="nav-link" href="#" :class="{ 'active': show_views.step3 }">
                         <span class="badge bg-secondary">
                             <i class="fa-solid fa-users"></i>
                         </span>
@@ -29,8 +29,8 @@
                         Grupos
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                <li class="nav-item" @click="showView(4)">
+                    <a class="nav-link" href="#" :class="{ 'active': show_views.step4 }">
                         <span class="badge bg-secondary">
                             <i class="fa-solid fa-list-check"></i>
                         </span>
@@ -38,8 +38,8 @@
                         Items
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                <li class="nav-item" @click="showView(5)">
+                    <a class="nav-link" href="#" :class="{ 'active': show_views.step5 }">
                         <span class="badge bg-secondary">
                             <i class="fa-solid fa-chevron-down"></i>
                         </span>
@@ -50,7 +50,7 @@
         </div>
         <div class="row rounded border mt-2 shadow">
             <!--Paso 1-->
-            <div class="row mt-2" v-if="false">
+            <div class="row mt-2" v-if="show_views.step1">
                 <h5 class="mt-2">NOMBRE DE LA TOMA</h5>
                 <div class="col bg-light">
                     <div class="row mt-3">
@@ -76,12 +76,19 @@
                             </div>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" maxlength="45" autofocus v-model="taking_name">
+                            <input 
+                            type="text"
+                            class="form-control"
+                            maxlength="30"
+                            v-model="taking.name" 
+                            @blur="updateName"
+                            autofocus
+                            >
                         </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col text-end">
-                            <button class="btn btn-success btn-sm">
+                            <button class="btn btn-success btn-sm" @click="showView(2)">
                                 Siguiente <i class="fa-solid fa-chevron-right"></i>
                             </button>
                         </div>
@@ -92,7 +99,7 @@
             </div>
             <!--/Paso 1-->
             <!--Paso 2-->
-            <div class="row mt-2" v-if="false">
+            <div class="row mt-2" v-if="show_views.step2">
                 <h5 class="mt-2">BODEGAS DISPONIBLES</h5>
                 <div class="col bg-light">
                     <div class="row">
@@ -165,9 +172,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col mt-3 text-end">
-                            <button class="btn btn-success btn-sm">
+                    <div class="row mt-3">
+                        <div class="col text-start">
+                            <button class="btn btn-primary btn-sm" @click="showView(1)">
+                                <i class="fa-solid fa-chevron-left"></i> Anterior
+                            </button>
+                        </div>
+                        <div class="col text-end">
+                            <button class="btn btn-success btn-sm" @click="showView(3)">
                                 Siguiente<i class="fa-solid fa-chevron-right"></i>
                             </button>
                     </div>
@@ -178,7 +190,7 @@
             </div>
             <!--/Paso 2-->
             <!--Paso 3-->
-            <div class="row mt-2" v-if="false">
+            <div class="row mt-2" v-if="show_views.step3">
                 <h5 class="mt-2">ASISTENTES DE TOMA</h5>
                 <div class="col bg-light">
                     <div class="row">
@@ -235,19 +247,24 @@
                             <br />
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col mt-3 text-end"><button class="btn btn-success btn-sm">
-                            Siguiente
-                            <i class="fa-solid fa-chevron-right"></i>
-                            </button>
+                        <div class="row mt-3">
+                            <div class="col text-start">
+                                <button class="btn btn-primary btn-sm" @click="showView(2)">
+                                    <i class="fa-solid fa-chevron-left"></i> Anterior
+                                </button>
+                            </div>
+                            <div class="col text-end">
+                                <button class="btn btn-success btn-sm" @click="showView(4)">
+                                    Siguiente<i class="fa-solid fa-chevron-right"></i>
+                                </button>
                         </div>
-                    </div>
+                        </div>
                     <br/>
                 </div>
             </div>
             <!--/Paso 3-->
             <!--Paso 4-->
-            <div class="row mt-2" v-if="false">
+            <div class="row mt-2" v-if="show_views.step4">
                 <h5 class="mt-2">PERSONALIZAR ITEMS TOMA</h5>
                 <div class="col bg-light">
                     <div class="row">
@@ -294,12 +311,17 @@
                             <br />
                         </div>
                     </div>
-                      <div class="row">
-                            <div class="col mt-3 text-end"><button class="btn btn-success btn-sm">
-                                Siguiente
-                                <i class="fa-solid fa-chevron-right"></i>
+                           <div class="row mt-3">
+                            <div class="col text-start">
+                                <button class="btn btn-primary btn-sm" @click="showView(3)">
+                                    <i class="fa-solid fa-chevron-left"></i> Anterior
                                 </button>
                             </div>
+                            <div class="col text-end">
+                                <button class="btn btn-success btn-sm" @click="showView(5)">
+                                    Siguiente<i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                        </div>
                         </div>
                         <br/>
                 </div>
@@ -307,7 +329,7 @@
             </div>
             <!--/Paso 4-->
             <!--Paso 5-->
-            <div class="row mt-2" v-if="true">
+            <div class="row mt-2" v-if="show_views.step5">
                 <h5 class="mt-2">RESUMEN DE TOMA</h5>
                 <div class="col bg-light">
                     <div class="row">
@@ -357,12 +379,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                            <div class="col mt-3 text-end"><button class="btn btn-success btn-sm">
-                                Siguiente
-                                <i class="fa-solid fa-chevron-right"></i>
+                        <div class="row mt-3">
+                            <div class="col text-start">
+                                <button class="btn btn-primary btn-sm" @click="showView(4)">
+                                    <i class="fa-solid fa-chevron-left"></i> Anterior
                                 </button>
                             </div>
+                            <div class="col text-end">
+                                <button class="btn btn-success btn-sm">
+                                    Finalizar <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                        </div>
                         </div>
                         <br/>
                 </div>
@@ -377,16 +404,44 @@
 
 export default {
     name: 'Wizard',
-    emits: [],
+    emits: ['updateName',],
     data() {
         return {
-            taking_name: '',
+        show_views : {
+            step1 : true,
+            step2 : false,
+            step3 : false,
+            step4 : false,
+            step5 : false,
+        },
+        taking: {
+           name: '',
+           description: '',
+           warehouses: [],
+           groups: [],
+           type_products: [],
+        }
         }
     },
     props: {
+       migration_data: {
+           type: Object,
+           default: null
+       }
     }, methods: {
-        // Mostramos 
-    }
+        showView(step){
+            // seteamos todo en false
+            for (const key in this.show_views) {
+                this.show_views[key] = false;
+            }
+            let stepName = 'step'+step;
+            this.show_views[stepName] = true;
+        }, updateName(){
+            this.taking.name = this.taking.name.toUpperCase();
+            console.log("Primer llamado a u[date]")
+            this.$emit('updateName', this.taking.name);
+        },//nextmethod
+    },//next vue property
 };
 </script>
 <style>
