@@ -24,6 +24,7 @@
       v-if="!show_view.loader"
       :migration_data="migration_data"
       @updateName="updateName($event)"
+      @updateWarenhousesList="updateWarenhousesList($event)"
     ></wizard>
   </div>
 </template>
@@ -93,10 +94,17 @@ export default {
         alert('Error al obtener los datos del reporte' + error);
       });
    }, updateName(title){
-    console.log('llamada funcion principal');
     //colocamos el titulo de la pagina
     document.title = title;
     this.taking_name = title;
+   }, updateWarenhousesList(warenhouse){
+      // actualizamos la lista de almacenes
+      console.log('warenhouse', warenhouse);
+      this.migration_data.warenhouses.forEach((item)=>{
+          if (item.warenhouse === warenhouse){
+            item.selected = !item.selected;
+          }
+      });
    },//nextmethod
   }, // next vue properties
 }
