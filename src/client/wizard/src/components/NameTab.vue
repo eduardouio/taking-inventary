@@ -49,7 +49,7 @@
 <script>
 export default {
     name: 'NameTab',
-    emits: ['updateName'],
+    emits: ['updateName', 'showView'],
     props: {
         migration_data: {
             type: Object,
@@ -65,6 +65,9 @@ export default {
         updateName() {
             this.taking_name = this.taking_name.toUpperCase();
             this.$emit('updateName', this.taking_name);
+        },
+        showView(view) {
+            this.$emit('showView', view);
         }
     }
 };
