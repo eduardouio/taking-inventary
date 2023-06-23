@@ -25,8 +25,13 @@
                     </div>
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" maxlength="30" v-model="taking_name" @blur="updateName"
-                        autofocus>
+                    <input 
+                    type="text" 
+                    class="form-control" 
+                    maxlength="30"
+                    v-model="taking_name"
+                    @blur="updateName"
+                    autofocus>
                 </div>
             </div>
             <div class="row mt-2">
@@ -58,6 +63,7 @@ export default {
     },
     methods: {
         updateName() {
+            this.taking_name = this.taking_name.toUpperCase();
             this.$emit('updateName', this.taking_name);
         }
     }
