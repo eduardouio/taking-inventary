@@ -41,6 +41,21 @@ class WizardMigrationData:
             WHERE  sms.id_sap_migration_id = {}
             ORDER BY sms.warenhouse_name""".format(id_sap_migration)
         )
+        # listado de propietarios de las bodegas
+        warenhouses_owners = []
+        for warenhouse in warenhouses_names:
+            owners = self.run_query(
+                """
+                SELECT  DISTINCT(sms.company_name)
+                FROM sap_migrations_sapmigrationdetail sms  
+                WHERE  sms.id_sap_migration_id = {}
+                AND sms.warenhouse_name  = '{}'
+                """.format(id_sap_migration, warenhouse)
+            )
+            warenhouses_owners.append({
+                'warenhouse_name': warenhouse,
+                'owners': owners
+            })
 
         # listado de tipos de productos
         type_products = self.run_query(
@@ -56,6 +71,7 @@ class WizardMigrationData:
         return {
             'sap_migration': sap_migration,
             'warenhouses': warenhouses_names,
+            'warenhouses_owners': warenhouses_owners,
             'type_products': type_products,
             'all_users': all_users
         }
