@@ -168,8 +168,8 @@ export default {
             }
             );
             // quitamos los repetidos
-            this.warehouses_owner = [...new Set(this.warehouses_owner)];
             this.warehouses_owner = this.warehouses_owner.flat();
+            this.warehouses_owner = [...new Set(this.warehouses_owner)];
         },
     },watch:{
         
