@@ -56,10 +56,8 @@
                                 <div class="card-body">
                                     <h5 class="card-title text-info">Propietarios</h5>
                                     <p class="card-text">
-                                    <ul class="list-group text-start">
-                                        <li class="list-group-item p-1">VINESA</li>
-                                        <li class="list-group-item p-1">VINESA</li>
-                                        <li class="list-group-item p-1">VINESA</li>
+                                    <ul class="list-group text-start" v-for="owner in warehouses_owner" :key="owner">
+                                        <li class="list-group-item p-1">{{ owner }}</li> 
                                     </ul>
                                     </p>
                                 </div>
@@ -97,7 +95,9 @@ export default {
         return {
             all_warenhouses: [],
             selected_warenhouses: [],
+            owners: [],
             filter_query: "",
+            warehouses_owner: [],
         }
     },
     mounted(){
@@ -144,11 +144,32 @@ export default {
                     return item.warenhouse !== warenhouse.warenhouse;
                 });
                 this.filterWarenhouses();
+                this.updateOwners();
                 return;
             }
             // agregar bodegas a la lista de seleccionadas
             warenhouse.selected = true;
             this.selected_warenhouses.push(warenhouse);
+            this.updateOwners();
+        },
+        updateOwners(){
+            this.warehouses_owner = [];
+            // listamos todas las bodegas y sus propietarios
+           const all_owners = this.migration_data.warenhouses_owners.map(
+                item=>item
+            );
+            
+            all_owners.filter((item)=>{
+                this.selected_warenhouses.some((warenhouse)=>{
+                    if (warenhouse.warenhouse === item.warenhouse_name){
+                        this.warehouses_owner.push(item.owners.map(item=>item));
+                    }
+                });
+            }
+            );
+            // quitamos los repetidos
+            this.warehouses_owner = [...new Set(this.warehouses_owner)];
+            this.warehouses_owner = this.warehouses_owner.flat();
         },
     },watch:{
         

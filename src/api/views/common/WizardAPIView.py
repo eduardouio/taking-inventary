@@ -20,6 +20,7 @@ class WizardAPIView(APIView):
             'sap_migration': sap_migration,
             'warenhouses': report['warenhouses'],
             'type_products': report['type_products'],
+            'warenhouses_owners': report['warenhouses_owners'],
             'all_users': all_users,
         }
 

@@ -357,13 +357,13 @@ export default {
     },
     // filtramos usuarios del cuadro
     filterUsers() {
-      this.all_users_assistants = this.report.all_users_assistants.map(item=>item)
+      this.all_users_assistants = this.report.all_users_assistants.map(item=>item);
       this.all_users_assistants = this.all_users_assistants.filter(
         user => {
           return user.first_name.toLowerCase().includes(this.my_query.toLowerCase()) ||
             user.last_name.toLowerCase().includes(this.my_query.toLowerCase())
         }
-      )
+      );
     },
     // Actualizamos las bodegas
     updateWarenhouses() {
