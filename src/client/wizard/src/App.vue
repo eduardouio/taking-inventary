@@ -24,7 +24,6 @@
       v-if="!show_view.loader"
       :migration_data="migration_data"
       @updateName="updateName($event)"
-      @updateWarenhousesList="updateWarenhousesList($event)"
     ></wizard>
   </div>
 </template>
@@ -63,12 +62,12 @@ export default {
     Loader,
   },data(){
     return{
-      data: null,
       show_view: {
         loader: true,
       },
       taking_name:'',
-      migration_data:null
+      migration_data: null,
+      all_warenhouses: [],
     }
   },computed:{
     sap_migration_date(){
@@ -97,7 +96,7 @@ export default {
     //colocamos el titulo de la pagina
     document.title = title;
     this.taking_name = title;
-   }, updateWarenhousesList(warenhouse){
+   }, updateWarenhousesList_uncall(warenhouse){
       // actualizamos la lista de almacenes
       console.log('warenhouse', warenhouse);
       this.migration_data.warenhouses.forEach((item)=>{
@@ -111,5 +110,7 @@ export default {
 </script>
 
 <style>
-
+  .fade_id {
+    transition: all 0.5s ease-in-out;
+  }
 </style>

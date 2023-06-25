@@ -49,11 +49,6 @@ class WizardMigrationData:
             ORDER BY pp.type_product"""
         )
 
-        # generemos el diccionario de datos
-        warenhouses_names = [{'warenhouse': whrs, "selected": False}
-                             for whrs in warenhouses_names
-                             ]
-
         # generemos el diccionario de datos de productos
         type_products = [{'type_product': tp, "selected": False}
                          for tp in type_products
