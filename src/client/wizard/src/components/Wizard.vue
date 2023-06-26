@@ -68,7 +68,7 @@
             <!--Paso 3-->
             <teams-tab 
                 v-if="show_views.step3"
-                :migration_data="migration_data">
+                :teams="migration_data.all_users">
             </teams-tab>
             <!--/Paso 3-->
             <!--Paso 4-->

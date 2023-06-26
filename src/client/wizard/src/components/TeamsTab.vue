@@ -4,6 +4,7 @@
         <div class="col bg-light">
             <div class="row">
                 <div class="col-8 mt-2">
+                    <input type="text" v-model="query" class="form-control" placeholder="Buscar">
                     <table class="table table-bordered table-hover table-condesed mi_table">
                         <thead>
                             <tr>
@@ -14,29 +15,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Juan Perez</td>
-                                <td>jperez</td>
-                                <td class="text-danger"><i class="fa-solid fa-minus"></i></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>M Paula Villota</td>
-                                <td>mvillota</td>
-                                <td class="text-success"><i class="fa-solid fa-check"></i></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Carlos Ponce</td>
-                                <td>cponce</td>
-                                <td class="text-danger"><i class="fa-solid fa-minus"></i></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Fernanda Mazon</td>
-                                <td>fmazon</td>
-                                <td class="text-success"><i class="fa-solid fa-check"></i></td>
+                            <tr v-for="(user, idx) in all_teams" :key="user" @click="selectUser(user)">
+                                <td class="text-center">{{ idx+1 }}</td>
+                                <td class="text-start">{{ user.last_name }} {{ user.first_name }}</td>
+                                <td class="text-start">{{ user.username }}</td>
+                                <td class="text-success"><i class="fa-solid fa-plus"></i></td>
                             </tr>
                         </tbody>
                     </table>
@@ -46,9 +29,12 @@
                         <div class="card-body">
                             <h5 class="card-title">Usuarios Seleccionados</h5>
                             <p class="card-text">
-                            <ul class="list-group text-start">
-                                <li class="list-group-item p-1">M Paula Villota</li>
-                                <li class="list-group-item p-1">Fernanda Mazon</li>
+                            <ul class="list-group text-start" v-for="user in selected_teams" :key="user">
+                                <li class="list-group-item p-1" @click="selectUser(user,true)">
+                                    <li class="fa-solid fa-minus text-danger"></li>
+                                    {{ user.last_name }} {{ user.first_name }}
+                                    <small class="badge bg-light text-secondary border">{{ user.username }}</small>
+                                </li>
                             </ul>
                             </p>
                         </div>
@@ -77,10 +63,50 @@ export default {
     name: "TeamsTab",
     emits: ["updateTeams"],
     props: {
-        migration_data: {
+        teams: {
             type: Object,
             required: true,
         },
+    },data(){
+        return{
+            query:"",
+            all_teams: [],
+            selected_teams: [],
+        }
+    },methods:{
+        filterUsers(){
+            // tomamos todos los usuarios
+            const users = this.all_teams.map(item=>item);
+
+            // quitamos los seleccionados
+          this.all_teams = users.filter(
+            item=>!this.selected_teams.includes(item)
+         );
+
+         // aplicamos el filtro
+         if (this.query.length > 0){
+             this.all_teams = this.all_teams.filter(
+                 item=>item.username.includes(this.query)
+             );
+             return;
+         }
+
+        },
+        selectUser(user, delete_usr=false){
+            // agregamos un usuario a los seleccionados
+            if (delete_usr){
+                this.selected_teams = this.selected_teams.filter(
+                    item=>item.username !== user.username
+                );
+                return;
+            }
+            this.selected_teams.push(user);
+            this.filterUsers();
+        },
+    },
+    mounted(){
+        // cargar todos los usuarios asistentes
+        this.all_teams = this.teams.map(item=>item);
     },
 };
 </script>
