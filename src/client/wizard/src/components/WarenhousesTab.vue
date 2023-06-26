@@ -127,7 +127,7 @@ export default {
             });
 
             // aplicando el filtro
-            if (this.filter_query.length > 0) {
+            if (this.filter_query.length > 3) {
                 this.all_warenhouses = this.all_warenhouses.filter(item => {
                     return item.warenhouse.toLowerCase().includes(this.filter_query.toLowerCase());
                 });

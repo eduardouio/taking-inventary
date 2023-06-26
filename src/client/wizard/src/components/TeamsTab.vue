@@ -4,7 +4,7 @@
         <div class="col bg-light">
             <div class="row">
                 <div class="col-8 mt-2">
-                    <input type="text" v-model="query" class="form-control" placeholder="Buscar">
+                    <input type="text" v-model="query" class="form-control" placeholder="Buscar" @keyup="filterUsers">
                     <table class="table table-bordered table-hover table-condesed mi_table">
                         <thead>
                             <tr>
@@ -76,27 +76,30 @@ export default {
     },methods:{
         filterUsers(){
             // tomamos todos los usuarios
-            const users = this.all_teams.map(item=>item);
+        const users = this.teams.map(item=>item);
 
             // quitamos los seleccionados
-          this.all_teams = users.filter(
+        this.all_teams = users.filter(
             item=>!this.selected_teams.includes(item)
          );
 
          // aplicamos el filtro
-         if (this.query.length > 0){
-             this.all_teams = this.all_teams.filter(
-                 item=>item.username.includes(this.query)
+         if (this.query.length > 3){
+             this.all_teams = this.all_teams.filter((item)=>{
+                let params = this.query.toLowerCase();
+                let target = item.first_name + ' ' + item.last_name;
+                return target.toLowerCase().includes(params);
+                }
              );
              return;
          }
-
+         console.log('llgeamos a la fila');
         },
         selectUser(user, delete_usr=false){
             // agregamos un usuario a los seleccionados
-            if (delete_usr){
+           if (delete_usr) {
                 this.selected_teams = this.selected_teams.filter(
-                    item=>item.username !== user.username
+                    item => item.username !== user.username
                 );
                 return;
             }
@@ -106,7 +109,7 @@ export default {
     },
     mounted(){
         // cargar todos los usuarios asistentes
-        this.all_teams = this.teams.map(item=>item);
+        this.filterUsers();
     },
 };
 </script>
