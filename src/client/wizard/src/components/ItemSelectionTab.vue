@@ -13,20 +13,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Accesorios</td>
-                                            <td class="text-danger"><i class="fa-solid fa-minus"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Licores</td>
-                                            <td class="text-success"><i class="fa-solid fa-check"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Alimentos</td>
-                                            <td class="text-success"><i class="fa-solid fa-check"></i></td>
+                                        <tr v-for="(category,idx) in categories" :key="category" @click="category.selected = !category.selected">
+                                            <td>{{ idx + 1 }}</td>
+                                            <td class="text-start">{{ category.category }}</td>
+                                            <td class="text-success">
+                                                
+                                                    <i class="fa-solid fa-minus text-danger" v-if="category.selected"></i>
+                                                    <i class="fa-solid fa-plus" v-else></i>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -67,11 +61,38 @@
 <script>
 export default {
     name: 'ItemSelectionTab',
+    emits: ['showView'],
+    props: {
+        type_products: {
+            type: Object,
+            required: true
+        }
+    },data(){
+        return{
+            all_type_products: [],
+            categories: [],
+            selected_categories: [],
+        }
+    },
     methods: {
         showView(view) {
             this.$emit('showView', view);
-        }
-    }
+        },showView(view) {
+            this.$emit("showView", view);
+        },
+    },mounted(){
+        let my_categories = null;
+        this.all_type_products = this.type_products.map(item=>item);
+        my_categories = this.all_type_products.map((item)=>{
+            return item.type_product.split(';')[0];
+        });
+        my_categories = [...new Set(my_categories)];
+        this.categories = my_categories.map((item)=>{
+            return {
+                category: item,
+                selected: false
+            };
+        });
+    },
 }
-
 </script>
