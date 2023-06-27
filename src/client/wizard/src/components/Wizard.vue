@@ -76,7 +76,7 @@
             <!--Paso 4-->
             <item-selection-tab 
                 v-if="show_views.step4"
-                :type_products="migration_data.type_products"
+                :categories="migration_data.type_products"
                 @showView="showView($event)">
             </item-selection-tab>
             <!--/Paso 4-->
@@ -105,7 +105,11 @@ export default {
         migration_data: {
             type: Object,
             default: null
-        }
+        },
+        categories: {
+            type: Array,
+            default: null
+        },
     },
     data() { return {
         show_views : {

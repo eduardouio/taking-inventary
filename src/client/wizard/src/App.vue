@@ -24,7 +24,7 @@
       v-if="!show_view.loader"
       :migration_data="migration_data"
       @updateName="updateName($event)"
-    ></wizard>
+    />
   </div>
 </template>
 
@@ -67,7 +67,8 @@ export default {
       },
       taking_name:'',
       migration_data: null,
-      all_warenhouses: [],
+      categories: [],
+      all_users: [],
     }
   },computed:{
     sap_migration_date(){

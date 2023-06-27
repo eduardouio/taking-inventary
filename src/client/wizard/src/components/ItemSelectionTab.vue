@@ -3,7 +3,7 @@
                     <h5 class="mt-2">PERSONALIZAR ITEMS TOMA</h5>
                     <div class="col bg-light">
                         <div class="row">
-                            <div class="col-8 mt-2">
+                            <div class="col-6 mt-2">
                                 <table class="table table-bordered table-hover table-condesed mi_table">
                                     <thead>
                                         <tr>
@@ -13,26 +13,36 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(category,idx) in categories" :key="category.category" @click="category.selected = !category.selected">
+                                        <tr v-for="(category,idx) in all_categories" :key="category" @click="category.selected = !category.selected">
                                             <td>{{ idx + 1 }}</td>
                                             <td class="text-start">{{ category.category }}</td>
-                                            <td class="text-success">
-                                                
-                                                    <i class="fa-solid fa-minus text-danger" v-if="category.selected"></i>
-                                                    <i class="fa-solid fa-plus" v-else></i>
+                                            <td class="text-center">
+                                                <span :class="category.selected ? 'text-danger' : 'text-success'">
+                                                    {{ category.selected ? 'Quitar' : 'Agregar'  }}
+                                                </span>
                                             </td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ all_categories.length + 1 }}</td>
+                                            <td class="text-start">SELECCIONAR PRODUCTOS</td>
+                                            <td><i class="fa-solid fa-search"></i></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-4 mt-2">
+                            <div class="col-6 mt-2">
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Items Seleccionados</h5>
                                         <p class="card-text">
-                                        <ul class="list-group text-start">
-                                            <li class="list-group-item p-1">Licores</li>
-                                            <li class="list-group-item p-1">Alimentos</li>
+                                        <ul class="list-group text-start" v-for="category in selected_categories" :key="category">
+                                            <li class="list-group-item p-1"> 
+                                                <i class="fa-solid fa-minus text-danger"></i>
+                                                {{ category.category }}
+                                                <ul v-for="item in category.items" :key="item">
+                                                    <li> {{ item }} </li>
+                                                </ul>
+                                            </li>
                                         </ul>
                                         </p>
                                     </div>
@@ -61,17 +71,16 @@
 <script>
 export default {
     name: 'ItemSelectionTab',
-    emits: ['showView'],
+    emits: ['showView',],
     props: {
-        type_products: {
+        categories: {
             type: Object,
             required: true
         }
-    },data(){
-        return{
-            all_type_products: [],
-            categories: [],
-            selected_categories: [],
+    },
+    data() {
+        return {
+            all_categories: [],
         }
     },
     methods: {
@@ -79,19 +88,46 @@ export default {
             this.$emit('showView', view);
         },showView(view) {
             this.$emit("showView", view);
-        },selectCategory(category){
-            // agregamos la categoria a selected_categories
-            
+        },filterCategories(){
+            // obtenemos todas las categorias
+
+            this.all_categories = this.categories.map((item)=>{
+                return  item.type_product.split(";")[0];
+            });
+            // eliminamos los duplicados
+            this.all_categories = [...new Set(this.all_categories)];
+
+            this.all_categories = this.all_categories.map((item)=>{
+                let items = this.categories.filter((category)=>{
+                    return category.type_product.split(";")[0] == item;
+                });
+
+                items = items.map((item)=>{
+                     return item.type_product.split(";")[1]
+                });
+
+                return {
+                    category: item,
+                    items: items,
+                    selected: false,
+                }
+            });
+
+            // quitamos las seleccionadas
+            this.all_categories = this.all_categories.filter((item)=>{
+                return !this.selected_categories.some((category)=>{
+                    return category.category == item.category;
+                });
+            });
         },
-    },mounted(){
-        let my_categories;
-        this.all_type_products = [...this.type_products];
-
-        my_categories = this.all_type_products.map((item)=>{
-            return item.type_product.split(';')[0];
-        });
-
-        this.categories = [...new Set(my_categories)];
-    },
+    },mounted() {
+        this.filterCategories();
+    },computed:{
+        selected_categories(){
+            return this.all_categories.filter((item)=>{
+                return item.selected;
+            });
+        }
+    }
 }
 </script>
