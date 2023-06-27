@@ -37,6 +37,15 @@ class WizardMigrationData:
         all_users = CustomUserModel.objects.filter(
             role='asistente'
         )
+        all_users = [
+            {
+                'id': user.id,
+                'username': user.username,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'selected': False
+            } for user in all_users
+        ]
 
         # listado de almacenes
         warenhouses_names = self.run_query(

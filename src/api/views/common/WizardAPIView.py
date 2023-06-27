@@ -14,14 +14,18 @@ class WizardAPIView(APIView):
             return Response({'detail': str(e)}, status=404)
 
         sap_migration = SapMigrationSerializer(report['sap_migration']).data
-        all_users = CustomUserSerializer(report['all_users'], many=True).data
 
         wizard_data = {
             'sap_migration': sap_migration,
             'warenhouses': report['warenhouses'],
             'type_products': report['type_products'],
+            'products': report['products'],
             'warenhouses_owners': report['warenhouses_owners'],
-            'all_users': all_users,
+            'all_users': report['all_users'],
         }
 
         return Response(wizard_data)
+
+    def post(self, request, *args, **kwargs):
+        # crea la toma y retorna el id de la toma para la redirecion
+        return Response({"id_taking": 12}, status=201)

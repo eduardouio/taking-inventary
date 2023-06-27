@@ -53,6 +53,7 @@
             <name-tab 
                 v-if="show_views.step1"
                 :migration_data="migration_data" 
+                :taking_data="taking_data"
                 @showView="showView($event)"
                 @updateName="updateName($event)">
             </name-tab>
@@ -61,6 +62,7 @@
             <warenhouses-tab 
                 v-if="show_views.step2"
                 :migration_data="migration_data"
+                :taking_data="taking_data"
                 @showView="showView($event)"
                 >
             </warenhouses-tab>
@@ -69,6 +71,7 @@
             <teams-tab 
                 v-if="show_views.step3"
                 :teams="migration_data.all_users"
+                :taking_data="taking_data"
                 @showView="showView($event)"
                 >
             </teams-tab>
@@ -76,14 +79,19 @@
             <!--Paso 4-->
             <item-selection-tab 
                 v-if="show_views.step4"
-                :categories="migration_data.type_products"
+                :taking_data="taking_data"
                 @showView="showView($event)">
             </item-selection-tab>
             <!--/Paso 4-->
             <!--Paso 5-->
             <resume-tab 
                 v-if="show_views.step5"
-                :migration_data="migration_data"></resume-tab>
+                :taking_data="taking_data"
+                :migration_data="migration_data"
+                @showView="showView($event)"
+                @sendData="sendData($event)"
+                >
+            </resume-tab>
             <!--/Paso 4-->
 
             <p></p>
@@ -100,14 +108,10 @@ import ResumeTab from './ResumeTab.vue';
 export default {
   components: { NameTab , WarenhousesTab, TeamsTab, ItemSelectionTab, ResumeTab},
     name: 'Wizard',
-    emits: ['updateName'],
+    emits: ['updateName', 'sendData'],
     props: {
         migration_data: {
             type: Object,
-            default: null
-        },
-        categories: {
-            type: Array,
             default: null
         },
     },
@@ -119,16 +123,15 @@ export default {
             step4 : false,
             step5 : false,
         },
-        taking: {
+        taking_data: {
+           id_sap_migration: null,
            name: '',
-           warehouses: [],
+           warenhouses: [],
            groups: [],
-           type_products: [],
+           categories: [],
         },
-        all_warenhouses: [],
     }},methods: {
         showView(step){
-            console.log('hacemos el cambio de vistas al paso ' + step);
             // seteamos todo en false
             this.show_views.step1 = false;
             this.show_views.step2 = false;
@@ -140,10 +143,37 @@ export default {
             this.show_views[stepName] = true;
         }, updateName( taking_name){
             // actualizamos el nombre de la toma
-            this.taking.name = taking_name;
+            this.taking_data.name = taking_name;
             this.$emit('updateName', taking_name);
+        }, sendData(){
+            // enviamos los datos
+            this.$emit('sendData', this.taking_data);
         },//nextmethod
     },mounted(){
+        // asignamos el id de la migracion
+        this.taking_data.id_sap_migration = this.migration_data.sap_migration.id_sap_migration;
+        // creamos la cateforias
+        let all_categories = this.migration_data.type_products.map((item)=>{
+            return item.type_product.split(";")[0];
+        });
+        all_categories = [...new Set(all_categories)];
+
+        this.taking_data.categories = all_categories.map((item)=>{
+            
+            let items = this.migration_data.type_products.filter((category) => {
+                return category.type_product.split(";")[0] == item;
+            });
+
+            items = items.map((item) => {
+                return item.type_product.split(";")[1]
+            });
+
+            return {
+                category: item,
+                items: items,
+                selected: false,
+            }
+        });
     }, //netx vuejs properties
 };
 </script>

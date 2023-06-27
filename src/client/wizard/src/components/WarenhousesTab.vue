@@ -40,7 +40,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title text-info">Bodegas Seleccionadas</h5>
                                     <p class="card-text">
-                                    <ul class="list-group text-start" v-for="warenhouse in selected_warenhouses"
+                                    <ul class="list-group text-start" v-for="warenhouse in taking_data.warenhouses"
                                         :key="warenhouse">
                                         <li class="list-group-item p-1" @click="updateWarenhouse(warenhouse, true)">
                                             <i class="fa-solid fa-minus text-danger"></i>
@@ -68,12 +68,12 @@
             </div>
             <div class="row mt-3">
                 <div class="col text-start">
-                    <button class="btn btn-primary btn-sm" @click="showView(1)">
+                    <button class="btn btn-primary" @click="showView(1)">
                         <i class="fa-solid fa-chevron-left"></i> Anterior
                     </button>
                 </div>
                 <div class="col text-end">
-                    <button class="btn btn-success btn-sm" @click="showView(3)">
+                    <button class="btn btn-success" @click="showView(3)">
                         Siguiente<i class="fa-solid fa-chevron-right"></i>
                     </button>
                 </div>
@@ -91,11 +91,13 @@ export default {
         migration_data: {
             type: Object,
             required: true,
-        },
+        }, taking_data: {
+            type: Object,
+            required: true
+        }
     },data(){
         return {
             all_warenhouses: [],
-            selected_warenhouses: [],
             owners: [],
             filter_query: "",
             warehouses_owner: [],
@@ -109,6 +111,7 @@ export default {
                 selected: false,
             };
         });
+        this.updateOwners();
     },
     methods: {
         filterWarenhouses() {
@@ -122,7 +125,7 @@ export default {
 
             // qutiando los que ya estan seleccionados
             this.all_warenhouses = this.all_warenhouses.filter(item => {
-                return !this.selected_warenhouses.some(warenhouse => {
+                return !this.taking_data.warenhouses.some(warenhouse => {
                     return warenhouse.warenhouse === item.warenhouse;
                 });
             });
@@ -141,7 +144,7 @@ export default {
         updateWarenhouse(warenhouse, delete_warenhouse = false) {
             // quitamos una bodega de la lista de seleccionadas
             if (delete_warenhouse){
-                this.selected_warenhouses = this.selected_warenhouses.filter(item => {
+                this.taking_data.warenhouses = this.taking_data.warenhouses.filter(item => {
                     return item.warenhouse !== warenhouse.warenhouse;
                 });
                 this.filterWarenhouses();
@@ -150,7 +153,7 @@ export default {
             }
             // agregar bodegas a la lista de seleccionadas
             warenhouse.selected = true;
-            this.selected_warenhouses.push(warenhouse);
+            this.taking_data.warenhouses.push(warenhouse);
             this.updateOwners();
         },
         updateOwners(){
@@ -161,7 +164,7 @@ export default {
             );
             
             all_owners.filter((item)=>{
-                this.selected_warenhouses.some((warenhouse)=>{
+                this.taking_data.warenhouses.some((warenhouse)=>{
                     if (warenhouse.warenhouse === item.warenhouse_name){
                         this.warehouses_owner.push(item.owners.map(item=>item));
                     }
@@ -172,8 +175,6 @@ export default {
             this.warehouses_owner = this.warehouses_owner.flat();
             this.warehouses_owner = [...new Set(this.warehouses_owner)];
         },
-    },watch:{
-        
     },
 };
 </script>

@@ -36,7 +36,7 @@
             </div>
             <div class="row mt-2">
                 <div class="col text-end">
-                    <button class="btn btn-success btn-sm" @click="showView(2)">
+                    <button class="btn btn-success" @click="showView(2)">
                         Siguiente <i class="fa-solid fa-chevron-right"></i>
                     </button>
                 </div>
@@ -54,6 +54,10 @@ export default {
         migration_data: {
             type: Object,
             required: true
+        },
+        taking_data: {
+            type: Object,
+            required: true
         }
     },
     data() {
@@ -69,6 +73,8 @@ export default {
         showView(view) {
             this.$emit('showView', view);
         }
+    },mounted(){
+        this.taking_name = this.taking_data.name;
     }
 };
 </script>

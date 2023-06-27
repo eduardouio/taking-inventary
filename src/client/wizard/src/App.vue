@@ -24,6 +24,7 @@
       v-if="!show_view.loader"
       :migration_data="migration_data"
       @updateName="updateName($event)"
+      @sendData="sendData($event)"
     />
   </div>
 </template>
@@ -52,6 +53,7 @@ import axios from "axios";
 // constants
 const base_url = 'http://localhost:8000';
 const url_data = '/api/common/wizard-assistant/1/';
+const csrf_token = 'colocar_el_token_aqui';
 
 
 export default {
@@ -69,6 +71,7 @@ export default {
       migration_data: null,
       categories: [],
       all_users: [],
+      csrf_token: csrf_token,
     }
   },computed:{
     sap_migration_date(){
@@ -87,7 +90,6 @@ export default {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       }).then((response) => {
-        console.log('Respuesta del servidor');
         this.migration_data = response.data;
         this.show_view.loader = false;
       }).catch((error) => {
@@ -105,7 +107,22 @@ export default {
             item.selected = !item.selected;
           }
       });
-   },//nextmethod
+   },sendData(taking_data){
+      // enviamos los datos al servidor
+      this.show_view.loader = true;
+      axios.post(base_url + url_data, taking_data, {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': this.csrf_token,
+        'Accept': 'application/json',
+      }).then((response) => {
+        let taking = response.data;
+        // redireccionamos a la pagina de reporte
+        window.location.href = base_url + '/takings/detail/' + taking.id_taking;
+        this.show_view.loader = false;
+      }).catch((error) => {
+        alert('Error al obtener los datos del reporte' + error);
+      });
+   }//nextmethod
   }, // next vue properties
 }
 </script>

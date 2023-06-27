@@ -13,7 +13,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(category,idx) in all_categories" :key="category" @click="category.selected = !category.selected">
+                                        <tr v-for="(category,idx) in taking_data.categories" :key="category" @click="category.selected = !category.selected">
                                             <td>{{ idx + 1 }}</td>
                                             <td class="text-start">{{ category.category }}</td>
                                             <td class="text-center">
@@ -22,7 +22,7 @@
                                                 </span>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr v-if="false">
                                             <td>{{ all_categories.length + 1 }}</td>
                                             <td class="text-start">SELECCIONAR PRODUCTOS</td>
                                             <td><i class="fa-solid fa-search"></i></td>
@@ -52,12 +52,12 @@
                         </div>
                                <div class="row mt-3">
                                 <div class="col text-start">
-                                    <button class="btn btn-primary btn-sm" @click="showView(3)">
+                                    <button class="btn btn-primary" @click="showView(3)">
                                         <i class="fa-solid fa-chevron-left"></i> Anterior
                                     </button>
                                 </div>
                                 <div class="col text-end">
-                                    <button class="btn btn-success btn-sm" @click="showView(5)">
+                                    <button class="btn btn-success" @click="showView(5)">
                                         Siguiente<i class="fa-solid fa-chevron-right"></i>
                                     </button>
                             </div>
@@ -73,7 +73,7 @@ export default {
     name: 'ItemSelectionTab',
     emits: ['showView',],
     props: {
-        categories: {
+        taking_data: {
             type: Object,
             required: true
         }
@@ -88,43 +88,12 @@ export default {
             this.$emit('showView', view);
         },showView(view) {
             this.$emit("showView", view);
-        },filterCategories(){
-            // obtenemos todas las categorias
-
-            this.all_categories = this.categories.map((item)=>{
-                return  item.type_product.split(";")[0];
-            });
-            // eliminamos los duplicados
-            this.all_categories = [...new Set(this.all_categories)];
-
-            this.all_categories = this.all_categories.map((item)=>{
-                let items = this.categories.filter((category)=>{
-                    return category.type_product.split(";")[0] == item;
-                });
-
-                items = items.map((item)=>{
-                     return item.type_product.split(";")[1]
-                });
-
-                return {
-                    category: item,
-                    items: items,
-                    selected: false,
-                }
-            });
-
-            // quitamos las seleccionadas
-            this.all_categories = this.all_categories.filter((item)=>{
-                return !this.selected_categories.some((category)=>{
-                    return category.category == item.category;
-                });
-            });
-        },
+        }
     },mounted() {
-        this.filterCategories();
+        
     },computed:{
         selected_categories(){
-            return this.all_categories.filter((item)=>{
+            return this.taking_data.categories.filter((item)=>{
                 return item.selected;
             });
         }
