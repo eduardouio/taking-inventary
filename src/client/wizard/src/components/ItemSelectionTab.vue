@@ -13,7 +13,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(category,idx) in categories" :key="category" @click="category.selected = !category.selected">
+                                        <tr v-for="(category,idx) in categories" :key="category.category" @click="category.selected = !category.selected">
                                             <td>{{ idx + 1 }}</td>
                                             <td class="text-start">{{ category.category }}</td>
                                             <td class="text-success">
@@ -79,20 +79,19 @@ export default {
             this.$emit('showView', view);
         },showView(view) {
             this.$emit("showView", view);
+        },selectCategory(category){
+            // agregamos la categoria a selected_categories
+            
         },
     },mounted(){
-        let my_categories = null;
-        this.all_type_products = this.type_products.map(item=>item);
+        let my_categories;
+        this.all_type_products = [...this.type_products];
+
         my_categories = this.all_type_products.map((item)=>{
             return item.type_product.split(';')[0];
         });
-        my_categories = [...new Set(my_categories)];
-        this.categories = my_categories.map((item)=>{
-            return {
-                category: item,
-                selected: false
-            };
-        });
+
+        this.categories = [...new Set(my_categories)];
     },
 }
 </script>

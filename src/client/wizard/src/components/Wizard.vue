@@ -68,13 +68,16 @@
             <!--Paso 3-->
             <teams-tab 
                 v-if="show_views.step3"
-                :teams="migration_data.all_users">
+                :teams="migration_data.all_users"
+                @showView="showView($event)"
+                >
             </teams-tab>
             <!--/Paso 3-->
             <!--Paso 4-->
             <item-selection-tab 
                 v-if="show_views.step4"
-                :migration_data="migration_data">
+                :type_products="migration_data.type_products"
+                @showView="showView($event)">
             </item-selection-tab>
             <!--/Paso 4-->
             <!--Paso 5-->
