@@ -86,6 +86,7 @@
 <script>
 export default {
     name: "WarenhousesTab",
+    emits: ["showView"],
     props: {
         migration_data: {
             type: Object,

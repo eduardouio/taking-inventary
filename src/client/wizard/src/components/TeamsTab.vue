@@ -29,9 +29,9 @@
                         <div class="card-body">
                             <h5 class="card-title">Usuarios Seleccionados</h5>
                             <p class="card-text">
-                            <ul class="list-group text-start" v-for="user in selected_teams" :key="user">
+                            <ul class="list-group text-start" v-for="user in selected_teams" :key="user.username">
                                 <li class="list-group-item p-1" @click="selectUser(user,true)">
-                                    <li class="fa-solid fa-minus text-danger"></li>
+                                    <i class="fa-solid fa-minus text-danger"></i>
                                     {{ user.last_name }} {{ user.first_name }}
                                     <small class="badge bg-light text-secondary border">{{ user.username }}</small>
                                 </li>
@@ -61,7 +61,7 @@
 <script>
 export default {
     name: "TeamsTab",
-    emits: ["updateTeams"],
+    emits: ["showView"],
     props: {
         teams: {
             type: Object,
@@ -105,6 +105,8 @@ export default {
             }
             this.selected_teams.push(user);
             this.filterUsers();
+        },showView(view) {
+            this.$emit("showView", view);
         },
     },
     mounted(){
