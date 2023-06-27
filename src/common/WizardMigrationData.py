@@ -14,10 +14,14 @@ class WizardMigrationData:
         toma de una migración de SAP
     """
 
-    def run_query(self, query):
+    def run_query(self, query, many_columns=False):
         cursor = connection.cursor()
         cursor.execute(query)
-        data = [list(row)[0] for row in cursor.fetchall()]
+        if many_columns:
+            data = [list(row) for row in cursor.fetchall()]
+        else:
+            data = [list(row)[0] for row in cursor.fetchall()]
+
         return data
 
     def get(self, id_sap_migration):
@@ -68,10 +72,24 @@ class WizardMigrationData:
         type_products = [{'type_product': tp, "selected": False}
                          for tp in type_products
                          ]
+
+        # listado de prductos
+        products = self.run_query("""
+                SELECT DISTINCT(account_code), "name", false AS selected 
+                FROM sap_migrations_sapmigrationdetail 
+                WHERE id_sap_migration_id = {} order by "name"
+        """.format(id_sap_migration), many_columns=True)
+
+        products = [
+            dict(zip(['account_code', 'name', 'selected'], product))
+            for product in products
+        ]
+
         return {
             'sap_migration': sap_migration,
             'warenhouses': warenhouses_names,
             'warenhouses_owners': warenhouses_owners,
             'type_products': type_products,
-            'all_users': all_users
+            'all_users': all_users,
+            'products': products,
         }
