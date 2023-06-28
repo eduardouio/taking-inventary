@@ -79,7 +79,7 @@ class WizardMigrationData:
 
         # generemos el diccionario de datos de productos
         type_products = [{'type_product': tp, "selected": False}
-                         for tp in type_products
+                         for tp in type_products if tp is not None
                          ]
 
         # listado de prductos
