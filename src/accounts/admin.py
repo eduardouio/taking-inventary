@@ -68,7 +68,7 @@ class CustomUserAdmin(UserAdmin):
          ),
     )
     search_fields = [
-        'username'
+        'username',
         'role',
         'dni_number',
         'first_name',
