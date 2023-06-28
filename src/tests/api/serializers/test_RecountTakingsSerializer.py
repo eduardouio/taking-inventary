@@ -1,15 +1,16 @@
 import pytest
 
 from api.Serializers import RecountTakingsSerializer
-from recounts.models import RecountTakings
 
 
 @pytest.mark.django_db
 class TestSerializer:
 
     def test_create_valid_parameters(self):
+        # comprobamos un serializer
         data = {
             "id_taking": 1,
+            "categories": None,
         }
 
         serializer = RecountTakingsSerializer(data=data)
