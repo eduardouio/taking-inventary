@@ -69,6 +69,10 @@ class TestWizardMigrationData:
         assert len(wizard_data['all_users']) == self.lend_data['all_users']
         assert len(wizard_data['products']) == self.lend_data['products']
 
+        # verificamos la warenhouses
+        for warenhouse in self.spected_data['warenhouses']:
+            assert warenhouse in wizard_data['warenhouses']
+
         # Verificamos los owner de las bodegas
         owners = [w['owners'] for w in wizard_data['warenhouses_owners']]
         owners = set([elem for sub_list in owners for elem in sub_list])
