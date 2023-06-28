@@ -49,6 +49,12 @@ class Taking(AppBaseModel):
         null=True,
         default=None
     )
+    # si el valor es nulo, se hace la toma de todos los productos
+    categories = models.JSONField(
+        blank=True,
+        null=True,
+        default=None
+    )
     location = models.CharField(
         'ubicacion instalaciones',
         max_length=255,
