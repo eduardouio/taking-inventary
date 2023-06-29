@@ -52,10 +52,9 @@ import Loader from "./components/Loader.vue";
 import axios from "axios";
 
 // constants
-const base_url = 'http://localhost:8000';
-const url_data = '/api/common/wizard-assistant/1/';
-const taking_create = '/taking/create/';
-const csrf_token = 'colocar_el_token_aqui';
+var base_url = '';
+var url_data = '/api/common/wizard-assistant/1/';
+var csrf_token = 'colocar_el_token_aqui';
 
 
 export default {
@@ -73,7 +72,6 @@ export default {
       migration_data: null,
       categories: [],
       all_users: [],
-      csrf_token: csrf_token,
     }
   },computed:{
     sap_migration_date(){
@@ -112,11 +110,10 @@ export default {
    },sendData(taking_data){
       // enviamos los datos al servidor
       this.show_view.loader = true;
-      axios.post(base_url, taking_create, {
+      axios.post(base_url, taking_data, { headers:{
         'Content-Type': 'application/json',
-        'X-CSRFToken': this.csrf_token,
-        'Accept': 'application/json',
-      }).then((response) => {
+        'X-CSRFToken': csrf_token,
+      }}).then((response) => {
         let taking = response.data;
         // redireccionamos a la pagina de reporte
         window.location.href = base_url + '/takings/detail/' + taking.id_taking;

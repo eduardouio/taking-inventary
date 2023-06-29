@@ -2,7 +2,6 @@
 {% load humanize %}
 <!doctype html>
 <html lang="es">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,9 +16,8 @@
     <div id="app">
     </div>
     <script>
-        const base_url = '';
-        const url_data = '/api/common/wizard-assistant/{{id_sap_migration}}/';
-        const taking_create = '';
+        var base_url = '';
+        var url_data = '/api/common/wizard-assistant/{{id_sap_migration}}/';
         var csrf_token = document.cookie.match(/csrftoken=([^;]+)/)[1];
     </script>
     <script src="{% static 'js/apps/wizard/chunk-vendors.js' %}"></script>

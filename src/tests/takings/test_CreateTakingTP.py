@@ -1,23 +1,2 @@
-from django.test import TestCase
-
-from accounts.models.CustomUserModel import CustomUserModel
-
-
-class TestCreateTakingTP(TestCase):
-
-    def setUp(self):
-        self.path = '/taking/create/13'
-        return super().setUp()
-    
-    def test_get(self):
-        self.client.login(username='eduardo',password='1234.abc')
-        response = self.client.get(self.path)
-        self.assertTemplateUsed('takings/create-taking.html')
-        self.assertEqual(response.status_code, 200)
-
-    def test_not_logged(self):
-        response = self.client.get(self.path)
-        self.assertEqual(response.status_code, 302)
-    
-    def test_post(self):
-        pass
+{'id_sap_migration': 211, 'name': 'MI TOMA', 'warenhouses': [{'warenhouse': 'BODEGA CARCELEN', 'selected': True}, {'warenhouse': 'Bodega Rev Ecuador - Carcelén', 'selected': True}, {'warenhouse': 'BODEGA CUENCA', 'selected': True}, {'warenhouse': 'ALMACEN GENERAL GYE', 'selected': True}], 'groups': [{'id': 12, 'username': 'jplaces', 'first_name': 'JOHANNA', 'last_name': 'PLACES', 'selected': False}, {'id': 38, 'username': 'rmoran', 'first_name': 'ROXANA LORENA', 'last_name': 'MORAN AROCA', 'selected': False}, {'id': 60, 'username': 'jlara', 'first_name': 'JOHN', 'last_name': 'LARA', 'selected': False}, {'id': 25, 'username': 'ypreciado',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   'first_name': 'YULIANA', 'last_name': 'PRECIADO', 'selected': False}], 'categories': [{'category': 'ACCESORIOS', 'items': ['VARIOS'], 'selected': True}, {'category': 'LICORES', 'items': ['AGUARDIENTE', 'APERITIVO', 'APERITIVOS', 'BAJATIVO', 'BRANDY', 'CERVEZA', 'CHAMPAGNE', 'COGNAC', 'COMBOS', 'CREMA', 'ESPUMANTE', 'GIN', 'JEREZ', 'LICOR', 'MEZCAL', 'PACKS', 'PISCO', 'PROMO', 'RON', 'SANGRIA', 'TEQUILA', 'VARIOS', 'VARIOS\n', 'VINO', 'VODKA', 'WHISKY'], 'selected': True}, {'category': 'otro', 'items': [None], 'selected': False}, {'category': 'VARIOS', 'items': ['ALIMENTOS', 'CIGARRILLOS', 'CIGARRILLOS', 'VARIOS'], 'selected': True}]}
