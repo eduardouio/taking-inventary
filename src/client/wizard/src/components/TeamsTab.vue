@@ -77,8 +77,8 @@ export default {
         this.all_teams = this.teams.map(item=>item);
 
         // quitamos los seleccionados
-        this.all_teams = this.all_teams.filter(item=>{
-            return !this.taking_data.groups.find(user=>user.username == item.username);
+       this.all_teams = this.all_teams.filter(item=>{
+            return !this.taking_data.groups.some(item2=>item2.username == item.username);
         });
 
         // filtramos por el query
@@ -95,6 +95,7 @@ export default {
             }else{
                 this.taking_data.groups.push(user);
             }
+            this.filterUsers();
         },
     },
     mounted(){
