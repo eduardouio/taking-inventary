@@ -7,9 +7,9 @@
     >
     </nav-bar>
     <div class="container" v-if="!show_view.loader">
-      <div class="row">
+      <div class="row mt-1">
         <div class="col text-center">
-          <div class="card">
+          <div class="card bg-secondary-light">
             <div class="card-body" style="--bs-card-spacer-y: 0.01rem;">
               <h5 class="card-title">Saldos SAP al 
                   <span class="text-primary">
@@ -21,6 +21,7 @@
       </div>
     </div>
     <wizard
+      class="mt-3"
       v-if="!show_view.loader"
       :migration_data="migration_data"
       @updateName="updateName($event)"

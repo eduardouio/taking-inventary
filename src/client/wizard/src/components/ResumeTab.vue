@@ -1,8 +1,8 @@
 <template>
-    <div class="row mt-2">
-        <h5 class="mt-2">RESUMEN DE TOMA</h5>
-        <div class="alert alert-danger" role="alert" v-if="!isValidData">
-          <h5>Informacion incompleta, por favor verifíque todos los campos para continuar</h5>
+    <div class="row mt-1">
+        <h5 class="mt-1">RESUMEN DE TOMA</h5>
+        <div class="alert alert-danger p-1" role="alert" v-if="!isValidData">
+          <h6>Informacion incompleta, por favor verifíque todos los campos para continuar</h6>
     </div>
         <div class="col bg-light">
             <div class="row">
