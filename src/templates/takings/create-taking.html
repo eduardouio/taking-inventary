@@ -1,210 +1,29 @@
-{% extends 'base/base.html' %}
 {% load static %}
-{% block css_files %}
-<link rel="stylesheet" type="text/css" href="{% static '/css/jquery.dataTables.min.css' %}">
-<script src="{% static '/js/jquery-3.6.1.min.js' %}"></script>
-{% endblock %}
-{% block title_bar %}
-    <div class="row border bg-gardient-secondary rounded" style="padding: 15px;">
-        <div class="col-8">
-            <i class="fa fa-list"></i>
-            {{ title_page }} <strong> {{ total_records }} Registros Encontrados </strong>
-        </div>
-        <div class="col-4 text-right"><small>[Sistema Toma Inventarios] | <strong>Módulo {{ module_name }}
-                </strong></small>
-            <span class="text-primary">
-                [{{ total_time | floatformat:2 }} segs]
-            </span>
-        </div>
+{% load humanize %}
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" href="/favicon.ico">
+    <title>Wizard</title>
+    <link href="{% static 'css/apps/wizard/chunk-vendors.css' %}" rel="stylesheet">
+    <link href="{% static 'css/apps/wizard/app.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
     </div>
- {% endblock %}
-{% block content %}
-<div id="app">
-<div class="container">
-    <div class="row">
-        <div class="col text-center">
-            <h6>[Migracion {{pk}}] {{ report_migration.sap_migration.created }}</h6>
-        </div>
-        <hr/>
-    </div>
-</div
-<!-- seccion Bodegas -->
-<div class="container-fluid">
-    <div class="row" id="asistente">
-        <!--BODEGAS-->
-        <div class="col-6 border rounded">
-            <div class="row bg-gradient-light border">
-                <div class="col-6">
-                    <span class="h6 text-secondary">Bodegas Disponibles</span>
-                </div>
-                <div class="col-6 text-right" @click="selectAllWarenhouses()">
-                    <button :class="allSelected">
-                        <span v-if="!all_selected">
-                            <i class="fas fa-check-square"></i>
-                            Seleccionar Todo
-                        </span>
-                        <span v-else="">
-                            <i class="fas fa-square"></i>
-                            Quitar Todo
-                        </span>
-                    </button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-8">
-                        <table class="table table-bordered table-hover table-condensed" id="table_warenhouses">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">#</th>
-                                    <th class="text-center">Nombre</th>
-                                    <th class="text-center"><i class="fas fa-check-square"></i></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(warenhouse, index) in unique_warenhouses" @click="selectWarenhouse(warenhouse)">
-                                    <td class="text-center">${ index + 1}</td>
-                                    <td data-toggle="modal" data-target="#warenhouseModal">${ warenhouse.warenhouse_name }</td>
-                                    <td class="text-center"><input type="checkbox" v-model="warenhouse.is_selected"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                </div>
-                <div class="col-4">
-                    <br>
-                    <div class="row">
-                        <div class="col text-center text-primary">
-                            <strong>BODEGAS SELECCIONADAS | <span>${ totalWarenhousesSelected }</span></strong>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <ul 
-                                v-for="(warenhouse, index) in unique_warenhouses"
-                                class="list-group">
-                                <li
-                                    v-if="warenhouse.is_selected"
-                                    class="list-group-item"
-                                >
-                                <span class="text-danger" @click="selectWarenhouse(warenhouse)"> [X] </span>
-                                ${ warenhouse.warenhouse_name }
-                            </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col text-center text-primary">
-                            <strong>EMPRESAS</strong>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <ul class="list-group" v-for="(enterprise, index) in enterprisesList">
-                                <li class="list-group-item bg-gradient-light-dark">${ enterprise }</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--/BODEGAS-->
-        <!--USUARIOS-->
-        <div class="col-6 border rounded">
-            <div class="row bg-gradient-light border">
-                <div class="col">
-                    <h6 class="text-secondary">Usuarios Disponibles</h6>
-                </div>
-                <div class="col text-right" @click="selectAllUsers()">
-                    <button :class="allUsersSelected">
-                        <span v-if="!all_users_selected">
-                            <i class="fas fa-check-square"></i>
-                            Seleccionar Todo
-                        </span>
-                        <span v-else="">
-                            <i class="fas fa-square"></i>
-                            Quitar Todo
-                        </span>
-                    </button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-8">
-                            <div class="row">
-                                <div class="col">
-                                    <table class="table table-bordered table-hover table-condensed" id="table_users">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">#</th>
-                                                <th class="text-center">Nombres</th>
-                                                <th class="text-center">Usuario</th>
-                                                <th class="text-center"><i class="fas fa-check-square"></i></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(user, index) in users" @click="selectUser(user)">
-                                                <td class="text-center">${ index + 1}</td>
-                                                <td>${ user.first_name } ${ user.last_name }</td>
-                                                <td>${ user.username }</td>
-                                                <td class="text-center"><input type="checkbox" v-model="user.is_selected"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                </div>
-                <div class="col-4">
-                    <div class="row">
-                        <div class="col text-center text-primary">
-                            <strong>USUARIOS SELECCIONADOS | <span>${ totalUsersSelected }</span></strong>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <ul v-for="(user, index) in users" class="list-group">
-                                <li v-if="user.is_selected" class="list-group-item">
-                                    <span class="text-danger" @click="selectUser(user)"> [X] </span>
-                                    ${ index + 1 } ${ user.first_name } ${ user.last_name }
-                                    <span class="text-secondary">${ user.username }</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--/USUARIOS-->
-    </div>
-    <div class="row border">
-        <div class="col-6">
-            <br>
-            <label for="" class="h6 text-primary">Nombre Para Toma:</label>
-            <input type="tetx" v-model="name" class="form-control" maxlength="400"></input>
-        </div>
-        <div class="col-6 text-right align-bottom" v-if="totalWarenhousesSelected > 0 && totalUsersSelected > 0 && name">
-                <button 
-                    class="btn btn-primary btn-lg" 
-                    @click="sendData" :disabled="btn_send_disable">
-                    <i class="fas fa-share"></i>
-                    Iniciar Toma
-                </button>
-                <h4 class="text-info" v-if="btn_send_disable">Enviando.....</h4>
-        </div>
-    </div
-</div>
-</div>
-{% endblock %}
-{% block scritp_code %}
-<script type="text/javascript" charset="utf8" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
-<script>
-    var all_warenhouses = JSON.parse(`{{ all_warenhouses | safe }}`);
-    var all_users = JSON.parse(`{{ all_users | safe }}`);
-    var csrf_token = '{{ csrf_token }}';
-</script>
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-<script src="{% static 'js/apps/taking_selector/app_select_taking.js' %}"></script>
-<script>
-    $(document).ready(function () {
-        $('#table_warenhouses').DataTable();
-        $('#table_users').DataTable();
-    });
-</script>
-{% endblock %}
+    <script>
+        const base_url = '';
+        const url_data = '/api/common/wizard-assistant/{{id_sap_migration}}/';
+        const taking_create = '';
+        var csrf_token = document.cookie.match(/csrftoken=([^;]+)/)[1];
+    </script>
+    <script src="{% static 'js/apps/wizard/chunk-vendors.js' %}"></script>
+    <script src="{% static 'js/apps/wizard/app.js' %}"></script>
+</body>
+
+</html>
