@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-8 mt-2">
                     <input type="text" v-model="query" class="form-control" placeholder="Buscar" @keyup="filterUsers">
-                    <table class="table table-bordered table-hover table-condesed mi_table">
+                    <table class="table table-bordered table-hover table-condensed mi_table">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -24,11 +24,9 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-4 mt-2">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Usuarios Seleccionados</h5>
-                            <p class="card-text">
+                <div class="col-4">
+                        <div class="card-body bg-secondary-light border-blue">
+                            <h6 class="card-title">Usuarios Seleccionados</h6>
                             <ul class="list-group text-start" v-for="user in taking_data.groups" :key="user.username" @click="updateTeams(user,true)">
                                 <li class="list-group-item p-1">
                                     <i class="fa-solid fa-minus text-danger"></i>
@@ -36,8 +34,6 @@
                                     <small class="badge bg-light text-secondary border">{{ user.username }}</small>
                                 </li>
                             </ul>
-                            </p>
-                        </div>
                     </div>
                     <br />
                 </div>

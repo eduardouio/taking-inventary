@@ -2,15 +2,14 @@
     <div class="row mt-2">
         <h5 class="mt-2">NOMBRE DE LA TOMA</h5>
         <div class="col bg-light">
-            <div class="row mt-3">
-                <div class="col text-end">
-                    <div class="card mt-5">
+            <div class="row">
+                <div class="col">
+                    <div class="card">
                         <div class="card-body text-start">
                             <h5 class="card-title text-info">Recomendación</h5>
                             <p class="card-text text-secondary">
                                 Se recomienda el uso de nombre cortos, no importa si los nombres son los mismo en
                                 cada toma, el sistema asigna un código único a cada toma.
-                                <br />
                                 <br />
                                 Por ejemplo:
                             <ul class="list-group">
@@ -27,7 +26,7 @@
                 <div class="col">
                     <input 
                     type="text" 
-                    class="form-control" 
+                    class="form-control form-control-sm" 
                     maxlength="30"
                     v-model="taking_name"
                     @blur="updateName"

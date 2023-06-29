@@ -7,10 +7,10 @@
     >
     </nav-bar>
     <div class="container" v-if="!show_view.loader">
-      <div class="row mt-3">
+      <div class="row">
         <div class="col text-center">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body" style="--bs-card-spacer-y: 0.01rem;">
               <h5 class="card-title">Saldos SAP al 
                   <span class="text-primary">
                     {{ sap_migration_date }}
@@ -53,6 +53,7 @@ import axios from "axios";
 // constants
 const base_url = 'http://localhost:8000';
 const url_data = '/api/common/wizard-assistant/1/';
+const taking_create = '/taking/create/';
 const csrf_token = 'colocar_el_token_aqui';
 
 
@@ -110,7 +111,7 @@ export default {
    },sendData(taking_data){
       // enviamos los datos al servidor
       this.show_view.loader = true;
-      axios.post(base_url + url_data, taking_data, {
+      axios.post(base_url + url_data, taking_create, {
         'Content-Type': 'application/json',
         'X-CSRFToken': this.csrf_token,
         'Accept': 'application/json',
@@ -128,7 +129,30 @@ export default {
 </script>
 
 <style>
-  .fade_id {
-    transition: all 0.5s ease-in-out;
-  }
+ body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+ }
+.table {
+  border-collapse: collapse;
+}
+
+
+/* Eliminar el padding en las celdas */
+.table td,
+.table th {
+  padding: 0;
+}
+
+/* Eliminar el margin en la tabla */
+.table {
+  margin: 0;
+}
+
+.bg-secondary-light {
+  background-color: #e9ecef !important;
+}
+.border-blue{
+  border: 1px solid #396ff9 !important;
+}
 </style>

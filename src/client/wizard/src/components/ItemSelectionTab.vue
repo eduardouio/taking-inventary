@@ -3,7 +3,7 @@
                     <h5 class="mt-2">PERSONALIZAR ITEMS TOMA</h5>
                     <div class="col bg-light">
                         <div class="row">
-                            <div class="col-6 mt-2">
+                            <div class="col-8">
                                 <table class="table table-bordered table-hover table-condesed mi_table">
                                     <thead>
                                         <tr>
@@ -30,11 +30,9 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-6 mt-2">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Items Seleccionados</h5>
-                                        <p class="card-text">
+                            <div class="col-4">
+                                    <div class="card-body border-blue">
+                                        <h6 class="card-title">Items Seleccionados</h6>
                                         <ul class="list-group text-start" v-for="category in selected_categories" :key="category">
                                             <li class="list-group-item p-1"> 
                                                 <i class="fa-solid fa-minus text-danger"></i>
@@ -44,8 +42,6 @@
                                                 </ul>
                                             </li>
                                         </ul>
-                                        </p>
-                                    </div>
                                 </div>
                                 <br />
                             </div>

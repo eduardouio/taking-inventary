@@ -35,11 +35,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-4 mt-2">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title text-info">Bodegas Seleccionadas</h5>
-                                    <p class="card-text">
+                        <div class="col-4">
+                                <div class="card-body border-blue">
+                                    <h6 class="card-title bg-secondary-light">Bodegas Seleccionadas</h6>
                                     <ul class="list-group text-start" v-for="warenhouse in taking_data.warenhouses"
                                         :key="warenhouse">
                                         <li class="list-group-item p-1" @click="updateWarenhouse(warenhouse, true)">
@@ -48,19 +46,13 @@
                                             {{ warenhouse.warenhouse }}
                                         </li>
                                     </ul>
-                                    </p>
-                                </div>
                             </div>
-                            <hr>
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title text-info">Propietarios</h5>
-                                    <p class="card-text">
+                            <br/>
+                                <div class="card-body border-blue">
+                                    <h6 class="card-title bg-secondary-light">Propietarios</h6>
                                     <ul class="list-group text-start" v-for="owner in warehouses_owner" :key="owner">
                                         <li class="list-group-item p-1">{{ owner }}</li> 
                                     </ul>
-                                    </p>
-                                </div>
                             </div>
                         </div>
                     </div>

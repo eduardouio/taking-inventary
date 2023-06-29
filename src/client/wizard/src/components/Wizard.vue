@@ -1,6 +1,6 @@
 <template>
     <div class="container text-center">
-        <div class="row mt-2 shadow-sm">
+        <div class="row shadow-sm">
             <ul class="nav nav-pills nav-fill">
                 <li class="nav-item" @click="showView(1)">
                     <a class="nav-link" href="#" :class="{ 'active': show_views.step1 }">
