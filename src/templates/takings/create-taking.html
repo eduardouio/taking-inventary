@@ -18,7 +18,8 @@
     <script>
         var base_url = '';
         var url_data = '/api/common/wizard-assistant/{{id_sap_migration}}/';
-        var csrf_token = document.cookie.match(/csrftoken=([^;]+)/)[1];
+        //var csrf_token = document.cookie.match(/csrftoken=([^;]+)/)[1];
+        var csrf_token = '{{csrf_token}}';
     </script>
     <script src="{% static 'js/apps/wizard/chunk-vendors.js' %}"></script>
     <script src="{% static 'js/apps/wizard/app.js' %}"></script>
