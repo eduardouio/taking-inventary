@@ -112,7 +112,7 @@ export default {
    },sendData(taking_data){
       // enviamos los datos al servidor
       this.show_view.loader = true;
-      axios.post(base_url + url_data, taking_create, {
+      axios.post(base_url, taking_create, {
         'Content-Type': 'application/json',
         'X-CSRFToken': this.csrf_token,
         'Accept': 'application/json',
