@@ -1,96 +1,83 @@
 import json
 from datetime import datetime
-from time import time
 
-from django.core.serializers import serialize
-from django.http import HttpResponse
 from django.views.generic import TemplateView
-from django.db import connection
-
-from accounts.models.CustomUserModel import CustomUserModel
-from accounts.models.Team import Team
+from django.http import JsonResponse
 from accounts.mixins import ValidateManagerMixin
-from sap_migrations.lib import ConsolidateMigration
+from django.http import Http404, HttpResponseBadRequest
 from sap_migrations.models import SapMigration
 from takings.models import Taking
+from accounts.models.Team import Team
+from django.contrib.auth import get_user_model
 
 
-# /taking/create/<int:id_sap_migration>/
+# /takings/create/<int:id_sap_migration>/
+
+UserModel = get_user_model()
+
+
 class CreateTakingTP(ValidateManagerMixin, TemplateView):
     template_name = 'takings/create-taking.html'
 
     def get(self, request, id_sap_migration, *args, **kwargs):
-        start_time = time()
-        context = self.get_context_data(**kwargs)
-        report_migration = ConsolidateMigration().get(id_sap_migration)
-        all_warenhouses = self.get_warenhouses(id_sap_migration)
-        all_users = CustomUserModel.objects.all()
+        sap_migration = SapMigration.get(
+            id_sap_migration=id_sap_migration)
 
-        all_users = [{
-            'username': i.username,
-            'first_name': i.first_name,
-            'last_name': i.last_name,
-            'role': i.role,
-            'is_selected': False
-        }
-            for i in all_users if i.role == 'asistente'
-        ]
+        if sap_migration is None:
+            raise Http404('No existe la migración')
+
+        context = super().get_context_data(**kwargs)
         page_data = {
-            'title_page': 'Custom Taking',
-            'module_name': 'Tomas Inventario',
-            'pk': id_sap_migration,
-            'report_migration': report_migration,
-            'all_users': json.dumps(all_users),
-            'all_warenhouses': json.dumps(all_warenhouses),
-            'total_time': time()-start_time
+            "id_sap_migration": id_sap_migration
         }
+
         return self.render_to_response({**context, **page_data})
 
     def post(self, request, id_sap_migration, *args, **kwargs):
-        taking = Taking.objects.create(
-            id_sap_migration=SapMigration.get(id_sap_migration),
-            name=request.POST.get('name'),
+        sap_migration = SapMigration.get(id_sap_migration=id_sap_migration)
+        if sap_migration is None:
+            raise Http404('No existe la migración')
+        try:
+            request_data = json.loads(request.body.decode('utf-8'))
+        except json.decoder.JSONDecodeError:
+            return HttpResponseBadRequest('JSON inválido')
+
+        # listamos las categorias
+        categories = [cat['category'] for cat in request_data['categories']]
+
+        # listamos las bodegas
+        warenhouses = [whr['warenhouse']
+                       for whr in request_data['warenhouses']]
+
+        # creacion de grupos
+        users = [UserModel.get(usr['username'])
+                 for usr in request_data['groups']]
+
+        # creamos la toma
+        my_taking = Taking.objects.create(
+            id_sap_migration=sap_migration,
+            hour_start=datetime.now().time(),
             user_manager=request.user,
-            hour_start=datetime.now(),
+            name=request_data['name'],
+            categories=json.dumps(categories),
+            warenhouses=json.dumps(warenhouses),
         )
 
-        for (idx, username) in enumerate(request.POST.get('users').split(',')):
-            my_manager = CustomUserModel.get(username)
-            if my_manager is None:
-                raise Exception('Manager de Equipo no registrado')
+        # asignamos los usuarios a la toma
+        for (idx, user) in enumerate(users):
             my_team = Team.objects.create(
-                manager=my_manager,
+                manager=user,
                 group_number=idx+1,
-                id_taking=taking.pk
+                id_taking=my_taking.pk
             )
-            taking.teams.add(my_team)
-        warenhouses = list(set(request.POST.get('warenhouses').split(',')))
+            my_taking.teams.add(
+                my_team
+            )
 
-        taking.total_warenhouses = len(warenhouses)
-        taking.total_groups = len(request.POST.get('users').split(','))
-        taking.warenhouses = json.dumps(warenhouses)
-        taking.save()
-        return HttpResponse(json.dumps({
-            'id_taking': taking.pk}), status=200)
+        # guardamos la toma
+        my_taking.save()
 
-    def get_warenhouses(self, id_sap_migration):
-        cursor = connection.cursor()
-        cursor.execute("""
-            SELECT 
-                DISTINCT(sms.warenhouse_name),
-                sms.company_name,
-                sms.id_warenhouse_sap_code
-            FROM sap_migrations_sapmigrationdetail sms 
-            WHERE 
-            sms.id_sap_migration_id = {};
-        """.format(id_sap_migration))
-        columns = [col[0] for col in cursor.description]
-        warenhouses = [
-            dict(zip(columns, row))
-            for row in cursor.fetchall()
-        ]
-
-        for w in warenhouses:
-            w['is_selected'] = False
-
-        return warenhouses
+        return JsonResponse({
+            'id_taking': my_taking.id_taking,
+            'message': 'Toma creada correctamente',
+        }, status=201)
