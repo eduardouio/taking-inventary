@@ -14,7 +14,7 @@ class TestWizardMigrationData:
             "warenhouses": 40,
             "warenhouses_owners": 40,
             "type_products": 32,
-            "all_users": 111,
+            "all_users": 114,
             "products": 1437,
         }
 
@@ -36,7 +36,7 @@ class TestWizardMigrationData:
                 "VINOS Y ESPIRITUOSOS VINESA S.A",
             ],
             # sample type products
-            "type_products": ['ACCESORIOS', 'LICORES', 'VARIOS', 'otro'],
+            "type_products": ['ACCESORIOS', 'LICORES', 'VARIOS'],
             # sample users
             "all_users": ['evillota', 'vpadilla', 'jgarcia',],
             # sample products

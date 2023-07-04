@@ -95,6 +95,7 @@ class ConsolidateTaking(object):
         ]
 
     def get_start_stock(self, taking):
+        # segramos las bodegas y por categoria
         report = []
         warenhouses = list(set(json.loads(taking.warenhouses)))
 
