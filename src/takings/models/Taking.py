@@ -1,3 +1,4 @@
+import json
 from django.db import models
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
@@ -53,7 +54,7 @@ class Taking(AppBaseModel):
     categories = models.JSONField(
         blank=True,
         null=True,
-        default=None
+        default=json.dumps(["ALL",])
     )
     location = models.CharField(
         'ubicacion instalaciones',
