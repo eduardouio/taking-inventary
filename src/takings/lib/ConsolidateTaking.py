@@ -1,5 +1,6 @@
 import json
 from django.db import connection
+import pandas as pd
 
 from products.models import Product
 from takings.models import Taking
@@ -9,141 +10,76 @@ from sap_migrations.models import SapMigrationDetail
 class ConsolidateTaking(object):
 
     def get(self, id_taking):
+        """Resumen del stock inicial cruzado con las tomas"""
         taking = Taking.get(id_taking)
-        if taking is None:
-            return None
+        if not taking:
+            return False
 
-        start_stock, warenhouses = self.get_start_stock(taking)
-        taking_resume = self.get_resume_taking(id_taking)
-        for sku_stock in start_stock:
-            sku_stock['product'] = Product.get(
-                sku_stock['account_code'].account_code
-            )
-
-            # colocamos toma incial en 0
-            sku_stock['is_complete'] = False
-            sku_stock['tk_bottles'] = 0
-            sku_stock['tk_boxes'] = 0
-            sku_stock['tk_quantity'] = 0
-
-            # verificamos que el producto exista, sino lo creamos
-            if sku_stock['product'] is None:
-                sku_stock['product'] = Product.objects.create(
-                    name=sku_stock['account_code'].name,
-                    account_code=sku_stock['account_code'].account_code,
-                    quantity_per_box=sku_stock['account_code'].quantity_per_box,
-                    ean_13_code=sku_stock['account_code'].ean_13_code,
-                    type_product='LICORES;VARIOS',
-                )
-
-            sku_stock['diff'] = sku_stock['sap_stock']
-
-            for tkn_stock in taking_resume:
-                item_found = False
-                if sku_stock['account_code'].account_code == tkn_stock['account_code']:
-                    sku_stock['sku_code'] = tkn_stock['account_code']
-                    sku_stock['diff'] = int(
-                        tkn_stock['quantity']) - sku_stock['sap_stock']
-
-                    sku_stock['is_complete'] = False
-
-                    if sku_stock['sap_stock'] == int(tkn_stock['quantity']):
-                        sku_stock['is_complete'] = True
-
-                    sku_stock['tk_bottles'] = int(
-                        tkn_stock['taking_total_bottles'])
-                    sku_stock['tk_boxes'] = int(
-                        tkn_stock['taking_total_boxes'])
-                    sku_stock['tk_quantity'] = int(tkn_stock['quantity'])
-                    item_found = True
-                    break
-
-                if item_found is False:
-                    sku_stock['sku_code'] = tkn_stock['account_code']
-                    sku_stock['is_complete'] = False
-                    sku_stock['tk_bottles'] = 0
-                    sku_stock['tk_boxes'] = 0
-                    sku_stock['tk_quantity'] = 0
-
-        enterprises = self.get_owners(taking.id_sap_migration_id, warenhouses)
+        # obtenemos el stock inicial
+        start_stock = self.get_start_stock(taking)
         return {
             'report': start_stock,
             'taking': taking,
-            'warenhouses': warenhouses,
-            'enterprises': enterprises,
         }
 
-    def get_resume_taking(self, id_taking):
-        cursor = connection.cursor()
-        cursor.execute('''
-                SELECT 
-                    pp.account_code,
-                    SUM(tt.taking_total_bottles) taking_total_bottles,
-                    SUM(tt.taking_total_boxes) taking_total_boxes,
-                    SUM(tt.quantity) quantity 
-                FROM takings_takindetail tt 
-                LEFT JOIN products_product pp ON (
-                        pp.id_product = tt.account_code_id
-                )
-                WHERE tt.id_taking_id = {}
-                GROUP BY pp.account_code ;
-        '''.format(id_taking))
-        columns = [col[0] for col in cursor.description]
-        return [
-            dict(zip(columns, row))
-            for row in cursor.fetchall()
-        ]
+    def takings(self, start_stock, taking):
+        """retorna el reporte de las tomas"""
+        pass
 
     def get_start_stock(self, taking):
-        # segramos las bodegas y por categoria
-        report = []
-        warenhouses = list(set(json.loads(taking.warenhouses)))
+        """Stock inicial"""
+        # definimos bodegas y categorias
+        warenhouses = json.loads(taking.warenhouses)
+        categories = json.loads(taking.categories
+                                ) if taking.categories else ['ALL']
 
-        for warenhouse in warenhouses:
-            detail = SapMigrationDetail.get_by_warenhouse_name(
-                taking.id_sap_migration_id, warenhouse
-            )
-            if detail:
-                report.extend(detail)
+        migration_detail = SapMigrationDetail.objects.filter(
+            id_sap_migration=taking.id_sap_migration,
+        ).filter(warenhouse_name__in=warenhouses)
 
-        products = list(set([i.account_code for i in report]))
-        resume = []
+        data_frame = []
+        start_stock = []
 
-        for product in products:
-            resume_item = {
-                'account_code': None,
-                'sap_stock': 0,
-            }
+        for item in migration_detail:
+            data_frame.append({
+                'account_code': item.account_code,
+                'is_commited': item.is_commited,
+                'on_order': item.on_order,
+                'avaliable': item.avaliable,
+                'on_hand': item.on_hand,
+            })
 
-            for item in report:
-                if item.account_code == product:
-                    resume_item['account_code'] = item
-                    resume_item['sap_stock'] += item.on_hand
+        df = pd.DataFrame(data_frame)
+        df = df.groupby('account_code').sum().reset_index()
 
-            resume.append(resume_item)
+        for _, row in df.iterrows():
+            start_stock.append({
+                'account_code': row['account_code'],
+                'is_commited': row['is_commited'],
+                'on_order': row['on_order'],
+                'avaliable': row['avaliable'],
+                'on_hand': row['on_hand'],
+            })
+        # verificamos los productos en la base de datos
+        all_products = Product.objects.all()
+        for product in all_products:
 
-        return resume, warenhouses
+            category = product.type_product.split(
+                ';')[0] if product.type_product else 'LICORES'
 
-    def get_owners(self, id_sap_migration, warenhouses):
-        enterprises = []
-        cursor = connection.cursor()
+            for stock in start_stock:
+                if product.account_code == stock['account_code']:
+                    stock['product_name'] = product.name
+                    stock['category'] = category
 
-        for warenhouse in warenhouses:
-            cursor.execute('''
-                SELECT 
-                    DISTINCT(sms.company_name)
-                FROM 
-                    sap_migrations_sapmigrationdetail sms 
-                WHERE 
-                    sms.id_sap_migration_id  = {} and sms.warenhouse_name  = '{}';
-            '''.format(id_sap_migration, warenhouse))
+        # filtramos las categorias
+        categories = json.loads(taking.categories) if taking.categories else []
 
-            columns = [col[0] for col in cursor.description]
-            enterprises.extend([
-                dict(zip(columns, row))
-                for row in cursor.fetchall()
-            ])
+        if categories:
+            start_stock = [
+                stock
+                for stock
+                in start_stock if stock['category'] in categories
+            ]
 
-        enterprises = list(set([x['company_name'] for x in enterprises]))
-
-        return enterprises
+        return start_stock
