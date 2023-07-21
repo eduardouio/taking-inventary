@@ -6,6 +6,7 @@ from api.views.common import (AddTeamTakingAPIView, AllTakingDataAPIView,
 from api.views.takings.UpdateTakingAPIView import UpdateTakingAPIView
 from api.views.takings_detail import DeleteTakingDetailAPIView
 from api.views.sap_migrations import AllSAPMigrationData
+from api.views.mobile import ListTakings, TakingAssistant
 
 urlpatterns = [
     # vistas comunes
@@ -39,5 +40,12 @@ urlpatterns = [
     # migraciones
     path('migrations/new-report/',
          AllSAPMigrationData.as_view(), name="all-sap-migration-data"
+         ),
+    # asistente Toma Mobile
+    path('mobile/list/<str:username>/',
+         ListTakings.as_view(), name="list-taking-mobile"
+         ),
+    path('mobile/assistant/id_taking/<int:id_taking>',
+         TakingAssistant.as_view(), name="assistant-mobile"
          ),
 ]
