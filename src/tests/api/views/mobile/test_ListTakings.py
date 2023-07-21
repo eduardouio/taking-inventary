@@ -2,6 +2,7 @@ import pytest
 from django.urls import reverse
 from django.contrib.auth import get_user_model as UserModel
 from api.Serializers import CustomUserSerializer
+from rest_framework import status
 
 
 @pytest.mark.django_db
@@ -46,4 +47,4 @@ class TestListTakings:
     def test_404(self, client):
         url = reverse('list-taking-mobile', kwargs={'username': 'evillota2'})
         response = client.get(url)
-        assert response.status_code == 404
+        assert response.status_code == status.HTTP_404_NOT_FOUND
