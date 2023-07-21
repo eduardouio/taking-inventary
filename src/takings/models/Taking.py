@@ -54,7 +54,7 @@ class Taking(AppBaseModel):
     categories = models.JSONField(
         blank=True,
         null=True,
-        default=json.dumps(["ALL",])
+        default= lambda:json.dumps(["ALL",])
     )
     location = models.CharField(
         'ubicacion instalaciones',
