@@ -1,48 +1,51 @@
 {% extends 'base/base.html' %}
 {% block content %}
 <div class="container">
-        <div class="card card-outline card-primary">
-            <div class="card-header text-center bg-gradient-light">
-                <span class="h4">Vinesa SA</span>
-                <br/>
-                <span>Sistema para toma de inventarios</span>
-            </div>
-            <div class="card-body">
-                <p class="login-box-msg">
-                    Inicie Sesión para comenzar
-                    {% if message %}
-                    <br />
-                    <strong class="text-danger h4">{{ message }}</strong>
-                    {% endif %}
-                </p>
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="input-group mb-3">
-                        <input type="text" name="username" class="form-control" placeholder="Usuario">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user"></span>
+    <div class="row">
+    <div class="col">
+            <div class="card card-outline card-primary">
+                <div class="card-header text-center bg-gradient-light">
+                    <span class="h1">CVL</span>
+                    <br>
+                    <span class="h3">Sistema para toma de inventarios</span>
+                </div>
+                <div class="card-body">
+                    <p class="login-box-msg">
+                        Inicie Sesión para comenzar
+                        {% if message %}
+                        <br />
+                        <strong class="text-danger h4">{{ message }}</strong>
+                        {% endif %}
+                    </p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <input type="text" name="username" class="form-control" placeholder="Usuario">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="password" name="password" class="form-control" placeholder="Password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
+                        <div class="input-group mb-3">
+                            <input type="password" name="password" class="form-control" placeholder="Password">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <button type="submit" class="btn btn-primary btn-block"> <i class="fas fa-unlock"></i> Iniciar Sesion</button>
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary btn-block"> <i class="fas fa-unlock"></i> Iniciar
+                                    Sesion</button>
+                            </div>
+            
                         </div>
-    
-                    </div>
-                </form>    
+                    </form>
+                </div>
             </div>
-    
-        </div>
-    
     </div>
+</div>
+</div>
 {% endblock %}
