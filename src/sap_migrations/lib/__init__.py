@@ -1,3 +1,4 @@
 from .ConsolidateMigration import ConsolidateMigration
 from .LoadMigration import LoadMigration
 from .DetailMigrationSAP import DetailMigrationSAP
+from .CheckMigrationProducts import CheckMigrationProducts
