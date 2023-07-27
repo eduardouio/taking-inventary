@@ -1,57 +1,27 @@
 <template>
   <div class="bg-dark">
     <div class="container bg-light">
-      <loader
-        v-if="show_view.loader"
-        :server_status="server_status"
-        @changeView="$event => switchView($event)">
+      <loader v-if="show_view.loader" :server_status="server_status" @changeView="$event => switchView($event)">
       </loader>
       <div>
-        <nav-bar
-          v-if="show_view.loader === false"
-          :taking="taking"
-          :team="team"
-          :user="user"
-          :report="report"
+        <nav-bar v-if="show_view.loader === false" :taking="taking" :team="team" :user="user" :report="report"
           @changeView="$event => switchView($event)">
         </nav-bar>
-        <search-form 
-          v-if="show_view.search_form"
-          class="mt-1" :products="products"
+        <search-form v-if="show_view.search_form" class="mt-1" :products="products"
           @selectProduct="$event => selectItem($event)">
         </search-form>
-        <product-description
-          class="mt-1"
-          v-if="show_view.product_description"
-          :current_item="current_item"
-          :base_url="base_url"
-          @changeView="$event => switchView($event)">
+        <product-description class="mt-1" v-if="show_view.product_description" :current_item="current_item"
+          :base_url="base_url" @changeView="$event => switchView($event)">
         </product-description>
-        <form-taking 
-          v-if="show_view.taking_form"
-          :current_item="current_item"
-          :base_url="base_url"
-          :report="report"
+        <form-taking v-if="show_view.taking_form" :current_item="current_item" :base_url="base_url" :report="report"
           @changeView="$event => switchView($event)">
         </form-taking>
-        <report-taking
-          v-if="show_view.report_info"
-          :report="report"
-          :team="team"
-          :user="user"
-          :taking="taking"
-          :base_url="base_url"
-          :server_status="server_status"
-          @removeItem="$event => deteleItemReport($event)"
-          @sendReport="$event => saveReport($event)"
-        >
+        <report-taking v-if="show_view.report_info" :report="report" :team="team" :user="user" :taking="taking"
+          :base_url="base_url" :server_status="server_status" @removeItem="$event => deteleItemReport($event)"
+          @sendReport="$event => saveReport($event)">
         </report-taking>
-        <form-group
-         v-if="!have_team || show_view.group_form"
-         :team="team"
-         :user="user"
-         @updateGroup="$event => updateTeam($event)"
-        >
+        <form-group v-if="!have_team || show_view.group_form" :team="team" :user="user"
+          @updateGroup="$event => updateTeam($event)">
         </form-group>
         <!--<form-product
           v-if="show_view.product_form"
@@ -82,7 +52,7 @@ import FormTaking from "./components/FormTaking.vue";
 import FormGroup from './components/FormGroup.vue';
 import FormProduct from './components/FormProduct.vue';
 
-export default {  
+export default {
   name: 'App',
   components: {
     Loader,
@@ -128,14 +98,14 @@ export default {
       disable_button_send: false,
     }
   },
-   methods: {
-    getData(){
+  methods: {
+    getData() {
       const xhr = new XMLHttpRequest();
       xhr.open('GET', this.base_url + this.url);
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       xhr.onload = () => {
-        if (xhr.status === 200){
+        if (xhr.status === 200) {
           const data = JSON.parse(xhr.responseText);
           this.taking = data.taking;
           this.team = data.team;
@@ -146,7 +116,8 @@ export default {
           this.server_status.message = 'Completado correctamente';
           this.server_status.response = data;
           this.have_team = Boolean(this.team.fields.warenhouse_assistant);
-      }};
+        }
+      };
       xhr.onerror = () => {
         this.show_view.loader = true;
         this.server_status.response = null;
@@ -155,7 +126,7 @@ export default {
       };
       xhr.send();
     },
-    saveReport(){
+    saveReport() {
       this.show_view.loader = true;
       this.server_status.response = null;
       const xhr_1 = new XMLHttpRequest();
@@ -171,7 +142,7 @@ export default {
           this.server_status.message = xhr_1.responseText;
           this.server_status.issue_type = 'warning';
         }
-          else{
+        else {
           this.server_status.response = null;
           this.server_status.issue_type = 'error';
           this.server_status.message = 'Error al cargar los datos -> ' + xhr_1.responseText;
@@ -182,7 +153,7 @@ export default {
         this.server_status.issue_type = 'error';
         this.server_status.message = 'Error al cargar los datos -> ' + xhr_1.responseText;
       };
-      
+
       xhr_1.send(JSON.stringify({
         report: this.report,
         taking: this.taking,
@@ -192,7 +163,7 @@ export default {
 
     },
     switchView(template_name) {
-       this.show_view = {
+      this.show_view = {
         loader: false,
         search_form: false,
         product_form: false,
@@ -226,7 +197,7 @@ export default {
           this.switchView('group_form');
         }
       };
-        xhr_team.send(JSON.stringify({
+      xhr_team.send(JSON.stringify({
         team: this.team,
       }));
     },
@@ -240,38 +211,39 @@ export default {
       });
       this.switchView('report_info')
     },
-   },
+  },
   mounted() {
     // Cargamos datos iniciales de la aplicacion
-     this.getData();
+    this.getData();
     window.addEventListener("beforeunload", (e) => {
       e.preventDefault();
       return e.returnValue = 'Esta seguro de salir?, la información se perderá';
     });
-    }
   }
+}
 
 </script>
 <style>
 .bordered {
-    border: 1px solid #ddd;
+  border: 1px solid #ddd;
 }
+
 .row {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin-right: -1px;
-    margin-left: -1px;
-    margin-top: 2px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -1px;
+  margin-left: -1px;
+  margin-top: 2px;
 }
 
 .list-group-item {
-    padding: 0.25rem 0.03rem;
+  padding: 0.25rem 0.03rem;
 }
 
 .container {
-    padding-right: calc(var(--bs-gutter-x) * 0.01);
-    padding-left: calc(var(--bs-gutter-x) * 0.01);
+  padding-right: calc(var(--bs-gutter-x) * 0.01);
+  padding-left: calc(var(--bs-gutter-x) * 0.01);
 }
 </style>
