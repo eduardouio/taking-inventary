@@ -8,5 +8,10 @@
     "python.linting.mypyEnabled": false,
     "python.linting.prospectorEnabled": false,
     "python.linting.pycodestyleEnabled": false,
-    "python.linting.pydocstyleEnabled": false
+    "python.linting.pydocstyleEnabled": false,
+    "python.testing.pytestArgs": [
+        "src"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }

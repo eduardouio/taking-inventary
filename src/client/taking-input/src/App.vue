@@ -1,34 +1,31 @@
 <template>
-  <div class="bg-dark">
-    <div class="container bg-light">
-      <loader v-if="show_view.loader" :server_status="server_status" @changeView="$event => switchView($event)">
-      </loader>
-      <div>
-        <nav-bar v-if="show_view.loader === false" :taking="taking" :team="team" :user="user" :report="report"
-          @changeView="$event => switchView($event)">
-        </nav-bar>
-        <search-form v-if="show_view.search_form" class="mt-1" :products="products"
-          @selectProduct="$event => selectItem($event)">
-        </search-form>
-        <product-description class="mt-1" v-if="show_view.product_description" :current_item="current_item"
-          :base_url="base_url" @changeView="$event => switchView($event)">
-        </product-description>
-        <form-taking v-if="show_view.taking_form" :current_item="current_item" :base_url="base_url" :report="report"
-          @changeView="$event => switchView($event)">
-        </form-taking>
-        <report-taking v-if="show_view.report_info" :report="report" :team="team" :user="user" :taking="taking"
-          :base_url="base_url" :server_status="server_status" @removeItem="$event => deteleItemReport($event)"
-          @sendReport="$event => saveReport($event)">
-        </report-taking>
-        <form-group v-if="!have_team || show_view.group_form" :team="team" :user="user"
-          @updateGroup="$event => updateTeam($event)">
-        </form-group>
-        <!--<form-product
-          v-if="show_view.product_form"
-          :current_item="current_item"
-          @updateProduct="$event => updateProduct($event)"
-          ></form-product>
-          -->
+  <div class="navbar bg-slate-300">
+    <div class="navbar-start">
+      <div class="dropdown">
+        <label tabindex="0" class="btn btn-ghost btn-circle text-blue-700">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+        </label>
+        <ul tabindex="0" class="menu menu-lg dropdown-content mt-3 z-[1] p-1 shadow bg-base-100 rounded-box w-400">
+          <li><a> <i class="fas fa-list text-blue-700"></i> Listado Tomas</a></li>
+          <li><a> <i class="fas fa-list-check text-blue-700"></i> Histórico <span class="badge">Toma 122</span></a></li>
+          <li><a> <i class="fas fa-list-check text-blue-700"></i> Información Grupo</a></li>
+          <li><a class="text-danger"> <i class="fas fa-power-off"></i>  Cerrar Sesión</a></li>
+        </ul>
+      </div>
+      Toma 122
+    </div>
+    <div class="navbar-end">
+      <div class="dropdown dropdown-end">
+        <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+          <div class="w-5 rounded-full text-info">
+            <i class="fas fa-user fa-xl"></i>
+          </div>
+          <small class="text-blue-700">Evillota</small>
+        </label>
+        <ul tabindex="0" class="menu menu-lg dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-500">
+          <li><a> <i class="fas fa-gear text-blue-700"></i> Configuraciones</a></li>
+          <li><a class="text-danger"> <i class="fas fa-power-off"></i>  Cerrar Sesión</a></li>
+        </ul>
       </div>
     </div>
   </div>
