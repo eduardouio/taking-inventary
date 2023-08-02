@@ -1,5 +1,4 @@
 import json
-from django.db import connection
 import pandas as pd
 
 from products.models import Product
@@ -16,14 +15,17 @@ class ConsolidateTaking(object):
             return False
 
         # obtenemos el stock inicial
-        start_stock = self.get_start_stock(taking)
+        owners, start_stock = self.get_start_stock(taking)
+        taking_report = self.get_takings(taking, start_stock)
+
         return {
-            'report': start_stock,
+            'report': taking_report,
             'taking': taking,
+            'owners': owners,
         }
 
-    def takings(self, start_stock, taking):
-        """retorna el reporte de las tomas"""
+    def get_takings(self, taking, start_stock):
+        """retona las tomas de los items"""
         pass
 
     def get_start_stock(self, taking):
@@ -39,6 +41,7 @@ class ConsolidateTaking(object):
 
         data_frame = []
         start_stock = []
+        owners = []
 
         for item in migration_detail:
             data_frame.append({
@@ -47,8 +50,10 @@ class ConsolidateTaking(object):
                 'on_order': item.on_order,
                 'avaliable': item.avaliable,
                 'on_hand': item.on_hand,
+                'owners': item.company_name,
             })
 
+        owners = list(set([i['owners'] for i in data_frame]))
         df = pd.DataFrame(data_frame)
         df = df.groupby('account_code').sum().reset_index()
 
@@ -82,4 +87,4 @@ class ConsolidateTaking(object):
                 in start_stock if stock['category'] in categories
             ]
 
-        return start_stock
+        return owners, start_stock

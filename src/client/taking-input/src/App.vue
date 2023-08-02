@@ -1,44 +1,78 @@
 <template>
-  <div class="navbar bg-slate-300">
-    <div class="navbar-start">
-      <div class="dropdown">
-        <label tabindex="0" class="btn btn-ghost btn-circle text-blue-700">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
-        </label>
-        <ul tabindex="0" class="menu menu-lg dropdown-content mt-3 z-[1] p-1 shadow bg-base-100 rounded-box w-400">
-          <li><a> <i class="fas fa-list text-blue-700"></i> Listado Tomas</a></li>
-          <li><a> <i class="fas fa-list-check text-blue-700"></i> Histórico <span class="badge">Toma 122</span></a></li>
-          <li><a> <i class="fas fa-list-check text-blue-700"></i> Información Grupo</a></li>
-          <li><a class="text-danger"> <i class="fas fa-power-off"></i>  Cerrar Sesión</a></li>
-        </ul>
+  <div class="bg-dark">
+    <div class="container bg-light">
+      <loader
+        v-if="viewSate.loader"
+        :server_status="serverStatus"
+        @changeView="$event => switchView($event)">
+      </loader>
+      <div v-if="viewSate.messageBox">
+          Este es el mensaje del server {{ serverStatus.message }}
       </div>
-      Toma 122
-    </div>
-    <div class="navbar-end">
-      <div class="dropdown dropdown-end">
-        <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-          <div class="w-5 rounded-full text-info">
-            <i class="fas fa-user fa-xl"></i>
-          </div>
-          <small class="text-blue-700">Evillota</small>
-        </label>
-        <ul tabindex="0" class="menu menu-lg dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-500">
-          <li><a> <i class="fas fa-gear text-blue-700"></i> Configuraciones</a></li>
-          <li><a class="text-danger"> <i class="fas fa-power-off"></i>  Cerrar Sesión</a></li>
-        </ul>
-      </div>
+      <!-- <div>
+        <nav-bar
+          v-if="show_view.loader === false"
+          :taking="taking"
+          :team="team"
+          :user="user"
+          :report="report"
+          @changeView="$event => switchView($event)">
+        </nav-bar>
+        <search-form 
+          v-if="show_view.search_form"
+          class="mt-1" :products="products"
+          @selectProduct="$event => selectItem($event)">
+        </search-form>
+        <product-description
+          class="mt-1"
+          v-if="show_view.product_description"
+          :current_item="current_item"
+          :base_url="base_url"
+          @changeView="$event => switchView($event)">
+        </product-description>
+        <form-taking 
+          v-if="show_view.taking_form"
+          :current_item="current_item"
+          :base_url="base_url"
+          :report="report"
+          @changeView="$event => switchView($event)">
+        </form-taking>
+        <report-taking
+          v-if="show_view.report_info"
+          :report="report"
+          :team="team"
+          :user="user"
+          :taking="taking"
+          :base_url="base_url"
+          :server_status="server_status"
+          @removeItem="$event => deteleItemReport($event)"
+          @sendReport="$event => saveReport($event)"
+        >
+        </report-taking>
+        <form-group
+         v-if="!have_team || show_view.group_form"
+         :team="team"
+         :user="user"
+         @updateGroup="$event => updateTeam($event)"
+        >
+        </form-group>
+        form-product
+          v-if="show_view.product_form"
+          :current_item="current_item"
+          @updateProduct="$event => updateProduct($event)"
+          ></form-product>
+         
+      </div> -->
     </div>
   </div>
 </template>
 
 <script>
-const csrf_token = 'este_es_el_token_de_seguridad';
-const url = 'esta_es_la_url';
-const base_url = '';
 
 import "bootstrap/dist/css/bootstrap.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@fortawesome/fontawesome-free/js/all.min.js";
+import appConfig from "./appConfig";
 
 import Loader from "./components/Loader.vue";
 import NavBar from "./components/NavBar.vue";
@@ -49,7 +83,7 @@ import FormTaking from "./components/FormTaking.vue";
 import FormGroup from './components/FormGroup.vue';
 import FormProduct from './components/FormProduct.vue';
 
-export default {
+export default {  
   name: 'App',
   components: {
     Loader,
@@ -63,67 +97,61 @@ export default {
   },
   data() {
     return {
-      team: null,
-      products: null,
-      user: null,
-      taking: null,
-      base_url: base_url,
-      url: url,
-      server_status: {
-        response: null,
-        issue_type: '',
-        img_ok: base_url + '/static/img/ok.jpg',
-        img_error: base_url + '/static/img/error.jpg',
-        message: '',
-      },
-      current_item: null,
-      report: [],
-      csrf_token: csrf_token,
-      have_team: true,
-      report_update: false,
-      show_status_message: true,
-      show_view: {
+      appConfig : { ... appConfig},
+      viewSate: {
         loader: true,
-        search_form: false,
-        product_form: false,
-        group_form: false,
-        taking_form: false,
-        report_info: false,
-        product_description: false,
-        status_message: false,
+        messageBox: false,
+        searchForm: false,
+        productForm: false,
+        groupForm: false,
+        takingForm: false,
+        reportInfo: false,
+        productDesc: false,
       },
-      disable_button_send: false,
+      pageData: {},
+      serverStatus: {
+        response: null,
+        message: '',
+        status: null,
+      },
+      report: [],
+      current_item: null,
     }
   },
-  methods: {
-    getData() {
+   methods: {
+    async getData(){
+      try{
+        const reponse = await fetch(this.appConfig.urlGet);
+        this.pageData = await reponse.json();
+      }catch(error){
+        this.serverStatus.message = 'Error en cliente, no se puede ejecutar la peticion';
+      }
+      /** 
       const xhr = new XMLHttpRequest();
-      xhr.open('GET', this.base_url + this.url);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+      xhr.open('GET', this.appConfig.urlGet);
+      xhr.setRequestHeader('Content-Type', 'application/json');;
       xhr.onload = () => {
-        if (xhr.status === 200) {
+        if (xhr.status === 200){
           const data = JSON.parse(xhr.responseText);
           this.taking = data.taking;
           this.team = data.team;
           this.products = data.products;
           this.user = data.user;
           this.show_view.loader = false;
-          this.server_status.issue_type = 'success';
           this.server_status.message = 'Completado correctamente';
           this.server_status.response = data;
           this.have_team = Boolean(this.team.fields.warenhouse_assistant);
-        }
-      };
+      }};
       xhr.onerror = () => {
-        this.show_view.loader = true;
+        debugger;
+        this.show_view.loader = false;
         this.server_status.response = null;
-        this.server_status.issue_type = 'error';
         this.server_status.message = 'Error al cargar los datos -> ' + xhr.statusText;
       };
-      xhr.send();
+      xhr.send();*/
     },
-    saveReport() {
+
+    saveReport(){
       this.show_view.loader = true;
       this.server_status.response = null;
       const xhr_1 = new XMLHttpRequest();
@@ -137,20 +165,17 @@ export default {
           this.server_status.message = xhr_1.responseText;
         } else if (xhr_1.status === 400) {
           this.server_status.message = xhr_1.responseText;
-          this.server_status.issue_type = 'warning';
         }
-        else {
+          else{
           this.server_status.response = null;
-          this.server_status.issue_type = 'error';
           this.server_status.message = 'Error al cargar los datos -> ' + xhr_1.responseText;
         }
       };
       xhr_1.onerror = () => {
         this.server_status.response = null;
-        this.server_status.issue_type = 'error';
         this.server_status.message = 'Error al cargar los datos -> ' + xhr_1.responseText;
       };
-
+      
       xhr_1.send(JSON.stringify({
         report: this.report,
         taking: this.taking,
@@ -159,8 +184,8 @@ export default {
       }));
 
     },
-    switchView(template_name) {
-      this.show_view = {
+    switchView(template_name){
+       this.stateView = {
         loader: false,
         search_form: false,
         product_form: false,
@@ -184,17 +209,15 @@ export default {
         this.show_view.loader = false;
         if (xhr_team.status === 200) {
           this.have_team = true;
-          this.server_status.issue_type = 'success';
           this.server_status.message = 'Completado correctamente';
           this.server_status.response = xhr_team.responseText;
           this.switchView('search_form');
         } else {
-          this.server_status.issue_type = 'error';
           this.server_status.message = 'Error al cargar los datos -> ' + xhr_team.responseText;
           this.switchView('group_form');
         }
       };
-      xhr_team.send(JSON.stringify({
+        xhr_team.send(JSON.stringify({
         team: this.team,
       }));
     },
@@ -208,39 +231,38 @@ export default {
       });
       this.switchView('report_info')
     },
-  },
+   },
   mounted() {
     // Cargamos datos iniciales de la aplicacion
-    this.getData();
-    window.addEventListener("beforeunload", (e) => {
-      e.preventDefault();
-      return e.returnValue = 'Esta seguro de salir?, la información se perderá';
-    });
+     this.getData();
+    // window.addEventListener("beforeunload", (e) => {
+    //   e.preventDefault();
+    //   return e.returnValue = 'Esta seguro de salir?, la información se perderá';
+    // });
+    }
   }
-}
 
 </script>
 <style>
 .bordered {
-  border: 1px solid #ddd;
+    border: 1px solid #ddd;
 }
-
 .row {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  margin-right: -1px;
-  margin-left: -1px;
-  margin-top: 2px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -1px;
+    margin-left: -1px;
+    margin-top: 2px;
 }
 
 .list-group-item {
-  padding: 0.25rem 0.03rem;
+    padding: 0.25rem 0.03rem;
 }
 
 .container {
-  padding-right: calc(var(--bs-gutter-x) * 0.01);
-  padding-left: calc(var(--bs-gutter-x) * 0.01);
+    padding-right: calc(var(--bs-gutter-x) * 0.01);
+    padding-left: calc(var(--bs-gutter-x) * 0.01);
 }
 </style>

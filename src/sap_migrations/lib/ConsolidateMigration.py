@@ -9,6 +9,7 @@ class ConsolidateMigration(object):
     def get(self, migration_id):
         # TODO
         # 1. si el producto no existe en el sistema sedebe crear
+
         report = self.__get_init_report(migration_id)
         if report['status'] is False:
             none_data = {

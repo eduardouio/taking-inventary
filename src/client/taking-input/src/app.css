@@ -1,7 +1,0 @@
-/* Importa los estilos de Tailwind CSS */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-
-/* Importa los estilos de Daisy UI */
-@import 'daisyui/dist/full.css';
