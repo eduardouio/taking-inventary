@@ -2,14 +2,11 @@
   <div class="bg-dark">
     <div class="container bg-light">
       <loader
-        v-if="viewSate.loader"
-        :server_status="serverStatus"
+        v-if="show_view.loader"
+        :server_status="server_status"
         @changeView="$event => switchView($event)">
       </loader>
-      <div v-if="viewSate.messageBox">
-          Este es el mensaje del server {{ serverStatus.message }}
-      </div>
-      <!-- <div>
+      <div>
         <nav-bar
           v-if="show_view.loader === false"
           :taking="taking"
@@ -56,23 +53,25 @@
          @updateGroup="$event => updateTeam($event)"
         >
         </form-group>
-        form-product
+        <!--<form-product
           v-if="show_view.product_form"
           :current_item="current_item"
           @updateProduct="$event => updateProduct($event)"
           ></form-product>
-         
-      </div> -->
+          -->
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+const csrf_token = 'este_es_el_token_de_seguridad';
+const url = 'esta_es_la_url';
+const base_url = '';
 
 import "bootstrap/dist/css/bootstrap.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@fortawesome/fontawesome-free/js/all.min.js";
-import appConfig from "./appConfig";
 
 import Loader from "./components/Loader.vue";
 import NavBar from "./components/NavBar.vue";
@@ -97,39 +96,44 @@ export default {
   },
   data() {
     return {
-      appConfig : { ... appConfig},
-      viewSate: {
-        loader: true,
-        messageBox: false,
-        searchForm: false,
-        productForm: false,
-        groupForm: false,
-        takingForm: false,
-        reportInfo: false,
-        productDesc: false,
-      },
-      pageData: {},
-      serverStatus: {
+      team: null,
+      products: null,
+      user: null,
+      taking: null,
+      base_url: base_url,
+      url: url,
+      server_status: {
         response: null,
+        issue_type: '',
+        img_ok: base_url + '/static/img/ok.jpg',
+        img_error: base_url + '/static/img/error.jpg',
         message: '',
-        status: null,
       },
-      report: [],
       current_item: null,
+      report: [],
+      csrf_token: csrf_token,
+      have_team: true,
+      report_update: false,
+      show_status_message: true,
+      show_view: {
+        loader: true,
+        search_form: false,
+        product_form: false,
+        group_form: false,
+        taking_form: false,
+        report_info: false,
+        product_description: false,
+        status_message: false,
+      },
+      disable_button_send: false,
     }
   },
    methods: {
-    async getData(){
-      try{
-        const reponse = await fetch(this.appConfig.urlGet);
-        this.pageData = await reponse.json();
-      }catch(error){
-        this.serverStatus.message = 'Error en cliente, no se puede ejecutar la peticion';
-      }
-      /** 
+    getData(){
       const xhr = new XMLHttpRequest();
-      xhr.open('GET', this.appConfig.urlGet);
-      xhr.setRequestHeader('Content-Type', 'application/json');;
+      xhr.open('GET', this.base_url + this.url);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       xhr.onload = () => {
         if (xhr.status === 200){
           const data = JSON.parse(xhr.responseText);
@@ -138,19 +142,19 @@ export default {
           this.products = data.products;
           this.user = data.user;
           this.show_view.loader = false;
+          this.server_status.issue_type = 'success';
           this.server_status.message = 'Completado correctamente';
           this.server_status.response = data;
           this.have_team = Boolean(this.team.fields.warenhouse_assistant);
       }};
       xhr.onerror = () => {
-        debugger;
-        this.show_view.loader = false;
+        this.show_view.loader = true;
         this.server_status.response = null;
+        this.server_status.issue_type = 'error';
         this.server_status.message = 'Error al cargar los datos -> ' + xhr.statusText;
       };
-      xhr.send();*/
+      xhr.send();
     },
-
     saveReport(){
       this.show_view.loader = true;
       this.server_status.response = null;
@@ -165,14 +169,17 @@ export default {
           this.server_status.message = xhr_1.responseText;
         } else if (xhr_1.status === 400) {
           this.server_status.message = xhr_1.responseText;
+          this.server_status.issue_type = 'warning';
         }
           else{
           this.server_status.response = null;
+          this.server_status.issue_type = 'error';
           this.server_status.message = 'Error al cargar los datos -> ' + xhr_1.responseText;
         }
       };
       xhr_1.onerror = () => {
         this.server_status.response = null;
+        this.server_status.issue_type = 'error';
         this.server_status.message = 'Error al cargar los datos -> ' + xhr_1.responseText;
       };
       
@@ -184,8 +191,8 @@ export default {
       }));
 
     },
-    switchView(template_name){
-       this.stateView = {
+    switchView(template_name) {
+       this.show_view = {
         loader: false,
         search_form: false,
         product_form: false,
@@ -209,10 +216,12 @@ export default {
         this.show_view.loader = false;
         if (xhr_team.status === 200) {
           this.have_team = true;
+          this.server_status.issue_type = 'success';
           this.server_status.message = 'Completado correctamente';
           this.server_status.response = xhr_team.responseText;
           this.switchView('search_form');
         } else {
+          this.server_status.issue_type = 'error';
           this.server_status.message = 'Error al cargar los datos -> ' + xhr_team.responseText;
           this.switchView('group_form');
         }
@@ -235,10 +244,10 @@ export default {
   mounted() {
     // Cargamos datos iniciales de la aplicacion
      this.getData();
-    // window.addEventListener("beforeunload", (e) => {
-    //   e.preventDefault();
-    //   return e.returnValue = 'Esta seguro de salir?, la información se perderá';
-    // });
+    window.addEventListener("beforeunload", (e) => {
+      e.preventDefault();
+      return e.returnValue = 'Esta seguro de salir?, la información se perderá';
+    });
     }
   }
 

@@ -30,7 +30,7 @@
             </strong>
         </div>
         <div class="row text-center">
-            <a class="btn btn-primary btn-sm" href="/mobile/dashboard/">
+            <a class="btn btn-primary btn-block" href="/mobile/dashboard/">
             <i class="fas fa-home"></i> Recargar Aplicación
             </a>
         </div>
