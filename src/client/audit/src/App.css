@@ -16,9 +16,10 @@ body{
 }
 
 .x-rounded {
-    width: 100px;
-    height: 100px;
+    width: 4.5em;
+    height: 4.5em;
+    border-width: 0.3.5em;
+    border-style: solid;
     border-radius: 50%;
-    border: 1px solid #818181; /* Borde interior */
-    position: relative;
-}
+    border-image: linear-gradient(to right, #eee, #fff) 2;
+  }

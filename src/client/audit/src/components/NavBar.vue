@@ -1,7 +1,7 @@
 <template>
     <div class="bg-light">
         <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="container-fluid"><a class="navbar-brand" href="#"> AUDITORIA AGOSTO</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            <div class="container-fluid"><a class="navbar-brand" href="#"> {{title}}</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
                     aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarText">
@@ -36,5 +36,11 @@
 <script>
 export default {
     name: 'NavBar',
+    props: {
+        title: {
+            type: String,
+            required: true,
+        },
+    },
 }
 </script>

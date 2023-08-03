@@ -1,26 +1,18 @@
 <template>
-    <div class="card">
-        <div class="card-header text-center bg-secondary bg-gradient text-white">
+    <div class="shadow">
+        <div class="card-header text-center bg-secondary bg-gradient text-white rounded">
             {{ titleCard.toUpperCase() }}
         </div>
-        <div class="card-body">
+        <div class="table-responsive p-1">
     <table class="table table-condensed table-bordered table-striped table-hover" id="myTable">
         <thead>
             <tr>
-                <th class="text-center">Id</th>
-                <th class="text-center">Nombre</th>
-                <th class="text-center">Toma</th>
-                <th class="text-center">Fecha</th>
-                <th class="text-center">Novedades</th>
+                <th class="text-center" v-for="ite in data.headers" :key="ite">{{ ite.text }}</th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="item in range(10)" :key="item">
-                <td>1</td>
-                <td>Almacen 1</td>
-                <td>1</td>
-                <td>2021-08-01</td>
-                <td>0</td>
+            <tr v-for="row in data.rows" :key="row">
+                <td v-for="column in row" :key="column">{{ column }}</td>
             </tr>
         </tbody>
     </table>
@@ -37,6 +29,9 @@ export default {
         titleCard: {
             type: String,
             required: true,
+        }, data: {
+            type: Array,
+            required: true,
         }
     },
     data() {
@@ -50,6 +45,7 @@ export default {
         },
     },
     created() {
+        return 0;
         let table = new DataTable('#myTable',{
             responsive: true,
             paging: true,
@@ -58,3 +54,9 @@ export default {
     },
 }
 </script>
+<style scoped>
+.table-responsive{
+    max-height: 16rem;
+    min-height: 16rem;
+}
+</style>
