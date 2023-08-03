@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <NavBar class="bg-light border-bottom" :title="'Revisión Toma 2'" />
+        <NavBar class="bg-light border-bottom" :title="'Justificacion Toma 2'" />
         <div class="row m-1"></div>
         <div class="row">
             <div class="col">
@@ -290,27 +290,9 @@
                     <input type="file" name="" id="">
                 </div>
             </div>
-            <div class="row m-1"></div>
             <div class="row">
-                <div class="col">
-                <div class="card">
-                    <div class="card-header text-center bg-secondary bg-gradient text-white rounded">
-                        Comentarios de Auditor
-                    </div>
-                    </div>
-            </div>
-            </div>
-            <div class="row">
-                <div class="col-8 border m-1">
-                <div class="card">
-                    <div class="card-header text-center bg-light bg-gradient text-primary rounded">
-                        Informe Adicional, Comentarios, Observaciones no detallados anteriormente
-                    </div>
-                    </div>
-                    <textarea style="width: 100%; height: 200px;"></textarea>
-                </div>
-                <div class="col border m-1">
-                    <button class="btn bg-primary bg-gradient text-white">Guardar</button>
+                <div class="col text-end p-1">
+                    <button class="btn bg-primary bg-gradient text-white">Enviar Cierre</button>
                 </div>
             </div>
         </div>
@@ -320,7 +302,7 @@
 import NavBar from '../components/NavBar.vue';
 
 export default {
-    name: 'AuditPage',
+    name: 'JustifyPage',
     components: {
         NavBar,
     }

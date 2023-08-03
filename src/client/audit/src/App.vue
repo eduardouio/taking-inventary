@@ -1,7 +1,8 @@
 <template>
   <div class="app">
-    <DashboardPage v-if="false"/> 
-    <AuditPage v-if="true"/>
+    <DashboardPage v-if="0"/> 
+    <JustifyPage v-if="0"/>
+    <AuditPage v-if="1"/>
   </div>
 </template>
 
@@ -9,12 +10,14 @@
 
 
 import DashboardPage from './pages/DashboardPage.vue'
+import JustifyPage from './pages/JustifyPage.vue'
 import AuditPage from './pages/AuditPage.vue'
 
 export default {
   name: 'App',
   components: {
     DashboardPage,
+    JustifyPage,
     AuditPage,
   }
 }
