@@ -3,9 +3,9 @@
         <div class="card-header">
             <div class="row">
                 <div class="col text-center">
-                    <strong class="text-secondary h6">{{ current_item.fields.name }}</strong>
+                    <strong class="text-secondary h6">{{ current_item.name }}</strong>
                     <br>
-                    <span class="text-primary">{{ current_item.fields.ean_13_code }}</span>
+                    <span class="text-primary">{{ current_item.ean_13_code }}</span>
                 </div>
             </div>
             <div class="card-body">
@@ -43,56 +43,56 @@
                         <table class="table table-bordered table-compact">
                             <tr>
                                 <th class="bg-light bg-gradient text-end">Nombre:</th>
-                                <td v-text="current_item.fields.name"></td>
+                                <td v-text="current_item.name"></td>
                             </tr>
                             <tr>
                                 <th class="bg-light bg-gradient text-end">Cod Contable:</th>
-                                <td v-text="current_item.fields.account_code"></td>
+                                <td v-text="current_item.account_code"></td>
                             </tr>
                             <tr>
                                 <th class="bg-light bg-gradient text-end">Capacidad:</th>
-                                <td> <span v-text="current_item.fields.capacity"></span> <span
-                                        v-text="current_item.fields.unit_measurement"></span> </td>
+                                <td> <span v-text="current_item.capacity"></span> <span
+                                        v-text="current_item.unit_measurement"></span> </td>
                             </tr>
                             <tr>
                                 <th class="bg-light bg-gradient text-end">EAN 13:</th>
-                                <td v-text="current_item.fields.ean_13_code"></td>
+                                <td v-text="current_item.ean_13_code"></td>
                             </tr>
                             <tr>
                                 <th class="bg-light bg-gradient text-end">EAN 14:</th>
-                                <td v-text="current_item.fields.ean_14_code"></td>
+                                <td v-text="current_item.ean_14_code"></td>
                             </tr>
                             <tr>
                                 <th class="bg-light bg-gradient text-end">Tipo:</th>
-                                <td v-text="current_item.fields.type_product"></td>
+                                <td v-text="current_item.type_product"></td>
                             </tr>
                             <tr>
                                 <th class="bg-light bg-gradient text-end">UND Venta:</th>
-                                <td v-text="current_item.fields.sale_unit_measurement"></td>
+                                <td v-text="current_item.sale_unit_measurement"></td>
                             </tr>
                             <tr>
                                 <th class="bg-light bg-gradient text-end">Grado Alc.:</th>
-                                <td v-text="current_item.fields.alcoholic_strength"></td>
+                                <td v-text="current_item.alcoholic_strength"></td>
                             </tr>
                             <tr>
                                 <th class="bg-light bg-gradient text-end">Dim Caja:</th>
-                                <td v-text="current_item.fields.box_dimensions"></td>
+                                <td v-text="current_item.box_dimensions"></td>
                             </tr>
                             <tr>
                                 <th class="bg-light bg-gradient text-end">Dim Product:</th>
-                                <td v-text="current_item.fields.product_dimensions"></td>
+                                <td v-text="current_item.product_dimensions"></td>
                             </tr>
                             <tr>
                                 <th class="bg-light bg-gradient text-end">COD ICE:</th>
-                                <td v-text="current_item.fields.ice_code"></td>
+                                <td v-text="current_item.ice_code"></td>
                             </tr>
                             <tr>
                                 <th class="bg-light bg-gradient text-end">Cantidad Caja:</th>
-                                <td v-text="current_item.fields.quantity_per_box"></td>
+                                <td v-text="current_item.quantity_per_box"></td>
                             </tr>
                             <tr>
                                 <th class="bg-light bg-gradient text-end">Registro Sanitario:</th>
-                                <td v-text="current_item.fields.health_register"></td>
+                                <td v-text="current_item.health_register"></td>
                             </tr>
 
                         </table>
@@ -144,12 +144,12 @@ export default {
         }
     }, methods: {
         switchImage(option) {
-            if (option === 'front' && this.current_item.fields.image_front) {
-                this.default_picture = '/media/' + this.current_item.fields.image_front;
+            if (option === 'front' && this.current_item.image_front) {
+                this.default_picture =  this.current_item.image_front;
                 this.class_bagded_front = 'badge-primary'
                 this.class_bagded_back = 'badge-light'
-            } else if (option === 'back' && this.current_item.fields.image_back) {
-                this.default_picture = '/media/' + this.current_item.fields.image_back;
+            } else if (option === 'back' && this.current_item.image_back) {
+                this.default_picture =  this.current_item.image_back;
                 this.class_bagded_back = 'badge-primary'
                 this.class_bagded_front = 'badge-light'
             } else {
@@ -160,8 +160,8 @@ export default {
             this.$emit('changeView', view_name)
         },
     }, mounted() {
-        if (this.current_item.fields.image_front) {
-            this.default_picture = '/media/' + this.current_item.fields.image_front
+        if (this.current_item.image_front) {
+            this.default_picture =  this.base_url + this.current_item.image_front
         }
     },
 }
