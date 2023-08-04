@@ -3,15 +3,15 @@
         <div class="card-header">
             <div class="row align-middle text-center">
                 <div class="col h6">
-                    {{ current_item.fields.name }}
+                    {{ current_item.name }}
                     <br />
                     <small class="text-primary">
-                        CAPACIDAD: {{ current_item.fields.capacity }} {{ current_item.fields.unit_measurement }}
+                        CAPACIDAD: {{ current_item.capacity }} {{ current_item.unit_measurement }}
                     </small>
                     <br />
-                    <small class="text-primary">[{{ current_item.fields.quantity_per_box }} x Caja]
+                    <small class="text-primary">[{{ current_item.quantity_per_box }} x Caja]
                         &nbsp;|&nbsp;
-                        <span class="text-primary">{{ current_item.fields.ean_13_code }}</span></small>
+                        <span class="text-primary">{{ current_item.ean_13_code }}</span></small>
                 </div>
             </div>
             </div>
@@ -19,7 +19,7 @@
             <div class="row mt-3">
                 <div class="col-4 text-center">
                     <img
-                        :src="current_item.fields.image_front ? current_item.fields.image_front: default_picture"
+                        :src="current_item.image_front ? current_item.image_front: default_picture"
                         class="img-fluid img-thumbnail"
                         >
                 </div>
@@ -132,8 +132,8 @@ export default {
             this.changeView();
         }
     }, mounted() {
-        if (this.current_item.fields.image_front) {
-            this.default_picture = this.base_url + '/media/' + this.current_item.fields.image_front
+        if (this.current_item.image_front) {
+            this.default_picture = this.base_url + '/media/' + this.current_item.image_front
         }
     },updated(){
         if (this.current_taking.taking_total_boxes <= 0) {

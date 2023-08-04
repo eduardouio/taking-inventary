@@ -42,7 +42,7 @@
                         <strong class="text-secondary">Grupo: </strong>
                     </div>
                     <div class="col border">
-                        {{ team.fields.group_number }}
+                        {{ team.group_number }}
                     </div>
                 </div>
                 <div class="row">
@@ -50,7 +50,7 @@
                         <strong class="text-secondary">Nombre: </strong>
                     </div>
                     <div class="col border">
-                       <span class="text-primary" v-text="taking.fields.name"></span>
+                       <span class="text-primary" v-text="taking.name"></span>
                     </div>
                 </div>
                 <div class="row">
@@ -58,7 +58,7 @@
                         <strong class="text-secondary">Fecha: </strong>
                     </div>
                     <div class="col border">
-                        <span v-text="new Date(taking.fields.created).toLocaleString('es-EC')"></span>
+                        <span v-text="new Date(taking.created).toLocaleString('es-EC')"></span>
                     </div>
                 </div>
                 <div class="row">
@@ -66,7 +66,7 @@
                         <strong class="text-secondary">Asistente: </strong>
                     </div>
                     <div class="col border">
-                        <span>{{ user.fields.first_name }} {{ user.fields.last_name }}</span>
+                        <span>{{ user.first_name }} {{ user.last_name }}</span>
                     </div>
                 </div>
                 <div class="row">
@@ -74,7 +74,7 @@
                          <strong class="text-secondary">Auxiliar: </strong>
                     </div>
                     <div class="col border">
-                        <span>{{ team.fields.warenhouse_assistant }}</span>
+                        <span>{{ team.warenhouse_assistant }}</span>
                     </div>
                 </div>
                 <div class="row">

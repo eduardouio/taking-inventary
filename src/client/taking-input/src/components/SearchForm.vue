@@ -46,7 +46,7 @@
                     <div class="col">
                         <ul class="list-group" :key=index v-for="(product, index) in filtered_products">
                             <li class="list-group-item bg-gradient-light" @click="$event => selectProduct(product)">
-                                <small class="text-secondary" v-text="product.fields.name">
+                                <small class="text-secondary" v-text="product.name">
                                 </small>
                             </li>
                         </ul>
@@ -81,7 +81,7 @@ export default{
             let filtered_by_name = this.products.filter(function (elm) {
                 let condition = true;
                 for (let i = 0; i < params.length; i++) {
-                    if (elm.fields.name.search(params[i]) < 0) {
+                    if (elm.name.search(params[i]) < 0) {
                         condition = false;
                     }
                 }
@@ -91,10 +91,10 @@ export default{
             // buscamos por código de barras
             let filtered_by_barcode = this.products.filter(
                 function (elm) {
-                    if (elm.fields.ean_13_code === null) {
+                    if (elm.ean_13_code === null) {
                         return false;
                     }
-                    return elm.fields.ean_13_code.includes(self.query_search);
+                    return elm.ean_13_code.includes(self.query_search);
                 }
             ).slice(0, 20);
 

@@ -12,19 +12,19 @@
     			<div class="row">
     				<div class="col">
     					Manager:
-    					<input type="text" class="form-control" :value="user.fields.first_name + ' ' + user.fields.last_name" readonly>
+    					<input type="text" class="form-control" :value="user.first_name + ' ' + user.last_name" readonly>
     				</div>
     			</div>
     			<div class="row">
     				<div class="col">
     					Asistente:
-    					<input type="text" class="form-control" v-model="team.fields.warenhouse_assistant">
+    					<input type="text" class="form-control" v-model="team.warenhouse_assistant">
     				</div>
     			</div>
     			<div class="row">
     				<div class="col">
     					Notas:
-    					<textarea cols="30" rows="2" class="form-control" v-model="team.fields.notes"></textarea>
+    					<textarea cols="30" rows="2" class="form-control" v-model="team.notes"></textarea>
     				</div>
     			</div>
     			<div class="row mt-1">

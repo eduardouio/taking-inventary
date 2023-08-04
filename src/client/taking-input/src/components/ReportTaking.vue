@@ -6,12 +6,12 @@
                     <div class="col text-center">
                         <i class="fas fa-table"></i>
                         <strong class="h6">
-                            {{ taking.fields.name }}
+                            {{ taking.name }}
                             <br>
                             Reporte Toma <small class="text-info">[{{ report.length }}] items</small>
                         </strong>
                         <br>
-                        <span v-text="new Date(taking.fields.created).toLocaleString('es-EC')"></span>
+                        <span v-text="new Date(taking.created).toLocaleString('es-EC')"></span>
                         <br>
                         <button
                             @click="downloadReport"
@@ -35,7 +35,7 @@
                                 <tr v-for="(item, index) in report" :key="item.pk" @click="showTaking(item)">
                                     <td class="text-center">{{ index + 1 }}</td>
                                     <td class=""> <i class="fas fa-exclamation-triangle text-warning" v-if="item.notes"></i>
-                                        {{ item.product.fields.name }}</td>
+                                        {{ item.product.name }}</td>
                                     <td class="text-end">{{ item.taking_total_boxes }}</td>
                                     <td class="text-end">{{ item.taking_total_bottles }}</td>
                                 </tr>
@@ -67,7 +67,7 @@
                     <div class="row">
                         <div class="col text-center">
                             <img 
-                            :src="selected_taking.product.fields.image_front ? selected_taking.product.fields.image_front : default_picture" 
+                            :src="selected_taking.product.image_front ? selected_taking.product.image_front : default_picture" 
                             class="card-img-top img-thumbnail"
                             alt="Imagen Producto"
                             style="width:12em; height:auto;"
@@ -75,7 +75,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title text-center text-primary">{{ selected_taking.product.fields.name }}</h5>
+                        <h5 class="card-title text-center text-primary">{{ selected_taking.product.name }}</h5>
                         <p class="card-text text-secondary">
                             <span v-if="selected_taking.notes" v-text="selected_taking.notes"></span>
                             <span v-else class="text-secondary">Sin Novedad</span>
@@ -224,14 +224,14 @@ export default {
                 return {
                     'PK': item.pk,
                     'ID Team': this.team.pk,
-                    'token': this.team.fields.token_team,
-                    'Cuenta Contable': item.product.fields.account_code,
-                    'Producto': item.product.fields.name,
+                    'token': this.team.token_team,
+                    'Cuenta Contable': item.product.account_code,
+                    'Producto': item.product.name,
                     'Cajas': item.taking_total_boxes,
                     'Unidades': item.taking_total_bottles,
                     'Total UND': (
                         item.taking_total_boxes 
-                        * item.product.fields.quantity_per_box 
+                        * item.product.quantity_per_box 
                     ) + item.taking_total_bottles,
                     'Añada': item.year,
                     'Caducidad': item.date_expiry,
@@ -242,9 +242,9 @@ export default {
             const ws = utils.json_to_sheet(report_json);
             utils.book_append_sheet(wb, ws, 'Reporte');
             let filename = (
-                this.user.fields.username +
-                '-' + this.taking.fields.name + 
-                '-' + this.taking.fields.created + 
+                this.user.username +
+                '-' + this.taking.name + 
+                '-' + this.taking.created + 
                 '-' + '.xlsx'
                 );
             writeFile(wb,filename);

@@ -3,7 +3,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col text-center">
-                    <strong class="text-warning" v-text="current_item.fields.name"></strong>
+                    <strong class="text-warning" v-text="current_item.name"></strong>
                 </div>
             </div>
             <div class="row">
@@ -27,11 +27,11 @@
                     <div class="col">
                             <div class="form-group">
                                 <label>Nombre</label>
-                                <input type="text" class="form-control" readonly v-model="current_item.fields.name">
+                                <input type="text" class="form-control" readonly v-model="current_item.name">
                             </div>
                             <div class="form-group">
                                 <label>Typo Producto</label>
-                                    <select class="form-control" v-model="current_item.fields.type_product">
+                                    <select class="form-control" v-model="current_item.type_product">
                                     <option value="ACCESORIO">ACCESORIO</option>
                                     <option value="AGUA TONICA">AGUA TÓNICA</option>
                                     <option value="ALIMENTO">ALIMENTO</option>
@@ -51,31 +51,31 @@
                             </div>
                             <div class="form-group">
                                 <label for="">EAN 13</label>
-                                <input type="text" class="form-control" v-model="current_item.fields.ean_13_code" :disabled="!current_item.fields.ean_13_code == ''">
+                                <input type="text" class="form-control" v-model="current_item.ean_13_code" :disabled="!current_item.ean_13_code == ''">
                             </div>
                             <div class="form-group">
                                 <label for="">EAN 14</label>
-                                <input type="text" class="form-control" v-model="current_item.fields.ean_14_code" :disabled="!current_item.fields.ean_14_code == ''">
+                                <input type="text" class="form-control" v-model="current_item.ean_14_code" :disabled="!current_item.ean_14_code == ''">
                             </div>
                             <div class="form-group">
                                 <label>Capacidad</label>
-                                <input type="number" class="form-control" v-model="current_item.fields.capacity" :disabled="current_item.fields.capacity != 0">
+                                <input type="number" class="form-control" v-model="current_item.capacity" :disabled="current_item.capacity != 0">
                             </div>
                             <div class="form-group">
                                 <label>Unidad Medida</label>
-                                <input  type="text" class="form-control" v-model="current_item.fields.unit_measurement" disabled>
+                                <input  type="text" class="form-control" v-model="current_item.unit_measurement" disabled>
                             </div>
                             <div class="form-group">
                                 <label>Dimensiones Producto CM</label>
-                                <input type="text" class="form-control" v-model="current_item.fields.product_dimensions" placeholder="largo X alto X ancho">
+                                <input type="text" class="form-control" v-model="current_item.product_dimensions" placeholder="largo X alto X ancho">
                             </div>
                             <div class="form-group">
                                 <label>Dimensiones Caja Madre CM</label>
-                                <input type="text" class="form-control" v-model="current_item.fields.box_dimensions" placeholder="largo X alto X ancho">
+                                <input type="text" class="form-control" v-model="current_item.box_dimensions" placeholder="largo X alto X ancho">
                             </div>
                             <div class="form-group">
                                 <label>Observaciones</label>
-                                <textarea v-model="current_item.fields.notes" class="form-control"></textarea>
+                                <textarea v-model="current_item.notes" class="form-control"></textarea>
                             </div>
                             <hr/>
 
@@ -106,12 +106,12 @@ export default {
         }
     },methods: {
     switchImage(option) {
-        if (option === 'front' && this.current_item.fields.image_front) {
-            this.default_picture = '/media/' + this.current_item.fields.image_front;
+        if (option === 'front' && this.current_item.image_front) {
+            this.default_picture = '/media/' + this.current_item.image_front;
             this.class_bagded_front = 'badge-primary'
             this.class_bagded_back = 'badge-light'
-        } else if (option === 'back' && this.current_item.fields.image_back) {
-            this.default_picture = '/media/' + this.current_item.fields.image_back;
+        } else if (option === 'back' && this.current_item.image_back) {
+            this.default_picture = '/media/' + this.current_item.image_back;
             this.class_bagded_back = 'badge-primary'
             this.class_bagded_front = 'badge-light'
         } else {
@@ -135,8 +135,8 @@ export default {
             }
         }
     }, mounted() {
-    if (this.current_item.fields.image_front) {
-        this.default_picture = '/media/' + this.current_item.fields.image_front
+    if (this.current_item.image_front) {
+        this.default_picture = '/media/' + this.current_item.image_front
     }
 },
 }

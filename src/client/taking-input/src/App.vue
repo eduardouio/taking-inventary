@@ -65,9 +65,7 @@
 </template>
 
 <script>
-const csrf_token = 'este_es_el_token_de_seguridad';
-const url = 'esta_es_la_url';
-const base_url = '';
+import appConfig from "./appConfig";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -100,18 +98,18 @@ export default {
       products: null,
       user: null,
       taking: null,
-      base_url: base_url,
-      url: url,
+      base_url: appConfig.apiBaseUrl,
+      url: appConfig.dataUrl,
       server_status: {
         response: null,
         issue_type: '',
-        img_ok: base_url + '/static/img/ok.jpg',
-        img_error: base_url + '/static/img/error.jpg',
+        img_ok: appConfig.imgOk,
+        img_error: appConfig.imgError,
         message: '',
       },
       current_item: null,
       report: [],
-      csrf_token: csrf_token,
+      csrf_token: appConfig.csrfToken,
       have_team: true,
       report_update: false,
       show_status_message: true,
@@ -131,7 +129,7 @@ export default {
    methods: {
     getData(){
       const xhr = new XMLHttpRequest();
-      xhr.open('GET', this.base_url + this.url);
+      xhr.open('GET', this.url);
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       xhr.onload = () => {
@@ -145,7 +143,7 @@ export default {
           this.server_status.issue_type = 'success';
           this.server_status.message = 'Completado correctamente';
           this.server_status.response = data;
-          this.have_team = Boolean(this.team.fields.warenhouse_assistant);
+          this.have_team = Boolean(this.team.warenhouse_assistant);
       }};
       xhr.onerror = () => {
         this.show_view.loader = true;
