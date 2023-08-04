@@ -53,15 +53,6 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
-                <TableComponent :key="1" :titleCard="'Bodegas'" :data="warenhouses" />
-            </div>
-            <div class="col">
-                <TableComponent :key="2" :titleCard="'Empresas'" :data="owners"/>
-            </div>
-        </div>
-        <span class="m-1"></span>
-        <div class="row">
             <div class="col text-center">
                 <div class="card bg-primary bg-gradient">
                     <span class="text-white">
@@ -201,6 +192,16 @@
                 </table>
             </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <TableComponent :key="1" :titleCard="'Bodegas'" :data="warenhouses" />
+            </div>
+            <div class="col">
+                <TableComponent :key="2" :titleCard="'Empresas'" :data="owners"/>
+            </div>
+        </div>
+        <span class="m-1"></span>
+       
     </div>
 </template>
 
