@@ -5,7 +5,7 @@ from django.db.models import Sum
 from products.models import Product
 from sap_migrations.lib.CheckMigrationProducts import CheckMigrationProducts
 from sap_migrations.models import SapMigrationDetail
-from takings.models import Taking
+from takings.models import Taking, TakinDetail
 
 
 class ConsolidateTaking(object):
@@ -22,6 +22,8 @@ class ConsolidateTaking(object):
         ]  # para cada uno de los items
     """
 
+    def __init__(self):
+        self.products = Product.objects.all()
     def get(self, id_taking) -> list:
         taking = Taking.get(id_taking)
         
@@ -36,7 +38,6 @@ class ConsolidateTaking(object):
 
         # obtenemos los productos de las bodegas
         warenhouses = json.loads(taking.warenhouses)
-        products = Product.objects.all()
 
         # obtenemos los items de las bodegas, y agrupamos por producto
         stock_report = SapMigrationDetail.objects.filter(
@@ -51,20 +52,22 @@ class ConsolidateTaking(object):
 
         stock_report = [{
             'account_code': item['account_code'],
-            'total_onhand': item['total_onhand'],
+            'id_product': 0,
+            'type_product': '',
             'product': '',
             'ean_13_code': '',
-            'capacity': '',
             'quantity_per_box': '',
+            'capacity': '',
+            'total_onhand': item['total_onhand'],
             'taking': 0,
             'pending': 0,
             'is_complete': False,
-            'type_product': '',
         } for item in stock_report]
 
         for sku in stock_report:
-            for product in products:
-                if sku['account_code'] == product.account_code:
+            for product in self.products:
+                if  sku['account_code'] == product.account_code:
+                    sku['id_product'] = product.pk
                     sku['type_product'] = product.type_product.split(';')[0] if product.type_product else 'LICORES'
                     sku['product'] = product.name
                     sku['ean_13_code'] = product.ean_13_code
@@ -79,11 +82,30 @@ class ConsolidateTaking(object):
         
         # si existen categorias, filtramos por ellas
         if categories and categories[0] != 'ALL':
-            return [i for i in stock_report if i['type_product'] in categories]
+            stock_report =  [i for i in stock_report if i['type_product'] in categories]
+            return self.get_takings(stock_report, taking)
         
+        return  self.get_takings(stock_report, taking)
+        
+    def get_takings(self, stock_report, taking):
+        # recuperamos las tomas del reporte
+        taking_report = TakinDetail.objects.filter(
+            id_taking_id=taking.pk
+        ).values(
+            'account_code_id'
+        ).annotate(
+            quantity=Sum('quantity')
+        )
+
+        if not taking_report:
+            return stock_report
+
+        for item in stock_report:
+            for taking in taking_report:
+                if item['id_product'] == taking['account_code_id']:
+                    item['taking'] = taking['quantity']
+                    item['pending'] = item['total_onhand'] - taking['quantity']
+                    item['is_complete'] = True if item['pending'] == 0 else False
+                    break
+
         return stock_report
-        
-    def get_takings(self, id_taking):
-        pass
-
-
