@@ -1,90 +1,87 @@
 import json
-import pandas as pd
+
+from django.db.models import Sum
 
 from products.models import Product
-from takings.models import Taking
+from sap_migrations.lib.CheckMigrationProducts import CheckMigrationProducts
 from sap_migrations.models import SapMigrationDetail
+from takings.models import Taking
 
 
 class ConsolidateTaking(object):
+    """
+    consolida los datos de una tomar de inventario
+        report : [
+            { 
+                'product': '01012093780121020750', 
+                'total_onhand': 0, 
+                'taking': 0, 
+                'pending': 0, 
+                'is_complete': False | True, 
+            },
+        ]  # para cada uno de los items
+    """
 
-    def get(self, id_taking):
-        """Resumen del stock inicial cruzado con las tomas"""
+    def get(self, id_taking) -> list:
         taking = Taking.get(id_taking)
+        
         if not taking:
-            return False
+            raise Exception('No existe la toma de inventario')
+        
+        return self.get_init_stock(taking)
 
-        # obtenemos el stock inicial
-        owners, start_stock = self.get_start_stock(taking)
-        taking_report = self.get_takings(taking, start_stock)
+    def get_init_stock(self, taking):
+        # verificamos que los productos existan
+        CheckMigrationProducts().verify(taking.id_sap_migration)
 
-        return {
-            'report': taking_report,
-            'taking': taking,
-            'owners': owners,
-        }
+        # obtenemos los productos de las bodegas
+        warenhouses = json.loads(taking.warenhouses)
+        products = Product.objects.all()
 
-    def get_takings(self, taking, start_stock):
-        """retona las tomas de los items"""
+        # obtenemos los items de las bodegas, y agrupamos por producto
+        stock_report = SapMigrationDetail.objects.filter(
+            id_sap_migration=taking.id_sap_migration,
+        ).filter(
+            warenhouse_name__in=warenhouses
+            ).values(
+            'account_code'
+        ).annotate(
+            total_onhand=Sum('on_hand')
+        )
+
+        stock_report = [{
+            'account_code': item['account_code'],
+            'total_onhand': item['total_onhand'],
+            'product': '',
+            'ean_13_code': '',
+            'capacity': '',
+            'quantity_per_box': '',
+            'taking': 0,
+            'pending': 0,
+            'is_complete': False,
+            'type_product': '',
+        } for item in stock_report]
+
+        for sku in stock_report:
+            for product in products:
+                if sku['account_code'] == product.account_code:
+                    sku['type_product'] = product.type_product.split(';')[0] if product.type_product else 'LICORES'
+                    sku['product'] = product.name
+                    sku['ean_13_code'] = product.ean_13_code
+                    sku['capacity'] = product.capacity
+                    sku['quantity_per_box'] = product.quantity_per_box
+                    break
+        
+        categories = json.loads(
+                        taking.categories
+                    ) if taking.categories else None
+        
+        if categories and categories[0] != 'ALL':
+            return [i for i in stock_report if i['type_product'] in categories]
+        
+        return stock_report
+        
+    def takings(self, id_taking):
         pass
 
-    def get_start_stock(self, taking):
-        """Stock inicial"""
-        # definimos bodegas y categorias
-        warenhouses = json.loads(taking.warenhouses)
-        categories = json.loads(taking.categories
-                                ) if taking.categories else ['ALL']
 
-        migration_detail = SapMigrationDetail.objects.filter(
-            id_sap_migration=taking.id_sap_migration,
-        ).filter(warenhouse_name__in=warenhouses)
-
-        data_frame = []
-        start_stock = []
-        owners = []
-
-        for item in migration_detail:
-            data_frame.append({
-                'account_code': item.account_code,
-                'is_commited': item.is_commited,
-                'on_order': item.on_order,
-                'avaliable': item.avaliable,
-                'on_hand': item.on_hand,
-                'owners': item.company_name,
-            })
-
-        owners = list(set([i['owners'] for i in data_frame]))
-        df = pd.DataFrame(data_frame)
-        df = df.groupby('account_code').sum().reset_index()
-
-        for _, row in df.iterrows():
-            start_stock.append({
-                'account_code': row['account_code'],
-                'is_commited': row['is_commited'],
-                'on_order': row['on_order'],
-                'avaliable': row['avaliable'],
-                'on_hand': row['on_hand'],
-            })
-        # verificamos los productos en la base de datos
-        all_products = Product.objects.all()
-        for product in all_products:
-
-            category = product.type_product.split(
-                ';')[0] if product.type_product else 'LICORES'
-
-            for stock in start_stock:
-                if product.account_code == stock['account_code']:
-                    stock['product_name'] = product.name
-                    stock['category'] = category
-
-        # filtramos las categorias
-        categories = json.loads(taking.categories) if taking.categories else []
-
-        if categories:
-            start_stock = [
-                stock
-                for stock
-                in start_stock if stock['category'] in categories
-            ]
-
-        return owners, start_stock
