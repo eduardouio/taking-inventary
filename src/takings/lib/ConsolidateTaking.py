@@ -72,16 +72,18 @@ class ConsolidateTaking(object):
                     sku['quantity_per_box'] = product.quantity_per_box
                     break
         
+        # Verificamos la categorias
         categories = json.loads(
                         taking.categories
                     ) if taking.categories else None
         
+        # si existen categorias, filtramos por ellas
         if categories and categories[0] != 'ALL':
             return [i for i in stock_report if i['type_product'] in categories]
         
         return stock_report
         
-    def takings(self, id_taking):
+    def get_takings(self, id_taking):
         pass
 
 

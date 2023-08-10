@@ -87,7 +87,7 @@ class TestConsolidateTaking:
 
         spected_data = {
             "report": {
-                "items_skus": 536,
+                "items_skus": 535,
                 "total_onhand": 669728,
             },
             "sample_products": [
@@ -121,5 +121,69 @@ class TestConsolidateTaking:
         }
 
         report = ConsolidateTaking().get(my_taking.pk)
-        assert( len(report) == spected_data["report"]["items_skus"] )
+        assert(len(report) == spected_data["report"]["items_skus"])
+        for item in spected_data["sample_products"]:
+            assert (
+                    item["total_onhand"] 
+                    == 
+                    sum([i["total_onhand"] for i in report if i["account_code"] == item["account_code"]])
+            )
 
+        # comprobamos lo que no existen
+        for item in spected_data["dont_exist"]:
+            assert (
+                    0
+                    == 
+                    sum([i["total_onhand"] for i in report if i["account_code"] == item["account_code"]])
+            )
+    
+    def test_two_categories(self):
+        sap_migration = SapMigration.get(180)
+        my_taking = Taking.objects.create(
+            id_sap_migration=sap_migration,
+            warenhouses=json.dumps(
+                [
+                    "ALMACEN 10 DE AGOSTO",
+                    "CONSIGNACIONES PB PROVEEDORES",
+                ]
+            ),
+            categories=json.dumps(["VARIOS", "ACCESORIOS"]),
+            user_manager=UserModel().get("evillota"),
+        )
+
+        spected_data = {
+            "report": {
+                "items_skus": 61,
+                "total_onhand": 10336,
+            },
+            "sample_products": [
+                {
+                    "account_code": "11012133910102010200",
+                    "total_onhand": 530,
+                    "taking": 0,
+                    "pending": 530,
+                    "is_complete": False,
+                },{
+                    "account_code": "07023312404303020000",
+                    "total_onhand": 1,
+                    "taking": 0,
+                    "pending": 1,
+                    "is_complete": False,
+                },{
+                    "account_code": "09015932401401010001",
+                    "total_onhand": 1147,
+                    "taking": 0,
+                    "pending": 1147,
+                    "is_complete": False,
+                }
+            ]
+        }
+
+        report = ConsolidateTaking().get(my_taking.pk)
+        assert(len(report) == spected_data["report"]["items_skus"])
+        for item in spected_data["sample_products"]:
+            assert (
+                    item["total_onhand"] 
+                    == 
+                    sum([i["total_onhand"] for i in report if i["account_code"] == item["account_code"]])
+            )
