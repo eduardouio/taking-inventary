@@ -308,10 +308,10 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th class="bg-danger bg-opacity-50">Sale De</th>
+                                <th class="bg-danger bg-opacity-50">Salida (-)</th>
                                 <th class="bg-danger bg-opacity-50">Unds</th>
                                 <th class="bg-danger bg-opacity-50">Valor</th>
-                                <th class="bg-success bg-opacity-50">Entra A</th>
+                                <th class="bg-success bg-opacity-50">Entrada (+)</th>
                                 <th class="bg-success bg-opacity-50">Unds</th>
                                 <th class="bg-success bg-opacity-50">V Valor</th>
                                 <th class="bg-secondary bg-opacity-50">Diferencia</th>
@@ -345,7 +345,7 @@
                                 <td class="bg-success bg-opacity-25">WISKY PASSPORT</td>
                                 <td class="bg-success bg-opacity-25 text-end">5</td>
                                 <td class="bg-success bg-opacity-25 text-end">40.00</td>
-                                <td class="text-danger text-end"> <i class="fas fa-warning"></i> <strong>60.00</strong></td>
+                                <td class="text-danger text-end"> <i class="fas fa-warning"></i> <strong>-60.00</strong></td>
                                 <td class="text-end">
                                     <select name="" id="">
                                         <option value=""> <i class="fas fa-check"></i> Aceptar</option>

@@ -47,7 +47,6 @@
                                                 <option>Faltante</option>
                                                 <option>Sobrante</option>
                                                 <option>Cruce</option>
-                                                <option>Otro</option>
                                             </select>
                                         </td>
                                         <td><textarea rows="1" style="width:25rem;"></textarea></td>
@@ -63,7 +62,6 @@
                                                 <option>Faltante</option>
                                                 <option>Sobrante</option>
                                                 <option>Cruce</option>
-                                                <option>Otro</option>
                                             </select>
                                         </td>
                                         <td><textarea rows="1" style="width:25rem;"></textarea></td>
@@ -78,8 +76,9 @@
                                             <select name="" id="" class="">
                                                 <option>Faltante</option>
                                                 <option>Sobrante</option>
+                                                <option>Faltante Sin justificar</option>
+                                                <option>Sobrante Sin justificar</option>
                                                 <option>Cruce</option>
-                                                <option>Otro</option>
                                             </select>
                                         </td>
                                         <td><textarea rows="1" style="width:25rem;"></textarea></td>
@@ -95,7 +94,6 @@
                                                 <option>Faltante</option>
                                                 <option>Sobrante</option>
                                                 <option>Cruce</option>
-                                                <option>Otro</option>
                                             </select>
                                         </td>
                                         <td><textarea rows="1" style="width:25rem;"></textarea></td>
@@ -111,7 +109,6 @@
                                                 <option>Faltante</option>
                                                 <option>Sobrante</option>
                                                 <option>Cruce</option>
-                                                <option>Otro</option>
                                             </select>
                                         </td>
                                         <td><textarea rows="1" style="width:25rem;"></textarea></td>
@@ -127,7 +124,6 @@
                                                 <option>Faltante</option>
                                                 <option>Sobrante</option>
                                                 <option>Cruce</option>
-                                                <option>Otro</option>
                                             </select>
                                         </td>
                                         <td><textarea rows="1" style="width:25rem;"></textarea></td>
@@ -143,7 +139,6 @@
                                                 <option>Faltante</option>
                                                 <option>Sobrante</option>
                                                 <option>Cruce</option>
-                                                <option>Otro</option>
                                             </select>
                                         </td>
                                         <td><textarea rows="1" style="width:25rem;"></textarea></td>
@@ -159,7 +154,6 @@
                                                 <option>Faltante</option>
                                                 <option>Sobrante</option>
                                                 <option>Cruce</option>
-                                                <option>Otro</option>
                                             </select>
                                         </td>
                                         <td><textarea rows="1" style="width:25rem;"></textarea></td>
@@ -175,7 +169,6 @@
                                                 <option>Faltante</option>
                                                 <option>Sobrante</option>
                                                 <option>Cruce</option>
-                                                <option>Otro</option>
                                             </select>
                                         </td>
                                         <td><textarea rows="1" style="width:25rem;"></textarea></td>
@@ -191,7 +184,6 @@
                                                 <option>Faltante</option>
                                                 <option>Sobrante</option>
                                                 <option>Cruce</option>
-                                                <option>Otro</option>
                                             </select>
                                         </td>
                                         <td><textarea rows="1" style="width:25rem;"></textarea></td>
@@ -207,7 +199,6 @@
                                                 <option>Faltante</option>
                                                 <option>Sobrante</option>
                                                 <option>Cruce</option>
-                                                <option>Otro</option>
                                             </select>
                                         </td>
                                         <td><textarea rows="1" style="width:25rem;"></textarea></td>
@@ -223,7 +214,6 @@
                                                 <option>Faltante</option>
                                                 <option>Sobrante</option>
                                                 <option>Cruce</option>
-                                                <option>Otro</option>
                                             </select>
                                         </td>
                                         <td><textarea rows="1" style="width:25rem;"></textarea></td>
@@ -239,7 +229,6 @@
                                                 <option>Faltante</option>
                                                 <option>Sobrante</option>
                                                 <option>Cruce</option>
-                                                <option>Otro</option>
                                             </select>
                                         </td>
                                         <td><textarea rows="1" style="width:25rem;"></textarea></td>
@@ -255,7 +244,6 @@
                                                 <option>Faltante</option>
                                                 <option>Sobrante</option>
                                                 <option>Cruce</option>
-                                                <option>Otro</option>
                                             </select>
                                         </td>
                                         <td><textarea rows="1" style="width:25rem;"></textarea></td>
@@ -271,7 +259,6 @@
                                                 <option>Faltante</option>
                                                 <option>Sobrante</option>
                                                 <option>Cruce</option>
-                                                <option>Otro</option>
                                             </select>
                                         </td>
                                         <td><textarea rows="1" style="width:25rem;"></textarea></td>
@@ -287,7 +274,6 @@
                                                 <option>Faltante</option>
                                                 <option>Sobrante</option>
                                                 <option>Cruce</option>
-                                                <option>Otro</option>
                                             </select>
                                         </td>
                                         <td><textarea rows="1" style="width:25rem;"></textarea></td>
