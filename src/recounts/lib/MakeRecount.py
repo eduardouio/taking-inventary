@@ -1,11 +1,10 @@
 import json
 
-from django.core.serializers import serialize
-
-from products.models import Product
 from takings.models import TakinDetail, Taking
 from recounts.models import RecountTakings, RecountDetails
 from takings.lib import ConsolidateTaking
+from products.models import Product
+from api.Serializers import TakingDetailSerializer
 
 
 class MakeRecount():
@@ -18,16 +17,15 @@ class MakeRecount():
 
     def make(self, id_taking, account_code):
         taking = Taking.get(id_taking)
-
-        # verificamos que la toma este activa
-        if not taking.is_active:
+        
+        if self.checker(taking, account_code) is False:
             return False
 
         recount = RecountTakings.objects.create(
             id_taking=taking
         )
+        
         tk_resume = ConsolidateTaking().get(id_taking)
-        tk_resume = tk_resume['report']
         tk_resume = [i for i in tk_resume
                      if i['is_complete'] is False
                      ]
@@ -35,7 +33,7 @@ class MakeRecount():
         # si tenemos un codigo contable especifico solo borramos ese item
         if account_code:
             for item_resume in tk_resume:
-                if item_resume['account_code'].account_code == account_code:
+                if item_resume['account_code'] == account_code:
                     self.consolidate(item_resume, taking, recount)
                     return True
 
@@ -46,29 +44,24 @@ class MakeRecount():
         return True
 
     def consolidate(self, item_resume, taking, recount):
+        # buscamos las tomas del item
         taking_detail = TakinDetail.objects.filter(
             id_taking=taking.pk
-        ).filter(account_code=item_resume['product'])
-        report = []
-        for detail_tk in taking_detail:
-            report.append({
-                'detail': json.loads(serialize('json', [detail_tk]))[0]['fields'],
-                'team':  {
-                    'manager': '{} {}'.format(
-                        detail_tk.id_team.manager.first_name,
-                        detail_tk.id_team.manager.last_name),
-                    'assistant': detail_tk.id_team.warenhouse_assistant,
-                    'username': detail_tk.id_team.manager.username,
-                },
-            })
+        ).filter(account_code=item_resume['id_product'])
+
+        if taking_detail.count() == 0:
+            return True
+
+        report = TakingDetailSerializer(taking_detail, many=True).data
+        report = [dict(i) for i in report]
 
         consolidate = {
             'id_recount_taking': recount,
-            'account_code': item_resume['product'],
+            'account_code': Product.get(item_resume['account_code']),
             'taking_total_boxes': 0,
             'taking_total_bottles': 0,
             'quantity': 0,
-            'detail': json.dumps(report),
+            'detail': report
         }
 
         for detail in taking_detail:
@@ -77,7 +70,37 @@ class MakeRecount():
             consolidate['quantity'] += detail.quantity
 
         RecountDetails.objects.create(**consolidate)
-
         [detail.delete() for detail in taking_detail]
+
+        return True
+
+    def checker(self, taking, account_code) -> bool:
+        ''' 
+            Verifica si la toma tiene detalles
+            si tiene detalles no se puede hacer un nuevo conteo
+        '''        
+        if taking is None:
+            return False
+
+        if taking.is_active is False:
+            return False
+
+        taking_detail = TakinDetail.objects.filter(
+            id_taking=taking.pk
+        )
+
+        if taking_detail.count() == 0:
+            return False
+
+        if account_code:
+            # recuperamos el producto
+            product = Product.get(account_code)
+            tkd_acc_code = TakinDetail.objects.filter(
+                id_taking=taking,
+                account_code=product
+            )
+
+            if tkd_acc_code.count() == 0:
+                return False
 
         return True
