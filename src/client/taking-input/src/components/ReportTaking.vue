@@ -194,7 +194,6 @@ export default {
             selected_taking: null,
             show_taking: false,
             show_report: true,
-            confirm_report_send: false,
             class_sync_btn: 'btn-primary',
             message_button: 'Sincronizar Datos',
             default_picture: this.base_url + '/static/img/generic_product.png',
@@ -211,14 +210,9 @@ export default {
             this.$emit('removeItem', this.selected_taking);
             this.showReport();
         }, sendReport() {
-            if (this.confirm_report_send) {
-                this.disable_button_send = true;
-                this.downloadReport();
-                return this.$emit('sendReport');
-            }
-            this.confirm_report_send = true;
             this.class_sync_btn = 'btn-success';
             this.message_button = 'Confirmar Reporte';
+            return this.$emit('sendReport');
         },downloadReport(){
             let report_json = this.report.map(item=>{
                 return {

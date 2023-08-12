@@ -154,6 +154,7 @@ export default {
       xhr.send();
     },
     saveReport(){
+      // enviar reporte
       this.show_view.loader = true;
       this.server_status.response = null;
       const xhr_1 = new XMLHttpRequest();
