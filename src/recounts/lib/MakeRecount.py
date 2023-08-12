@@ -17,18 +17,21 @@ class MakeRecount():
 
     def make(self, id_taking, account_code):
         taking = Taking.get(id_taking)
+
+        if taking is None:
+            return False
+
+        tk_resume = ConsolidateTaking().get(id_taking)
+        tk_resume = [i for i in tk_resume
+                     if i['is_complete'] is False
+                     ]
         
-        if self.checker(taking, account_code) is False:
+        if self.checker(taking, account_code, tk_resume) is False:
             return False
 
         recount = RecountTakings.objects.create(
             id_taking=taking
         )
-        
-        tk_resume = ConsolidateTaking().get(id_taking)
-        tk_resume = [i for i in tk_resume
-                     if i['is_complete'] is False
-                     ]
 
         # si tenemos un codigo contable especifico solo borramos ese item
         if account_code:
@@ -74,14 +77,11 @@ class MakeRecount():
 
         return True
 
-    def checker(self, taking, account_code) -> bool:
+    def checker(self, taking, account_code, tk_resume) -> bool:
         ''' 
             Verifica si la toma tiene detalles
             si tiene detalles no se puede hacer un nuevo conteo
-        '''        
-        if taking is None:
-            return False
-
+        '''   
         if taking.is_active is False:
             return False
 
@@ -93,14 +93,9 @@ class MakeRecount():
             return False
 
         if account_code:
-            # recuperamos el producto
-            product = Product.get(account_code)
-            tkd_acc_code = TakinDetail.objects.filter(
-                id_taking=taking,
-                account_code=product
-            )
-
-            if tkd_acc_code.count() == 0:
-                return False
+            for item_resume in tk_resume:
+                if item_resume['account_code'] == account_code:
+                    return True
+            return False
 
         return True
