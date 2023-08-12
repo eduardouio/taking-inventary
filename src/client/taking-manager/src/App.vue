@@ -1,8 +1,10 @@
 <template>
   <div>
     <loader 
-      v-if="!report"
+      v-if="!report" 
+      :serverStatus="serverStatus"
     ></loader>
+    <!--
     <nav-bar
         v-if="report" 
         :report="report"
@@ -35,22 +37,13 @@
       :csrf_token="csrf_token"
       @makeRecount="$event => makeRecount($event)"
       ></taking-report>
+      -->
   </div>
 </template>
-
-
 <script>  
-const base_url = 'http://localhost:8000';
-const url_data = '/api/common/taking-data/184/';
-const csrf_token = 'colocar_el_token_aqui';
 
-const userdata = {
-  "username": "Datos",
-  "id": 2,
-  "first_name": "Eduardo",
-  "last_name": "Villota",
-  "email": "eduardouio7@gmail.com",
-};
+// importamos las configuraciones
+import confData from "./conf";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
@@ -74,10 +67,12 @@ export default {
     Loader,
   },data() {
     return {
-      base_url: base_url,
-      csrf_token: csrf_token,
-      url_data: url_data,
-      userdata: userdata,
+      confData: confData,
+      serverStatus:{
+        fetching: false,
+        error: false,
+        message: null,
+      },
       auto_reload: false,
       report: null,
       warenhouses: null,
@@ -88,7 +83,7 @@ export default {
     }
   },methods: {
     // Cargamos los datos iniciales para la interfase
-    updateData: function() {
+    updateData: async function() {
       //enceramos datos iniciales
       this.report = null;
       this.warenhouses = null;
@@ -96,11 +91,16 @@ export default {
       this.show_all_takings = true;
       this.filtered = true;
       this.taking_is_open = false;
-      const xhr = new XMLHttpRequest();
-      xhr.open("GET", this.base_url + this.url_data);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-      xhr.onload = () =>{
+      this.serverStatus.fetching = true;
+      
+
+      await fetch(this.confData.urlData,{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+      }).then((response) => {
         if (xhr.status === 200){
           // cargamos el reporte
           this.report = JSON.parse(xhr.responseText);
@@ -133,12 +133,17 @@ export default {
       if (this.report.taking.is_active){
           this.autoReload();
       }
+
+      // cerramos el request
+      this.serverStatus.fetching = false;
       };
-    };
-    xhr.onerror = () => {
-      alert('Error al cargar los datos');
-    };
-    xhr.send();
+
+      }).catch((error) => {
+        this.serverStatus.error = true;
+        this.serverStatus.message = 'No es posible conectar con el servidor';
+        this.serverStatus.fetching = false;
+      });
+
     },autoReload(){
         setInterval(() => {
           if(this.auto_reload){
