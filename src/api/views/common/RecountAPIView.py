@@ -28,4 +28,6 @@ class RecountAPIView(APIView):
         if status:
             return Response({'status': 'ok'})
 
-        return Response({'status': 'toma cerrada'})
+        return Response(
+            {'status': 'No fue posible hacer el reconteo solicitado'}
+        )
