@@ -4,16 +4,18 @@
 
 import json
 
-from django.http import Http404
 from django.db import connection
+from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from accounts.models.CustomUserModel import CustomUserModel
 from api.Serializers import (CustomUserSerializer, ProductSerializer,
                              TakingSerializer, TeamSerializer)
+from products.models import Product
 from takings.lib import ConsolidateTaking
-from takings.models import Taking, TakinDetail
-from accounts.models.CustomUserModel import CustomUserModel
+from takings.models import TakinDetail, Taking
+from sap_migrations.models import SapMigrationDetail
 
 
 # /api/common/taking-data/<id_taking>/
@@ -29,15 +31,13 @@ class AllTakingDataAPIView(APIView):
         report = []
 
         # personalizamos reporte
-        for item in detail["report"]:
-            product = ProductSerializer(item["product"]).data
+        for item in detail:
+            product = ProductSerializer(Product.get(item['account_code'])).data
             report.append({
                 "product": product,
-                "sap_stock": item["sap_stock"],
+                "sap_stock": item["total_onhand"],
                 "is_complete": item["is_complete"],
-                "tk_bottles": item["tk_bottles"],
-                "tk_boxes": item["tk_boxes"],
-                "tk_quantity": item["tk_quantity"],
+                "tk_quantity": item["taking"],
             })
 
         # recuperamos equipos y creamos el diccionario
@@ -76,11 +76,19 @@ class AllTakingDataAPIView(APIView):
         # agregamos campo selected
         for user in all_users_assistants:
             user["selected"] = False
+        
+        # enterprises
+        enterprises = SapMigrationDetail.objects.filter(
+            id_sap_migration = taking.id_sap_migration,
+        ).filter(   
+            warenhouse_name__in=json.loads(taking.warenhouses)
+        ).values('company_name').order_by('company_name').distinct()
+
 
         data = {
             "taking": TakingSerializer(taking).data,
             "teams": teams,
-            "enterprises": detail["enterprises"],
+            "enterprises": [e['company_name'] for e in enterprises],
             "report": report,
             "manager": CustomUserSerializer(taking.user_manager).data,
             "all_warenhouses": all_warenhouses,
