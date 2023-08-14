@@ -109,10 +109,12 @@
         <div class="col-4">
           <div class="card">
             <div class="card-header">
-              <h5 class="card-title text-info">Empresas</h5>
+              <h5 class="card-title text-info">
+              <i class="fas fa-house"></i>
+                Empresas Seleccionadas
+              </h5>
             </div>
             <div class="card-body">
-              <h6 class="card-subtitle mb-1 text-muted">Listado de Propietarios</h6>
               <ul class="list-group">
                 <li v-for="(enterprise, idx) in allEnterprises" :key="enterprise" class="list-group-item">
                   <span class="badge bg-secondary">{{ idx + 1 }}</span> {{ enterprise }}
@@ -194,7 +196,7 @@
                     </td>
                     <td>{{ item.name }}</td>
                     <td class="text-center">
-                      <span class="badge bg-secondary" v-if="!item.selected">
+                      <span class="badge bg-light text-success" v-if="!item.selected">
                         <i class="fas fa-plus text-success"></i>
                         Agregar
                       </span>
@@ -207,7 +209,93 @@
         </div>
       </div>
       <!--/Vista Bodegas-->
-
+      <!--Vista Grupos-->
+      <div class="row" v-if="showSection.groups">
+        <div class="col-8">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title text-info">
+                <i class="fa-solid fa-users"></i>
+                Grupos Seleccionados
+              </h5>
+            </div>
+            <div class="card-body">
+              <table class="table table-hover table-bordered">
+                <thead>
+                  <tr class="text-center">
+                    <th>Grupo</th>
+                    <th>Manager</th>
+                    <th>Asistente</th>
+                    <th><i class="fas fa-refresh"></i></th>
+                    <th>Ultima</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="team in teamsTaking" :key="team">
+                    <td class="text-center">
+                      {{ team.group_number }}
+                      <span class="badge bg-light text-secondary">
+                        # {{ team.id_team }}
+                      </span>
+                    </td>
+                    <td>{{ team.manager.first_name }} {{ team.manager.last_name }}</td>
+                    <td>{{ team.warenhouse_assistant }}</td>
+                    <td class="text-center">
+                        {{ syncsTeams(team.id_team, 'times') }}
+                    </td>
+                    <td class="text-end">
+                      <span>
+                        {{ syncsTeams(team.id_team, 'last') }}
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <button class="btn btn-sm btn-outline-dark mt-2" @click="showDetail">
+                <i class="fas fa-xmark"></i> Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title text-info">
+                  <i class="fa-solid fa-user-plus"></i>
+                  &nbsp;
+                  Agregar Grupos
+                  <button class="btn btn-outline-success btn-sm float-end" @click="addTeams">
+                    <i class="fa-solid fa-check"></i>
+                    Aplicar Cambios
+                  </button>
+                </h5>
+              </div>
+              <div class="card-body">
+                  <input type="text" v-model="my_query" placeholder="Buscar" @keyup="filterUsers" class="float-end form-control form-control-sm ">
+                  <table class="table table-hover table-bordered">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Asistente</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(user,idx) in filteredUsers" :key="user.id" @click="user.selected = !user.selected">
+                        <td class="text-center">{{ idx+1 }}</td>
+                        <td>
+                          <span v-if="user.selected" class="badge bg-success">
+                            &nbsp; Marcado Para Agregar
+                          </span>
+                          {{ user.first_name }} {{ user.last_name }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+      </div>
+      <!--/Vista Grupos-->
     </div>
   </div>
 </template>
@@ -226,7 +314,7 @@ export default {
           groups: false,
         },
       my_query:null,
-      allUsersAssistants: null
+      filteredUsers: [],
     }
   },
   props: {
@@ -248,11 +336,14 @@ export default {
     },allUsersAssistants: {
       type: Array,
       required: true
-    },reportTakingTaking: {
-      type: Object,
-      required: true
     },allEnterprises: {
       type: Array,
+      required: true
+    },teamsTaking:{
+      type: Array,
+      required: true
+    },syncs:{
+      type: Object,
       required: true
     }
   }
@@ -268,16 +359,15 @@ export default {
       ).length;
     }, percent_progress() {
       return Math.round((this.full / this.reportTaking.length) * 100);
-    },
-    allWarenhousesSelected(){
+    },allWarenhousesSelected(){
       return this.allWarenhouses.filter(
         warenhouse => warenhouse.selected == true
     )
-  },allWarenhousesUnseleted(){
+    },allWarenhousesUnseleted(){
       return this.allWarenhouses.filter(
         warenhouse => warenhouse.selected == false
     )
-    },
+  },
   }, methods: {
     // Mostramos u ocultamos las vistas de empresas, bodegas y grupos
     showDetail(name = null) {
@@ -287,11 +377,9 @@ export default {
         return
       }
       // cerramos todas las secciones
-      this.showSection = {
-        enterprises: false,
-        warenhouses: false,
-        groups: false,
-      };
+      this.showSection.enterprises = false;
+      this.showSection.warenhouses = false;
+      this.showSection.groups = false;
       // si no se envia un nombre de seccion, no hacemos nada
       if (name === null) {
         return
@@ -302,7 +390,7 @@ export default {
     },
     // filtramos usuarios del cuadro
     filterUsers() {
-      this.allUsersAssistants = this.allUsersAssistants.filter(
+      this.filteredUsers = this.allUsersAssistants.filter(
         user => {
           return user.first_name.toLowerCase().includes(this.my_query.toLowerCase()) ||
             user.last_name.toLowerCase().includes(this.my_query.toLowerCase())
@@ -322,13 +410,12 @@ export default {
       const headers = appConfig.headers;
       this.taking.warenhouses = JSON.stringify(this.allWarenhousesSelected.filter(item => item.selected == true).map(item => item.name));
       axios.put(
-        this.confData.urlUpdateTaking.replace('{pk}', this.taking.id_taking),
+        this.confData.urlUpdateTaking,
         this.taking,
         {headers}
       ).then(
         response => {
           if (response.status === 200){
-            alert('Bodegas actualizadas');
             location.reload();
           }
         }
@@ -346,10 +433,7 @@ export default {
     } ;
     
     let xhr_team = new XMLHttpRequest();
-    xhr_team.open(
-      'POST', 
-      this.base_url + '/api/common/add-team-taking/' + this.reportTaking.taking.id_taking + '/'
-      );
+    xhr_team.open('POST', this.confData.urlUpdateTeam );
     xhr_team.setRequestHeader('Content-Type', 'application/json');
     xhr_team.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr_team.setRequestHeader('X-CSRFToken', this.csrf_token);
@@ -362,9 +446,22 @@ export default {
     xhr_team.onerror = ()=>{
       alert('Error al agregar los grupos');
     }
-  },//prox method
+  }, syncsTeams(id_team, typeData){
+
+    if (typeData === 'times'){
+      return this.syncs['all'].filter(i => i.id_team_id === id_team).length
+    }
+    
+    if (typeData === 'last'){
+      const lastSync = this.syncs['groups'].filter(i => i.id_team_id === id_team)
+      if (lastSync[0]){
+        return new Date(lastSync[0].created).toLocaleString('es-EC')
+      }
+      return 'NO TIENE'
+    }
   }
+  },mounted(){
+    this.filteredUsers = this.allUsersAssistants
+  },
 }
 </script>
-
-<style></style>

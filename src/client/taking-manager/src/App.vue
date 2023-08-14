@@ -13,6 +13,8 @@
         :taking="taking"
         :userManager="userManager"
         :allUsersAssistants="allUsersAssistants"
+        :teamsTaking="teamsTaking"
+        :syncs="syncs"
         @updateWarenhouses="$event => updateWarenhouses($event)"
         ></nav-bar>
     <!--
@@ -79,6 +81,7 @@ export default {
       taking: null,
       allEnterprises: null,
       reportTaking: null,
+      teamsTaking: null,
       userManager: null,
       allWarenhouses: null,
       allUsersAssistants:null,
@@ -94,10 +97,12 @@ export default {
       this.taking = null;
       this.allEnterprises = null;
       this.reportTaking = null;
+      this.teamsTaking = null;
       this.userManager = null;
       this.allWarenhouses = null;
       this.allUsersAssistants =null;
       this.recounts = null;
+      this.syncs = null;
       // variables auxiliares
       this.showAllTakings = true;
       this.filtered = false;
@@ -114,10 +119,12 @@ export default {
         this.taking = responseData.taking;
         this.allEnterprises = responseData.enterprises;
         this.reportTaking = responseData.report;
+        this.teamsTaking = responseData.teams.sort((a, b) => a.group_number - b.group_number);
         this.userManager = responseData.manager;
         this.allWarenhouses = responseData.all_warenhouses.sort((a, b) => a.name.localeCompare(b.name));
         this.allUsersAssistants = responseData.all_users_assistants;
         this.recounts = responseData.recounts;
+        this.syncs = responseData.syncs;
         // variables auxiliares
         this.serverStatus.fetching = false;
         this.takingIsOpen = responseData.taking.is_active;
@@ -129,7 +136,7 @@ export default {
         this.serverStatus.message = 'No es posible conectar con el servidor';
         console.dir(e);
       });      
-    },showAllTakings() {
+    },showAllTakingsReverse() {
         this.showAllTakings = !this.showAllTakings;
       },
       // filtamos el reporte
