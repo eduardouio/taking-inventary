@@ -95,6 +95,10 @@ class TestAllTakingData():
         # Comprobamos los usuarios con perfil asistentes
         assert (spected["all_users_assistants"] ==
                 len(response["all_users_assistants"]))
+        
+        # comprobamos los reconteos
+        assert (len(response["recounts"]) == 4)
+
 
     def test_dont_exist_taking(self):
         response = self.client.get("/api/common/taking-data/999/")

@@ -11,11 +11,13 @@ from rest_framework.views import APIView
 
 from accounts.models.CustomUserModel import CustomUserModel
 from api.Serializers import (CustomUserSerializer, ProductSerializer,
-                             TakingSerializer, TeamSerializer)
+                             TakingSerializer, TeamSerializer, RecountTakingsSerializer)
 from products.models import Product
 from takings.lib import ConsolidateTaking
 from takings.models import TakinDetail, Taking
 from sap_migrations.models import SapMigrationDetail
+from recounts.models import RecountTakings
+
 
 
 # /api/common/taking-data/<id_taking>/
@@ -84,6 +86,8 @@ class AllTakingDataAPIView(APIView):
             warenhouse_name__in=json.loads(taking.warenhouses)
         ).values('company_name').order_by('company_name').distinct()
 
+        # reconteos
+        recounts = RecountTakings.objects.filter(id_taking = taking)
 
         data = {
             "taking": TakingSerializer(taking).data,
@@ -93,6 +97,7 @@ class AllTakingDataAPIView(APIView):
             "manager": CustomUserSerializer(taking.user_manager).data,
             "all_warenhouses": all_warenhouses,
             "all_users_assistants": all_users_assistants,
+            "recounts": RecountTakingsSerializer(recounts, many=True).data,
         }
 
         return Response(data)
