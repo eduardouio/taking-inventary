@@ -131,30 +131,27 @@
         <div class="col-4">
           <div class="card">
             <div class="card-header">
-              <h5 class="card-title text-info">
+              <h5 class="card-title text-success">
                 <i class="fa-solid fa-warehouse"></i>
-                Bodegas
+                Bodegas Seleccionadas
               </h5>
             </div>
             <div class="card-body">
-              <h6 class="card-subtitle mb-2 text-muted">Listado de Bodegas</h6>
               <ul class="list-group">
                 <li 
-                    v-for="(warenhouse, idx) in allWarenhouses" 
+                    v-for="(warenhouse, idx) in allWarenhousesSelected" 
                     :key="warenhouse" 
                     class="list-group-item" 
-                    @click="warenhouse.selected = !warenhouse.selected">
-                  <span class="badge bg-secondary">
+                    @click="warenhouse.selected = !warenhouse.selected"
+                    >
+                    <span class="badge bg-success bg-gradient">{{ idx + 1 }}</span> 
+                    &nbsp;
+                  <span class="badge bg-light bg-gradient bordered text-danger">
                       <i class="fas fa-minus text-danger"></i>
                       &nbsp;
                       Eliminar
                     </span>
-                    &nbsp;
-                    <span v-if="!warenhouse.selected" class="badge bg-danger">
-                      Maracado Para Eliminar
-                    </span>
-                    <span v-if="!warenhouse.selected">&nbsp;</span>
-                  <span class="badge bg-secondary">{{ idx + 1 }}</span> {{ warenhouse.name }}
+                  {{ warenhouse.name }}
                 </li>
               </ul>
               <button class="btn btn-sm btn-outline-dark mt-2" @click="showDetail">
@@ -188,7 +185,7 @@
                 </thead>
                 <tbody>
                   <tr 
-                    v-for="(item, idx) in reportTaking.all_warenhouses" 
+                    v-for="(item, idx) in allWarenhousesUnseleted" 
                     :key="item"
                     @click="item.selected = !item.selected"
                     >
@@ -200,9 +197,6 @@
                       <span class="badge bg-secondary" v-if="!item.selected">
                         <i class="fas fa-plus text-success"></i>
                         Agregar
-                      </span>
-                      <span v-else class="badge bg-success">
-                        Marcado Para Agregar
                       </span>
                     </td>
                   </tr>
@@ -218,15 +212,16 @@
   </div>
 </template>
 <script>
-import { all } from 'axios';
+import axios from 'axios';
+import appConfig from '../../../taking-input/src/appConfig';
 
 export default {
   name: 'NavBar',
-  emits: ['updateWarenhouses', 'updateGroups'],
+  emits: ['updateGroups'],
   data() {
     return {
         showSection: {
-          enterprises: true,
+          enterprises: false,
           warenhouses: false,
           groups: false,
         },
@@ -273,7 +268,16 @@ export default {
       ).length;
     }, percent_progress() {
       return Math.round((this.full / this.reportTaking.length) * 100);
-    }
+    },
+    allWarenhousesSelected(){
+      return this.allWarenhouses.filter(
+        warenhouse => warenhouse.selected == true
+    )
+  },allWarenhousesUnseleted(){
+      return this.allWarenhouses.filter(
+        warenhouse => warenhouse.selected == false
+    )
+    },
   }, methods: {
     // Mostramos u ocultamos las vistas de empresas, bodegas y grupos
     showDetail(name = null) {
@@ -307,7 +311,33 @@ export default {
     },
     // Actualizamos las bodegas
     updateWarenhouses() {
-      this.$emit('updateWarenhouses');
+      // verificamos las bodegas seleccionadas sino hay cambio no hacemos nada
+      const newWarenhouses = this.allWarenhousesSelected.map(item => item.name);
+      const oldWarenhouses = JSON.parse(this.taking.warenhouses);
+      if ( JSON.stringify(newWarenhouses) === JSON.stringify(oldWarenhouses)){
+        alert('No hay cambios');
+        return
+      }
+      //preparamos la variable de toma
+      const headers = appConfig.headers;
+      this.taking.warenhouses = JSON.stringify(this.allWarenhousesSelected.filter(item => item.selected == true).map(item => item.name));
+      axios.put(
+        this.confData.urlUpdateTaking.replace('{pk}', this.taking.id_taking),
+        this.taking,
+        {headers}
+      ).then(
+        response => {
+          if (response.status === 200){
+            alert('Bodegas actualizadas');
+            location.reload();
+          }
+        }
+      ).catch(
+        error => {
+          alert('Error al actualizar las bodegas');
+          consoledir(error);
+        }
+      )
   },
   // agregamos los grupos
   addTeams() {

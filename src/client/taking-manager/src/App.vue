@@ -1,26 +1,27 @@
 <template>
   <div>
     <loader 
-      v-if="!report" 
+      v-if="!serverStatus.haveData" 
       :serverStatus="serverStatus"
     ></loader>
-    <!--
     <nav-bar
-        v-if="report" 
-        :report="report"
-        :warenhouses="warenhouses"
-        :userdata="userdata"
-        :base_url="base_url"
-        :csrf_token="csrf_token"
+        v-if="serverStatus.haveData" 
+        :reportTaking="reportTaking"
+        :allWarenhouses="allWarenhouses"
+        :allEnterprises="allEnterprises"
+        :confData="confData"
+        :taking="taking"
+        :userManager="userManager"
+        :allUsersAssistants="allUsersAssistants"
         @updateWarenhouses="$event => updateWarenhouses($event)"
         ></nav-bar>
-    <info-bar 
+    <!--
+        <info-bar 
         v-if="report"
         :report="report"
-        :show_all_takings="show_all_takings"
-        :taking_is_open="taking_is_open"
+        :showAllTakings="showAllTakings"
+        :takingIsOpen="takingIsOpen"
         :csrf_token="csrf_token"
-        :auto_reload="auto_reload"
         @changeAutoReload="$event => handleChangeAutoReload($event)"
         @showAllTakings="$event => showAllTakings($event)"
         @makeRecount="$event => makeRecount($event)"
@@ -30,10 +31,10 @@
     <taking-report 
       v-if="report && filtered"
       :report="report"
-      :table_takings="table_takings"
+      :tableTakings="tableTakings"
       :base_url="base_url"
-      :show_all_takings="show_all_takings"
-      :taking_is_open="taking_is_open"
+      :showAllTakings="showAllTakings"
+      :takingIsOpen="takingIsOpen"
       :csrf_token="csrf_token"
       @makeRecount="$event => makeRecount($event)"
       ></taking-report>
@@ -48,6 +49,7 @@ import confData from "./conf";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
 
+import axios from 'axios';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@fortawesome/fontawesome-free/js/all.min.js";
 
@@ -72,135 +74,76 @@ export default {
         fetching: false,
         error: false,
         message: null,
+        haveData: false,
       },
-      auto_reload: false,
-      report: null,
-      warenhouses: null,
-      table_takings:null,
-      show_all_takings:true,
+      taking: null,
+      allEnterprises: null,
+      reportTaking: null,
+      userManager: null,
+      allWarenhouses: null,
+      allUsersAssistants:null,
+      recounts: null,
+      showAllTakings:true,
       filtered:true,
-      taking_is_open:false,
+      takingIsOpen:false,
     }
   },methods: {
     // Cargamos los datos iniciales para la interfase
     updateData: async function() {
       //enceramos datos iniciales
-      this.report = null;
-      this.warenhouses = null;
-      this.table_takings = null;
-      this.show_all_takings = true;
-      this.filtered = true;
-      this.taking_is_open = false;
+      this.taking = null;
+      this.allEnterprises = null;
+      this.reportTaking = null;
+      this.userManager = null;
+      this.allWarenhouses = null;
+      this.allUsersAssistants =null;
+      this.recounts = null;
+      // variables auxiliares
+      this.showAllTakings = true;
+      this.filtered = false;
+      this.takingIsOpen = false;
       this.serverStatus.fetching = true;
-      
+      this.serverStatus.haveData = false;
+      // headers
+      const headers = this.confData.headers;
 
-      await fetch(this.confData.urlData,{
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
-        },
-      }).then((response) => {
-        if (xhr.status === 200){
-          // cargamos el reporte
-          this.report = JSON.parse(xhr.responseText);
-          // marcamos el estatus de la toma
-          this.taking_is_open = this.report.taking.is_active;
-          // cargamos las bodegas
-          let my_warenhouses = JSON.parse(this.report.taking.warenhouses);
-          this.warenhouses = my_warenhouses.map(item => {
-            return {
-              'name': item,
-              'selected': true,
-            }
-            });
-      // ordenamos las bodegas
-      this.report.all_warenhouses.sort((a, b) => {
-        if (a.name > b.name) {
-          return 1;
-        }
-        if (a.name < b.name) {
-          return -1;
-        }
-        return 0;
-      });
-      // creamos una copia del reporte
-      this.table_takings = JSON.parse(xhr.responseText).report;
-      // mostramos solo diferencias
-      this.show_all_takings = false;
-
-      // marcamos el auto reload
-      if (this.report.taking.is_active){
-          this.autoReload();
-      }
-
-      // cerramos el request
-      this.serverStatus.fetching = false;
-      };
-
-      }).catch((error) => {
-        this.serverStatus.error = true;
-        this.serverStatus.message = 'No es posible conectar con el servidor';
+      // peticion inicial de datos
+      axios.get(this.confData.urlData,{headers}).then(response => {
+        const responseData = response.data;
+        // seteamos las variables con la respuesta
+        this.taking = responseData.taking;
+        this.allEnterprises = responseData.enterprises;
+        this.reportTaking = responseData.report;
+        this.userManager = responseData.manager;
+        this.allWarenhouses = responseData.all_warenhouses.sort((a, b) => a.name.localeCompare(b.name));
+        this.allUsersAssistants = responseData.all_users_assistants;
+        this.recounts = responseData.recounts;
+        // variables auxiliares
         this.serverStatus.fetching = false;
-      });
-
-    },autoReload(){
-        setInterval(() => {
-          if(this.auto_reload){
-            this.updateData();
-          }
-      }, 900000);
-    },
-    // Actualizamos las bodegas
-    updateWarenhouses: function() {
-      const selected_warenhouses = this.warenhouses.filter(
-        item => item.selected
-      ).map(item => item.name).concat(
-      this.report.all_warenhouses.filter(
-          item => item.selected
-        ).map(item => item.name)
-      );
-      
-      // si no hay bodegas seleccionadas no hacemos nada
-      if (selected_warenhouses.length === 0){
-          return;
-      }
-      // actualizamos la toma
-      const update_taking = this.report.taking;
-      update_taking.warenhouses = JSON.stringify(selected_warenhouses);
-      const xhr_taking = new XMLHttpRequest();
-      xhr_taking.open(
-        "PUT", 
-        this.base_url + '/api/takings/update-taking/' + update_taking.id_taking + '/'
-        );
-      xhr_taking.setRequestHeader('Content-Type', 'application/json');
-      xhr_taking.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-      xhr_taking.setRequestHeader('X-CSRFToken', this.csrf_token);
-      xhr_taking.onload = () =>{
-        if (xhr_taking.status === 200){
-          // cargamos el reporte
-          location.reload();
-          }
-        }
-      xhr_taking.onerror = () => {
-        alert('Error al cargar los datos');
-      };
-      xhr_taking.send(JSON.stringify(update_taking));
-      },showAllTakings() {
-        this.show_all_takings = !this.show_all_takings;
+        this.takingIsOpen = responseData.taking.is_active;
+        this.showAllTakings = false;
+        this.serverStatus.haveData = true;
+      }).catch(e => {
+        this.serverStatus.error = true;
+        this.serverStatus.fetching = false;
+        this.serverStatus.message = 'No es posible conectar con el servidor';
+        console.dir(e);
+      });      
+    },showAllTakings() {
+        this.showAllTakings = !this.showAllTakings;
       },
       // filtamos el reporte
       filterReport(){
         this.filtered = false;
         setTimeout(() => {
-        this.table_takings = [];
+        this.tableTakings = [];
         const report = this.report.report.map(item => item);
-        if (this.show_all_takings) {
-          this.table_takings = report;
+        if (this.showAllTakings) {
+          this.tableTakings = report;
           this.filtered = true;
           return;
         }
-        this.table_takings = report.filter(
+        this.tableTakings = report.filter(
           item => item.is_complete === false
         );
         this.filtered = true;
@@ -268,14 +211,12 @@ export default {
         xhr_taking.send(
           JSON.stringify(update_taking)
           );
-      }, handleChangeAutoReload(estatus){
-        this.auto_reload = !estatus;
-      }// next method
+      },
     },
   mounted(){
     this.updateData();
   },watch:{
-    show_all_takings: function() {
+    showAllTakings: function() {
       if(this.report){
         this.filterReport();
       }
@@ -286,7 +227,7 @@ export default {
 <style>
   body {
     background-color: #f5f5f5;
-    font-size: 0.85rem;
+    font-size: 0.80rem;
   }
   .bg-gray {
     background-color: #f1f1f1;
@@ -299,5 +240,11 @@ export default {
   }
   .btn-secondary {
     background-color: #9b9b9b;
+  }
+  .navbar-brand{
+    font-size: 0.90rem !important;
+  }
+  h5, .h5 {
+    font-size: 0.90rem !important;
   }
 </style>
