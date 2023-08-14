@@ -137,4 +137,7 @@ class AllTakingDataAPIView(APIView):
                  }
                 for row in cursor.fetchall() if list(row)[0] not in used_warenhouses
                 ]
+
+        used_warenhouses = [{"name": w, "selected": True} for w in used_warenhouses]
+        data = used_warenhouses + data
         return data
