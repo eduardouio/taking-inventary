@@ -40,7 +40,6 @@ export default {
             opacity: 40%;
             color:red;
         }
-
     }
     .text-blink{
         animation: blinker 1s linear infinite;
