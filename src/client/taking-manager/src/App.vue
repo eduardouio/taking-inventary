@@ -17,19 +17,18 @@
         :syncs="syncs"
         @updateWarenhouses="$event => updateWarenhouses($event)"
         ></nav-bar>
-    <!--
         <info-bar 
-        v-if="report"
-        :report="report"
+        v-if="serverStatus.haveData" 
+        :reportTaking="reportTaking"
         :showAllTakings="showAllTakings"
-        :takingIsOpen="takingIsOpen"
-        :csrf_token="csrf_token"
-        @changeAutoReload="$event => handleChangeAutoReload($event)"
+        :syncs="syncs"
+        :taking="taking"
         @showAllTakings="$event => showAllTakings($event)"
         @makeRecount="$event => makeRecount($event)"
         @closeTaking="$event => closeTaking($event)"
         >
-    </info-bar>
+      </info-bar>
+      <!--
     <taking-report 
       v-if="report && filtered"
       :report="report"

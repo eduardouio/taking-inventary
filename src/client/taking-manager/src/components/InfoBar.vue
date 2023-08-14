@@ -8,38 +8,41 @@
       </div>
     </div>
     <div class="row border bg-gardient-secondary rounded bg-gradient-light" style="padding: 5px;">
-      <div class="col-8">
-        Inicio:
-        {{ new Date(report.taking.created).toLocaleString('es-Ec') }}
-        &nbsp;| &nbsp;
-        Estado:
-        <span v-if="report.taking.is_active">
-          <i class="fas fa-play text-success"></i>&nbsp;
-          <span class="text-success">Abierto, Recibiendo Datos </span>
-        </span>
-        <span v-else>
-          <i class="fas fa-stop text-danger"></i>&nbsp;
-          <span class="text-danger">Conteo Cerrado </span>
+      <div class="col-10">
+        <span class="border rounded p-1 m-1">
+          <i class="fas fa-clock"></i>
           &nbsp;
-          {{ new Date(report.taking.date_end_taking).toLocaleString('es-Ec') }}
-          &nbsp; ->
-          {{ lapsed_time }} Horas
+          <strong>Inicio:</strong>
+          {{ taking.hour_start }}
+          &nbsp;
+          <strong>Fin:</strong>
+          {{ taking.hour_end }}
+          &nbsp;
+          <strong>Duración:</strong>
+          2.5 Horas
         </span>
-        &nbsp;| &nbsp;
-        <!--
-          <span @click="changeAutoReload">
-            <i class="fas fa-refresh"></i>
-            Auto-Update
-            <i class="fas fa-power-off text-danger" v-if="!auto_reload"></i>
-            <i class="fas fa-power-off text-success" v-else></i>
+        <span class="border rounded p-1 m-1">
+          <span>
+            <i class="fas fa-info-circle"></i>
+            &nbsp;
+            <strong>Estado:</strong>
+            &nbsp;
           </span>
-        -->
+          <span v-if="taking.is_active">
+            <i class="fas fa-play text-success"></i>&nbsp;
+            <span class="text-success">Abierto, Recibiendo Datos </span>
+          </span>
+          <span v-else>
+            <i class="fas fa-stop text-danger"></i>&nbsp;
+            <span class="text-danger">Conteo Cerrado </span>
+          </span>
+        </span>
+        &nbsp;
         <button class="btn btn-secondary btn-sm" @click="Reload()">
           <i class="fa-solid fa-refresh text-primary"></i>
           Actualizar
         </button>
-        &nbsp;
-        <button class="btn btn-secondary btn-sm" v-if="report.taking.is_active" @click="makeRecount">
+        <button class="btn btn-secondary btn-sm" v-if="taking.is_active" @click="makeRecount">
           <strong v-if="recount_confirm">
             <i class="fas fa-check text-warning"></i>
             Confirmar
@@ -49,8 +52,7 @@
             Reconteo
           </span>
         </button>
-        &nbsp;
-        <button class="btn btn-secondary btn-sm" v-if="report.taking.is_active" @click="closeTaking">
+        <button class="btn btn-secondary btn-sm" v-if="taking.is_active" @click="closeTaking">
           <span v-if="!close_confirm">
             <i class="fas fa-stop text-danger"></i>
             Cerrar Toma
@@ -60,24 +62,16 @@
             Confirmar
           </strong>
         </button>
-        &nbsp;
         <button class="btn btn-secondary btn-sm" @click="showAllTakings">
           <span v-if="show_all_takings">
             <i class="fa-solid fa-eye-slash text-warning"></i> &nbsp;
             Mostrar Diferencias
           </span>
           <span v-else>
-            <i class="fas fa-eye text-success"></i>&nbsp;
+            <i class="fas fa-eye text-success"></i>
             Mostrar Todo
           </span>
         </button>
-        &nbsp;
-        <span v-if="show_all_takings" class="badge bg-success">
-          Todos Los Registros
-        </span>
-        <span v-else class="badge bg-danger">
-          Mostrando Diferencias
-        </span>
       </div>
       <div class="col text-end">
         <button class="btn btn-outline-secondary btn-sm" @click="downloadReport" v-if="taking_is_open">
@@ -102,20 +96,17 @@ export default {
   name: 'InfoBar',
   emits: ['showAllTakings', 'makeRecount', 'closeTaking','changeAutoReload'],
   props: {
-    report: {
+    reportTaking: {
       type: Object,
       required: true,
-    }, show_all_takings: {
+    }, showAllTakings: {
       type: Boolean,
       required: true,
-    }, taking_is_open: {
+    }, takingIsOpen: {
       type: Boolean,
       required: true,
-    }, csrf_token: {
-      type: String,
-      required: true,
-    }, auto_reload: {
-      type: Boolean,
+    },taking: {
+      type: Object,
       required: true,
     }
   }, data() {
@@ -128,18 +119,18 @@ export default {
   computed: {
     // items completos
     full() {
-      return this.report.report.filter(
+      return this.reportTaking.filter(
         item => item.is_complete == true
       ).length;
     }, left_over() {
-      return this.report.report.filter(
+      return this.reportTaking.filter(
         item => item.is_complete == false
       ).length;
     }, percent_progress() {
-      return Math.round((this.full / this.report.report.length) * 100);
+      return Math.round((this.full / this.reportTaking.length) * 100);
     }, lapsed_time() {
-      const start = new Date(this.report.taking.created);
-      const end = new Date(this.report.taking.date_end_taking);
+      const start = new Date(this.taking.created);
+      const end = new Date(this.taking.date_end_taking);
       return parseInt((end - start) / 3600000 * 100) / 100;
     }
   }, methods: {
@@ -148,7 +139,7 @@ export default {
     }, Reload() {
       location.reload();
     }, downloadReport() {
-      let report_json = this.report.report.filter(
+      let report_json = this.reportTaking.filter(
         item => item.is_complete == false
       ).map((item) => {
         return {
@@ -163,15 +154,15 @@ export default {
 
       const wb = utils.book_new();
       const ws = utils.json_to_sheet(report_json);
-      const name = this.report.taking.name;
+      const name = this.taking.name;
       ws["!cols"] = [{ wch: 25 }, { wch: 80 }, { wch: 15 }, { wch: 15 }, { wch: 10 }, { wch: 10 }];
       ws["!rows"] = [{ hpx: 30 }];
 
       utils.book_append_sheet(wb, ws, 'Reporte');
-      writeFile(wb, 'Reconteo [Toma #' + this.report.taking.id_taking + ']' + name + '.xlsx');
+      writeFile(wb, 'Reconteo [Toma #' + this.taking.id_taking + ']' + name + '.xlsx');
     }, diffReport() {
       // Obtenemos el reporte de diferencias
-      let report_json = this.report.report.filter(
+      let report_json = this.reportTaking.filter(
         item => item.is_complete == false
       ).map((item) => {
         let status = '';
@@ -193,12 +184,12 @@ export default {
       });
       const wb = utils.book_new();
       const ws = utils.json_to_sheet(report_json);
-      const name = this.report.taking.name;
+      const name = this.taking.name;
       ws["!cols"] = [{ wch: 25 }, { wch: 80 }, { wch: 15 }, { wch: 15 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 10 }];
       ws["!rows"] = [{ hpx: 30 }];
 
       utils.book_append_sheet(wb, ws, 'Reporte');
-      writeFile(wb, 'Reporte Diferencias [Toma #' + this.report.taking.id_taking + ']' + name + '.xlsx');
+      writeFile(wb, 'Reporte Diferencias [Toma #' + this.taking.id_taking + ']' + name + '.xlsx');
 
     }, makeRecount() {
       if (!this.recount_confirm) {
@@ -211,7 +202,7 @@ export default {
         this.close_confirm = true;
         return
       }
-      this.$emit('closeTaking', this.report.taking.id_taking);
+      this.$emit('closeTaking', this.taking.id_taking);
     }, changeAutoReload(){
       this.$emit('changeAutoReload', this.auto_reload);
     } //text mtehod
@@ -223,5 +214,9 @@ export default {
 <style>
 .progress {
   --bs-progress-height: 0.11rem;
+}
+.btn-sm {
+  padding: 0.15rem !important;
+  font-size: 0.8rem !important;
 }
 </style>
