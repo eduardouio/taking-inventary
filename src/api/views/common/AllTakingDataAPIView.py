@@ -46,19 +46,11 @@ class AllTakingDataAPIView(APIView):
         teams = TeamSerializer(taking.teams.all(), many=True).data
         teams = [dict(t) for t in teams]
 
-        teams_activity = self.teams_activity(id_taking)
-
         for team in teams:
             manager = CustomUserModel.objects.get(pk=team["manager"])
             team["manager"] = CustomUserSerializer(manager).data
             team["selected"] = True
-            team["activity"] = {
-                'id_team_id': team["id_team"],
-                'count': 0,
-            }
-            for activity in teams_activity:
-                if team["id_team"] == activity["id_team_id"]:
-                    team["activity"] = activity
+           
         # obtenemos todas las bodegas de la migracion
         all_warenhouses = self.get_all_warenhouses(taking)
 
@@ -102,27 +94,7 @@ class AllTakingDataAPIView(APIView):
         }
 
         return Response(data)
-
-    def teams_activity(self, id_taking):
-        query = """
-            SELECT td.id_team_id, COUNT(DISTINCT(td.token_team)) 
-            FROM takings_takindetail td where td.id_taking_id = {} 
-            GROUP BY td.id_team_id;
-        """.format(id_taking)
-        cursor = connection.cursor()
-        cursor.execute(query)
-        columns = [col[0] for col in cursor.description]
-        data = [dict(zip(columns, row)) for row in cursor.fetchall()]
-        for item in data:
-            # ultima toma de equipo
-            # Obtener el último TakingDetail para un id_team específico ordenado por created desc
-            last_taking = TakinDetail.objects.filter(id_team_id=430).order_by(
-                '-created'
-            ).first()
-            item["last_taking"] = last_taking.created
-
-        return data
-    
+        
     def get_syncs(self, taking):
         syncs = {
             'all': [],
