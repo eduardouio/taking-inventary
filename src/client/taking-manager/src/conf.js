@@ -3,6 +3,7 @@ const baseUrl = "http://localhost:8000";
 const confData = {
     "baseUrl": baseUrl,
     "urlData": baseUrl + "/api/common/taking-data/170/",
+    "urlUpdateTaking": baseUrl + "/api/takings/update-taking/{pk}/",
     "userData": {
         "username": "Datos",
         "id": 2,
