@@ -98,6 +98,7 @@ class AllTakingDataAPIView(APIView):
             "all_warenhouses": all_warenhouses,
             "all_users_assistants": all_users_assistants,
             "recounts": RecountTakingsSerializer(recounts, many=True).data,
+            "syncs": self.get_syncs(taking),
         }
 
         return Response(data)
@@ -121,6 +122,38 @@ class AllTakingDataAPIView(APIView):
             item["last_taking"] = last_taking.created
 
         return data
+    
+    def get_syncs(self, taking):
+        syncs = {
+            'all': [],
+            'groups': [],
+        }
+        # sincronizaciones
+        query = """
+            SELECT DISTINCT ttd.id_team_id, ttd.token_team 
+            FROM takings_takindetail ttd 
+            WHERE ttd.token_team IN (
+	    SELECT DISTINCT(token_team) FROM takings_takindetail where id_taking_id = {})
+        """.format(taking.pk)
+        cursor = connection.cursor()
+        cursor.execute(query)
+        columns = [col[0] for col in cursor.description]
+        syncs['all'] = [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+        query = """
+            SELECT ttd.id_team_id, ttd.created, ttd.token_team
+            FROM takings_takindetail ttd
+            WHERE (ttd.id_team_id, ttd.created) IN (
+                SELECT t2.id_team_id, MAX(t2.created)
+                FROM takings_takindetail t2
+                WHERE t2.id_taking_id = {}
+                GROUP BY t2.id_team_id);
+        """.format(taking.pk)
+        cursor = connection.cursor()
+        cursor.execute(query)
+        columns = [col[0] for col in cursor.description]
+        syncs['groups'] = [dict(zip(columns, row)) for row in cursor.fetchall()]
+        return syncs
 
     def get_all_warenhouses(self, taking):
         query = """
@@ -140,4 +173,5 @@ class AllTakingDataAPIView(APIView):
 
         used_warenhouses = [{"name": w, "selected": True} for w in used_warenhouses]
         data = used_warenhouses + data
+        cursor.close()
         return data

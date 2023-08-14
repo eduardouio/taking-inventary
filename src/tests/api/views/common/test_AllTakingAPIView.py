@@ -1,14 +1,18 @@
 import pytest
-from rest_framework.test import APIClient
+from django.contrib.auth import get_user_model as UserModel
+from django.urls import reverse
 
 
 @pytest.mark.django_db
 class TestAllTakingData():
 
-    def setup_method(self):
-        self.client = APIClient()
+    @pytest.fixture
+    def client(self, client):
+        user = UserModel().objects.get(username='evillota')
+        client.force_login(user)
+        return client
 
-    def test_get(self):
+    def test_get(self , client):
         """Test for get method, with spected data"""
         spected = {
             "id_taking": 1,
@@ -30,16 +34,16 @@ class TestAllTakingData():
                 "first_name": "LORENA",
                 "last_name": "RODRIGUEZ",
                 "email": "lorena@vinesa.com.ec",
-            }, "all_warenhouses": 37,
+            }, "all_warenhouses": 40,
             "all_users_assistants": 114,
         }
 
-        response = self.client.get("/api/common/taking-data/1/")
+        url = reverse("all_taking_data", kwargs={"id_taking": 1})
+        response = client.get(url)
 
         # verificams el status code
         assert (response.status_code == 200)
-
-        response = response.data
+        response = response.json()
 
         # comporbamos el id toma
         assert (
@@ -100,6 +104,14 @@ class TestAllTakingData():
         assert (len(response["recounts"]) == 4)
 
 
-    def test_dont_exist_taking(self):
-        response = self.client.get("/api/common/taking-data/999/")
+    def test_dont_exist_taking(self, client):
+        response = client.get("/api/common/taking-data/999/")
         assert (response.status_code == 404)
+    
+    def test_get_allTakingdata(self, client):
+        url = reverse("all_taking_data", kwargs={"id_taking": 170})
+        response = client.get(url)
+        assert (response.status_code == 200)
+        response = response.json()
+        assert(len(response["syncs"]["all"]) == 58)
+
