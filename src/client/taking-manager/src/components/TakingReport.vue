@@ -16,7 +16,7 @@
                         </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="( item, index) in table_takings" :key="item" @click="showItemDetail(item)">
+                    <tr v-for="(item, index) in tableTakings" :key="item" @click="showItemDetail(item)">
                        <td class="text-center">{{ index + 1 }}</td>
                        <td>{{ item.product.name }}</td>
                        <td>{{ item.product.ean_13_code }}</td>
@@ -24,7 +24,7 @@
                        <td class="text-end">{{ item.product.quantity_per_box }}</td>
                        <td class="text-end">{{ item.sap_stock }}</td>
                        <td class="text-end">{{ item.tk_quantity }}</td>
-                       <td class="text-end">{{ item.sap_stock - item.tk_quantity }}</td>
+                       <td class="text-end">{{ item.tk_quantity - item.sap_stock }}</td>
                        <td class="text-center text-success" v-if="item.sap_stock === item.tk_quantity">COMPLETO</td>
                        <td class="text-center text-danger" v-if="item.sap_stock < item.tk_quantity">SOBRANTE</td>
                        <td class="text-center" v-if="item.sap_stock > item.tk_quantity">
@@ -62,25 +62,19 @@ export default {
     name: 'TakingReport',
     emits: ['makeRecount'],
     props: {
-        table_takings: {
+        tableTakings: {
+            type: Array,
+            required: true,
+        },
+        confData: {
             type: Object,
             required: true,
         },
-        base_url: {
-            type: String,
-            required: true,
-        },
-        show_all_takings: {
+        isShowAllTakings: {
             type: Boolean,
             required: true,
-        },report: {
-            type: Object,
-            required: true,
-        }, taking_is_open: {
+        },IsTakingOpen: {
             type: Boolean,
-            required: true,
-        },csrf_token: {
-            type: String,
             required: true,
         },
     },
@@ -109,7 +103,6 @@ export default {
                 this.datatable.destroy();
                 this.datatable = null;
             }
-
             // creamos una nueva instancia de DataTable
             this.dataTable = new DataTable("#report",{
                 pageLength: 25,

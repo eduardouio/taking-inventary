@@ -20,7 +20,7 @@
         <info-bar 
         v-if="serverStatus.haveData" 
         :reportTaking="reportTaking"
-        :showAllTakings="showAllTakings"
+        :isShowAllTakings="isShowAllTakings"
         :syncs="syncs"
         :taking="taking"
         :recounts="recounts"
@@ -29,18 +29,14 @@
         @closeTaking="$event => closeTaking($event)"
         >
       </info-bar>
-      <!--
-    <taking-report 
-      v-if="report && filtered"
-      :report="report"
+      <taking-report 
+      v-if="serverStatus.haveData && filtered"
       :tableTakings="tableTakings"
-      :base_url="base_url"
-      :showAllTakings="showAllTakings"
-      :takingIsOpen="takingIsOpen"
-      :csrf_token="csrf_token"
+      :confData="confData"
+      :isShowAllTakings="isShowAllTakings"
+      :IsTakingOpen="taking.is_active"
       @makeRecount="$event => makeRecount($event)"
       ></taking-report>
-      -->
   </div>
 </template>
 <script>  
@@ -86,9 +82,10 @@ export default {
       allWarenhouses: null,
       allUsersAssistants:null,
       recounts: null,
-      showAllTakings:true,
+      isShowAllTakings:true,
       filtered:true,
       takingIsOpen:false,
+      tableTakings: [],
     }
   },methods: {
     // Cargamos los datos iniciales para la interfase
@@ -104,8 +101,9 @@ export default {
       this.recounts = null;
       this.syncs = null;
       // variables auxiliares
-      this.showAllTakings = true;
-      this.filtered = false;
+      this.tableTakings = [];
+      this.isShowAllTakings = false;
+      this.filtered = true;
       this.takingIsOpen = false;
       this.serverStatus.fetching = true;
       this.serverStatus.haveData = false;
@@ -128,34 +126,33 @@ export default {
         // variables auxiliares
         this.serverStatus.fetching = false;
         this.takingIsOpen = responseData.taking.is_active;
-        this.showAllTakings = false;
+        this.isShowAllTakings = false;
         this.serverStatus.haveData = true;
+        // filtramos el reporte
+        this.filterReport();
       }).catch(e => {
         this.serverStatus.error = true;
         this.serverStatus.fetching = false;
         this.serverStatus.message = 'No es posible conectar con el servidor';
         console.dir(e);
       });      
-    },showAllTakingsReverse() {
-        this.showAllTakings = !this.showAllTakings;
+    },showAllTakings() {
+        this.isShowAllTakings = !this.isShowAllTakings;
+        this.filterReport();
       },
       // filtamos el reporte
       filterReport(){
         this.filtered = false;
         setTimeout(() => {
-        this.tableTakings = [];
-        const report = this.report.report.map(item => item);
-        if (this.showAllTakings) {
-          this.tableTakings = report;
           this.filtered = true;
+          if (this.isShowAllTakings) {
+          this.tableTakings = this.reportTaking.map(item => item);
           return;
         }
-        this.tableTakings = report.filter(
-          item => item.is_complete === false
-        );
-        this.filtered = true;
+        this.tableTakings = this.reportTaking.filter( item => item.is_complete === false);
         return;  
-        }, 100);
+        }, 50);
+     
       }, makeRecount(account_code){
         this.serverStatus.fetching = true;
         this.serverStatus.haveData = false;
@@ -228,8 +225,8 @@ export default {
   mounted(){
     this.updateData();
   },watch:{
-    showAllTakings: function() {
-      if(this.report){
+    isShowAllTakings: function() {
+      if(this.takingReport){
         this.filterReport();
       }
   }

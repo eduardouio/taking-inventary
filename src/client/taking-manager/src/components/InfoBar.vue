@@ -15,7 +15,7 @@
         </span>
         <span class=" border rounded p-1 m-1">
           <i class="fas fa-location-dot"></i>
-          {{ taking.location }} Guayaquil
+          {{ taking.location }}
         </span>
         <span class="border rounded p-1 m-1">
           <i class="fas fa-clock"></i>
@@ -48,6 +48,14 @@
             <i class="fas fa-refresh"></i>
             {{ syncs.all.length }}
           </span>
+          <span class="m-1 text-success" v-if="isShowAllTakings">
+            <i class="fas fa-eye"></i>
+            TODO
+          </span>
+          <span class="m-1 text-danger" v-else>
+            <i class="fas fa-exclamation-triangle"></i>
+            DIFENCIAS
+          </span>
         </span>
         <span class="m-1 ">
         <button class="btn btn-light btn-sm" v-if="taking.is_active" @click="makeRecount">
@@ -63,7 +71,7 @@
         <button class="btn btn-light btn-sm ms-1 me-1" v-if="taking.is_active" @click="closeTaking">
           <span v-if="!closeConfirm">
             <i class="fas fa-stop text-danger"></i>
-            Cerrar Toma
+            Cerrar
           </span>
           <strong v-else>
             <i class="fas fa-check text-danger"></i>
@@ -71,13 +79,13 @@
           </strong>
         </button>
         <button class="btn btn-light btn-sm" @click="showAllTakings">
-          <span v-if="isShowAllAakings">
+          <span v-if="isShowAllTakings">
             <i class="fa-solid fa-eye-slash text-warning"></i> &nbsp;
-            Mostrar Diferencias
+            Listar Diferencias
           </span>
           <span v-else>
             <i class="fas fa-eye text-success"></i>
-            Mostrar Todo
+            Listar Todo
           </span>
         </button>
       </span>
@@ -107,7 +115,7 @@ export default {
     reportTaking: {
       type: Array,
       required: true,
-    }, showAllTakings: {
+    }, isShowAllTakings: {
       type: Boolean,
       required: true,
     },taking: {
@@ -124,7 +132,6 @@ export default {
     return {
       recountConfirm: false,
       closeConfirm: false,
-      isShowAllAakings: false,
     }
   },
   computed: {
