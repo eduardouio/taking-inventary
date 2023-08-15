@@ -1,9 +1,12 @@
 const baseUrl = "http://localhost:8000";
+const idTaking = 170;
 
 const confData = {
     "baseUrl": baseUrl,
-    "urlData": baseUrl + "/api/common/taking-data/170/",
-    "urlUpdateTaking": baseUrl + "/api/takings/update-taking/{pk}/",
+    "urlData": baseUrl + `/api/common/taking-data/${idTaking}/`,
+    "urlUpdateTaking": baseUrl + `/api/takings/update-taking/${idTaking}/`,
+    "urlUpdateTeam": baseUrl + `/api/common/add-team-taking/${idTaking}/`,
+    "urlRecount": baseUrl + `/api/common/recount/${idTaking}/{accountCode}/`,
     "userData": {
         "username": "Datos",
         "id": 2,
