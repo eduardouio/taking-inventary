@@ -23,6 +23,7 @@
         :showAllTakings="showAllTakings"
         :syncs="syncs"
         :taking="taking"
+        :recounts="recounts"
         @showAllTakings="$event => showAllTakings($event)"
         @makeRecount="$event => makeRecount($event)"
         @closeTaking="$event => closeTaking($event)"
@@ -156,14 +157,12 @@ export default {
         return;  
         }, 100);
       }, makeRecount(account_code){
-        // check if recount all taking or one item
-        let id_taking = this.report.taking.id_taking;
-        let url = `/api/common/recount/${id_taking}/${account_code}/`;
+        this.serverStatus.fetching = true;
+        this.serverStatus.haveData = false;
+
+        let url = this.confData.urlRecount.replace('{accountCode}', account_code)
         const xhr_recount = new XMLHttpRequest();
-        xhr_recount.open(
-          "GET", 
-          this.base_url + url
-          );
+        xhr_recount.open("GET", url);
         xhr_recount.setRequestHeader('Content-Type', 'application/json');
         xhr_recount.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr_recount.onload = () =>{
@@ -178,7 +177,9 @@ export default {
               return;
             }
             // update item in table
-          this.report.report.forEach(item => {
+          this.serverStatus.fetching = false;
+          this.serverStatus.haveData = true;
+          this.reportTaking.forEach(item => {
             if (item.product.account_code === account_code) {
               item.tk_botles = 0;
               item.tk_boxes = 0;
@@ -187,32 +188,37 @@ export default {
           });
             }
           }
-        xhr_recount.onerror = () => {
-          alert('Error al actualizar el estado de la toma');
+        xhr_recount.onerror = (error) => {
+          this.serverStatus.fetching = false;
+          this.serverStatus.error = true;
+          this.serverStatus.message = 'Error al actualizar el estado de la toma';
+          console.dir(error);
         };
         xhr_recount.send();
       }, closeTaking(id_taking){
+        this.serverStatus.fetching = true;
+        this.serverStatus.haveData = false;
         // set is_closed to true in taking
-        let update_taking = this.report.taking;
+        let update_taking = this.taking;
         update_taking.is_active = false;
         update_taking.date_end_taking = new Date().getTime();
         
         const xhr_taking = new XMLHttpRequest();
-        xhr_taking.open(
-          "PUT", 
-          this.base_url + '/api/takings/update-taking/' + id_taking + '/'
-          );
+        xhr_taking.open("PUT", this.confData.urlUpdateTaking);
         xhr_taking.setRequestHeader('Content-Type', 'application/json');
         xhr_taking.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-        xhr_taking.setRequestHeader('X-CSRFToken', this.csrf_token);
+        xhr_taking.setRequestHeader('X-CSRFToken', this.confData.headers['X-CSRFToken']);
         xhr_taking.onload = () =>{
           if (xhr_taking.status === 200){
             // cargamos el reporte
             location.reload();
             }
           }
-        xhr_taking.onerror = () => {
-          alert('Error al completar la petición, toma no cerrada');
+        xhr_taking.onerror = (error) => {
+          this.serverStatus.fetching = false;
+          this.serverStatus.error = true;
+          this.serverStatus.message = 'Error al actualizar el estado de la toma';
+          console.dir(error);
         };
         xhr_taking.send(
           JSON.stringify(update_taking)
@@ -253,4 +259,5 @@ export default {
   h5, .h5 {
     font-size: 0.90rem !important;
   }
+
 </style>

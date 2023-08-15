@@ -10,6 +10,14 @@
     <div class="row border bg-gardient-secondary rounded bg-gradient-light" style="padding: 5px;">
       <div class="col-10">
         <span class="border rounded p-1 m-1">
+          <i class="fas fa-calendar"></i>
+          {{ dateStart }}
+        </span>
+        <span class=" border rounded p-1 m-1">
+          <i class="fas fa-location-dot"></i>
+          {{ taking.location }} Guayaquil
+        </span>
+        <span class="border rounded p-1 m-1">
           <i class="fas fa-clock"></i>
           &nbsp;
           <strong>Inicio:</strong>
@@ -19,7 +27,7 @@
           {{ taking.hour_end }}
           &nbsp;
           <strong>Duración:</strong>
-          2.5 Horas
+          {{ lapsed_time }}
         </span>
         <span class="border rounded p-1 m-1">
           <span>
@@ -30,20 +38,20 @@
           </span>
           <span v-if="taking.is_active">
             <i class="fas fa-play text-success"></i>&nbsp;
-            <span class="text-success">Abierto, Recibiendo Datos </span>
+            <span class="text-success">Abierto </span>
           </span>
           <span v-else>
             <i class="fas fa-stop text-danger"></i>&nbsp;
-            <span class="text-danger">Conteo Cerrado </span>
+            <span class="text-danger">Cerrado</span>
+          </span>
+          <span class="m-1">
+            <i class="fas fa-refresh"></i>
+            {{ syncs.all.length }}
           </span>
         </span>
-        &nbsp;
-        <button class="btn btn-secondary btn-sm" @click="Reload()">
-          <i class="fa-solid fa-refresh text-primary"></i>
-          Actualizar
-        </button>
-        <button class="btn btn-secondary btn-sm" v-if="taking.is_active" @click="makeRecount">
-          <strong v-if="recount_confirm">
+        <span class="m-1 ">
+        <button class="btn btn-light btn-sm" v-if="taking.is_active" @click="makeRecount">
+          <strong v-if="recountConfirm">
             <i class="fas fa-check text-warning"></i>
             Confirmar
           </strong>
@@ -52,8 +60,8 @@
             Reconteo
           </span>
         </button>
-        <button class="btn btn-secondary btn-sm" v-if="taking.is_active" @click="closeTaking">
-          <span v-if="!close_confirm">
+        <button class="btn btn-light btn-sm ms-1 me-1" v-if="taking.is_active" @click="closeTaking">
+          <span v-if="!closeConfirm">
             <i class="fas fa-stop text-danger"></i>
             Cerrar Toma
           </span>
@@ -62,8 +70,8 @@
             Confirmar
           </strong>
         </button>
-        <button class="btn btn-secondary btn-sm" @click="showAllTakings">
-          <span v-if="show_all_takings">
+        <button class="btn btn-light btn-sm" @click="showAllTakings">
+          <span v-if="isShowAllAakings">
             <i class="fa-solid fa-eye-slash text-warning"></i> &nbsp;
             Mostrar Diferencias
           </span>
@@ -72,9 +80,10 @@
             Mostrar Todo
           </span>
         </button>
+      </span>
       </div>
       <div class="col text-end">
-        <button class="btn btn-outline-secondary btn-sm" @click="downloadReport" v-if="taking_is_open">
+        <button class="btn btn-outline-dark btn-sm" @click="downloadReport" v-if="taking.is_active">
           <i class="fas fa-file-excel text-success"></i>
           &nbsp;
           Reporte Reconteo
@@ -91,29 +100,31 @@
 <script>
 import { utils, writeFile } from 'xlsx';
 
-
 export default {
   name: 'InfoBar',
   emits: ['showAllTakings', 'makeRecount', 'closeTaking','changeAutoReload'],
   props: {
     reportTaking: {
-      type: Object,
+      type: Array,
       required: true,
     }, showAllTakings: {
-      type: Boolean,
-      required: true,
-    }, takingIsOpen: {
       type: Boolean,
       required: true,
     },taking: {
       type: Object,
       required: true,
+    },recounts:{
+      type: Array,
+      required: true,
+    },syncs:{
+      type: Object,
+      required: true,
     }
   }, data() {
     return {
-      recount_confirm: false,
-      close_confirm: false,
-      auto_refresh: false,
+      recountConfirm: false,
+      closeConfirm: false,
+      isShowAllAakings: false,
     }
   },
   computed: {
@@ -129,16 +140,31 @@ export default {
     }, percent_progress() {
       return Math.round((this.full / this.reportTaking.length) * 100);
     }, lapsed_time() {
-      const start = new Date(this.taking.created);
-      const end = new Date(this.taking.date_end_taking);
-      return parseInt((end - start) / 3600000 * 100) / 100;
-    }
+      if (this.taking.is_active){
+        return 'En curso';
+      }
+
+      if (!this.taking.hour_start || !this.taking.hour_end) {
+        return '00:00';
+      }
+
+      const hStart = new Date(`2000-01-01T${this.taking.hour_start}`);
+      const hEnd = new Date(`2000-01-01T${this.taking.hour_end}`);
+      const lapsed = new Date(hEnd - hStart);
+
+      const hours = lapsed.getUTCHours().toString().padStart(2, '0');
+      const minutes = lapsed.getUTCMinutes().toString().padStart(2, '0');
+      const seconds = lapsed.getUTCSeconds().toString().padStart(2, '0');
+
+      return `${hours}:${minutes}:${seconds}`;
+    },dateStart(){
+      let created = this.taking.created.split('T')[0].split('-');
+      return `${created[2]}/${created[1]}/${created[0]}`;
+    },
   }, methods: {
     showAllTakings() {
       this.$emit('showAllTakings');
-    }, Reload() {
-      location.reload();
-    }, downloadReport() {
+    },downloadReport() {
       let report_json = this.reportTaking.filter(
         item => item.is_complete == false
       ).map((item) => {
@@ -192,21 +218,21 @@ export default {
       writeFile(wb, 'Reporte Diferencias [Toma #' + this.taking.id_taking + ']' + name + '.xlsx');
 
     }, makeRecount() {
-      if (!this.recount_confirm) {
-        this.recount_confirm = true;
+      if (!this.recountConfirm) {
+        this.recountConfirm = true;
         return
       }
       this.$emit('makeRecount', 'all');
     }, closeTaking() {
-      if (!this.close_confirm) {
-        this.close_confirm = true;
+      if (!this.closeConfirm) {
+        this.closeConfirm = true;
         return
       }
       this.$emit('closeTaking', this.taking.id_taking);
     }, changeAutoReload(){
       this.$emit('changeAutoReload', this.auto_reload);
     } //text mtehod
-  },
+  }
 }
 </script>
 
@@ -216,7 +242,7 @@ export default {
   --bs-progress-height: 0.11rem;
 }
 .btn-sm {
-  padding: 0.15rem !important;
-  font-size: 0.8rem !important;
+  padding: 0.10rem !important;
+  font-size: 0.75rem !important;
 }
 </style>
