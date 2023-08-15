@@ -32,9 +32,12 @@
       <taking-report 
       v-if="serverStatus.haveData && filtered"
       :tableTakings="tableTakings"
+      :reportTaking="reportTaking"
       :confData="confData"
       :isShowAllTakings="isShowAllTakings"
       :IsTakingOpen="taking.is_active"
+      :serverStatus="serverStatus"
+      :taking="taking"
       @makeRecount="$event => makeRecount($event)"
       ></taking-report>
   </div>

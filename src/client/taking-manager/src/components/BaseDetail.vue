@@ -1,6 +1,10 @@
 <template>
     <div>
-        <loader v-if="!item_report"></loader>
+        <loader
+        v-if="!item_report"
+        :serverStatus="serverStatus"
+        >
+    </loader>
         <div class="container-fluid mt-3 border bg-white" v-if="item_report">
             <div class="row bg  bg-ligth bg-gradient h5">
                 <div class="col-1">
@@ -32,7 +36,7 @@
                     <div class="row">
                         <div class="col">
                             <ul class="list-group">
-                                <li class="list-group-item text-center h5" :class="status_taking.class">
+                                <li class="list-group-item text-center" :class="status_taking.class">
                                     <i :class="status_taking.icon"></i>
                                     &nbsp;
                                     <strong>{{ status_taking.text }}</strong>
@@ -67,7 +71,7 @@
                             <button class="btn btn-white btn-sm" data-bs-toggle="pill" data-bs-target="#v-pills-messages">
                                 <i class="fas fa-warehouse"></i>&nbsp;Existencias
                             </button>
-                            <button class="btn btn-warning mt-5 btn-sm" id="recount-item" @click="makeRecount" v-if="taking_is_open && status_taking.text != 'Completo'">
+                            <button class="btn btn-warning mt-5 btn-sm" id="recount-item" @click="makeRecount" v-if="taking.is_active && status_taking.text != 'Completo'">
                                 <span v-if="confirm_recount" class="text-danger"><i class="fas fa-check"></i>
                                     CONFIRMAR</span>
                                 <span v-else>
@@ -84,21 +88,21 @@
                                         <div class="col">
                                             <div class="row text-center">
                                                 <div class="col text-center">
-                                                    <span class="h4 text-secondary">Stock</span>
+                                                    <span class="h6">Stock</span>
                                                     &nbsp;
-                                                    <span class="h4 text-secondary">{{ selected_item.sap_stock }}</span>
+                                                    <span class="h6">{{ selected_item.sap_stock }}</span>
                                                 </div>
                                                 <div class="col text-center">
-                                                    <span class="h4 text-primary">Toma</span>
+                                                    <span class="text-primary h6">Toma</span>
                                                     &nbsp;
-                                                    <span class="h4 text-primary">{{ total_quantity }}</span>
+                                                    <span class="text-primary h6">{{ total_quantity }}</span>
                                                 </div>
                                                 <div class="col text-center" :class="status_taking.class">
-                                                    <i class="h4" :class="status_taking.icon"></i>
+                                                    <i class="" :class="status_taking.icon"></i>
                                                     &nbsp;
-                                                    <span class="h4">{{ status_taking.text }}</span>
+                                                    <span class="h6">{{ status_taking.text }}</span>
                                                     &nbsp;
-                                                    <span class="h4" v-if="sale_boxes">{{ sale_boxes }}</span>
+                                                    <span class="h6" v-if="sale_boxes">{{ sale_boxes }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -130,10 +134,13 @@
                                                     <td class="text-end">{{ item.taking.taking_total_bottles }}</td>
                                                     <td class="text-end bg-gray">{{ item.taking.quantity }}</td>
                                                     <td class="text-center text-danger" @click="delteItemDetail(item.taking.id_taking_detail)">
+                                                        <span v-if="taking.is_active">
                                                             <i class="fas fa-minus" v-if="!confirm_delete_detail"></i>
-                                                            <i class="fa-solid fa-check text-danger" v-else>
-                                                                Confirmar
-                                                            </i>
+                                                            <i class="fa-solid fa-check text-danger" v-else></i>
+                                                        </span>
+                                                        <span v-else>
+                                                            --
+                                                        </span>
                                                     </td>
                                                 </tr>
                                                 <tr class="bg-success-gradient text-bold">
@@ -235,11 +242,13 @@
     </div>
 </template>
 <script>
+import confData from '../conf';
 import Loader from './Loader.vue';
 
 export default {
     components: { Loader },
-    //Mostamos la informacion adicional usando una tabla maestro detalle en la que se muestra la informacion de los grupos y los productos que se han tomado
+    //Mostamos la informacion adicional usando una tabla maestro detalle en l
+    // a que se muestra la informacion de los grupos y los productos que se han tomado
     name: 'BaseDetail',
     componets: {
         Loader,
@@ -249,7 +258,6 @@ export default {
         return {
             item_report: null,
             stock_report: null,
-            recount_url: null,
             confirm_recount: false,
             confirm_delete_detail: false,
         }
@@ -263,26 +271,26 @@ export default {
             type: Boolean,
             required: true,
         },
-        base_url: {
-            type: String,
-            required: true,
-        },
-        report: {
+        confData: {
             type: Object,
             required: true,
-        }, taking_is_open: {
-            type: Boolean,
-            required: true,
-        },csrf_token: {
-            type: String,
-            required: true,
         },
+        reportTaking: {
+            type: Object,
+            required: true,
+        }, taking: {
+            type: Object,
+            required: true,
+        },serverStatus:{
+            type:Object,
+            required:true
+        }
     }, methods: {
         showReport() {
             this.$emit('showReport');
         }, sendGetRequest(url, callback) {
             const xhr = new XMLHttpRequest();
-            xhr.open('GET', this.base_url + url);
+            xhr.open('GET', url);
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.onload = () => {
@@ -297,9 +305,6 @@ export default {
             xhr.send();
         }, loadTakingData(item_report) {
             this.item_report = item_report;
-            this.recount_url = '/recounts/make/taking/{id_taking}/product/{account_code}';
-            this.recount_url = this.recount_url.replace('{id_taking}', this.report.taking.id_taking);
-            this.recount_url = this.recount_url.replace('{account_code}', this.selected_item.product.account_code);
         }, makeRecount() { // realiza el reconteo del item
             // validamos que se haya confirmado el reconteo, si no se valida se pasa a true
             if (!this.confirm_recount) {
@@ -314,27 +319,31 @@ export default {
             // setamos le contador nuevamente a false
             this.confirm_recount = false;
         }, delteItemDetail(id_taking_detail){
+            if (!this.taking.is_active){
+                return
+            }
+
             if (!this.confirm_delete_detail){
                 this.confirm_delete_detail = true;
                 return;
             }
 
-            let url = `/api/takings-detail/delete/${id_taking_detail}/`;
-
+            let url = confData.urlDeleteTaking.replace(
+                        '{idTakingDetail}', id_taking_detail
+            );
             let xhr_item_detail = new XMLHttpRequest();
-            xhr_item_detail.open(
-                'DELETE',
-                this.base_url + url);
+            xhr_item_detail.open('DELETE',url);
 
             xhr_item_detail.setRequestHeader('Content-Type', 'application/json');
             xhr_item_detail.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            xhr_item_detail.setRequestHeader('X-CSRFToken', this.csrf_token);
-
+            xhr_item_detail.setRequestHeader('X-CSRFToken', confData.headers['X-CSRFToken']);
+        
             xhr_item_detail.onload = () => {
                 if (xhr_item_detail.status === 204) {
                     this.item_report.takings = this.item_report.takings.filter(
                         item => { return item.taking.id_taking_detail !== id_taking_detail }
                     );
+                    location.reload();
 
                 } else {
                     alert('Error en peticion DELETE');
@@ -349,14 +358,10 @@ export default {
     },
     mounted() {
         // cargamos informacion de stock y toma del producto
-        this.sendGetRequest(
-            '/api/common/taking-migration/taking/{pk_taking}/product/{pk_product}/'.replace(
-                '{pk_product}', this.selected_item.product.account_code
-            ).replace(
-                '{pk_taking}', this.report.taking.id_taking
-            ),
-            this.loadTakingData
+        let url = this.confData.urlTakingProduct.replace(
+            '{accountCode}', this.selected_item.product.account_code
         );
+        this.sendGetRequest(url,this.loadTakingData);
     }, unmounted() {
         // enceramos los reportes
         this.item_report = null;
@@ -365,9 +370,9 @@ export default {
         // si el item no tiene imagen mostramos imagen por defecto
         image_url() {
             if (this.selected_item.product.image_front) {
-                return this.base_url + this.selected_item.product.image_front;
+                return this.confData.baseUrl + this.selected_item.product.image_front;
             } else {
-                return this.base_url + '/static/img/generic_product.png';
+                return this.confData.baseUrl + '/static/img/generic_product.png';
             }
         }, total_boxes() {
             return this.item_report.takings.reduce((a, b) => a + b.taking.taking_total_boxes, 0)

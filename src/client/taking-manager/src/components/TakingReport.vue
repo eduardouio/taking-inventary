@@ -39,10 +39,10 @@
             <base-detail
                 :selected_item="selected_item"
                 :show_view_report="show_view_report"
-                :base_url="base_url"
-                :report="report"
-                :taking_is_open ="taking_is_open"
-                :csrf_token="csrf_token"
+                :confData="confData"
+                :reportTaking="reportTaking"
+                :taking="taking"
+                :serverStatus="serverStatus"
                 @showReport="showReport"
                 @makeRecount="makeRecount($event)"
                 ></base-detail>
@@ -76,7 +76,16 @@ export default {
         },IsTakingOpen: {
             type: Boolean,
             required: true,
-        },
+        },reportTaking:{
+            type: Array,
+            required: true,
+        },serverStatus:{
+            type:Object,
+            required: true,
+        },taking:{
+            type:Object,
+            required: true,
+        }
     },
     data() {
         return {
