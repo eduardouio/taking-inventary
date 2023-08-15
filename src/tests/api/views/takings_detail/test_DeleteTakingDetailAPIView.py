@@ -1,16 +1,24 @@
 import pytest
-from rest_framework.test import APIClient
+from django.contrib.auth import get_user_model as UserModel
 from django.urls import reverse
-from takings.models import TakinDetail
+
+from takings.models import TakinDetail, Taking
 
 
 @pytest.mark.django_db
 class TestDeleteTakingDetailApiView():
 
-    def setup_method(self):
-        self.client = APIClient()
+    @pytest.fixture
+    def client(self, client):
+        user = UserModel().objects.get(username='evillota')
+        client.force_login(user=user)
+        return client
 
-    def test_delete_taking_detail(self):
+    def test_delete_taking_detail(self, client):
+        taking = Taking.get(1)
+        taking.is_active = True
+        taking.save()
+
         # traemos el detalle a eliminar
         item_to_delete = {
             'id_taking_detail': 1357,
@@ -29,7 +37,7 @@ class TestDeleteTakingDetailApiView():
         })
 
         # hacemos la peticion
-        response = self.client.delete(url)
+        response = client.delete(url)
 
         # verificamos que se elimino
         assert (response.status_code == 204)
@@ -41,18 +49,25 @@ class TestDeleteTakingDetailApiView():
 
         assert (len(detelet_taking_detail) == 0)
 
-        def test_delete_taking_detail_not_found(self):
-            item_to_delete = {
-                'id_taking_detail': 1357000000,
-            }
+    def test_delete_taking_detail_not_found(self, client):
+        item_to_delete = {
+            'id_taking_detail': 1357000000,
+        }
 
-            # construimos la url
-            url = reverse('delete-taking-detail', kwargs={
-                'id_taking_detail': item_to_delete['id_taking_detail']
-            })
+        # construimos la url
+        url = reverse('delete-taking-detail', kwargs={
+            'id_taking_detail': item_to_delete['id_taking_detail']
+        })
 
-            # hacemos la peticion
-            response = self.client.delete(url)
+        # hacemos la peticion
+        response = client.delete(url)
 
-            # verificamos que se elimino
-            assert (response.status_code == 404)
+        # verificamos que se elimino
+        assert (response.status_code == 400)
+
+    def test_delete_taking_close(self, client):
+        url = reverse(
+            'delete-taking-detail', kwargs={'id_taking_detail': 56921}
+        )
+        response = client.delete(url)
+        assert (response.status_code == 400)
