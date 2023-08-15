@@ -14,11 +14,11 @@ class UpdateTakingAPIView(UpdateAPIView):
 
     def put(self, requests, *args, **kwargs):
         instance = self.get_object()
+        # alimentamos los campos de fecha y hora de cierre
         if requests.data.get('date_end_taking'):
-            requests.data['date_end_taking'] = datetime.fromtimestamp(
-                # convert from milliseconds to seconds
-                requests.data['date_end_taking']/1000
-            )
+            requests.data['date_end_taking'] = datetime.now()
+            requests.data['hour_end'] = datetime.now().time()
+
         serializer = self.get_serializer(instance, data=requests.data)
         is_valid = serializer.is_valid()
         if is_valid:
