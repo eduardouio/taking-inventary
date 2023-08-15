@@ -21,6 +21,7 @@
         v-if="serverStatus.haveData" 
         :reportTaking="reportTaking"
         :isShowAllTakings="isShowAllTakings"
+        :confData="confData"
         :syncs="syncs"
         :taking="taking"
         :recounts="recounts"

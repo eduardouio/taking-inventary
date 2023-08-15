@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="row border bg-gardient-secondary rounded bg-gradient-light" style="padding: 5px;">
-      <div class="col-10">
+      <div class="col-9">
         <span class="border rounded p-1 m-1">
           <i class="fas fa-calendar"></i>
           {{ dateStart }}
@@ -28,6 +28,9 @@
           &nbsp;
           <strong>Duración:</strong>
           {{ lapsed_time }}
+          &nbsp;
+          <strong>Conteos:</strong>
+          {{ recounts.length }}
         </span>
         <span class="border rounded p-1 m-1">
           <span>
@@ -96,17 +99,31 @@
           &nbsp;
           Reporte Reconteo
         </button>
-        <button v-else class="btn btn-outline-secondary btn-sm" @click="diffReport">
+        <button v-if="!taking.is_active" class="btn btn-outline-secondary btn-sm" @click="diffReport">
           <i class="fas fa-file-excel text-success"></i>
           &nbsp;
-          Reporte de Diferencias
+          Diferencias
         </button>
+        <button  v-if="!taking.is_active" class="btn btn-outline-secondary btn-sm ms-1 me-1" @click="extraReport('urlReportYears')" :disabled="generatingReport">
+          <i class="fas fa-file-excel text-success"></i>
+          &nbsp;
+          Añadas
+        </button>
+        <button  v-if="!taking.is_active" class="btn btn-outline-secondary btn-sm" @click="extraReport('urlReportEndDate')" :disabled="generatingReport">
+          <i class="fas fa-file-excel text-success"></i>
+          &nbsp;
+          Caducidades
+        </button>
+
+        
       </div>
     </div>
   </div>
 </template>
 <script>
 import { utils, writeFile } from 'xlsx';
+import axios from 'axios';
+import confData from '../conf';
 
 export default {
   name: 'InfoBar',
@@ -127,11 +144,15 @@ export default {
     },syncs:{
       type: Object,
       required: true,
-    }
+    }, confData:{
+      type:Object,
+      required: true,
+    },
   }, data() {
     return {
       recountConfirm: false,
       closeConfirm: false,
+      generatingReport: false,
     }
   },
   computed: {
@@ -224,6 +245,56 @@ export default {
       utils.book_append_sheet(wb, ws, 'Reporte');
       writeFile(wb, 'Reporte Diferencias [Toma #' + this.taking.id_taking + ']' + name + '.xlsx');
 
+    }, extraReport(typeReport){
+      // Reporte de anadas de los productos
+      this.generatingReport = true;
+      const headers = this.confData.headers;
+      axios.get(this.confData[typeReport], {headers})
+      .then((response)=>{
+        if (response.status === 200){
+          this.makeReport(response.data, typeReport);
+        }
+      })
+      .catch(
+        (error) => {
+          alert('No hay datos para mostrar');
+          console.log(error);
+        }
+      );
+    },makeReport(dataReport, typeReport){
+      console.log('Armamos el reporte');
+      var report_json = []
+      if (typeReport === 'urlReportEndDate'){
+        report_json = dataReport.map((item) => {
+          return {
+            'PK': item.product.id_product,
+            'Cod Contable': item.product.account_code,
+            'Producto': item.product.name,
+            'Fecha Expiracion': item.date_expiry,
+            'Unds X Caja': item.product.quantity_per_box,
+            'T Unidades': item.quantity,
+          }
+      });
+      }else{
+        report_json = dataReport.map((item) => {
+          return {
+            'PK': item.product.id_product,
+            'Cod Contable': item.product.account_code,
+            'Producto': item.product.name,
+            'Añada': item.year,
+            'Unds X Caja': item.product.quantity_per_box,
+            'T Unidades': item.quantity,
+          }
+      });
+      }
+      
+      const wb = utils.book_new();
+      const ws = utils.json_to_sheet(report_json);
+      ws["!cols"] = [{ wch: 5 }, { wch: 20 }, { wch: 50 }, { wch: 10 },{ wch: 10 }, { wch: 10 }, { wch: 10 }];
+      ws["!rows"] = [{ hpx: 30 }];
+      utils.book_append_sheet(wb, ws, 'Reporte');
+      writeFile(wb, `[Toma #${this.taking.id_taking}] ${typeReport}.xlsx`);
+      this.generatingReport = false;
     }, makeRecount() {
       if (!this.recountConfirm) {
         this.recountConfirm = true;
