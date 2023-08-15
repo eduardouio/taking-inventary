@@ -2,7 +2,7 @@ from django.urls import path
 
 from api.views.accounts.UpdateTeamAPIView import UpdateTeamAPIView
 from api.views.common import (AddTeamTakingAPIView, AllTakingDataAPIView,
-                              RecountAPIView, TakingMigrationAPIView, WizardAPIView)
+                              RecountAPIView, TakingMigrationAPIView, WizardAPIView, ReportManagerAPIView)
 from api.views.takings.UpdateTakingAPIView import UpdateTakingAPIView
 from api.views.takings_detail import DeleteTakingDetailAPIView
 from api.views.sap_migrations import AllSAPMigrationData
@@ -47,5 +47,9 @@ urlpatterns = [
          ),
     path('mobile/assistant/id_tk/<int:id_taking>/id_tm/<int:id_team>/',
          TakingAssistantInput.as_view(), name="api-assistant-input"
+         ),
+     # reportes
+     path('report-manager/taking/<int:id_taking>/report/<str:type_report>/',
+         ReportManagerAPIView.as_view(), name="api-manager-report"
          ),
 ]
