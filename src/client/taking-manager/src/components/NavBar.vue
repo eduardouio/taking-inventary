@@ -56,7 +56,7 @@
             </li>
           </ul>
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item border">
+            <li class="nav-item">
               <span class="nav-link"><span>
                 <small>
                   Pendientes:
@@ -65,7 +65,7 @@
                 <strong class="badge bg-danger text-dark">{{ left_over }}</strong></span>
             </li>
             &nbsp;
-            <li class="nav-item border">
+            <li class="nav-item">
               <span class="nav-link"><span>
                 <small>
                   Completos:
@@ -73,7 +73,7 @@
                 </span><strong class="badge bg-success"> {{ full }} / {{ reportTaking.length }} </strong></span>
             </li>
               &nbsp;
-            <li class="nav-item border">
+            <li class="nav-item">
               <span class="nav-link">
                 <small>
                   Progreso:
