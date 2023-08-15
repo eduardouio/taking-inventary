@@ -2,6 +2,7 @@ from common import AppBaseModel
 from django.db import models
 from products.models import Product
 from accounts.models.Team import Team
+from django.core.exceptions import ObjectDoesNotExist
 
 from .Taking import Taking
 
@@ -77,6 +78,14 @@ class TakinDetail(AppBaseModel):
         'esta completo?',
         default=False
     )
+
+    @classmethod
+    def get(cls, id_taking_detail):
+        try:
+            detail = cls.objects.get(id_taking_detail=id_taking_detail)
+            return detail
+        except ObjectDoesNotExist:
+            return None
 
     @classmethod
     def get_by_taking(cls, id_taking):
