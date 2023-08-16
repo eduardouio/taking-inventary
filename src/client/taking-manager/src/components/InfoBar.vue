@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="row border bg-gardient-secondary rounded bg-gradient-light" style="padding: 5px;">
-      <div class="col-9">
+      <div class="col-10">
         <span class="border rounded p-1 m-1">
           <i class="fas fa-calendar"></i>
           {{ dateStart }}
@@ -61,7 +61,7 @@
           </span>
         </span>
         <span class="m-1 ">
-        <button class="btn btn-light btn-sm" v-if="taking.is_active" @click="makeRecount">
+        <button class="btn btn-light btn-sm border" v-if="taking.is_active" @click="makeRecount">
           <strong v-if="recountConfirm">
             <i class="fas fa-check text-warning"></i>
             Confirmar
@@ -71,7 +71,7 @@
             Reconteo
           </span>
         </button>
-        <button class="btn btn-light btn-sm ms-1 me-1" v-if="taking.is_active" @click="closeTaking">
+        <button class="btn btn-light btn-sm ms-1 me-1 border" v-if="taking.is_active" @click="closeTaking">
           <span v-if="!closeConfirm">
             <i class="fas fa-stop text-danger"></i>
             Cerrar
@@ -81,7 +81,7 @@
             Confirmar
           </strong>
         </button>
-        <button class="btn btn-light btn-sm" @click="showAllTakings">
+        <button class="btn btn-light btn-sm border" @click="showAllTakings">
           <span v-if="isShowAllTakings">
             <i class="fa-solid fa-eye-slash text-warning"></i> &nbsp;
             Listar Diferencias
@@ -94,28 +94,25 @@
       </span>
       </div>
       <div class="col text-end">
-        <button class="btn btn-outline-dark btn-sm" @click="downloadReport" v-if="taking.is_active">
+        <button class="btn btn-outline-dark btn-sm border" @click="downloadReport" v-if="taking.is_active">
           <i class="fas fa-file-excel text-success"></i>
           &nbsp;
           Reporte Reconteo
         </button>
-        <button v-if="!taking.is_active" class="btn btn-outline-secondary btn-sm" @click="diffReport">
-          <i class="fas fa-file-excel text-success"></i>
-          &nbsp;
-          Diferencias
-        </button>
-        <button  v-if="!taking.is_active" class="btn btn-outline-secondary btn-sm ms-1 me-1" @click="extraReport('urlReportYears')" :disabled="generatingReport">
-          <i class="fas fa-file-excel text-success"></i>
-          &nbsp;
-          Añadas
-        </button>
-        <button  v-if="!taking.is_active" class="btn btn-outline-secondary btn-sm" @click="extraReport('urlReportEndDate')" :disabled="generatingReport">
-          <i class="fas fa-file-excel text-success"></i>
-          &nbsp;
-          Caducidades
-        </button>
-
-        
+        <div class="btn-group" role="group" v-if="!taking.is_active">
+    <button id="btnGroupDrop1" type="button" class="btn btn-outline-dark btn-sm ms-1 me-1 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="fas fa-table text-success"></i> &nbsp;
+      Reportes
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+      <li @click="diffReport(true, 'Diferencias')"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Diferencias </span></li>
+      <li @click="diffReport(false, 'Consolidado')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Resumen Consolidado </span></li>
+      <li @click="extraReport('reportYears')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Añadas</span></li>
+      <li @click="extraReport('reportEndDate')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Caducidades </span></li>
+      <li @click="extraReport('reportNews')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Novedades </span></li>
+      <li @click="extraReport('reportAll')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Detallado </span></li>
+    </ul>
+  </div>
       </div>
     </div>
   </div>
@@ -123,7 +120,6 @@
 <script>
 import { utils, writeFile } from 'xlsx';
 import axios from 'axios';
-import confData from '../conf';
 
 export default {
   name: 'InfoBar',
@@ -153,6 +149,7 @@ export default {
       recountConfirm: false,
       closeConfirm: false,
       generatingReport: false,
+      detailedReport: [],
     }
   },
   computed: {
@@ -214,15 +211,22 @@ export default {
 
       utils.book_append_sheet(wb, ws, 'Reporte');
       writeFile(wb, 'Reconteo [Toma #' + this.taking.id_taking + ']' + name + '.xlsx');
-    }, diffReport() {
+    }, diffReport(filtedReport, fileName) {
       // Obtenemos el reporte de diferencias
-      let report_json = this.reportTaking.filter(
-        item => item.is_complete == false
+      var filtered = filtedReport;
+      let report_json = this.reportTaking.filter((item)=>{
+        if (filtered){
+          return item.is_complete == false;
+        }
+        return true;
+      }
       ).map((item) => {
         let status = '';
         if (item.sap_stock > item.tk_quantity) {
           status = 'Faltante';
-        } else {
+        } else if(item.sap_stock === item.tk_quantity) {
+          status = 'Completo';
+        }else{
           status = 'Sobrante';
         }
         return {
@@ -243,59 +247,79 @@ export default {
       ws["!rows"] = [{ hpx: 30 }];
 
       utils.book_append_sheet(wb, ws, 'Reporte');
-      writeFile(wb, 'Reporte Diferencias [Toma #' + this.taking.id_taking + ']' + name + '.xlsx');
+      writeFile(wb, 'Reporte ' + fileName + ' [Toma #' + this.taking.id_taking + ']' + name + '.xlsx');
 
-    }, extraReport(typeReport){
-      // Reporte de anadas de los productos
+    },extraReport(typeReport){
       this.generatingReport = true;
-      const headers = this.confData.headers;
-      axios.get(this.confData[typeReport], {headers})
-      .then((response)=>{
-        if (response.status === 200){
-          this.makeReport(response.data, typeReport);
-        }
-      })
-      .catch(
-        (error) => {
-          alert('No hay datos para mostrar');
-          console.log(error);
-        }
-      );
-    },makeReport(dataReport, typeReport){
-      console.log('Armamos el reporte');
-      var report_json = []
-      if (typeReport === 'urlReportEndDate'){
-        report_json = dataReport.map((item) => {
-          return {
-            'PK': item.product.id_product,
-            'Cod Contable': item.product.account_code,
-            'Producto': item.product.name,
-            'Fecha Expiracion': item.date_expiry,
-            'Unds X Caja': item.product.quantity_per_box,
-            'T Unidades': item.quantity,
-          }
-      });
-      }else{
-        report_json = dataReport.map((item) => {
-          return {
-            'PK': item.product.id_product,
-            'Cod Contable': item.product.account_code,
-            'Producto': item.product.name,
-            'Añada': item.year,
-            'Unds X Caja': item.product.quantity_per_box,
-            'T Unidades': item.quantity,
-          }
-      });
+      // Reporte de anadas de los productos
+      if (this.detailedReport.length === 0){
+          const headers = this.confData.headers;
+          axios.get(this.confData.urlReportDetailed, {headers})
+          .then(
+            (response) => {
+              this.detailedReport = response.data;
+              this.extraReport(typeReport);
+            }
+          )
+          .catch(
+            (error) => {
+              console.log(error);
+              alert('Error al intentar obtener el reporte');
+            }
+          )
       }
       
+      var report_json = [];
+      if ( typeReport === 'reportYears' ){
+          report_json = this.detailedReport.filter(
+          (item) => {
+            return item.year !== null;
+          }
+        )
+      }
+      
+      if ( typeReport === 'reportEndDate' ){
+          report_json = this.detailedReport.filter(
+          (item) => {
+            return item.date_expiry !== null;
+          }
+        )
+      }
+
+      if ( typeReport === 'reportNews' ){
+          report_json = this.detailedReport.filter(
+          (item) => {
+            return item.notes !== null;
+          }
+        )
+      }
+      
+        if ( typeReport === 'reportAll' ){
+          report_json = this.detailedReport
+        }
+       
+      report_json = report_json.map(
+          (item) => {
+            return {
+              'Cod Contable': item.account_code,
+              'Producto': item.name,
+              'Unds X Caja': item.quantity_per_box,
+              'Añada': item.year,
+              'F Vencimiento': item.date_expiry,
+              'Observaciobes': item.notes,
+              'T Unidades': item.quantity,
+              'Responsable': item.user
+            }
+      });
+    
       const wb = utils.book_new();
       const ws = utils.json_to_sheet(report_json);
-      ws["!cols"] = [{ wch: 5 }, { wch: 20 }, { wch: 50 }, { wch: 10 },{ wch: 10 }, { wch: 10 }, { wch: 10 }];
+      ws["!cols"] = [{ wch: 18 }, { wch: 50 }, { wch: 10 }, { wch: 5 },{ wch: 10 }, { wch: 20 }, { wch: 10 }, {wch: 20}];
       ws["!rows"] = [{ hpx: 30 }];
       utils.book_append_sheet(wb, ws, 'Reporte');
       writeFile(wb, `[Toma #${this.taking.id_taking}] ${typeReport}.xlsx`);
       this.generatingReport = false;
-    }, makeRecount() {
+    },makeRecount() {
       if (!this.recountConfirm) {
         this.recountConfirm = true;
         return
@@ -313,14 +337,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-.progress {
-  --bs-progress-height: 0.11rem;
-}
-.btn-sm {
-  padding: 0.10rem !important;
-  font-size: 0.75rem !important;
-}
-</style>

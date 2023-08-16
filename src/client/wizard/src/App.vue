@@ -127,10 +127,38 @@ export default {
 </script>
 
 <style>
- body {
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
- }
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+    font-size: 0.80rem;
+  }
+  .bg-gray {
+    background-color: #f1f1f1;
+  }
+  .bg-gray-gradient {
+    background: linear-gradient(180deg, #f5f5f5 0%, #e8e8e8 100%);
+  }
+  .bg-success-gradient {
+    background: linear-gradient(180deg, #f1f1f1 10%, #f5f5f5 100%);
+  }
+  .btn-secondary {
+    background-color: #9b9b9b;
+  }
+  .navbar-brand{
+    font-size: 0.90rem !important;
+  }
+  h5, .h5 {
+    font-size: 0.90rem !important;
+  }
+  .progress {
+  --bs-progress-height: 0.11rem;
+}
+.btn-sm {
+  padding: 0.10rem !important;
+  font-size: 0.75rem !important;
+}
+
 .table {
   border-collapse: collapse;
 }
