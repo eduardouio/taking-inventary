@@ -260,5 +260,11 @@ export default {
   h5, .h5 {
     font-size: 0.90rem !important;
   }
-
+  .progress {
+  --bs-progress-height: 0.11rem;
+}
+.btn-sm {
+  padding: 0.10rem !important;
+  font-size: 0.75rem !important;
+}
 </style>
