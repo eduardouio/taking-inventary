@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:8000";
+const baseUrl = "http://192.168.0.42:8000";
 const idTaking = 301;
 
 const confData = {
@@ -9,8 +9,7 @@ const confData = {
     "urlRecount": baseUrl + `/api/common/recount/${idTaking}/{accountCode}/`,
     "urlTakingProduct": baseUrl + `/api/common/taking-migration/taking/${idTaking}/product/{accountCode}/`,
     "urlDeleteTaking": baseUrl + `/api/takings-detail/delete/{idTakingDetail}/`,
-    "urlReportYears": baseUrl + `/api/report-manager/taking/${idTaking}/report/years/`,
-    "urlReportEndDate": baseUrl + `/api/report-manager/taking/${idTaking}/report/endDate/`,
+    "urlReportDetailed": baseUrl + `/api/report-manager/taking/${idTaking}/`,
     "userData": {
         "username": "Datos",
         "id": 2,
