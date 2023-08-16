@@ -27,6 +27,22 @@ class Test_ReportManagerApiView():
         assert(len(response) == 22)
         assert True;
 
+    def test_get_all_report(self, client):
+        url = reverse('api-manager-report', kwargs={'id_taking': 301, 'type_report': 'all'})
+        response = client.get(url)
+        assert(response.status_code == 200)
+        response = response.data
+        assert(len(response) == 1134)
+        assert True;
+
+    def test_get_news_report(self, client):
+        url = reverse('api-manager-report', kwargs={'id_taking': 301, 'type_report': 'news'})
+        response = client.get(url)
+        assert(response.status_code == 200)
+        response = response.data
+        assert(len(response) == 62)
+        assert True;
+
     def test_not_found_taking(self, client):
         url = reverse('api-manager-report', kwargs={'id_taking': 300000, 'type_report': 'endDate'})
         response = client.get(url)

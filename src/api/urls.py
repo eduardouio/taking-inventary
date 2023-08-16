@@ -49,7 +49,7 @@ urlpatterns = [
          TakingAssistantInput.as_view(), name="api-assistant-input"
          ),
      # reportes
-     path('report-manager/taking/<int:id_taking>/report/<str:type_report>/',
+     path('report-manager/taking/<int:id_taking>/',
          ReportManagerAPIView.as_view(), name="api-manager-report"
          ),
 ]
