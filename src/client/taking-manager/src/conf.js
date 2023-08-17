@@ -1,4 +1,4 @@
-const baseUrl = "http://192.168.0.42:8000";
+const baseUrl = "http://localhost:8000";
 const idTaking = 301;
 
 const confData = {

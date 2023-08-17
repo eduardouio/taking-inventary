@@ -49,8 +49,8 @@
             </li>
             <li class="nav-item" @click="showDetail('groups')">
               <span class="nav-link">Grupos &nbsp;
-                <span class="badge rounded-pill bg-info text-dark" v-if="allUsersAssistants.length">
-                {{ allUsersAssistants.length}}
+                <span class="badge rounded-pill bg-info text-dark" v-if="taking.teams.length">
+                {{ taking.teams.length}}
                 </span>
               </span>
             </li>
