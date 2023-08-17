@@ -166,6 +166,7 @@ export default {
         xhr_recount.open("GET", url);
         xhr_recount.setRequestHeader('Content-Type', 'application/json');
         xhr_recount.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr_recount.setRequestHeader('X-CSRFToken', this.confData.headers['X-CSRFToken']);
         xhr_recount.onload = () =>{
           if (xhr_recount.status === 200){
             let response = JSON.parse(xhr_recount.responseText);

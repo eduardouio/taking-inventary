@@ -301,7 +301,6 @@
 </template>
 <script>
 import axios from 'axios';
-import appConfig from '../../../taking-input/src/appConfig';
 
 export default {
   name: 'NavBar',
@@ -407,7 +406,7 @@ export default {
         return
       }
       //preparamos la variable de toma
-      const headers = appConfig.headers;
+      const headers = this.confData.headers;
       this.taking.warenhouses = JSON.stringify(this.allWarenhousesSelected.filter(item => item.selected == true).map(item => item.name));
       axios.put(
         this.confData.urlUpdateTaking,
@@ -436,7 +435,7 @@ export default {
     xhr_team.open('POST', this.confData.urlUpdateTeam );
     xhr_team.setRequestHeader('Content-Type', 'application/json');
     xhr_team.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    xhr_team.setRequestHeader('X-CSRFToken', this.csrf_token);
+    xhr_team.setRequestHeader('X-CSRFToken', this.confData.headers['X-CSRFToken']);
     xhr_team.onload = ()=>{
       if(xhr_team.status === 200){
         location.reload();
