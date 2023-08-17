@@ -22,5 +22,5 @@ class CheckMigrationProducts():
                     name=new_product.name,
                     quantity_per_box=new_product.quantity_per_box,
                     ean_13_code=new_product.ean_13_code,
-                    health_register=new_product.health_register,
+                    notes=new_product.health_register,
                 )
