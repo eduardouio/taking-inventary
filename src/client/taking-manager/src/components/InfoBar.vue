@@ -107,10 +107,10 @@
     <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
       <li @click="diffReport(true, 'Diferencias')"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Diferencias </span></li>
       <li @click="diffReport(false, 'Consolidado')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Resumen Consolidado </span></li>
-      <li @click="extraReport('reportYears')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Añadas</span></li>
-      <li @click="extraReport('reportEndDate')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Caducidades </span></li>
-      <li @click="extraReport('reportNews')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Novedades </span></li>
-      <li @click="extraReport('reportAll')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Detallado </span></li>
+      <li @click="extraReport('reportYears', 'Reporte Anadas')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Añadas</span></li>
+      <li @click="extraReport('reportEndDate', 'Reprote Fechas')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Caducidades </span></li>
+      <li @click="extraReport('reportNews', 'Reporte Novedades')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Novedades </span></li>
+      <li @click="extraReport('reportAll', 'Rerporte Detallada')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Detallado </span></li>
     </ul>
   </div>
       </div>
@@ -249,7 +249,7 @@ export default {
       utils.book_append_sheet(wb, ws, 'Reporte');
       writeFile(wb, 'Reporte ' + fileName + ' [Toma #' + this.taking.id_taking + ']' + name + '.xlsx');
 
-    },extraReport(typeReport){
+    },extraReport(typeReport, fileName){
       this.generatingReport = true;
       // Reporte de anadas de los productos
       if (this.detailedReport.length === 0){
@@ -317,7 +317,7 @@ export default {
       ws["!cols"] = [{ wch: 18 }, { wch: 50 }, { wch: 10 }, { wch: 5 },{ wch: 10 }, { wch: 20 }, { wch: 10 }, {wch: 20}];
       ws["!rows"] = [{ hpx: 30 }];
       utils.book_append_sheet(wb, ws, 'Reporte');
-      writeFile(wb, `[Toma #${this.taking.id_taking}] ${typeReport}.xlsx`);
+      writeFile(wb, `[Toma #${this.taking.id_taking}] ${fileName}.xlsx`);
       this.generatingReport = false;
     },makeRecount() {
       if (!this.recountConfirm) {
