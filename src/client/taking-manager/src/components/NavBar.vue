@@ -162,6 +162,22 @@
               &nbsp;
             </div>
           </div>
+          <div class="card mt-3">
+  <div class="card-header text-success">
+    <h5>
+    <i class="fas fa-list"></i>
+    Categorías Seleccionadas
+  </h5>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item" v-for="categorie in categories" :key="categorie">
+      <i class="fas fa-check text-success"></i>
+      &nbsp;
+      <i class="fas fa-box"></i>
+      {{ categorie }}
+    </li>
+  </ul>
+</div>
         </div>
         <div class="col-4">
           <div class="card">
@@ -366,6 +382,8 @@ export default {
       return this.allWarenhouses.filter(
         warenhouse => warenhouse.selected == false
     )
+  },categories(){
+    return JSON.parse(this.taking.categories);
   },
   }, methods: {
     // Mostramos u ocultamos las vistas de empresas, bodegas y grupos
