@@ -43,7 +43,7 @@
             </li>
             <li class="nav-item" @click="showDetail('warenhouses')">
               <span class="nav-link">Bodegas &nbsp;
-                <span class="badge rounded-pill bg-info text-dark" v-if="allWarenhouses.length"> {{ allWarenhouses.length
+                <span class="badge rounded-pill bg-info text-dark" v-if="allWarenhouses.length"> {{ allWarenhousesSelected.length
                 }}</span>
               </span>
             </li>
