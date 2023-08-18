@@ -17,6 +17,7 @@ secrets_config.py
 src/config/settings.py
 *config/settings.py
 *.sql
+*.zip
 *.pem
 settings.py
 static_django/
