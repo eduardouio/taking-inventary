@@ -91,7 +91,7 @@
               &nbsp;
               <span class="navbar-text">
                 <small class="bnavbar-brand">
-                  {{ userData.username }}
+                  {{ confData['userData'] .username}}
                 </small>
                 &nbsp;
                 <a href="/accounts/logout/">
