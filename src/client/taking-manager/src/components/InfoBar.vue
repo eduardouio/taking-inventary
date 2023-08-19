@@ -110,7 +110,7 @@
       <li @click="extraReport('reportYears', 'Reporte Anadas')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Añadas</span></li>
       <li @click="extraReport('reportEndDate', 'Reprote Fechas')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Caducidades </span></li>
       <li @click="extraReport('reportNews', 'Reporte Novedades')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Novedades </span></li>
-      <li @click="extraReport('reportAll', 'Rerporte Detallada')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Detallado </span></li>
+      <li @click="extraReport('reportAll', 'Rerporte Detallado')" :disabled="generatingReport"><span class="dropdown-item"><i class="fas fa-file-excel text-success"></i> Detallado </span></li>
     </ul>
   </div>
       </div>
