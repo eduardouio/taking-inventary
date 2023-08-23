@@ -35,11 +35,34 @@ class AllTakingDataAPIView(APIView):
         # personalizamos reporte
         for item in detail:
             product = ProductSerializer(Product.get(item['account_code'])).data
+            delete_fields = [
+                'created',
+                'modified',
+                'is_active',
+                'id_user_created',
+                'id_user_updated',
+                'notes',
+                'unit_measurement',
+                'sale_unit_measurement',
+                'alcoholic_strength',
+                'ean_14_code',
+                'health_register',
+                'image_back',
+                'max_stock',
+                'min_stock',
+                'box_dimensions',
+                'product_dimensions',
+                'ice_code',
+                ]
+            
+            for field in delete_fields:
+                del product[field]
+
             report.append({
-                "product": product,
-                "sap_stock": item["total_onhand"],
-                "is_complete": item["is_complete"],
-                "tk_quantity": item["taking"],
+                'product': product,
+                'sap_stock': item['total_onhand'],
+                'is_complete': item['is_complete'],
+                'tk_quantity': item['taking'],
             })
 
         # recuperamos equipos y creamos el diccionario
@@ -47,9 +70,42 @@ class AllTakingDataAPIView(APIView):
         teams = [dict(t) for t in teams]
 
         for team in teams:
-            manager = CustomUserModel.objects.get(pk=team["manager"])
-            team["manager"] = CustomUserSerializer(manager).data
-            team["selected"] = True
+            delete_fields_teams = [
+                'created',
+                'modified',
+                'is_active',
+                'id_user_created',
+                'id_user_updated',
+                'notes',
+            ]
+            
+            for field in delete_fields_teams:    
+                del team[field]
+            
+            team['manager'] = CustomUserSerializer(
+                CustomUserModel.objects.get(pk=team['manager'])
+            ).data
+
+            delete_fields_manager = [
+                'last_login',
+                'is_superuser',
+                'email',
+                'is_staff',
+                'is_active',
+                'date_joined',
+                'role',
+                'notes',
+                'contact',
+                'dni_number',
+                'picture',
+                'groups',
+                'user_permissions',
+            ]
+
+            for field in delete_fields_manager:
+                del team['manager'][field]
+            
+            team['selected'] = True
            
         # obtenemos todas las bodegas de la migracion
         all_warenhouses = self.get_all_warenhouses(taking)
@@ -69,7 +125,7 @@ class AllTakingDataAPIView(APIView):
 
         # agregamos campo selected
         for user in all_users_assistants:
-            user["selected"] = False
+            user['selected'] = False
         
         # enterprises
         enterprises = SapMigrationDetail.objects.filter(
@@ -82,15 +138,15 @@ class AllTakingDataAPIView(APIView):
         recounts = RecountTakings.objects.filter(id_taking = taking)
 
         data = {
-            "taking": TakingSerializer(taking).data,
-            "teams": teams,
-            "enterprises": [e['company_name'] for e in enterprises],
-            "report": report,
-            "manager": CustomUserSerializer(taking.user_manager).data,
-            "all_warenhouses": all_warenhouses,
-            "all_users_assistants": all_users_assistants,
-            "recounts": RecountTakingsSerializer(recounts, many=True).data,
-            "syncs": self.get_syncs(taking),
+            'taking': TakingSerializer(taking).data,
+            'teams': teams,
+            'enterprises': [e['company_name'] for e in enterprises],
+            'report': report,
+            'manager': CustomUserSerializer(taking.user_manager).data,
+            'all_warenhouses': all_warenhouses,
+            'all_users_assistants': all_users_assistants,
+            'recounts': RecountTakingsSerializer(recounts, many=True).data,
+            'syncs': self.get_syncs(taking),
         }
 
         return Response(data)
@@ -101,18 +157,18 @@ class AllTakingDataAPIView(APIView):
             'groups': [],
         }
         # sincronizaciones
-        query = """
+        query = '''
             SELECT DISTINCT ttd.id_team_id, ttd.token_team 
             FROM takings_takindetail ttd 
             WHERE ttd.token_team IN (
 	    SELECT DISTINCT(token_team) FROM takings_takindetail where id_taking_id = {})
-        """.format(taking.pk)
+        '''.format(taking.pk)
         cursor = connection.cursor()
         cursor.execute(query)
         columns = [col[0] for col in cursor.description]
         syncs['all'] = [dict(zip(columns, row)) for row in cursor.fetchall()]
 
-        query = """
+        query = '''
             SELECT ttd.id_team_id, ttd.created, ttd.token_team
             FROM takings_takindetail ttd
             WHERE (ttd.id_team_id, ttd.created) IN (
@@ -120,7 +176,7 @@ class AllTakingDataAPIView(APIView):
                 FROM takings_takindetail t2
                 WHERE t2.id_taking_id = {}
                 GROUP BY t2.id_team_id);
-        """.format(taking.pk)
+        '''.format(taking.pk)
         cursor = connection.cursor()
         cursor.execute(query)
         columns = [col[0] for col in cursor.description]
@@ -128,22 +184,22 @@ class AllTakingDataAPIView(APIView):
         return syncs
 
     def get_all_warenhouses(self, taking):
-        query = """
+        query = '''
             SELECT DISTINCT(smd.warenhouse_name) 
             FROM sap_migrations_sapmigrationdetail smd
             WHERE smd.id_sap_migration_id = {};
-        """.format(taking.id_sap_migration.pk)
+        '''.format(taking.id_sap_migration.pk)
         cursor = connection.cursor()
         cursor.execute(query)
         used_warenhouses = json.loads(taking.warenhouses)
 
-        data = [{"name": list(row)[0],
-                 "selected": False
+        data = [{'name': list(row)[0],
+                 'selected': False
                  }
                 for row in cursor.fetchall() if list(row)[0] not in used_warenhouses
                 ]
 
-        used_warenhouses = [{"name": w, "selected": True} for w in used_warenhouses]
+        used_warenhouses = [{'name': w, 'selected': True} for w in used_warenhouses]
         data = used_warenhouses + data
         cursor.close()
         return data

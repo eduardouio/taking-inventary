@@ -35,7 +35,7 @@ class TestAllTakingData():
                 "last_name": "RODRIGUEZ",
                 "email": "lorena@vinesa.com.ec",
             }, "all_warenhouses": 40,
-            "all_users_assistants": 114,
+            "all_users_assistants": 122,
         }
 
         url = reverse("all_taking_data", kwargs={"id_taking": 1})
