@@ -4,6 +4,7 @@
     <nav-bar
         v-if="!show_view.loader"
         :taking_name="taking_name"
+        :location="location"
     >
     </nav-bar>
     <div class="container" v-if="!show_view.loader">
@@ -51,10 +52,12 @@ import Loader from "./components/Loader.vue";
 // axios
 import axios from "axios";
 
+// confData
+import confData from "./conf.js";
+
 // constants
-var base_url = '';
-var url_data = '/api/common/wizard-assistant/1/';
-var csrf_token = 'colocar_el_token_aqui';
+var base_url = confData.baseUrl;
+var csrf_token = confData["headers"]["X-CSRFToken"];
 
 
 export default {
@@ -69,9 +72,11 @@ export default {
         loader: true,
       },
       taking_name:'',
+      location:'',
       migration_data: null,
       categories: [],
       all_users: [],
+      confData: confData,
     }
   },computed:{
     sap_migration_date(){
@@ -86,19 +91,18 @@ export default {
   },methods:{
    LoadInitData(){
     // Cargamos datos iniciales para la aplicacion
-     return axios.get(base_url + url_data, {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      }).then((response) => {
+    const headers = this.confData.headers;
+     return axios.get(this.confData.urlData, {...headers}).then((response) => {
         this.migration_data = response.data;
         this.show_view.loader = false;
       }).catch((error) => {
         alert('Error al obtener los datos del reporte' + error);
       });
-   }, updateName(title){
+   }, updateName(takingName){
     //colocamos el titulo de la pagina
-    document.title = title;
-    this.taking_name = title;
+    document.title = takingName.takingName;
+    this.taking_name = takingName.takingName;
+    this.location = takingName.location;
    }, updateWarenhousesList_uncall(warenhouse){
       // actualizamos la lista de almacenes
       console.log('warenhouse', warenhouse);

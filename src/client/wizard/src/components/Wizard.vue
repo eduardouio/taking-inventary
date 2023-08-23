@@ -126,6 +126,7 @@ export default {
         taking_data: {
            id_sap_migration: null,
            name: '',
+           location: '',
            warenhouses: [],
            groups: [],
            categories: [],
@@ -143,8 +144,12 @@ export default {
             this.show_views[stepName] = true;
         }, updateName( taking_name){
             // actualizamos el nombre de la toma
-            this.taking_data.name = taking_name;
-            this.$emit('updateName', taking_name);
+            this.taking_data.name = taking_name.takingName;
+            this.taking_data.location = taking_name.location;
+            this.$emit('updateName', {
+                takingName: this.taking_data.name,
+                location: this.taking_data.location
+            });
         }, sendData(){
             // enviamos los datos
             this.$emit('sendData', this.taking_data);

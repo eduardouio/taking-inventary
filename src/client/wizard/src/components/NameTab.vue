@@ -1,6 +1,5 @@
 <template>
-    <div class="row mt-2">
-        <h5 class="mt-2">NOMBRE DE LA TOMA</h5>
+    <div class="row mt-3">
         <div class="col bg-light">
             <div class="row">
                 <div class="col">
@@ -24,13 +23,29 @@
                     </div>
                 </div>
                 <div class="col">
-                    <input 
-                    type="text" 
-                    class="form-control form-control-sm" 
-                    maxlength="30"
-                    v-model="taking_name"
-                    @blur="updateName"
-                    autofocus>
+                    <div class="row mt-1">
+                        <div class="input-group mb-1">
+                            <div class="input-group mb-1">
+                                <span class="input-group-text">Nombre de Toma</span>
+                                <input type="text" class="form-control form-control-sm" maxlength="30" v-model="taking_name"
+                                @blur="updateName('name')" autofocus>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-3">
+                            <label class="input-group-text" for="inputGroupSelect01">Ubicación Toma &nbsp;</label>
+                            <select class="form-select" id="inputGroupSelect01" v-model="location" @change="updateName('location')">
+                            <option selected>Seleccione...</option>
+                            <option value="QUITO" :selected="true">QUITO</option>
+                            <option value="MANTA">MANTA</option>
+                            <option value="GUAYAQUIL">GUAYAQUIL</option>
+                            <option value="LOS CHILLOS">LOS CHILLOS</option>
+                            <option value="CUMBAYA">CUMBAYA</option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="row mt-2">
@@ -46,6 +61,9 @@
     </div>
 </template>
 <script>
+// confiData
+import confData from ".././conf.js";
+
 export default {
     name: 'NameTab',
     emits: ['updateName', 'showView'],
@@ -62,18 +80,23 @@ export default {
     data() {
         return {
             taking_name: '',
+            location: '',
+            locationsName: confData.locationsName
         }
     },
     methods: {
         updateName() {
-            this.taking_name = this.taking_name.toUpperCase();
-            this.$emit('updateName', this.taking_name);
+            this.taking_name = this.taking_name ? this.taking_name.toUpperCase() : '';
+            this.$emit('updateName', {
+                takingName: this.taking_name,
+                location: this.location
+            });
         },
         showView(view) {
             this.$emit('showView', view);
         }
-    },mounted(){
+    }, mounted() {
         this.taking_name = this.taking_data.name;
     }
 };
-</script>
+    </script>
