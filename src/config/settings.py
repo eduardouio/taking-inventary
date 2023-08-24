@@ -66,7 +66,6 @@ MIDDLEWARE = [
     'simple_history.middleware.HistoryRequestMiddleware',
     'crum.CurrentRequestUserMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -88,7 +87,7 @@ ROOT_URLCONF = 'config.urls'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.IsAuthenticated',
+        #'rest_framework.permissions.IsAuthenticated',
         'rest_framework.permissions.AllowAny',
     ]
 }
@@ -209,11 +208,12 @@ ENTERPRISES_TAKING = (
 )
 
 WARENHOUSES_LOCATIONS_NAME = (
-    ('VINESA PLAZA NORTE', 'VINESA PLAZA NORTE'),
-    ('VINESA CARCELEN', 'VINESA CARCELEN'),
-    ('VINLITORAL', 'VINLITORAL'),
-    ('SERVMULTIMARC', 'SERVMULTIMARC'),
-    ('ALMAGRO QUITO', 'ALMAGRO QUITO'),
+    ('QUITO', 'QUITO'),
+    ('LOS CHILLOS', 'LOS CHILLOS'),
+    ('CUMBAYA', 'CUMBAYA'),
+    ('CUENCA', 'CUENCA'),
+    ('MANTA', 'MANTA'),
+    ('GUAYAQUIL', 'GUAYAQUIL'),
 )
 
 LOGIN_URL = '/accounts/login/'

@@ -11,7 +11,6 @@ class TestModelProducts:
         assert len(products) > 200
 
     def test_create_product_with_all_fields(self):
-        # Happy path test for creating a new product with all required fields filled in
         product = Product.objects.create(
             account_code='12345',
             name='Test Product',
