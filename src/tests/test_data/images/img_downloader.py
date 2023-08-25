@@ -50,7 +50,7 @@ def get_image_urls():
 print('Descargando imagenes en {}'.format(path_save))
 
 
-def download_images():
+def download_images(urls):
     for url in tqdm(urls, total=len(report), desc=mess, ncols=ncols):
         if url['url_img']:
             response = requests.get(url['url_img'])
@@ -61,8 +61,8 @@ def download_images():
             url['file'] = path_save + filename
 
 
-get_image_urls()
-download_images()
+
+download_images(get_image_urls())
 
 file_names = json.dumps(report)
 with open('report.json', 'w') as file:
