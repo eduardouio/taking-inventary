@@ -9,7 +9,7 @@ class ValidateManagerMixin(LoginRequiredMixin):
             return redirect('/accounts/login/')
 
         if not request.user.is_anonymous:
-            if request.user.role == 'asistente':
+            if request.user.role != 'gestor' and request.user.role != 'auditor':
                 return redirect('/accounts/logout/')
             
         return super().dispatch(request, *args, **kwargs)
