@@ -1,6 +1,18 @@
 <template>
     <div class="row mt-2">
                     <h5 class="mt-2">PERSONALIZAR ITEMS TOMA</h5>
+                    <div class="row mt-1 mb-2">
+                                <div class="col text-start">
+                                    <button class="btn btn-primary" @click="showView(3)">
+                                        <i class="fa-solid fa-chevron-left"></i> Anterior
+                                    </button>
+                                </div>
+                                <div class="col text-end">
+                                    <button class="btn btn-success" @click="showView(5)">
+                                        Siguiente<i class="fa-solid fa-chevron-right"></i>
+                                    </button>
+                            </div>
+                            </div>
                     <div class="col bg-light">
                         <div class="row">
                             <div class="col-8">
@@ -46,19 +58,6 @@
                                 <br />
                             </div>
                         </div>
-                               <div class="row mt-3">
-                                <div class="col text-start">
-                                    <button class="btn btn-primary" @click="showView(3)">
-                                        <i class="fa-solid fa-chevron-left"></i> Anterior
-                                    </button>
-                                </div>
-                                <div class="col text-end">
-                                    <button class="btn btn-success" @click="showView(5)">
-                                        Siguiente<i class="fa-solid fa-chevron-right"></i>
-                                    </button>
-                            </div>
-                            </div>
-                            <br/>
                     </div>
 
                 </div>

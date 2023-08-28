@@ -1,6 +1,18 @@
 <template>
     <div class="row mt-1">
         <h5 class="mt-1">RESUMEN DE TOMA</h5>
+        <div class="row mt-1 mb-2">
+                <div class="col text-start">
+                    <button class="btn btn-primary" @click="showView(4)">
+                        <i class="fa-solid fa-chevron-left"></i> Anterior
+                    </button>
+                </div>
+                <div class="col text-end">
+                    <button class="btn btn-success" v-if="isValidData" @click="sendData">
+                        Finalizar <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
         <div class="alert alert-danger p-1" role="alert" v-if="!isValidData">
           <h6>Informacion incompleta, por favor verifíque todos los campos para continuar</h6>
     </div>
@@ -12,6 +24,14 @@
                         <div class="col text-start">
                             <ul class="list-group text-start">
                                 <li class="list-group-item p-1">{{ taking_data.name }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col text-end"><strong>Ubicación de Toma:</strong></div>
+                        <div class="col text-start">
+                            <ul class="list-group text-start">
+                                <li class="list-group-item p-1">{{ taking_data.location }}</li>
                             </ul>
                         </div>
                     </div>
@@ -45,19 +65,6 @@
                     </div>
                 </div>
             </div>
-            <div class="row mt-3">
-                <div class="col text-start">
-                    <button class="btn btn-primary" @click="showView(4)">
-                        <i class="fa-solid fa-chevron-left"></i> Anterior
-                    </button>
-                </div>
-                <div class="col text-end">
-                    <button class="btn btn-success" v-if="isValidData" @click="sendData">
-                        Finalizar <i class="fa-solid fa-chevron-right"></i>
-                    </button>
-                </div>
-            </div>
-            <br />
         </div>
     </div>
 </template>
@@ -78,8 +85,8 @@ export default {
         }
     }, computed:{
         isValidData(){
-            return this.taking_data.name != "" && this.taking_data.warenhouses.length > 0 && this.taking_data.groups.length > 0 && this.taking_data.categories.length > 0;
+            return this.taking_data.name != "" && this.taking_data.warenhouses.length > 0 && this.taking_data.groups.length > 0 && this.taking_data.categories.length > 0 && this.taking_data.location; 
         }
     },
 };
-</script>
+</script>   

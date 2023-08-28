@@ -1,6 +1,14 @@
 <template>
     <div class="row mt-3">
+        <h5 class="mt-2">NOMBRE Y UBICACIÓN</h5>
         <div class="col bg-light">
+            <div class="row mt-1 mb-2">
+                <div class="col text-end">
+                    <button class="btn btn-success" @click="showView(2)">
+                        Siguiente <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
                     <div class="card">
@@ -35,27 +43,19 @@
                             <div class="input-group mb-3">
                             <label class="input-group-text" for="inputGroupSelect01">Ubicación Toma &nbsp;</label>
                             <select class="form-select" id="inputGroupSelect01" v-model="location" @change="updateName('location')">
-                            <option selected>Seleccione...</option>
-                            <option value="QUITO" :selected="true">QUITO</option>
-                            <option value="MANTA">MANTA</option>
-                            <option value="GUAYAQUIL">GUAYAQUIL</option>
-                            <option value="LOS CHILLOS">LOS CHILLOS</option>
-                            <option value="CUMBAYA">CUMBAYA</option>
+                                <option 
+                                    v-for="mylocation in confData.locationsName" 
+                                    :key="mylocation.name" 
+                                    :value="mylocation.name" 
+                                    :selected="mylocation.selected">
+                                    {{ mylocation.name }}
+                                </option>
                             </select>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-            <div class="row mt-2">
-                <div class="col text-end">
-                    <button class="btn btn-success" @click="showView(2)">
-                        Siguiente <i class="fa-solid fa-chevron-right"></i>
-                    </button>
-                </div>
-            </div>
-            <br />
         </div>
 
     </div>
@@ -81,7 +81,8 @@ export default {
         return {
             taking_name: '',
             location: '',
-            locationsName: confData.locationsName
+            locationsName: confData.locationsName,
+            confData: confData
         }
     },
     methods: {
@@ -97,6 +98,17 @@ export default {
         }
     }, mounted() {
         this.taking_name = this.taking_data.name;
+        // recuperamos la ubicación
+        if (this.taking_data.location){
+            this.location = this.taking_data.location;
+            this.locationsName.forEach(item => {
+                if (item.name === this.location){
+                    item.selected = true;
+                }else{
+                    item.selected = false;
+                }
+            });
+        }
     }
 };
     </script>
