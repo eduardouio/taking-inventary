@@ -31,7 +31,7 @@ class TakingsList(ValidateManagerMixin, ListView):
                     except:
                         message = 'No se puede Eliminar el registro, tiene dependencias, si desea eliminar comunicarse con soporte@vinesa.com.ec'
 
-        self.object_list = self.get_queryset()
+        self.object_list = self.get_queryset(request)
         extra_context = {
             'module_name': 'Tomas Físicas',
             'title_page': 'Lista de Tomas',
@@ -43,8 +43,14 @@ class TakingsList(ValidateManagerMixin, ListView):
         context = self.get_context_data(**kwargs)
         return self.render_to_response({**context, **extra_context})
 
-    def get_queryset(self):
-        queryset = Taking.objects.all()
+    def get_queryset(self, request):
+        if request.user.role == 'auditor':
+            queryset = Taking.objects.all()
+        else:
+            queryset = Taking.objects.filter(
+                user_manager__username=request.user.username
+            )
+
         for item in queryset:
             item.takings_details = TakinDetail.get_by_taking(item.id_taking)
             if item.warenhouses:
