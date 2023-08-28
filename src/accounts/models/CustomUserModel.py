@@ -8,6 +8,7 @@ ROLES = (
     ('gestor', 'Gestor Inventario'),
     ('consultor','Consultor Saldos'),
     ('asistente','Asistente Inventario'),
+    ('auditor','Auditor Inventario'),
     ('ninguno', 'Sin Acceso'),
 )
 
