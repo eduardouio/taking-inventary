@@ -20,9 +20,15 @@ class TakingMasterDetailTV(ValidateManagerMixin, TemplateView):
         return HttpResponse('No tiene permisos para ver esta toma', status=403)
 
     def validate_owner(self, request, pk):
-        taking = Taking.objects.get(pk=pk)
+        """
+            Definimos los usuarios con permiso para ver las tomas,
+            el owner del registro y el auditor
+        """
+        if request.user.role == 'auditor':
+            return True
 
+        taking = Taking.objects.get(pk=pk)
         if request.user == taking.user_manager:
             return True
-        else:
-            False
+
+        return False
