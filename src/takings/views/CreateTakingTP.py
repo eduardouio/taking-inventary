@@ -59,6 +59,7 @@ class CreateTakingTP(ValidateManagerMixin, TemplateView):
             hour_start=datetime.now().time(),
             user_manager=request.user,
             name=request_data['name'],
+            location=request_data['location'],
             categories=json.dumps(categories),
             warenhouses=json.dumps(warenhouses),
         )
