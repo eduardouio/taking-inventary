@@ -103,6 +103,13 @@ export default {
     document.title = takingName.takingName;
     this.taking_name = takingName.takingName;
     this.location = takingName.location;
+    confData.locationsName.forEach((item)=>{
+        if(item.name === takingName.location){
+          item.selected = true;
+        }else{
+          item.selected = false;
+        }
+    });
    }, updateWarenhousesList_uncall(warenhouse){
       // actualizamos la lista de almacenes
       console.log('warenhouse', warenhouse);
@@ -114,12 +121,13 @@ export default {
    },sendData(taking_data){
       // enviamos los datos al servidor
       this.show_view.loader = true;
-      axios.post(base_url, taking_data, { headers:{
+      axios.post(confData['urlCreateTaking'], taking_data, { headers:{
         'Content-Type': 'application/json',
         'X-CSRFToken': csrf_token,
       }}).then((response) => {
         let taking = response.data;
         // redireccionamos a la pagina de reporte
+        debugger;
         window.location.href = base_url + '/takings/detail/' + taking.id_taking;
         this.show_view.loader = false;
       }).catch((error) => {
@@ -129,7 +137,6 @@ export default {
   }, // next vue properties
 }
 </script>
-
 <style>
 
 body {
