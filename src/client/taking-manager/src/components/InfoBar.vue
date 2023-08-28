@@ -57,7 +57,7 @@
           </span>
           <span class="m-1 text-danger" v-else>
             <i class="fas fa-exclamation-triangle"></i>
-            DIFENCIAS
+            DIFERENCIAS
           </span>
         </span>
         <span class="m-1 ">
