@@ -4,13 +4,14 @@ from rest_framework.generics import ListAPIView
 from rest_framework import status
 from takings.models import Taking
 from api.Serializers import TakingSerializer, CustomUserSerializer
+from accounts.mixins import ValidateAssistantMixin
 
 from django.contrib.auth import get_user_model as UserModel
 
 
 # /api/mobile/list/<str:username>/
 # name = list-taking-mobile
-class ListTakings(ListAPIView):
+class ListTakings(ValidateAssistantMixin, ListAPIView):
     serializer_class = TakingSerializer
 
     def get_queryset(self, username):
@@ -18,7 +19,7 @@ class ListTakings(ListAPIView):
 
         # obtenemos las ultimas 20 tomas
         return Taking.objects.filter(
-            teams__manager=user.pk).order_by('-created')[:20]
+            teams__manager=user.pk).order_by('-created')[:100]
 
     def list(self, request, username, *args, **kwargs):
         """

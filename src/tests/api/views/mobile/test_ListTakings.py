@@ -18,7 +18,7 @@ class TestListTakings:
         user = UserModel().objects.get(username='evillota')
 
         self.spected_data = {
-            'total_takings': 16,
+            'total_takings': 33,
             'sample_takings': [120, 4, 8, 21, 25, 42, 191, 203, 140],
             'user_data': CustomUserSerializer(user).data,
         }
@@ -48,3 +48,13 @@ class TestListTakings:
         url = reverse('list-taking-mobile', kwargs={'username': 'evillota2'})
         response = client.get(url)
         assert response.status_code == status.HTTP_404_NOT_FOUND
+
+    def test_dont_authorize(self, client):
+        user = UserModel().objects.get(username='admin')
+        client.force_login(user)
+        url = reverse('list-taking-mobile', kwargs={'username': 'evillota'})
+        response = client.get(url)
+        assert response.status_code == status.HTTP_302_FOUND
+        assert response.url == '/accounts/logout/'
+        
+        
