@@ -11,20 +11,20 @@ UserModel = get_user_model()
 @pytest.mark.django_db
 class Test_CreateTakingTP():
     @pytest.fixture
-    def authenticated_user_invalid_role(self, client):
+    def client_invalid(self, client):
         user = UserModel.objects.create_user(
-            username='testuser', password='12345', role='assistant'
+            username='fail_user', password='12345', role='asistente'
         )
         client.force_login(user)
-        return user
+        return client
 
     @pytest.fixture
-    def autehnticated_user(self, client):
+    def client(self, client):
         user = UserModel.objects.create_user(
-            username='testuser', password='12345', role='manager'
+            username='success_user', password='12345', role='gestor'
         )
         client.force_login(user)
-        return user
+        return client
 
     @pytest.fixture
     def url(self):
@@ -71,31 +71,32 @@ class Test_CreateTakingTP():
         }
 
     def test_no_autenticated_user(self, client, url):
+        client.logout()
         response = client.get(url)
         assert response.status_code == 302
         assert response.url == '/accounts/login/'
 
     def test_authenticated_user_with_valid_role_get_request(
-            self, client, autehnticated_user, url):
+            self, client, url):
         response = client.get(url)
         assert response.status_code == 200
         assert response.context_data['id_sap_migration'] == 1
         assert response.template_name == ['takings/create-taking.html']
 
     def test_autenticated_user_with_invalid_role(
-            self, client, authenticated_user_invalid_role, url):
-        response = client.get(url)
-        assert response.status_code == 200
+            self, client_invalid, url):
+        response = client_invalid.get(url)
+        assert response.status_code == 302
 
     def test_authenticated_user_invalid_migration(
-            self, client, autehnticated_user):
+            self, client):
         url = reverse('takings:create-taking',
                       kwargs={'id_sap_migration': 991})
         response = client.get(url)
         assert response.status_code == 404
         assert response.context['exception'] == 'No existe la migración'
 
-    def post_error_data(self, client, autehnticated_user, url):
+    def post_error_data(self, client, url):
         url = reverse('takings:create-taking',
                       kwargs={'id_sap_migration': 1})
         response = client.post(url, data={})

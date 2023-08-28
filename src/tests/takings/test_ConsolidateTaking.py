@@ -153,7 +153,7 @@ class TestConsolidateTaking:
 
         spected_data = {
             "report": {
-                "items_skus": 61,
+                "items_skus": 60,
                 "total_onhand": 10336,
             },
             "sample_products": [

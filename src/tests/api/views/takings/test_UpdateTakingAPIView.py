@@ -25,7 +25,7 @@ class TestUpdateTakingView:
             "hour_end": None,
             "warenhouses": ["ALMACÉN GENERAL UIO", "ALMACEN 10 DE AGOSTO", "CONSIGNACIONES PB PROVEEDORES", "LAGUARDA CUENCA"],
             "name": "BODEGA GENERAL 10 DE AGOSTO",
-            "location": "SERVMULTIMARC",
+            "location": "QUITO",
             "total_warenhouses": 4,
             "total_products_unities": 0,
             "total_groups": 15,

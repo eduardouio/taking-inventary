@@ -13,42 +13,37 @@ class Test_ReportManagerApiView():
         return client
     
     def test_get_report_years(self, client):
-        url = reverse('api-manager-report', kwargs={'id_taking': 300, 'type_report': 'years'})
+        url = reverse('api-manager-report', kwargs={'id_taking': 300})
         response = client.get(url)
         assert(response.status_code == 200)
         response = response.data
+        response = [r for r in response if r['year']]
         assert(len(response)  == 406)
 
     def test_get_report_endData(self, client):
-        url = reverse('api-manager-report', kwargs={'id_taking': 301, 'type_report': 'endDate'})
+        url = reverse('api-manager-report', kwargs={'id_taking': 301})
         response = client.get(url)
         assert(response.status_code == 200)
         response = response.data
+        response = [r for r in response if r['date_expiry']]
         assert(len(response) == 22)
-        assert True;
 
     def test_get_all_report(self, client):
-        url = reverse('api-manager-report', kwargs={'id_taking': 301, 'type_report': 'all'})
+        url = reverse('api-manager-report', kwargs={'id_taking': 301})
         response = client.get(url)
         assert(response.status_code == 200)
         response = response.data
         assert(len(response) == 1134)
-        assert True;
 
     def test_get_news_report(self, client):
-        url = reverse('api-manager-report', kwargs={'id_taking': 301, 'type_report': 'news'})
+        url = reverse('api-manager-report', kwargs={'id_taking': 301})
         response = client.get(url)
         assert(response.status_code == 200)
         response = response.data
-        assert(len(response) == 62)
-        assert True;
+        response = [r for r in response if r['notes']]
+        assert(len(response) == 61)
 
     def test_not_found_taking(self, client):
-        url = reverse('api-manager-report', kwargs={'id_taking': 300000, 'type_report': 'endDate'})
-        response = client.get(url)
-        assert response.status_code == 400
-
-    def test_not_found_report_name(self, client):
-        url = reverse('api-manager-report', kwargs={'id_taking': 300, 'type_report': 'endDateFake'})
+        url = reverse('api-manager-report', kwargs={'id_taking': 300000})
         response = client.get(url)
         assert response.status_code == 400

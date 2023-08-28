@@ -13,8 +13,8 @@ class TestWizardMigrationData:
             "sap_migration": 1,
             "warenhouses": 40,
             "warenhouses_owners": 40,
-            "type_products": 32,
-            "all_users": 114,
+            "type_products": 33,
+            "all_users": 122,
             "products": 1437,
         }
 

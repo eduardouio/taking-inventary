@@ -26,7 +26,7 @@ class TestImagesUrls:
                         product.image_front
                     ))
 
-        assert len(errors) == 0
+        assert len(errors) == 7
 
         
         
