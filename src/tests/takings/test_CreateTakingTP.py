@@ -1,7 +1,5 @@
 import pytest
 from django.urls import reverse
-import requests
-import json
 
 from django.contrib.auth import get_user_model
 
