@@ -36,7 +36,7 @@ class TestWizardMigrationData:
                 "VINOS Y ESPIRITUOSOS VINESA S.A",
             ],
             # sample type products
-            "type_products": ['ACCESORIOS', 'LICORES', 'VARIOS'],
+            "type_products": ['ACCESORIOS', 'BAJATIVO','LICORES', 'VARIOS'],
             # sample users
             "all_users": ['evillota', 'vpadilla', 'jgarcia',],
             # sample products
