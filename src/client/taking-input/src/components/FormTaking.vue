@@ -16,16 +16,16 @@
             </div>
             </div>
             <div class="card-body">
-            <div class="row mt-3">
-                <div class="col-4 text-center">
-                    <img
-                        :src="current_item.image_front ? current_item.image_front: default_picture"
+                    <div class="row mt-2 mb-2">
+                        <div class="col">
+                        <img
+                        :src= "current_item.image_front ? baseURL + current_item.image_front: default_picture"
                         class="img-fluid img-thumbnail"
                         >
-                </div>
-                <div class="col">
+                    </div>
+                    </div>
                     <div class="row">
-                        <div class="col-5 text-end">Cajas:</div>
+                        <div class="col-5 text-end">CAJAS:</div>
                         <div class="col">
                             <input
                                 type="number"
@@ -37,30 +37,28 @@
                         </div>
                     </div>
                     <div class="row mt-1">
-                        <div class="col-5 text-end">Unds:</div>
+                        <div class="col-5 text-end">UNIDADES:</div>
                         <div class="col">
                             <input type="number" class="form-control taking-number text-end"
                                 v-model="current_taking.taking_total_bottles" onfocus="this.value=''">
                         </div>
                     </div>
-                </div>
-            </div>
                <div class="row mt-1">
-                        <div class="col-5 text-end">Añada:</div>
+                        <div class="col-5 text-end">AÑADA:</div>
                             <div class="col">
                                 <input type="number" class="form-control taking-number text-end"
                                     v-model="current_taking.year">
                             </div>
                 </div>
             <div class="row mt-1">
-                <div class="col-5 text-end">Caducidad:</div>
+                <div class="col-5 text-end">CADUCIDAD:</div>
                     <div class="col">
                         <input type="date" class="form-control taking-number text-end"
                             v-model="current_taking.date_expiry">
                     </div>
             </div>
             <div class="row mt-1">
-                <div class="col-3 text-end">Notas:</div>
+                <div class="col-3 text-end">NOTAS:</div>
                 <div class="col">
                     <textarea class="form-control taking-text" v-model="current_taking.notes"></textarea>
                 </div>
@@ -81,6 +79,8 @@
     </div>
 </template>
 <script>
+import appConfig from '../appConfig'
+
 export default {
     name: 'FormTaking',
     props: {
@@ -111,9 +111,10 @@ export default {
                 notes: null,
             },
             show_product: true,
-            default_picture: this.base_url +  '/static/img/generic_product.png',
+            default_picture: appConfig.defaultPicture,
             class_bagded_front: 'badge-primary',
             class_bagded_back: 'badge-light',
+            baseURL : appConfig.apiBaseUrl,
         }
     },
     methods: {
