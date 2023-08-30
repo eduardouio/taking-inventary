@@ -82,7 +82,7 @@
                         <strong class="text-secondary">Token: </strong>
                     </div>
                     <div class="col text-break border">
-                        <span v-text="team.fields.token_team"></span>
+                        <span v-text="team.token_team"></span>
                     </div>
                 </div>
             </div>
