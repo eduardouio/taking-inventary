@@ -20,6 +20,7 @@ class TestUpdateTeamAPIView():
             'id_taking': 1,
             'manager': self.team_data.manager.id,
             'notes': 'Camabiamos el nombre del equipo',
+            'warenhouse_assistant': 'Nuevo Nombre Asistente',
         }
 
         url = reverse('update-team', kwargs={'id_team': 1})
@@ -29,3 +30,4 @@ class TestUpdateTeamAPIView():
         # verificamos los cambios
         updated_data = Team.objects.get(pk=1)
         assert updated_data.notes == my_updated_team['notes']
+        assert updated_data.warenhouse_assistant == my_updated_team['warenhouse_assistant']

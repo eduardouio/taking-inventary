@@ -1,1 +1,2 @@
 from .DeleteTakingDetailAPIView import DeleteTakingDetailAPIView
+from .SyncTakingsDetailAPIView import SyncTakingsDetailAPIView

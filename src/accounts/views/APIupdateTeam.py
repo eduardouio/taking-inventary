@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
 
+# /accounts/update-team/
 @method_decorator(csrf_exempt, name="dispatch")
 class APIupdateTeam(View):
 
