@@ -31,10 +31,22 @@ class SyncTakingsDetailAPIView(APIView):
                 status=400
             )
         
+        # El forzado es para obligar el registro de los datos, pero si el token
+        # no existe, se registra de forma normal aunque este forzado
+        # sino se registran los datos de forzados anadiendo el texto 
+        # *sycn forced!* al inicio de las notas
         if forced == True:
+            if not TakinDetail.token_exist(request.data['token_team']):
+                check_sum = self.register_taking(
+                    report, my_taking, team, request.data['token_team']
+                )
+
+                return Response(check_sum, status=201)
+
             self.register_taking(
-                report, my_taking, team, request.data['token_team']
+                report, my_taking, team, request.data['token_team'], force=True
             )
+
             return Response(
                 {'message': "Datos sincronizados de forma Forzada"},
                 status=201
