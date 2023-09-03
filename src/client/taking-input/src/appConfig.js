@@ -11,6 +11,7 @@ const appConfig = {
     "imgError": `${apiBaseUrl}/static/img/error.jpg`,
     "defaultPicture": `${apiBaseUrl}/static/img/generic_product.png`,
     "updateTeamURL": `${apiBaseUrl}/api/teams/update-team/${idTeam}/`,
+    "syncUrl": `${apiBaseUrl}/api/takings-detail/sync/`,
     "headers": {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
