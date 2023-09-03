@@ -80,7 +80,7 @@ class MakeRecount():
     def checker(self, taking, account_code, tk_resume) -> bool:
         ''' 
             Verifica si la toma tiene detalles
-            si tiene detalles no se puede hacer un nuevo conteo
+            si no tiene detalles no se puede hacer un nuevo conteo
         '''   
         if taking.is_active is False:
             return False
