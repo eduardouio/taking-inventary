@@ -46,13 +46,18 @@ export default {
             default: null,
             required: true,
         },
+        show_view: {
+            type: Object,
+            default: null,
+            required: true,
+        },
     },methods: {
-       changeView() {
+        switchView() {
            this.$emit('changeView', 'search_form');
        },
     },
     beforeUnmount() {
-        this.changeView();
+        this.switchView();
     },
 }
 </script>
