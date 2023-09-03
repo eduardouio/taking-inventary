@@ -17,7 +17,7 @@
             </div>
             <div class="card-body">
                     <div class="row mt-2 mb-2">
-                        <div class="col">
+                        <div class="col text-center">
                         <img
                         :src= "current_item.image_front ? baseURL + current_item.image_front: default_picture"
                         class="img-fluid img-thumbnail"
@@ -39,7 +39,7 @@
                     <div class="row mt-1">
                         <div class="col-5 text-end">UNIDADES:</div>
                         <div class="col">
-                            <input type="number" class="form-control taking-number text-end"
+                            <input type="number" class="form-control taking-number text-end" autofocus
                                 v-model="current_taking.taking_total_bottles" onfocus="this.value=''">
                         </div>
                     </div>
@@ -67,7 +67,7 @@
         <div class="card-footer mt-1 bg-ligth">
             <div class="row text-center">
                 <div class="col-6">
-                    <button class="btn btn-block btn-outline-secondary" @click="changeView">
+                    <button class="btn btn-block btn-outline-secondary" @click="switchView">
                         <i class="fas fa-arrow-left"></i> Regresar</button>
                 </div>
                 <div class="col-6">
@@ -118,8 +118,8 @@ export default {
         }
     },
     methods: {
-        changeView() {
-            this.$emit('changeView', 'search_form')
+        switchView() {
+            this.$emit('switchView', 'search_form')
         }, addReport() {
             if (typeof (this.current_taking.taking_total_boxes) != 'number') {
                 this.current_taking.taking_total_boxes = 0;
@@ -130,7 +130,7 @@ export default {
             this.current_taking.product = this.current_item;
             this.current_taking.pk = this.current_item.pk;
             this.report.push(this.current_taking);
-            this.changeView();
+            this.switchView();
         }
     }, mounted() {
         if (this.current_item.image_front) {
