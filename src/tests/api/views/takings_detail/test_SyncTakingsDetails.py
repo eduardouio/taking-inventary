@@ -105,7 +105,7 @@ class Test_SyncTakingsDetail:
             "id_taking": 324,
             "id_team": 1742,
             "token_team": "32b95839deb7d4b6a8d0f74c1a8a342400932c33e12fa8c3ef3fe7f8cd8d88fb",
-            "report": json.dumps(report),
+            "report": report,
         }
 
         # abrimos la toma para el test

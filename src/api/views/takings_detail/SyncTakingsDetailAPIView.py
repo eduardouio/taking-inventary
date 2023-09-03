@@ -9,7 +9,7 @@ from accounts.models.Team import Team
 from products.models import Product
 from takings.models import TakinDetail, Taking
 
-
+# /api/takings-detail/sync/
 class SyncTakingsDetailAPIView(APIView):
     """
     View to list all users in the system.
@@ -20,7 +20,7 @@ class SyncTakingsDetailAPIView(APIView):
 
     def post(self, request, *args, **kwargs):
         # TODO Testear que pasa sin el getlist
-        report = json.loads(request.data['report'])
+        report = request.data['report']
         my_taking = get_object_or_404(Taking, pk=request.data.get('id_taking'))
         forced =  True if request.data.get('force') == 'True' else False
         team = get_object_or_404(Team, pk=request.data.get('id_team'))
