@@ -11,7 +11,7 @@
             <div class="card-body">
             <div class="row">
                 <div class="d-grid gap-2">
-                    <button class="btn btn-success btn-block" @click="changeView('taking_form')">
+                    <button class="btn btn-success btn-block" @click="switchView('taking_form')">
                         <i class="fas fa-clipboard-check"></i>
                         Ingresar Toma
                     </button>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <table class="table table-bordered table-compact">
+                        <table class="table table-sm table-bordered table-compact">
                             <tr>
                                 <th class="bg-light bg-gradient text-end">Nombre:</th>
                                 <td v-text="current_item.name"></td>
@@ -59,32 +59,8 @@
                                 <td v-text="current_item.ean_13_code"></td>
                             </tr>
                             <tr>
-                                <th class="bg-light bg-gradient text-end">EAN 14:</th>
-                                <td v-text="current_item.ean_14_code"></td>
-                            </tr>
-                            <tr>
                                 <th class="bg-light bg-gradient text-end">Tipo:</th>
                                 <td v-text="current_item.type_product"></td>
-                            </tr>
-                            <tr>
-                                <th class="bg-light bg-gradient text-end">UND Venta:</th>
-                                <td v-text="current_item.sale_unit_measurement"></td>
-                            </tr>
-                            <tr>
-                                <th class="bg-light bg-gradient text-end">Grado Alc.:</th>
-                                <td v-text="current_item.alcoholic_strength"></td>
-                            </tr>
-                            <tr>
-                                <th class="bg-light bg-gradient text-end">Dim Caja:</th>
-                                <td v-text="current_item.box_dimensions"></td>
-                            </tr>
-                            <tr>
-                                <th class="bg-light bg-gradient text-end">Dim Product:</th>
-                                <td v-text="current_item.product_dimensions"></td>
-                            </tr>
-                            <tr>
-                                <th class="bg-light bg-gradient text-end">COD ICE:</th>
-                                <td v-text="current_item.ice_code"></td>
                             </tr>
                             <tr>
                                 <th class="bg-light bg-gradient text-end">Cantidad Caja:</th>
@@ -94,7 +70,6 @@
                                 <th class="bg-light bg-gradient text-end">Registro Sanitario:</th>
                                 <td v-text="current_item.health_register"></td>
                             </tr>
-
                         </table>
                     </div>
                 </div>
@@ -102,7 +77,7 @@
                     <div class="d-grid gap-2">
                           <button 
                                             class="btn btn-primary btn-block"
-                                            @click="$event => changeView('product_form')">
+                                            @click="$event => switchView('product_form')">
                                             <i class="fas fa-box"></i>
                                                 Actualiza Ficha
                                         </button>
@@ -110,7 +85,7 @@
                 </div>
                             <div class="row">
                     <div class="d-grid gap-2">
-                        <button class="btn btn-success btn-block" @click="changeView('taking_form')">
+                        <button class="btn btn-success btn-block" @click="switchView('taking_form')">
                             <i class="fas fa-clipboard-check"></i>
                             Ingresar Toma
                         </button>
@@ -134,7 +109,7 @@ export default {
             type: String,
             default: ''
         }
-    },emit: ['changeView'],
+    },emit: ['swithView'],
     data() {
         return {
             show_product: false,
@@ -156,8 +131,8 @@ export default {
                 this.default_picture = '/static/img/generic_product.png';
             }
         },
-        changeView(view_name) {
-            this.$emit('changeView', view_name)
+        switchView(view_name) {
+            this.$emit('switchView', view_name)
         },
     }, mounted() {
         if (this.current_item.image_front) {
@@ -168,7 +143,7 @@ export default {
 </script>
 <style>
 .table-compact td, .table-compact th {
-    padding: .05 rem;
+    padding: .015 rem;
     vertical-align: middle;
     background-color: white;
 }
