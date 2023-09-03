@@ -4,17 +4,17 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-8">
-                        <button class="btn btn" @click="changeView('search_form')">
+                        <button class="btn btn" @click="switchView('search_form')">
                             <i class="fas fa-search text-primary"></i>
                         </button>
                         &nbsp;
-                        <button class="btn btn" @click="changeView('report_info')">
+                        <button class="btn btn" @click="switchView('report_info')">
                             <i class="fas fa-table text-primary"></i>
         <span class="visually-hidden">unread messages</span>
                             <small  class="badge rounded-pill bg-danger">{{ report.length }}</small>
                         </button>
                         &nbsp;
-                        <button class="btn btn" @click="changeView('group_form')">
+                        <button class="btn btn" @click="switchView('group_form')">
                             <i class="fas fa-users text-primary"></i>
                         </button>
                     </div>
@@ -126,10 +126,10 @@ export default {
             show_details: false,
         }
     },
-    emits: ['changeView'],
+    emits: ['switchView'],
     methods: {
-        changeView(view) {
-            this.$emit('changeView', view);
+        switchView(view) {
+            this.$emit('switchView', view);
         },showDetails() {
             this.show_details = !this.show_details;
         }
