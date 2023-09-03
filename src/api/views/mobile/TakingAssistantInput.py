@@ -1,4 +1,5 @@
 import json
+from secrets import token_hex
 
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -20,6 +21,8 @@ class TakingAssistantInput(APIView):
     def get(self, request, id_taking, id_team, *args, **kwargs):
         taking = get_object_or_404(Taking, pk=id_taking)
         team = get_object_or_404(Team, pk=id_team)
+        team.token_team = token_hex(32)
+        team.save()
 
         return Response({
             'taking': TakingSerializer(taking).data,

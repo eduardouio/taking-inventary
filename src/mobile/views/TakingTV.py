@@ -1,5 +1,3 @@
-from secrets import token_hex
-
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 
@@ -20,9 +18,6 @@ class TakingTV(ValidateAssistantMixin, TemplateView):
         my_team = taking.teams.filter(manager=user).first()
         if not my_team:
             raise Exception('El usuario no es manager de este equipo')
-
-        my_team.token = token_hex(16)
-        my_team.save()
 
         page_data = {
             'title_page': 'Toma Inventario',
