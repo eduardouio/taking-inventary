@@ -3,7 +3,7 @@
         <div class="card card-outline card-primary">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-8">
+                    <div class="col-9">
                         <button class="btn btn" @click="switchView('search_form')">
                             <i class="fas fa-search text-primary"></i>
                         </button>
@@ -17,8 +17,12 @@
                         <button class="btn btn" @click="switchView('group_form')">
                             <i class="fas fa-users text-primary"></i>
                         </button>
+                        &nbsp;
+                        <small class="badge bg-secondary" @click="switchView('taking_form')">
+                            T #{{ taking.id_taking  }}
+                        </small>
                     </div>
-                    <div class="col-4 text-end">
+                    <div class="col-3 text-end">
                         <button class="btn btn-sm bordered fw-bold" @click="showDetails">
                             <i class="fas fa-info-circle text-primary"></i> Toma: {{ taking.pk }} 
                         </button>
@@ -34,7 +38,7 @@
                         <strong class="text-secondary">Toma: </strong>
                     </div>
                     <div class="col border">
-                       {{ taking.pk }}
+                       {{ taking.id_taking }}
                     </div>
                 </div>
                 <div class="row">
@@ -42,7 +46,8 @@
                         <strong class="text-secondary">Grupo: </strong>
                     </div>
                     <div class="col border">
-                        {{ team.group_number }}
+                        Grupo Nro {{ team.group_number }}
+                        | <smal class="badge bg-secondary">#{{ team.id_team }}</smal>
                     </div>
                 </div>
                 <div class="row">
