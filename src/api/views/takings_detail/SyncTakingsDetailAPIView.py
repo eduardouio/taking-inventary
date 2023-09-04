@@ -88,7 +88,7 @@ class SyncTakingsDetailAPIView(APIView):
                     item["taking_total_boxes"] * product.quantity_per_box
                 ) + item["taking_total_bottles"],
                 notes = notes,
-                year = item['year'],
+                year = int(item['year']) if item['year'] else None,
                 date_expiry = date_expiry
             )
         
