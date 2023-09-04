@@ -2,33 +2,28 @@
     <div class="card card-outline card-primary">
         <div class="card-header">
             <div v-if="report.length && show_report">
-                <div class="row">
+                <div class="row mb-2 mt-2">
                     <div class="col text-center">
                         <i class="fas fa-table"></i>
                         <strong class="h6">
                             {{ taking.name }}
-                            <br>
-                            Reporte Toma <small class="text-info">[{{ report.length }}] items</small>
+                            <small>[{{ report.length }}] items</small>
                         </strong>
                         <br>
-                        <span v-text="new Date(taking.created).toLocaleString('es-EC')"></span>
-                        <br>
-                        <button
-                            @click="downloadReport"
-                            class="btn btn-primary btn-sm">
-                            <i class="fas fa-file-excel"></i> Descargar
+                        <button @click="downloadReport" class="btn btn-outline-success btn-sm">
+                            <i class="fas fa-file-excel"></i> Descargar Reporte
                         </button>
                     </div>
                 </div>
                 <div class="row mt-1">
                     <div class="col">
-                        <table class="mi_table table table-striped " style="width:100%;">
+                        <table class="table table-sm table-bordered table-striped " style="width:100%;">
                             <thead>
-                                <tr class="bg-secondary">
+                                <tr class="bg-dark text-white">
                                     <th class="text-center">#</th>
-                                    <th class="text-center">Producto</th>
-                                    <th class="text-center">Cajas</th>
-                                    <th class="text-center">Unds</th>
+                                    <th class="text-center">PRODUCTO</th>
+                                    <th class="text-center">CAJAS</th>
+                                    <th class="text-center">UNDS</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -39,7 +34,7 @@
                                     <td class="text-end">{{ item.taking_total_boxes }}</td>
                                     <td class="text-end">{{ item.taking_total_bottles }}</td>
                                 </tr>
-                                <tr class="bg-secondary">
+                                <tr class="bg-dark text-white">
                                     <td class="text-end" colspan="2"> <strong>TOTALES</strong></td>
                                     <td class="text-end"><strong v-text="total_boxes"></strong> </td>
                                     <td class="text-end"><strong v-text="total_bottles"></strong></td>
@@ -66,19 +61,15 @@
                 <div class="card" style="width: 100%;">
                     <div class="row">
                         <div class="col text-center">
-                            <img 
-                            :src="selected_taking.product.image_front ? selected_taking.product.image_front : default_picture" 
-                            class="card-img-top img-thumbnail"
-                            alt="Imagen Producto"
-                            style="width:12em; height:auto;"
-                            >
+                            <img :src="appConfig.apiBaseUrl + selected_taking.product.image_front ? appConfig.apiBaseUrl + selected_taking.product.image_front : default_picture"
+                                class="card-img-top img-thumbnail" alt="Imagen Producto" style="width:12em; height:auto;">
                         </div>
                     </div>
                     <div class="card-body">
                         <h5 class="card-title text-center text-primary">{{ selected_taking.product.name }}</h5>
-                        <p class="card-text text-secondary">
-                            <span v-if="selected_taking.notes" v-text="selected_taking.notes"></span>
-                            <span v-else class="text-secondary">Sin Novedad</span>
+                        <p class="card-text border rounded p-1 text-info">
+                            <span v-if="selected_taking.notes" class="h3" v-text="selected_taking.notes"></span>
+                            <span v-else class="text-secondary h3">Sin Novedad</span>
                         </p>
                     </div>
                     <ul class="list-group list-group-flush fs-5 text">
@@ -89,8 +80,8 @@
                                 </div>
                                 <div class="col text-end">
                                     <strong>
-                                    {{ selected_taking.taking_total_boxes }}
-                                </strong>
+                                        {{ selected_taking.taking_total_boxes }}
+                                    </strong>
                                 </div>
                             </div>
                         </li>
@@ -101,49 +92,48 @@
                                 </div>
                                 <div class="col text-end">
                                     <strong>
-                                    {{ selected_taking.taking_total_bottles }}
-                                </strong>
+                                        {{ selected_taking.taking_total_bottles }}
+                                    </strong>
                                 </div>
                             </div>
                         </li>
                         <li class="list-group-item">
-                           <div class="row">
-                            <div class="col-5 text-end">
-                                <span class="text-secondary">Añada:</span>
+                            <div class="row">
+                                <div class="col-5 text-end">
+                                    <span class="text-secondary">Añada:</span>
+                                </div>
+                                <div class="col text-end">
+                                    <strong>
+                                        {{ selected_taking.year }}
+                                    </strong>
+                                </div>
                             </div>
-                            <div class="col text-end">
-                                <strong>
-                                    {{ selected_taking.year }}
-                                </strong>
-                            </div>
-                           </div>
                         </li>
                         <li class="list-group-item">
-                           <div class="row">
-                            <div class="col-5 text-end">
-    <span class="text-secondary">Caducidad:</span>
+                            <div class="row">
+                                <div class="col-5 text-end">
+                                    <span class="text-secondary">Caducidad:</span>
+                                </div>
+                                <div class="col text-end">
+                                    <strong v-if="selected_taking.date_expiry">
+                                        {{ new Date(selected_taking.date_expiry).toLocaleString('es-EC').substring(0, 10) }}
+                                    </strong>
+                                </div>
                             </div>
-                            <div class="col text-end">
-                                <strong 
-                                    v-if="selected_taking.date_expiry">
-                                    {{ new Date (selected_taking.date_expiry).toLocaleString('es-EC').substring(0,10)}}
-                                </strong>
-                            </div>
-                           </div>
 
                         </li>
                     </ul>
                     <div class="card-body">
                         <div class="row">
                             <div class="col text-center">
-                                <button class="btn btn-secondary" @click="showReport">
-                                <i class="fas fa-times"></i> Cerrar
-                            </button>
+                                <button class="btn btn-secondary btn-lg" @click="showReport">
+                                    <i class="fas fa-times"></i> Cerrar
+                                </button>
                             </div>
                             <div class="col text-center">
-                                <button class="btn btn-danger" @click="removeItem">
-                                <i class="fas fa-eraser"></i> Eliminar
-                            </button>
+                                <button class="btn btn-danger btn-lg" @click="removeItem">
+                                    <i class="fas fa-eraser"></i> Eliminar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -154,6 +144,7 @@
 </template>
 <script>
 import { utils, writeFile } from 'xlsx';
+import appConfig from '../appConfig';
 
 export default {
     emits:['sendReport'],
@@ -196,7 +187,8 @@ export default {
             show_report: true,
             class_sync_btn: 'btn-primary',
             message_button: 'Sincronizar Datos',
-            default_picture: this.base_url + '/static/img/generic_product.png',
+            default_picture: appConfig.defaultPicture,
+            appConfig: appConfig,
         };
     }, methods: {
         showTaking(item) {
@@ -210,8 +202,7 @@ export default {
             this.$emit('removeItem', this.selected_taking);
             this.showReport();
         }, sendReport() {
-            this.class_sync_btn = 'btn-success';
-            this.message_button = 'Confirmar Reporte';
+            console.log('eviar reporte');
             return this.$emit('sendReport');
         },downloadReport(){
             let report_json = this.report.map(item=>{
@@ -262,7 +253,7 @@ export default {
 }
 </script>
 <style>
-table.mi_table td{
-    border: 0.20px solid;
-}
+    table {
+        font-size: 0.85rem;
+    }
 </style>
