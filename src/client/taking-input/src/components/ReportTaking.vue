@@ -5,10 +5,13 @@
                 <div class="row mb-2 mt-2">
                     <div class="col text-center">
                         <i class="fas fa-table"></i>
-                        <strong class="h6">
+                        <strong class="h6 mt-1 mb-1">
                             {{ taking.name }}
                             <small>[{{ report.length }}] items</small>
                         </strong>
+                        <small class="badge bg-success mb-1" @click="switchView('taking_form')">
+                            Toma Nro #{{ taking.id_taking }}
+                        </small>
                         <br>
                         <button @click="downloadReport" class="btn btn-outline-success btn-sm">
                             <i class="fas fa-file-excel"></i> Descargar Reporte
@@ -17,30 +20,33 @@
                 </div>
                 <div class="row mt-1">
                     <div class="col">
-                        <table class="table table-sm table-bordered table-striped " style="width:100%;">
-                            <thead>
-                                <tr class="bg-dark text-white">
-                                    <th class="text-center">#</th>
-                                    <th class="text-center">PRODUCTO</th>
-                                    <th class="text-center">CAJAS</th>
-                                    <th class="text-center">UNDS</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(item, index) in report" :key="item.pk" @click="showTaking(item)">
-                                    <td class="text-center">{{ index + 1 }}</td>
-                                    <td class=""> <i class="fas fa-exclamation-triangle text-warning" v-if="item.notes"></i>
-                                        {{ item.product.name }}</td>
-                                    <td class="text-end">{{ item.taking_total_boxes }}</td>
-                                    <td class="text-end">{{ item.taking_total_bottles }}</td>
-                                </tr>
-                                <tr class="bg-dark text-white">
-                                    <td class="text-end" colspan="2"> <strong>TOTALES</strong></td>
-                                    <td class="text-end"><strong v-text="total_boxes"></strong> </td>
-                                    <td class="text-end"><strong v-text="total_bottles"></strong></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive" style="height:27rem;">
+                            <table class="table table-sm table-bordered table-striped " style="width:100%;">
+                                <thead>
+                                    <tr class="bg-dark text-white">
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">PRODUCTO</th>
+                                        <th class="text-center">CAJAS</th>
+                                        <th class="text-center">UNDS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in report" :key="item.pk" @click="showTaking(item)">
+                                        <td class="text-center">{{ index + 1 }}</td>
+                                        <td class=""> <i class="fas fa-exclamation-triangle text-warning"
+                                                v-if="item.notes"></i>
+                                            {{ item.product.name }}</td>
+                                        <td class="text-end">{{ item.taking_total_boxes }}</td>
+                                        <td class="text-end">{{ item.taking_total_bottles }}</td>
+                                    </tr>
+                                    <tr class="bg-dark">
+                                        <td class="text-end text-white" colspan="2"> <strong>TOTALES</strong></td>
+                                        <td class="text-end text-white"><strong v-text="total_boxes"></strong> </td>
+                                        <td class="text-end text-white"><strong v-text="total_bottles"></strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -227,9 +233,9 @@ export default {
             const ws = utils.json_to_sheet(report_json);
             utils.book_append_sheet(wb, ws, 'Reporte');
             let filename = (
-                this.user.username +
-                '-' + this.taking.name + 
-                '-' + this.taking.created + 
+                'Toma ' + this.taking.id_taking +
+                '-' + this.taking.name +
+                '-' + this.user.username +
                 '-' + '.xlsx'
                 );
             writeFile(wb,filename);
