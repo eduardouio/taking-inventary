@@ -67,11 +67,11 @@
         <div class="card-footer mt-1 bg-ligth">
             <div class="row text-center">
                 <div class="col-6">
-                    <button class="btn btn-secondary btn-lg" @click="switchView">
+                    <button class="btn btn-block btn-lg btn-secondary" @click="switchView">
                         <i class="fas fa-arrow-left"></i> Regresar</button>
                 </div>
                 <div class="col-6">
-                    <button class="btn btn-lg btn-success" @click="addReport">
+                    <button class="btn btn-block btn-lg btn-success" @click="addReport">
                         <i class="fas fa-save"></i> Guardar</button>
                 </div>
             </div>
