@@ -1,0 +1,2 @@
+created,modified,is_active,id_user_created,id_user_updated,notes,company_name,name,account_code,id_warenhouse_sap_code,warenhouse_name,quantity_per_box,on_hand,on_order,is_commited,avaliable,id_sap_migration_id
+2023-09-02 07:18:21.025 -0500,2023-09-02 07:18:21.025 -0500,TRUE,1,1,,VINOS Y ESPIRITUOSOS VINESA S.A,VINO ARG. FIN DEL MUNDO MALBEC,01011010560406010750,99,MERCADERIA FACTURADA NO DESPACHADA,12,11,0,0,11,333
