@@ -43,7 +43,7 @@
                         </div>
                         <div class="col border">
                             Grupo Nro {{ team.group_number }}
-                            | <smal class="badge bg-secondary">#{{ team.id_team }}</smal>
+                            | <small class="badge bg-secondary">#{{ team.id_team }}</small>
                         </div>
                     </div>
                     <div class="row">

@@ -98,7 +98,7 @@ export default {
             required: true,
         }
     },
-    emits: ['change-view'],
+    emits: ['switchView'],
     data() {
         return {
             current_taking: {

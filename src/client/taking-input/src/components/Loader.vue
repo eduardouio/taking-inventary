@@ -39,7 +39,7 @@
 <script>
 export default {
     name: 'Loader',
-    emits: ['changeview'],
+    emits: ['switchView'],
     props: {
         server_status: {
             type: Object,
@@ -53,7 +53,7 @@ export default {
         },
     },methods: {
         switchView() {
-           this.$emit('changeView', 'search_form');
+           this.$emit('switchView', 'search_form');
        },
     },
     beforeUnmount() {

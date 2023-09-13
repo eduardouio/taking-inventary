@@ -20,7 +20,7 @@
                 </div>
                 <div class="row mt-1">
                     <div class="col">
-                        <div class="table-responsive" style="height:27rem;">
+                        <div class="table-responsive" style="height:25rem;">
                             <table class="table table-sm table-bordered table-striped " style="width:100%;">
                                 <thead>
                                     <tr class="bg-dark text-white">
