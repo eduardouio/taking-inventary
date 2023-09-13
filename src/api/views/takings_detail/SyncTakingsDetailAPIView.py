@@ -54,7 +54,7 @@ class SyncTakingsDetailAPIView(APIView):
         
         if TakinDetail.token_exist(request.data['token_team']):
             return Response(
-                {'message': "Datos ya registrados"},
+                {'message': "El token de datos ya registrado"},
                 status=400
             )
         

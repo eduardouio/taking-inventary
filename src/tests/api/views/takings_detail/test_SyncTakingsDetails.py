@@ -128,7 +128,7 @@ class Test_SyncTakingsDetail:
 
         response = client.post(url, self.mock_data)
         assert response.status_code == 400
-        assert response.json() == {'message': "Datos ya registrados"}
+        assert response.json() == {'message': "El token de datos ya registrado"}
 
     
     def test_post_success_data(self, client, url):
