@@ -1,8 +1,8 @@
 <template>
   <div class="app">
     <JustifyPage v-if="0"/>
-    <DashboardPage v-if="0"/> 
-    <AuditPage v-if="1"/>
+    <DashboardPage v-if="1"/> 
+    <AuditPage v-if="0"/>
   </div>
 </template>
 
