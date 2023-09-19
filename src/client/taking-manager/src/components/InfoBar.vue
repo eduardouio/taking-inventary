@@ -17,14 +17,22 @@
           <i class="fas fa-location-dot"></i>
           {{ taking.location }}
         </span>
+        <span class=" border rounded p-1 m-1">
+          <i class="fas fa-user"></i>
+          {{ userManager.first_name }} {{ userManager.last_name }}
+          <small class="badge bg-secondary">
+            {{ userManager.username }}
+          </small>
+        </span>
         <span class="border rounded p-1 m-1">
           <i class="fas fa-clock"></i>
           &nbsp;
           <strong>Inicio:</strong>
-          {{ taking.hour_start }}
+          {{ taking.hour_start.slice(0,5) }}
           &nbsp;
           <strong>Fin:</strong>
-          {{ taking.hour_end }}
+          <span v-if="taking.hour_end">{{ taking.hour_end .slice(0,5)}}</span>
+          <span v-else>00:00</span>
           &nbsp;
           <strong>Duración:</strong>
           {{ lapsed_time }}
@@ -142,6 +150,9 @@ export default {
       required: true,
     }, confData:{
       type:Object,
+      required: true,
+    },userManager:{
+      type: Object,
       required: true,
     },
   }, data() {

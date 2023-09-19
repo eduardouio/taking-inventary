@@ -25,6 +25,7 @@
         :syncs="syncs"
         :taking="taking"
         :recounts="recounts"
+        :userManager="userManager"
         @showAllTakings="$event => showAllTakings($event)"
         @makeRecount="$event => makeRecount($event)"
         @closeTaking="$event => closeTaking($event)"
