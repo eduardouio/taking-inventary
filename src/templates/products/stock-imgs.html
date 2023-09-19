@@ -1,0 +1,76 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block css_files %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/jquery.dataTables.min.css' %}">
+<script src="{% static '/js/jquery-3.6.1.min.js' %}"></script>
+{% endblock %}
+{% block title_bar %}
+<div class="row border bg-gardient-secondary rounded" style="padding: 10px;">
+    <div class="col-4">
+        <i class="fa fa-list"></i>
+        {{ title_page }} <strong> [{{ total_records }} registros]</strong>
+    </div>
+    <div class="col-4 text-center h5">Imagenes de Productos</div>
+    <div class="col-4 text-right">
+        [Sistema Toma Inventarios] | Módulo {{ module_name }}
+        <span class="text-primary">
+            [{{ total_time | floatformat:2 }} segs]
+        </span>
+    </div>
+</div>
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <table class="table table-bordered table-condensed table-hover" id="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Cod Contable</th>
+                <th>EAN</th>
+                <th>Enlace</th>
+                <th>Imagen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object_list %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td>
+                        <a href="/admin/products/product/{{item.pk}}/" target="_blank">
+                            {{ item.name }}
+                        </a>
+                    </td>
+                    <td class="text-center">{{ item.account_code }}</td>
+                    <td class="text-center">
+                        {% if item.ean_13_code  %}
+                        {{ item.ean_13_code }}
+                        {% else %}
+                            Sin SKU
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.image_front %}
+                        {{ item.image_front }}
+                        {% else %}
+                        Sin Imágen
+                        {% endif %}
+                    </td>
+                    <td>
+                        <img src="/media/{{ item.image_front }}" alt="" class="img-thumbnail">
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    {% endblock %}
+    {% block scritp_code %}
+    <script type="text/javascript" charset="utf8" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#table').DataTable();
+        });
+    </script>
+    {% endblock %}
