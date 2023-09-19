@@ -53,9 +53,10 @@
     :user="user"
     :taking="taking"
     :base_url="base_url"
+    :show_view="show_view"
     :server_status="server_status"
     @removeItem="$event => deteleItemReport($event)"
-    @sendReport="$event => saveReport($event)"
+    @switchView="$event => switchView($event)"
     >
   </report-taking>
   <!-- 
@@ -164,75 +165,7 @@ export default {
         this.server_status.issue_type = 'error';
         this.server_status.message = `Servidor desconectado ${error}`;
       });
-    }, async saveReport() {
-      // enviar reporte
-      this.show_view.loader = true;
-      this.server_status.response = null;
-
-      const dataReport = {
-        force: false,
-        id_team: this.team.id_team,
-        id_taking: this.taking.id_taking,
-        token_team: this.team.token_team,
-        report: this.report.map((item) => {
-          return {
-            id_product: item.product.id_product,
-            taking_total_boxes: item.taking_total_boxes,
-            taking_total_bottles: item.taking_total_bottles,
-            date_expiry: item.date_expiry,
-            year: item.year,
-            notes: item.notes,
-          }
-        })
-      }
-      try {
-        const response = await fetch(appConfig['syncUrl'], {
-          method: 'POST',
-          headers: appConfig['headers'],
-          body: JSON.stringify(dataReport),
-        });
-
-        if (response.status === 201) {
-          const responseData = await response.json();
-
-          const checkSums = {
-            skus: this.report.length,
-            quantity: this.report.reduce((acc, item) => {
-              return acc + (item.taking_total_boxes * item.product.quantity_per_box) + item.taking_total_bottles;
-            }, 0),
-            taking_total_boxes: this.report.reduce((acc, item) => {
-              return acc + item.taking_total_boxes;
-            }, 0),
-            taking_total_bottles: this.report.reduce((acc, item) => {
-              return acc + item.taking_total_bottles;
-            }, 0),
-          };
-
-          if (this.checkSums(checkSums, responseData)) {
-            this.server_status.issue_type = 'success';
-            this.server_status.message = 'Completado correctamente';
-            this.server_status.response = responseData;
-            this.switchView('loader');
-          } else {
-            this.server_status.issue_type = 'error';
-            this.server_status.message = `Error en la sincronizacion`;
-            this.server_status.response = responseData;
-            this.switchView('report_info');
-            alert('Error en la sincronizacion');
-          }
-        } else {
-          this.server_status.issue_type = 'error';
-          this.server_status.message = `Servidor desconectado ${response.statusText}`;
-          this.switchView('report_info');
-        }
-      } catch (error) {
-        this.show_view.loader = false;
-        this.server_status.response = null;
-        this.server_status.issue_type = 'error';
-        this.server_status.message = `Respuesta inesperada del servidor, verifique con el manager la sincronización ${error}`;
-      }
-    },
-    switchView(template_name) {
+    },switchView(template_name) {
       console.log('emitimos el evento switchView ' + template_name);
       this.show_view = {
         loader: false,
@@ -250,16 +183,6 @@ export default {
     selectItem(product) {
       this.current_item = product;
       this.switchView('product_description');
-    }, checkSums(sendData, responseData) {
-      console.log('Comprobamos los resultados del server');
-      console.dir(sendData);
-      console.dir(responseData);
-      return (
-        sendData.skus === responseData.skus &&
-        sendData.quantity === responseData.quantity &&
-        sendData.taking_total_boxes === responseData.taking_total_boxes &&
-        sendData.taking_total_bottles === responseData.taking_total_bottles
-      )
     }, deteleItemReport(selected_taking) {
       this.report = this.report.filter((el) => {
         return el !== selected_taking;
