@@ -1,5 +1,6 @@
 <template>
-    <div class="card card-outline card-primary">
+    <div>
+    <div class="card card-outline card-primary" v-if="show_section.report">
         <div class="card-header">
             <div v-if="report.length && show_report">
                 <div class="row mb-2 mt-2">
@@ -147,18 +148,59 @@
             </div>
         </div>
     </div>
+    <div class="card" style="width: 100%;" v-if="show_section.response">
+        <div class="card-header text-center">
+            <h5 class="card-title text-success">Sincronización Completa</h5>
+        </div>
+    <div class="card-body">
+        <p class="card-text">Lo siguiente fue sincronizado correctamente:</p>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Typo</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Detalle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">SKUs</th>
+                    <td>{{ resumeReport.skus }}</td>
+                    <td>Productos</td>
+                </tr>
+                <tr>
+                    <th scope="row">Total Unds</th>
+                    <td>{{ resumeReport.quantity }}</td>
+                    <td>Unidades</td>
+                </tr>
+                <tr>
+                    <th scope="row">Cajas</th>
+                    <td>{{ resumeReport.taking_total_boxes }}</td>
+                    <td>Cajas</td>
+                </tr>
+                <tr>
+                    <th scope="row">Botellas</th>
+                    <td>{{ resumeReport.taking_total_bottles }}</td>
+                    <td>Unidades</td>
+                </tr>
+            </tbody>
+        </table>
+        <button>Nueva Yoma</button>
+    </div>
+</div>
+</div>
 </template>
 <script>
 import { utils, writeFile } from 'xlsx';
 import appConfig from '../appConfig';
 
 export default {
-    emits:['sendReport'],
     name: 'ReportTaking',
+    emits: ['switchView', 'removeItem'],
     props: {
         taking: {
             type: Object,
-            default:null,
+            default: null,
             required: true
         },
         team: {
@@ -186,6 +228,11 @@ export default {
             default: null,
             required: true
         },
+        show_view: {
+            type: Object,
+            default: null,
+            required: true
+        },
     }, data() {
         return {
             selected_taking: null,
@@ -193,8 +240,14 @@ export default {
             show_report: true,
             class_sync_btn: 'btn-primary',
             message_button: 'Sincronizar Datos',
+            disable_button_send: false,
             default_picture: appConfig.defaultPicture,
             appConfig: appConfig,
+            resumeReport: null,
+            show_section : {
+                report: true,
+                response: false,
+            }
         };
     }, methods: {
         showTaking(item) {
@@ -204,14 +257,89 @@ export default {
         }, showReport() {
             this.show_report = true;
             this.show_taking = false;
+
         }, removeItem() {
             this.$emit('removeItem', this.selected_taking);
             this.showReport();
-        }, sendReport() {
-            console.log('eviar reporte');
-            return this.$emit('sendReport');
-        },downloadReport(){
-            let report_json = this.report.map(item=>{
+        }, async sendReport() {
+            console.log('Enviando reporte');
+            this.show_section.report = false;
+            this.show_section.response = true;
+            this.server_status.response = null;
+            this.disable_button_send = true;
+
+            const dataReport = {
+                force: false,
+                id_team: this.team.id_team,
+                id_taking: this.taking.id_taking,
+                token_team: this.team.token_team,
+                report: this.report.map((item) => {
+                    return {
+                        id_product: item.product.id_product,
+                        taking_total_boxes: item.taking_total_boxes,
+                        taking_total_bottles: item.taking_total_bottles,
+                        date_expiry: item.date_expiry,
+                        year: item.year,
+                        notes: item.notes,
+                    }
+                })
+            }
+            try {
+                const response = await fetch(appConfig['syncUrl'], {
+                    method: 'POST',
+                    headers: appConfig['headers'],
+                    body: JSON.stringify(dataReport),
+                });
+
+                if (response.status === 201) {
+                    const responseData = await response.json();
+
+                    const checkSums = {
+                        skus: this.report.length,
+                        quantity: this.report.reduce((acc, item) => {
+                            return acc + (item.taking_total_boxes * item.product.quantity_per_box) + item.taking_total_bottles;
+                        }, 0),
+                        taking_total_boxes: this.report.reduce((acc, item) => {
+                            return acc + item.taking_total_boxes;
+                        }, 0),
+                        taking_total_bottles: this.report.reduce((acc, item) => {
+                            return acc + item.taking_total_bottles;
+                        }, 0),
+                    };
+
+                    if (this.checkSums(checkSums, responseData)) {
+                        this.show_section.report = false;
+                        this.show_section.response = true;
+                        this.server_status.issue_type = 'success';
+                        this.server_status.message = 'Sincronizado correctamente';
+                        this.server_status.response = responseData;
+                        console.log('El reporte es correcto');
+                    } else {
+                        this.server_status.issue_type = 'error';
+                        this.server_status.message = `Error en la sincronizacion`;
+                        this.server_status.response = responseData;
+                        this.show_section.report = true;
+                        alert('Error en la sincronizacion');
+                    }
+                } else {
+                    this.server_status.issue_type = 'error';
+                    this.server_status.message = `Servidor desconectado ${response.statusText}`;
+                }
+            } catch (error) {
+                this.server_status.response = null;
+                this.server_status.issue_type = 'error';
+                this.server_status.message = `Respuesta inesperada del servidor, verifique con el manager la sincronización ${error}`;
+            }
+        },checkSums(sendData, responseData) {
+        console.log('Comprobamos los resultados del server');
+        return (
+            sendData.skus === responseData.skus &&
+            sendData.quantity === responseData.quantity &&
+            sendData.taking_total_boxes === responseData.taking_total_boxes &&
+            sendData.taking_total_bottles === responseData.taking_total_bottles
+        )
+    },downloadReport() {
+            let report_json = this.report.map(item => {
                 return {
                     'PK': item.pk,
                     'ID Team': this.team.pk,
@@ -221,8 +349,8 @@ export default {
                     'Cajas': item.taking_total_boxes,
                     'Unidades': item.taking_total_bottles,
                     'Total UND': (
-                        item.taking_total_boxes 
-                        * item.product.quantity_per_box 
+                        item.taking_total_boxes
+                        * item.product.quantity_per_box
                     ) + item.taking_total_bottles,
                     'Añada': item.year,
                     'Caducidad': item.date_expiry,
@@ -237,8 +365,8 @@ export default {
                 '-' + this.taking.name +
                 '-' + this.user.username +
                 '-' + '.xlsx'
-                );
-            writeFile(wb,filename);
+            );
+            writeFile(wb, filename);
         }
     }, computed: {
         total_boxes() {
