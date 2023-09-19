@@ -98,7 +98,7 @@ export default {
             required: true,
         }
     },
-    emits: ['switchView'],
+    emits: ['switchView', 'setLocalStorage'],
     data() {
         return {
             current_taking: {
@@ -130,6 +130,7 @@ export default {
             this.current_taking.product = this.current_item;
             this.current_taking.pk = this.current_item.pk;
             this.report.push(this.current_taking);
+            this.$emit('setLocalStorage', this.report);
             this.switchView();
         }
     }, mounted() {

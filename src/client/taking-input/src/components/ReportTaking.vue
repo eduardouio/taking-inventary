@@ -324,6 +324,7 @@ export default {
                         this.server_status.issue_type = 'success';
                         this.server_status.message = 'Sincronizado correctamente';
                         this.server_status.response = responseData;
+                        this.$emit('setLocalStorage', false);
                         console.log('El reporte es correcto');
                         // eliminar el reporte de la memoria del navegador
                         setTimeout(() => {

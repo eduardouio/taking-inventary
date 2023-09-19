@@ -44,7 +44,9 @@
       :current_item="current_item"
       :base_url="base_url"
       :report="report"
-      @switchView="$event => switchView($event)">
+      @switchView="$event => switchView($event)"
+      @setLocalStorage="$event => setLocalStorage($event)"
+      >
     </form-taking>
     <report-taking
     v-if="show_view.report_info"
@@ -57,6 +59,7 @@
     :server_status="server_status"
     @removeItem="$event => deteleItemReport($event)"
     @switchView="$event => switchView($event)"
+    @setLocalStorage="$event => setLocalStorage($event)"
     >
   </report-taking>
   <!-- 
@@ -187,12 +190,31 @@ export default {
       this.report = this.report.filter((el) => {
         return el !== selected_taking;
       });
+      this.setLocalStorage(this.report);
       this.switchView('report_info')
+    },setLocalStorage(report){
+      console.log('Estamos actualizando el reporte');
+      if (typeof(report) === 'boolean') {
+        this.report = [];
+        localStorage.clear();
+        return;
+      }
+
+      localStorage.setItem('report', JSON.stringify(report));
+    }, getLocalStorageReport(){
+      console.log('Estamos obteniendo el reporte');
+      let report = localStorage.getItem('report');
+      if (report) {
+        this.report = JSON.parse(report);
+        return;
+      }
+      console.log('No existe ningun reporte');
     },
   },
   mounted() {
     // Cargamos datos iniciales de la aplicacion
     this.getData();
+    this.getLocalStorageReport();
   }
 } 
 </script>
