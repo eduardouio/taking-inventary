@@ -127,7 +127,6 @@ export default {
       }}).then((response) => {
         let taking = response.data;
         // redireccionamos a la pagina de reporte
-        debugger;
         window.location.href = base_url + '/takings/detail/' + taking.id_taking;
         this.show_view.loader = false;
       }).catch((error) => {

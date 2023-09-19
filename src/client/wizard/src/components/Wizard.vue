@@ -150,6 +150,10 @@ export default {
                 location: this.taking_data.location
             });
         }, sendData(){
+            // filtramos las categorias seleccionadas
+            this.taking_data.categories = this.taking_data.categories.filter((item)=>{
+                return item.selected;
+            });
             // enviamos los datos
             this.$emit('sendData', this.taking_data);
         },//nextmethod
