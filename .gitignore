@@ -28,5 +28,7 @@ src/config/settings.py
 src/tests/test_data/seed.py
 src/tests/images/imgs/
 *.tar
+bun.*
+.~lock.*
 test_db_.tar
 .project

@@ -185,13 +185,23 @@
                 </tr>
             </tbody>
         </table>
-        <button>Nueva Yoma</button>
+        <div class="row pb-1 pt-1">
+            <div class="col text-center">
+                <span class="h5 text-success">
+                    <i class="fas fa-check-circle"></i>
+                    Sincronizado correctamente, la aplicación se recargará en 3 segundos
+                </span>
+            </div>
     </div>
+</div>
+</div>
+<div v-if="show_section.error">
+    {{ server_status.message }}
 </div>
 </div>
 </template>
 <script>
-import { utils, writeFile } from 'xlsx';
+import { utils, writeFile } from 'xlsx';    
 import appConfig from '../appConfig';
 
 export default {
@@ -247,6 +257,7 @@ export default {
             show_section : {
                 report: true,
                 response: false,
+                error: false,
             }
         };
     }, methods: {
@@ -262,9 +273,6 @@ export default {
             this.$emit('removeItem', this.selected_taking);
             this.showReport();
         }, async sendReport() {
-            console.log('Enviando reporte');
-            this.show_section.report = false;
-            this.show_section.response = true;
             this.server_status.response = null;
             this.disable_button_send = true;
 
@@ -293,6 +301,9 @@ export default {
 
                 if (response.status === 201) {
                     const responseData = await response.json();
+                    this.resumeReport = responseData;
+                    this.show_section.report = false;
+                    this.show_section.response = true;
 
                     const checkSums = {
                         skus: this.report.length,
@@ -314,21 +325,29 @@ export default {
                         this.server_status.message = 'Sincronizado correctamente';
                         this.server_status.response = responseData;
                         console.log('El reporte es correcto');
+                        // eliminar el reporte de la memoria del navegador
+                        setTimeout(() => {
+                            location.reload();
+                        }, 3000);
                     } else {
                         this.server_status.issue_type = 'error';
-                        this.server_status.message = `Error en la sincronizacion`;
+                        this.server_status.message = `Error en la sincronizacion mensaje -> ${responseData.message}`;
                         this.server_status.response = responseData;
                         this.show_section.report = true;
-                        alert('Error en la sincronizacion');
+                        this.show_section.error = true;
+                        alert(` ${response.status} ${responseData.message}`);
                     }
                 } else {
+                    const responseData = await response.json();
+                    this.show_section.report = false;
+                    this.show_section.error = true;
                     this.server_status.issue_type = 'error';
-                    this.server_status.message = `Servidor desconectado ${response.statusText}`;
+                    this.server_status.message = responseData.message;
                 }
             } catch (error) {
-                this.server_status.response = null;
-                this.server_status.issue_type = 'error';
-                this.server_status.message = `Respuesta inesperada del servidor, verifique con el manager la sincronización ${error}`;
+                this.show_section.error = true;
+                this.disable_button_send = false;
+                this.server_status.message = `No fue posible enviar el reporte al servidor, intente nuevamente`;
             }
         },checkSums(sendData, responseData) {
         console.log('Comprobamos los resultados del server');
