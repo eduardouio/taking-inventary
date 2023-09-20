@@ -12,12 +12,13 @@
 <link rel="stylesheet" href="{% static 'fonts/fa-v4compatibility.92dce52f.ttf' %}">
 {% endblock %}
 {% block content %}
-<div class="container" id="app">
-    # 
-</div>
+<div class="container" id="app"></div>
     <script>
         var csrf_token = '{{ csrf_token }}';
         var url_data = '/takings/api/taking/{{ id_taking}}/';
+        var id_taking = {{ id_taking }};
+        var id_team = {{ id_team }};
+        var base_url = '';
     </script>
     <script src="{% static 'js/apps/taking/chunk-vendors.js' %}"></script>
     <script src="{% static 'js/apps/taking/app.js' %}"></script>
