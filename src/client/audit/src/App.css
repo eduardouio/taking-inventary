@@ -1,25 +1,4 @@
-body{
-    font-size: 0.90rem;
-}
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
-.table{
-    font-size: 0.80rem;
-}
-
-.table>:not(caption)>*>*{
-    padding: 0.0rem;
-}
-
-/* Cambiar color de texto durante el hover en celdas */
-.table-hover tbody tr:hover td {
-    background-color: #ffff11;
-}
-
-.x-rounded {
-    width: 4.5em;
-    height: 4.5em;
-    border-width: 0.3.5em;
-    border-style: solid;
-    border-radius: 50%;
-    border-image: linear-gradient(to right, #eee, #fff) 2;
-  }

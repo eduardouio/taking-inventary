@@ -1,0 +1,1 @@
+make a dashboar with tailwindcss

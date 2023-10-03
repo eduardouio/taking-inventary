@@ -9,8 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.4.0",
-    "bootstrap": "^5.3.1",
+    "@iconoir/vue": "^6.11.0",
     "core-js": "^3.8.3",
     "datatables.net-dt": "^1.13.6",
     "register-service-worker": "^1.7.2",
@@ -26,10 +25,14 @@
     "@vue/cli-service": "~5.0.0",
     "@vue/test-utils": "^2.0.0-0",
     "@vue/vue3-jest": "^27.0.0-alpha.1",
+    "autoprefixer": "^10.4.16",
     "babel-jest": "^27.0.6",
+    "daisyui": "^3.7.7",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
-    "jest": "^27.0.5"
+    "jest": "^27.0.5",
+    "postcss": "^8.4.30",
+    "tailwindcss": "^3.3.3"
   },
   "eslintConfig": {
     "root": true,

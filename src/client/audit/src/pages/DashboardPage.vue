@@ -1,215 +1,37 @@
 <template>
-    <div class="container-fluid">
-        <NavBar class="bg-light border-bottom" :title="'Resumen Agosto'"/>
-        <div class="row m-1"></div>
-        <div class="row p-2">
-            <div class="col border rounded m-1">
-                <div class="row d-flex align-items-center">
-                    <div class="col-3 text-center p-1">
-                        <div class="bg-info bg-gradient text-center x-rounded align-bottom">
-                            <h1 class="text-white p-1">35</h1>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <span class="h4 text-secondary"><i class="fas fa-industry"></i>&nbsp;BODEGAS</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col border rounded m-1">
-                <div class="row d-flex align-items-center ">
-                    <div class="col-3 text-center p-1">
-                        <div class="bg-success bg-gradient text-center x-rounded align-bottom">
-                            <h1 class="text-white p-1">32</h1>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <span class="h4 text-secondary"><i class="fas fa-industry"></i>&nbsp;INVENTARIADAS</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col border rounded m-1">
-                <div class="row d-flex align-items-center ">
-                    <div class="col-3 text-center p-1">
-                        <div class="bg-warning bg-gradient text-center x-rounded align-bottom">
-                            <h1 class="text-white p-1">3</h1>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <span class="h4 text-secondary"><i class="fas fa-industry"></i>&nbsp;PENDIENTES</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col border rounded m-1">
-                <div class="row d-flex align-items-center ">
-                    <div class="col-3 text-center p-1">
-                        <div class="bg-danger bg-gradient text-center x-rounded align-bottom">
-                            <h1 class="text-white p-1">55</h1>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <span class="h4 text-secondary"><i class="fas fa-clipboard"></i>&nbsp;TOMAS FISICAS</span>
-                    </div>
-                </div>
-            </div>
+<div>
+  <div class="flex flex-col h-screen">
+    <nav class="bg-gray-800 text-white px-4 py-3">
+      <h1 class="text-lg font-bold">Dashboard</h1>
+    </nav>
+    <main class="flex-1 p-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="bg-white rounded-lg shadow-md p-4">
+          <h2 class="text-lg font-bold mb-2">Users</h2>
+          <p class="text-gray-700">Total users: 100</p>
         </div>
-        <div class="row">
-            <div class="col text-center">
-                <div class="card bg-primary bg-gradient">
-                    <span class="text-white">
-                        TOMAS REALIZADAS
-                    </span>
-                </div>
-            </div>
+        <div class="bg-white rounded-lg shadow-md p-4">
+          <h2 class="text-lg font-bold mb-2">Sales</h2>
+          <p class="text-gray-700">Total sales: $10,000</p>
         </div>
-        <div class="row">
-            <div class="col table-responsive">
-                <table class="table table-bordered table-striped table-hover">
-                    <thead>
-                        <tr class="text-center bg-success">
-                            <th>#</th>
-                            <th>Toma</th>
-                            <th>Encargado</th>
-                            <th>Empresas</th>
-                            <th>Bodegas</th>
-                            <th>Fecha</th>
-                            <th>Inicio</th>
-                            <th>Fin</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Bodegas 10 de Agosto</td>
-                            <td>Lorena Rodriguez</td>
-                            <td class="text-center">3</td>
-                            <td class="text-center">3</td>
-                            <td>01/08/2023</td>
-                            <td class="text-end">07:00</td>
-                            <td class="text-end">13:00</td>
-                            <td class="text-center text-success"><i class="fas fa-check"></i> Completo</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Ser Multimarc Bodegas Manta</td>
-                            <td>Maria Briones</td>
-                            <td class="text-center">3</td>
-                            <td class="text-center">3</td>
-                            <td>01/08/2023</td>
-                            <td class="text-end">07:30</td>
-                            <td class="text-end">15:00</td>
-                            <td class="text-center text-primary"><i class="fas fa-check"></i> En Curso</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bodegas Carcelen</td>
-                            <td>Lorena Rodriguez</td>
-                            <td class="text-center">3</td>
-                            <td class="text-center">3</td>
-                            <td>01/08/2023</td>
-                            <td class="text-end">07:00</td>
-                            <td class="text-end">13:00</td>
-                            <td class="text-center text-success"><i class="fas fa-check"></i> Completo</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>La Guarda Cumbaya</td>
-                            <td>Maria Fernanda</td>
-                            <td class="text-center">3</td>
-                            <td class="text-center">3</td>
-                            <td>01/08/2023</td>
-                            <td class="text-end">07:00</td>
-                            <td class="text-end">16:00</td>
-                            <td class="text-center text-primary"><i class="fas fa-check"></i> En Curso</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bodegas Vinesa 10 de Agosto</td>
-                            <td>Lorena Rodriguez</td>
-                            <td class="text-center">3</td>
-                            <td class="text-center">3</td>
-                            <td>01/08/2023</td>
-                            <td class="text-end">07:00</td>
-                            <td class="text-end">13:00</td>
-                            <td class="text-center text-primary"><i class="fas fa-check"></i> En Curso</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bodegas Vinesa 10 de Agosto</td>
-                            <td>Lorena Rodriguez</td>
-                            <td class="text-center">3</td>
-                            <td class="text-center">3</td>
-                            <td>01/08/2023</td>
-                            <td class="text-end">07:00</td>
-                            <td class="text-end">13:00</td>
-                            <td class="text-center text-success"><i class="fas fa-check"></i> Completo</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bodegas Vinesa 10 de Agosto</td>
-                            <td>Lorena Rodriguez</td>
-                            <td class="text-center">3</td>
-                            <td class="text-center">3</td>
-                            <td>01/08/2023</td>
-                            <td class="text-end">07:00</td>
-                            <td class="text-end">13:00</td>
-                            <td class="text-center text-success"><i class="fas fa-check"></i> Completo</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bodegas Vinesa 10 de Agosto</td>
-                            <td>Lorena Rodriguez</td>
-                            <td class="text-center">3</td>
-                            <td class="text-center">3</td>
-                            <td>01/08/2023</td>
-                            <td class="text-end">07:00</td>
-                            <td class="text-end">13:00</td>
-                            <td class="text-center text-success"><i class="fas fa-check"></i> Completo</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bodegas Vinesa 10 de Agosto</td>
-                            <td>Lorena Rodriguez</td>
-                            <td class="text-center">3</td>
-                            <td class="text-center">3</td>
-                            <td>01/08/2023</td>
-                            <td class="text-end">07:00</td>
-                            <td class="text-end">13:00</td>
-                            <td class="text-center text-success"><i class="fas fa-check"></i> Completo</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bodegas Vinesa 10 de Agosto</td>
-                            <td>Lorena Rodriguez</td>
-                            <td class="text-center">3</td>
-                            <td class="text-center">3</td>
-                            <td>01/08/2023</td>
-                            <td class="text-end">07:00</td>
-                            <td class="text-end">13:00</td>
-                            <td class="text-center text-success"><i class="fas fa-check"></i> Completo</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="bg-white rounded-lg shadow-md p-4">
+          <h2 class="text-lg font-bold mb-2">Orders</h2>
+          <p class="text-gray-700">Total orders: 50</p>
         </div>
-        <div class="row">
-            <div class="col">
-                <TableComponent :key="1" :titleCard="'Bodegas'" :data="warenhouses" />
-            </div>
-            <div class="col">
-                <TableComponent :key="2" :titleCard="'Empresas'" :data="owners"/>
-            </div>
-        </div>
-        <span class="m-1"></span>
-       
-    </div>
+      </div>
+    </main>
+    <footer class="bg-gray-800 text-white px-4 py-3">
+      <p>&copy; 2021 My Company</p>
+    </footer>
+  </div>
+</div>
 </template>
 
 <script>
 //data table
-import DataTable from 'datatables.net-dt';
-import NavBar from '../components/NavBar.vue';
-import TableComponent from '../components/TableComponent.vue';
+//import DataTable from 'datatables.net-dt';
+//import NavBar from '../components/NavBar.vue';
+//import TableComponent from '../components/TableComponent.vue';
 
 export default {
     name: 'DashboardPage',
