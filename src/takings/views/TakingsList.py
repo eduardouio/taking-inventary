@@ -45,11 +45,11 @@ class TakingsList(ValidateManagerMixin, ListView):
 
     def get_queryset(self, request):
         if request.user.role == 'auditor':
-            queryset = Taking.objects.all()
+            queryset = Taking.objects.all()[:170]
         else:
             queryset = Taking.objects.filter(
                 user_manager__username=request.user.username
-            )
+            )[:50]
 
         for item in queryset:
             item.takings_details = TakinDetail.get_by_taking(item.id_taking)
