@@ -20,6 +20,7 @@ class MigrationListTV(TemplateView):
         if action == 'migrate':
             load_migration = LoadMigration()
             load_migration.load()
+
             return HttpResponseRedirect('/sap/?action=migrated')
 
         if action == 'migrated':
