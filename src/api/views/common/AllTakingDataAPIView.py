@@ -3,7 +3,7 @@
 # ger teams whit user manager team
 
 import json
-
+import time
 from django.db import connection
 from django.http import Http404
 from rest_framework.response import Response
@@ -24,6 +24,11 @@ from recounts.models import RecountTakings
 class AllTakingDataAPIView(APIView):
 
     def get(self, request, id_taking, *args, **kwargs):
+        
+        print('TIEMPO INICIAL')
+        start_time = time.time()
+        print(start_time)
+
         taking = Taking.get(id_taking)
         if taking is None:
             raise Http404
@@ -31,6 +36,10 @@ class AllTakingDataAPIView(APIView):
         # recuperamos reporte consolidado
         detail = ConsolidateTaking().get(id_taking)
         report = []
+
+        print('TIEMPO CONSOLIDADO')
+        print(time.time() - start_time)
+
 
         # personalizamos reporte
         for item in detail:
@@ -136,6 +145,9 @@ class AllTakingDataAPIView(APIView):
 
         # reconteos
         recounts = RecountTakings.objects.filter(id_taking = taking)
+
+        print('TIEMPO FINAL')
+        print(time.time() - start_time)
 
         data = {
             'taking': TakingSerializer(taking).data,

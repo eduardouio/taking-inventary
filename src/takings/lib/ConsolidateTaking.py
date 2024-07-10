@@ -3,7 +3,7 @@ import json
 from django.db.models import Sum
 
 from products.models import Product
-from sap_migrations.lib.CheckMigrationProducts import CheckMigrationProducts
+
 from sap_migrations.models import SapMigrationDetail
 from takings.models import Taking, TakinDetail
 
@@ -34,7 +34,7 @@ class ConsolidateTaking(object):
 
     def get_init_stock(self, taking):
         # verificamos que los productos existan
-        CheckMigrationProducts().verify(taking.id_sap_migration)
+
 
         # obtenemos los productos de las bodegas
         warenhouses = json.loads(taking.warenhouses)
