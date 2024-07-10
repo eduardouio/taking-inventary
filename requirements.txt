@@ -24,3 +24,4 @@ djangorestframework
 markdown
 django-filter
 requests
+simplejson

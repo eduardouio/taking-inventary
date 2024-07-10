@@ -41,7 +41,7 @@ class MigrationListTV(TemplateView):
 
     def get_all_migrations(self) -> dict:
         all_migrations = []
-        migrations = SapMigration.objects.all()[:20]
+        migrations = SapMigration.objects.all()[:5]
 
         if not migrations:
             return all_migrations
