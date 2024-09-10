@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView
-from sap_migrations.lib import ConsolidateMigration
+from sap_migrations.lib import ConsolidateMigration, CheckMigrationProducts
 from takings.models import Taking
 from time import time
 
@@ -19,6 +19,8 @@ class DetailMigrationsTV(TemplateView):
                 'table': report_migration['table_by_warenhouses']
             }
 
+        verifier = CheckMigrationProducts()
+        verifier.verify(pk)
         report = {
             'columns': report_migration['owners'],
             'table': report_migration['table_by_owners']

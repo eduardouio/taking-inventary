@@ -12,6 +12,9 @@ class CheckMigrationProducts():
             id_sap_migration_id=id_sap_migration
         ).values_list('account_code', flat=True).distinct()
 
+        if len(details) == 0:
+            return False
+
         for account_code in details:
             if Product.get(account_code) is None:
                 new_product = SapMigrationDetail.objects.filter(
