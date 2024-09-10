@@ -50,7 +50,7 @@ class Product(AppBaseModel):
         choices=TYPE_PRODUCT,
         blank=True,
         null=True,
-        default='LICORES;VARIOS'
+        default='NUEVO'
     )
     quantity_per_box = models.PositiveSmallIntegerField(
         'cantidad por caja',
